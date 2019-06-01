@@ -1,0 +1,42 @@
+{% macro pintar_input(label, name, placeholder, type="text") %}
+<div class="form-group has-success">
+    <label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
+    <input id="{{ name }}" name="{{ name }}" type="{{ type }}" class="input-sm form-control-sm form-control"
+        placeholder="{{ placeholder }}" required>
+    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+</div>
+{% endmacro %}
+
+{% macro pintar_button(label, id, icono="",type="button") %}
+<button id="{{id}}" type="{{ type }}" class="btn btn-lg btn-info btn-block">
+    <i class="fa fa-cancel fa-lg"></i>&nbsp;
+    <span id="payment-button-amount">{{ label }}</span>
+</button>
+{% endmacro %}
+
+{% macro pintar_alerta(messages) %}
+{% with messages = get_flashed_messages(with_categories = True) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }} with-close alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif%}
+{% endwith %}
+{% endmacro %}
+
+{% macro pintar_combo(label, value, contenido, id, name) %}
+<label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
+<select name="{{ name }}" id="{{ id }}" class="input-sm form-control-sm form-control">
+    <option value="{{ value }}">{{ contenido }}</option>
+</select>
+{% endmacro %}
+
+{% macro pintar_textarea(label, value, id, name, columnas, filas) %}
+<label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
+<textarea name="{{ name }}" id="{{ id }}" cols="{{ columnas }}" rows="{{ filas }}" class="input-sm form-control-sm form-control"></textarea>
+{% endmacro %}

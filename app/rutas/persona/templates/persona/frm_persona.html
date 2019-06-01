@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_input,pintar_button, pintar_combo, pintar_textarea  %}
+
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">Formulario</div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">Formulario Persona</h3>
+                            </div>
+                            <hr>
+                            <form action="{{ url_for('persona.guardar') }}" method="post" >
+                                <input type="hidden" name="idpersona">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ pintar_input("Cédula", "txtcedula", "###...") }}
+                                    </div>
+                                    <div class="col-md-6">
+                                            <label for="cbo_tipopersona" class="control-label mb-1">Tipo</label>
+                                            <select name="cbo_tipopersona" id="cbo_tipopersona" class="input-sm form-control-sm form-control">
+                                                <option value="#">Seleccionar...</option>
+                                                {% for tipo in lista_tipos %}
+                                                    <option value="{{ tipo[0] }}">{{ tipo[1] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ pintar_input("Nombres", "txtnombres", "Vespaciana...") }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ pintar_input("Apellido", "txtapellidos", "Dolores de Barriga...") }}
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {{ pintar_textarea("Observacion", "", "txtobs", "txtobs", "30", "10") }}
+                                    </div>
+                                </div>
+
+                                <hr>
+                                
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ pintar_button("Guardar", "btnguardar", "",type="submit") }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ pintar_button("Cancelar", "btncancelar", "",type="reset") }}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
