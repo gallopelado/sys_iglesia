@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 {% from 'render_elements.html' import pintar_alerta %}
 
+
 {% block title %}
-Inicio
+Mantener Ciudades
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -12,52 +19,60 @@ Inicio
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="title-3 m-b-30">Mantener Ciudad</h3>
+                    <h3 class="title-3 m-b-30">Mantener Ciudades</h3>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 mb-2">
-                    <a href="{{ url_for('ciudad.frm_ciudad') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                        <i class="zmdi zmdi-plus"></i>Agregar
-                    </a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="table-responsive table--no-card m-b-30">
-                        <table class="table table-borderless table-striped table-earning">
-                            <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th class="text-right">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                <tr>
-                                    <td>{{ item[1] }}</td>
-                                    <td>
-                                        <div class="table-data-feature">
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Send">
-                                                <i class="zmdi zmdi-mail-send"></i>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Edit">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Delete">
-                                                <i class="zmdi zmdi-delete"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor%}                                
-                            </tbody>
-                        </table>
-                        {{ pintar_alerta(messages) }}
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <a href="{{ url_for('ciudad.frm_ciudad') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i>Agregar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table--no-card m-b-30">
+                                <table id="tabla_ciudad" class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th class="text-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for item in items %}
+                                        <tr>
+                                            <td>{{ item[1] }}</td>
+                                            <td>
+                                                <div class="table-data-feature">
+
+                                                    <button onclick="modificar({{ item[0] }})" class="item btn btn-warning modificar"
+                                                        data-toggle="tooltip" data-placement="top" title="Modificar">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </button>
+                                                    <button onclick="eliminar({{ item[0] }})" class="item btn btn-danger"
+                                                        data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor%}
+
+                                    </tbody>
+                                </table>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -65,4 +80,14 @@ Inicio
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/ciudad.js') }}"></script>
 {% endblock %}

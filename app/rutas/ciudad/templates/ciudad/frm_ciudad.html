@@ -13,15 +13,20 @@ Inicio
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
-                        <div class="card-header">Formulario</div>
+                        <div class="card-header">
+                                <a href="{{ url_for('ciudad.index_ciudad') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver
+                            </a>
+                        </div>
                         <div class="card-body">
                             <div class="card-title">
                                 <h3 class="text-center title-2">Mantener Ciudad</h3>
                             </div>
                             <hr>
                             <form action="{{ url_for('ciudad.guardar_ciudad') }}" method="post" >
-                                <input type="hidden" name="idciudad">
-                                {{ pintar_input("Descripción", "txtdescripcion", "Aregua...") }}
+                                <input type="hidden" name="idciudad" value="{{ datos[0] if datos else '' }}">
+                                {{ pintar_input("Descripción", "txtdescripcion", "Aregua...", "text",  datos[1] if datos else "" ) }}
                                 <div class="row">
                                     <div class="col-lg-6">
                                         {{ pintar_button("Guardar", "btnguardar", "",type="submit") }}

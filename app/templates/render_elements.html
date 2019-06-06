@@ -1,8 +1,8 @@
-{% macro pintar_input(label, name, placeholder, type="text") %}
+{% macro pintar_input(label, name, placeholder, type="text", value="") %}
 <div class="form-group has-success">
     <label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
     <input id="{{ name }}" name="{{ name }}" type="{{ type }}" class="input-sm form-control-sm form-control"
-        placeholder="{{ placeholder }}" required>
+        placeholder="{{ placeholder }}" value="{{ value }}" required>
     <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
 </div>
 {% endmacro %}
