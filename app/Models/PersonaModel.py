@@ -16,7 +16,7 @@ class PersonaModel():
         Se encarga de obtener todas las personas con su tipo.
 
         Retorna: 
-        lstpersona -- tupla
+            lstpersona: -- tupla
 
         """
         try:
@@ -41,7 +41,7 @@ class PersonaModel():
         Se encarga persistir los datos en la base de datos
 
         Retorna: 
-        estado -- booleano
+            estado: -- booleano
 
         """
         try:
@@ -63,3 +63,30 @@ class PersonaModel():
             return True
         except con.Error as e:
             print(e.pgerror)  
+
+    def recuperaPersona(self, idpersona):
+        """Metodo recuperaPersona.
+
+        Obtiene un registro segun id de persona, con todos los datos.
+
+        Retorna: 
+            persona: -- diccionario
+
+        """
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cursor = con.cursor()
+            cursor.execute("""
+            SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, p.per_obs, p.per_fechabaja, p.per_razonbaja, tp.tipoper_des 
+            FROM referenciales.personas p 
+            join referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            WHERE per_id = %s;
+            """,(idpersona))
+            data = cursor.fetchone()
+            cursor.close()
+            con.close()
+            return data
+        except con.Error as e:
+            return e.pgerror
+        

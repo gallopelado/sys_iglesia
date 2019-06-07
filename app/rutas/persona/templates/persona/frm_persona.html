@@ -13,47 +13,55 @@ Inicio
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
-                        <div class="card-header">Formulario</div>
+                        <div class="card-header">
+                            <a href="{{ url_for('persona.index_persona') }}" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
                         <div class="card-body">
                             <div class="card-title">
                                 <h3 class="text-center title-2">Formulario Persona</h3>
                             </div>
                             <hr>
-                            <form action="{{ url_for('persona.guardar') }}" method="post" >
-                                <input type="hidden" name="idpersona">
-                                
+                            <form action="{{ url_for('persona.guardar') }}" method="post">
+                                <input type="hidden" name="idpersona" value="{{ persona[0] if persona else ''}}">
+
                                 <div class="row">
                                     <div class="col-md-6">
-                                        {{ pintar_input("Cédula", "txtcedula", "###...") }}
+                                        {{ pintar_input("Cédula", "txtcedula", "###...", 'text', persona[1] if persona else '') }}
                                     </div>
                                     <div class="col-md-6">
-                                            <label for="cbo_tipopersona" class="control-label mb-1">Tipo</label>
-                                            <select name="cbo_tipopersona" id="cbo_tipopersona" class="input-sm form-control-sm form-control">
-                                                <option value="#">Seleccionar...</option>
-                                                {% for tipo in lista_tipos %}
-                                                    <option value="{{ tipo[0] }}">{{ tipo[1] }}</option>
-                                                {% endfor %}
-                                            </select>
+                                        <label for="cbo_tipopersona" class="control-label mb-1">Tipo</label>
+                                        <select name="cbo_tipopersona" id="cbo_tipopersona"
+                                            class="input-sm form-control-sm form-control">
+                                            {% if lista_tipos %}
+                                                {% for item in lista_tipos %}
+                                                    <option value="{{item[0]}}">{{item[1]}}</option>
+                                                {% endfor %} 
+                                            {% elif persona %}                                                
+                                                <option value="{{persona[4]}}">{{persona[8]}}</option>                                                
+                                            {% endif %}
+                                                                                       
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        {{ pintar_input("Nombres", "txtnombres", "Vespaciana...") }}
+                                        {{ pintar_input("Nombres", "txtnombres", "Vespaciana...", 'text', persona[2] if persona else '') }}
                                     </div>
                                     <div class="col-md-6">
-                                        {{ pintar_input("Apellido", "txtapellidos", "Dolores de Barriga...") }}
+                                        {{ pintar_input("Apellido", "txtapellidos", "Dolores de Barriga...", 'text', persona[3] if persona else '') }}
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {{ pintar_textarea("Observacion", "", "txtobs", "txtobs", "30", "10") }}
+                                        {{ pintar_textarea("Observacion", persona[5] if persona else '', "txtobs", "txtobs", "30", "10") }}
                                     </div>
                                 </div>
 
                                 <hr>
-                                
+
                                 <div class="row">
                                     <div class="col-lg-6">
                                         {{ pintar_button("Guardar", "btnguardar", "",type="submit") }}

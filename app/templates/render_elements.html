@@ -1,9 +1,9 @@
-{% macro pintar_input(label, name, placeholder, type="text", value="") %}
+{% macro pintar_input(label, name, placeholder, type="text", value="", estado="") %}
 <div class="form-group has-success">
     <label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
     <input id="{{ name }}" name="{{ name }}" type="{{ type }}" class="input-sm form-control-sm form-control"
-        placeholder="{{ placeholder }}" value="{{ value }}" required>
-    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+        placeholder="{{ placeholder }}" value="{{ value }}" {{ estado }} required>
+    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true" ></span>
 </div>
 {% endmacro %}
 
@@ -36,7 +36,9 @@
 </select>
 {% endmacro %}
 
-{% macro pintar_textarea(label, value, id, name, columnas, filas) %}
+{% macro pintar_textarea(label, value, id, name, columnas, filas, estado='') %}
 <label for="{{ label }}" class="control-label mb-1">{{ label }}</label>
-<textarea name="{{ name }}" id="{{ id }}" cols="{{ columnas }}" rows="{{ filas }}" class="input-sm form-control-sm form-control"></textarea>
+<textarea name="{{ name }}" id="{{ id }}" cols="{{ columnas }}" rows="{{ filas }}" class="input-sm form-control-sm form-control" {{estado}}>
+{{value}}
+</textarea>
 {% endmacro %}

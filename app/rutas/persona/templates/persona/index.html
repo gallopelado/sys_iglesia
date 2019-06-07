@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
-{% from 'render_elements.html' import pintar_alerta %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
 
 {% block title %}
 Persona
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -16,55 +22,129 @@ Persona
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 mb-2">
-                    <a href="{{ url_for('persona.frm_persona') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                        <i class="zmdi zmdi-plus"></i>Agregar
-                    </a>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <a href="{{ url_for('persona.frm_persona') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i>Agregar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table--no-card m-b-30">
+                                <table id="tabla_persona" class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr>
+                                            <th>Persona</th>
+                                            <th>Tipo</th>
+                                            <th class="text-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in items %}
+                                        <tr>
+                                            <td>{{ item[2] }} {{ item[3] }}</td>
+                                            <td>{{ item[5] }}</td>
+                                            <td>
+                                                <div class="table-data-feature">
+                                                    <button class="item" data-toggle="modal" data-placement="top"
+                                                        title="Ver" onclick="iniciarModal({{ item[0] }})">
+                                                        <i class="zmdi zmdi-mail-send"></i>
+                                                    </button>
+                                                    <button onclick="modificar({{ item[0] }})" class="item"
+                                                        data-toggle="tooltip" data-placement="top" title="Modificar">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </button>
+                                                    <button onclick="eliminar({{ item[0] }})" class="item"
+                                                        data-toggle="tooltip" data-placement="top" title="Delete">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor%}
+                                    </tbody>
+                                </table>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="table-responsive table--no-card m-b-30">
-                        <table class="table table-borderless table-striped table-earning">
-                            <thead>
-                                <tr>
-                                    <th>Persona</th>
-                                    <th>Tipo</th>
-                                    <th class="text-right">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in items %}
-                                <tr>
-                                    <td>{{ item[2] }} {{ item[3] }}</td>
-                                    <td>{{ item[5] }}</td>
-                                    <td>
-                                        <div class="table-data-feature">
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Send">
-                                                <i class="zmdi zmdi-mail-send"></i>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Edit">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top"
-                                                title="Delete">
-                                                <i class="zmdi zmdi-delete"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor%}                                
-                            </tbody>
-                        </table>
-                        {{ pintar_alerta(messages) }}
-                    </div>
+
+        </div>
+
+    </div>
+
+    <!-- modal medium -->
+    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Ver Datos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <input type="hidden" name="idpersona" value="{{ persona[0] if persona else ''}}">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ pintar_input("Cédula", "txtcedula", "###...", 'text', persona[1] if persona else '', 'disabled') }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cbo_tipopersona" class="control-label mb-1">Tipo</label>
+                                <select name="cbo_tipopersona" id="cbo_tipopersona"
+                                    class="input-sm form-control-sm form-control" disabled>
+
+                                    <option value="1">MIEMBRO-OFICIAL</option>
+                                    <option value="2">VISITANTE</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ pintar_input("Nombres", "txtnombres", "Vespaciana...", 'text', persona[2] if persona else '', 'disabled') }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ pintar_input("Apellido", "txtapellidos", "Dolores de Barriga...", 'text', persona[3] if persona else '', 'disabled') }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ pintar_textarea("Observacion", persona[5] if persona else '', "txtobs", "txtobs", "30", "10", 'disabled') }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- end modal medium -->
+
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER LOCO-->
+{% endblock %}
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<script src="{{ url_for('static', filename='jsOperacionales/persona.js') }}"></script>
 {% endblock %}
