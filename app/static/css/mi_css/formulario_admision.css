@@ -1,0 +1,32 @@
+.caja {
+    margin-top: 2%;
+    margin-right: 2%;
+    
+    float: left;
+}
+
+.persona {
+    width: 170px;
+    border-style: solid ;
+    border-color: grey;
+    border-width: 1px;
+    font-size: 15px;
+}
+
+.fecha {
+    width: 150px;
+    font-size: 15px;
+    border-style: solid ;
+    border-color: grey;
+    border-width: 1px;
+}
+
+.btAgregarPersona {
+    width:150px;
+    height: 30px;
+    font-size: 11px;
+    background-color: tomato;
+    font-style: oblique;
+    font-weight: bold;
+    border-radius: 5px;
+}

@@ -36,6 +36,7 @@
 
     <!-- Main CSS-->
     <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet" media="all">
+    
     {% block mi_css %}
     {% endblock %}
 
@@ -184,9 +185,15 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Gestionar Membresía</a>
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Membresía
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                                <li>
+                                    <a href="#">Registrar Formulario de Admisión</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="table.html">

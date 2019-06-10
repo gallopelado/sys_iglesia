@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+Registrar Formulario de Admision
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('persona.index_persona') }}" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-user"></i> Formulario Admision</h3>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-horizontal">
+                                <div class="row form-group">
+
+                                    <!-- Campo Persona-->
+                                    <div class="col col-8">
+                                        <div class="form-group">
+                                            <label for="txt_persona"
+                                                class="form-control-label form-control-sm">Persona</label>
+                                            <div class="input-group">
+                                                <input type="text" id="txt_persona" name="txt_persona"
+                                                    list="lista_personas" class="form-control form-control-sm"
+                                                    placeholder="Elegir persona...">
+                                                <datalist id="lista_personas">
+                                                    
+                                                </datalist>
+                                                <div class="input-group-btn">
+                                                    <button type="button" id="btnAgregarNuevaPersona"
+                                                        class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                                        Agregar Nueva
+                                                        Persona ?</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Campo fecha de nacimiento -->
+                                    <div class="col col-4">
+                                        <div class="form-group">
+                                            <label for="txt_fechanac" class="form-control-label form-control-sm">Fecha
+                                                de
+                                                Nacimiento</label>
+                                            <input type="text" id="txt_fechanac" onpaste="return false"
+                                                name="txt_fechanac" class="form-control form-control-sm"
+                                                placeholder="Ingrese fecha..">
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Campo direccion -->
+                                <div class="col col-8">
+                                    <label for="txt_direccion"
+                                        class="form-control-label form-control-sm">Direccion</label>
+                                    <input type="text" id="txt_direccion" name="txt_direccion"
+                                        class="form-control form-control-sm" placeholder="Direccion">
+                                </div>
+                                <!---->
+
+                                <!-- Combo ciudad -->
+                                <div class="col col-4">
+                                    <label for="cbo_ciudad" class="form-control-label form-control-sm">Ciudad</label>
+                                    <select name="cbo_ciudad" id="cbo_ciudad" class="form-control-sm form-control">
+                                        <option value="">Elegir...</option>
+                                        {% if lista_ciudades %}
+                                        {{ lista_ciudades | safe }}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Combo clasificacion social -->
+                                <div class="col col-4">
+                                    <label for="cbo_clasisocial"
+                                        class="form-control-label form-control-sm">Clasificación Social</label>
+                                    <select name="cbo_clasisocial" id="cbo_clasisocial"
+                                        class="form-control-sm form-control">
+                                        <option value="">Elegir...</option>
+                                        {% if lista_clasi %}
+                                        {{ lista_clasi | safe }}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                                <!-- Combo relacion familiar -->
+                                <div class="col col-4">
+                                    <label for="cbo_rfamiliar" class="form-control-label form-control-sm">Relación
+                                        Familiar</label>
+                                    <select name="cbo_rfamiliar" id="cbo_rfamiliar"
+                                        class="form-control-sm form-control">
+                                        <option value="">Elegir..</option>
+                                        {% if lista_relaciones %}
+                                        {{lista_relaciones | safe}}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                                <!-- Campo Fecha de matrimonio -->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_fechamatri" class="form-control-label form-control-sm">Fecha de
+                                            Matrimonio(Para Aniversario)</label>
+                                        <input type="text" name="txt_fechamatri" id="txt_fechamatri"
+                                            class="form-control form-control-sm" placeholder="Ingrese fecha..">
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Campo email -->
+                                <div class="col col-5">
+                                    <label for="txt_email" class="form-control-label form-control-sm">Email</label>
+                                    <input type="email" name="txt_email" id="txt_email"
+                                        class="form-control form-control-sm" placeholder="Ingrese correo..">
+                                </div>
+                                <!---->
+
+                                <!-- Campo codigo postal -->
+                                <div class="col col-3">
+                                    <label for="txt_postal" class="form-control-label form-control-sm">Codigo
+                                        Postal</label>
+                                    <input type="email" name="txt_postal" id="txt_postal"
+                                        class="form-control form-control-sm" placeholder="Ingrese codigo postal..">
+                                </div>
+                                <!---->
+
+                                <!-- Campo fecha de primer contacto -->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_primercontacto" class="form-control-label form-control-sm">Fecha
+                                            de
+                                            Primer Contacto</label>
+                                        <input type="text" name="txt_primercontacto" id="txt_primercontacto"
+                                            class="form-control form-control-sm" placeholder="Ingrese fecha..">
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Combo estado civil -->
+                                <div class="col col-4">
+                                    <label for="cbo_ecivil" class="form-control-label form-control-sm">Estado
+                                        Civil</label>
+                                    <select name="" name="cbo_ecivil" id="cbo_ecivil"
+                                        class="form-control-sm form-control">
+                                        <option value="">Elegir...</option>
+                                        <option value="SOLTERO/A">SOLTERO/A</option>
+                                        <option value="CASADO/A">CASADO/A</option>
+                                        <option value="CONCUBINATO">CONCUBINATO</option>
+                                    </select>
+                                </div>
+                                <!---->
+
+                                <!-- RadioButton sexo-->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-control-label form-control-sm">Sexo</label>
+                                    </div>
+                                    <div class="form-check-inline form-check">
+
+                                        <!-- radio Masculino-->
+                                        <label for="chk_masculino" class="form-check-label ">
+                                            <input type="radio" id="chk_masculino" name="sexo" value="MASCULINO"
+                                                class="form-check-input">MASCULINO
+                                        </label>
+                                        <!---->
+
+                                        <!-- radio Femenino-->
+                                        <label for="chk_femenino" class="form-check-label ">
+                                            <input type="radio" id="chk_femenino" name="sexo" value="FEMENINO"
+                                                class="form-check-input">FEMENINO
+                                        </label>
+                                        <!---->
+
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- Combo forma de contacto -->
+                                <div class="col col-4">
+                                    <label for="cbo_fcontacto" class="form-control-label form-control-sm">Forma de
+                                        Contacto</label>
+                                    <select name="cbo_fcontacto" id="cbo_fcontacto"
+                                        class="form-control-sm form-control">
+                                        <option value="">Elegir..</option>
+                                        {% if lista_formas %}
+                                        {{lista_formas | safe}}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Inicio de los Check -->
+                                <div class="col col-4">
+
+                                    <!-- Check Asistia antes a otra iglesia -->
+                                    <label for="cbo_fcontacto" class="form-control-label form-control-sm"> Asistía antes
+                                        a
+                                        otra Iglesia ?</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="chk_otraiglesa" class="form-check-label ">
+                                            <input type="checkbox" id="chk_otraiglesa" name="chk_otraiglesa"
+                                                value="option1" class="form-check-input">
+                                        </label>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Check Requiere visita -->
+                                    <label for="cbo_fcontacto" class="form-control-label form-control-sm">Requiere
+                                        Visita ?</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="chk_visita" class="form-check-label ">
+                                            <input type="checkbox" id="chk_visita" name="chk_visita" value="option1"
+                                                class="form-check-input">
+                                        </label>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Check Nuevo en la ciudad -->
+                                    <label for="cbo_fcontacto" class="form-control-label form-control-sm">Nuevo en la
+                                        ciudad ?</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="chk_nuevo" class="form-check-label ">
+                                            <input type="checkbox" id="chk_nuevo" name="chk_visita" value="option1"
+                                                class="form-check-input">
+                                        </label>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Check Conyuge es de la Iglesia -->
+                                    <label for="chk_miembroconyuge" class="form-control-label form-control-sm">Cónyuge
+                                        es
+                                        de la Iglesia ?</label>
+                                    <div class="form-check-inline form-check">
+                                        <label for="chk_miembroconyuge" class="form-check-label ">
+                                            <input type="checkbox" id="chk_miembroconyuge" name="chk_miembroconyuge"
+                                                value="option1" class="form-check-input">
+                                        </label>
+                                    </div>
+                                    <!---->
+
+                                </div>
+                                <!-- Fin de los checkbox -->
+
+                                <!-- Campo A que Iglesia -->
+                                <div class="col col-4">
+                                    <label for="txt_iglesia" class="form-control-label form-control-sm">A que Iglesia
+                                        ?</label>
+                                    <input type="text" name="txt_iglesia" id="txt_iglesia"
+                                        class="form-control form-control-sm" placeholder="Ingrese nombre..">
+                                </div>
+                                <!---->
+
+                                <!-- Campo Ultima vez que fue visitado -->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_ultimavezcontacto"
+                                            class="form-control-label form-control-sm">Última vez que fue
+                                            visitado</label>
+                                        <input type="text" name="txt_ultimavezcontacto" id="txt_ultimavezcontacto"
+                                            class="form-control form-control-sm" placeholder="Ingrese fecha..">
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+
+                            <div class="row form-group">
+                                <!-- Campo conyuge -->
+                                <div class="col col-8">
+                                    <div class="form-group">
+                                        <label for="txt_conyuge"
+                                            class="form-control-label form-control-sm">Conyuge</label>
+                                        <input type="text" name="txt_conyuge" id="txt_conyuge"
+                                            class="form-control form-control-sm" list="lista_conyuge"
+                                            placeholder="Ingrese persona..">
+                                        <datalist id="lista_conyuge">
+                                            {% if lista_personas -%}
+                                            {{ lista_personas | safe }}
+                                            {%- endif %}
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- Campo numero de hijos -->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_nrohijos" class="form-control-label form-control-sm">Nro de
+                                            Hijos</label>
+                                        <input type="number" name="txt_nrohijos" id="txt_nrohijos"
+                                            class="form-control form-control-sm" placeholder="Ingrese datos..">
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+            <!--inicio segundo row-->
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <!-- Agregar Telefonos -->
+                    <div class="form-group">
+                        <label for="txt_telefono" class="form-control-label form-control-sm">Agregar Telefono</label>
+                        <select name="" id="cbo_tipotel" class="form-control-sm form-control">
+                            <option value="">Please select</option>
+                            <option value="PERSONAL">PERSONAL</option>
+                            <option value="CELULAR">CELULAR</option>
+                            <option value="FAX">FAX</option>
+                        </select>
+                        <input type="text" name="txt_telefono" id="txt_telefono" class="form-control form-control-sm"
+                            placeholder="Ingrese datos..">
+                    </div>
+                    <!---->
+
+                    <!-- Tabla Telefonos-->
+                    <div class="top-campaign">
+                        <h3 class="title-3 m-b-30">Telefonos</h3>
+                        <div class="table-responsive">
+                            <table id="tabla_telefonos" class="table table-top-campaign">
+                                <thead>
+                                    <th>Telefono</th>
+                                    <th>Tipo</th>
+                                    <th>Accion</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>111111</td>
+                                        <td>Celular</td>
+                                    </tr>
+                                    <tr>
+                                        <td>999999</td>
+                                        <td>Personal</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!---->
+
+                </div>
+                <div class="col-lg-6">
+
+                    <!-- Campo Invitado por -->
+                    <div class="form-group">
+                        <label for="txt_padres" class="form-control-label form-control-sm">Invitado por(Padres
+                            espirituales)</label>
+                        <input type="text" name="txt_padres" id="txt_padres" class="form-control form-control-sm"
+                            placeholder="Ingrese datos..">
+                    </div>
+                    <!---->
+
+                    <!--Tabla padres espirituales -->
+                    <div class="top-campaign">
+                        <h3 class="title-3 m-b-30">Padres Espirituales</h3>
+                        <div class="table-responsive">
+                            <table id="tabla_padres_espirituales" class="table table-top-campaign">
+                                <thead>
+                                    <th>Persona</th>
+                                    <th>Accion</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Persona1</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Persona2</td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!---->
+
+                </div>
+            </div>
+            <!--fin segundo row-->
+
+            <!--inicio tercer row-->
+            <div class="row">
+
+                <!-- Botones -->
+                <div class="col col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary btn-lg">
+                                <i class="fa fa-dot-circle-o"></i> Guardar
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-lg">
+                                <i class="fa fa-ban"></i> Limpiar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-lg">
+                                <i class="fa  fa-arrow-down"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
+            </div>
+            <!--fin tercer row-->
+        </div>
+    </div>
+    <!---->
+
+    <!-- modal medium -->
+    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Formulario Persona</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmPersona" action="" method="post">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="idpersona">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ pintar_input("Cédula", "txtcedula", "###...", 'text', '', '') }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cbo_tipopersona" class="control-label mb-1">Tipo</label>
+                                <select name="cbo_tipopersona" id="cbo_tipopersona"
+                                    class="input-sm form-control-sm form-control" disabled>
+
+                                    <option value="2">VISITANTE</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ pintar_input("Nombres", "txtnombres", "Vespaciana...", 'text', '', '') }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ pintar_input("Apellido", "txtapellidos", "Dolores de Barriga...", 'text',  '', '') }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnGuardarPersona" class="btn btn-success">Guardar</button>
+                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal medium -->
+
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- Js Operativo -->
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_admision.js') }}"></script>
+
+{%- endblock %}

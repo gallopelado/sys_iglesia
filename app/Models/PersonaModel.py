@@ -82,7 +82,7 @@ class PersonaModel():
             FROM referenciales.personas p 
             join referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
             WHERE per_id = %s;
-            """,(idpersona))
+            """,(idpersona,))
             data = cursor.fetchone()
             cursor.close()
             con.close()
@@ -90,3 +90,27 @@ class PersonaModel():
         except con.Error as e:
             return e.pgerror
         
+    def recuperaPersonas(self):
+        """Metodo recuperaPersonas.
+
+        Obtiene registros de persona, con todos los datos.
+
+        Retorna: 
+            personas: -- diccionario
+
+        """
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cursor = con.cursor()
+            cursor.execute("""
+            SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja 
+            FROM referenciales.personas p 
+            join referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            """)
+            persona = cursor.fetchall()
+            cursor.close()
+            con.close()
+            return persona
+        except con.Error as e:
+            return e.pgerror
