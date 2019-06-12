@@ -4,6 +4,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let obj = new AdmisionUI();
     obj.iniciarFechas();
     obj.obtenerDatalistPersonas();
+    document.getElementById('btnDeshacerTelefono').disabled = true;
+    document.getElementById('btnDeshacerPadres').disabled = true;
+
+});
+
+var btLimpiar = document.getElementById('btnLimpiar');
+btLimpiar.addEventListener('click', () => {
+    
+    let tablatelefonos = document.getElementById('tabla_telefonos'),
+        rowCountT = tablatelefonos.rows.length,
+        tablapadres = document.getElementById('tabla_padres'),
+        rowCountP = tablapadres.rows.length;
+
+    for(let i=rowCountP - 1; i > 0 ; i--) {
+        tablapadres.deleteRow(i);        
+        
+    }  
+    
+    for(let i=rowCountT - 1; i > 0 ; i--) {
+        tablatelefonos.deleteRow(i);                
+    }  
 
 });
 
@@ -14,13 +35,106 @@ btnAgregarPersona.addEventListener('click', () => {
     bt.mensaje('Mensaje confirmación', 'Desea agregar un nuevo registro de Persona ?');
 });
 
-// Evento click al boton Guardar del Formulario Persona
+// Evento click al boton Guardar del Formulario 
 var btnGuardarPersona = document.getElementById('btnGuardarPersona');
 btnGuardarPersona.addEventListener('click', () => {
     bt = new FormularioPersonaUI('a');
     bt.guardar();
 });
 
+var campoAgregarTelefono = document.getElementById('txt_telefono');
+var lista = new Array();
+
+campoAgregarTelefono.addEventListener('keypress', (e) => {
+
+    // Si activa evento ENTER
+    if (e.keyCode == 13) {
+
+        let ad = new AdmisionUI();
+        ad.agregarTelefono();
+        document.getElementById('txt_telefono').value = "";
+        document.getElementById('cbo_tipotel').value = ""; 
+
+    }
+
+});
+
+// Evento click al boton Deshacer del Formulario 
+var btDeshacerT = document.getElementById('btnDeshacerTelefono')
+btDeshacerT.addEventListener('click', () => {
+
+    // Comprobar elementos en la tabla
+    // Obtener datos de la tabla
+    let indice, tabla = document.getElementById('tabla_telefonos');
+
+    for (let i = 1; i < tabla.rows.length; i++) {
+
+        console.log(tabla.rows[i].cells[0].parentElement.className);
+        let elemento = tabla.rows[i].cells[0].parentElement.className;
+
+        if (elemento === "bg-warning") {
+            tabla.rows[i].cells[0].parentElement.className = "";
+            document.getElementById('btnDeshacerTelefono').disabled = true;
+        }
+
+    }
+
+});
+
+
+// Evento click al boton Deshacer del Formulario 
+var btDeshacerP = document.getElementById('btnDeshacerPadres')
+btDeshacerP.addEventListener('click', () => {
+
+    // Comprobar elementos en la tabla
+    // Obtener datos de la tabla
+    let indice, tabla = document.getElementById('tabla_padres');
+
+    for (let i = 1; i < tabla.rows.length; i++) {
+
+        console.log(tabla.rows[i].cells[0].parentElement.className);
+        let elemento = tabla.rows[i].cells[0].parentElement.className;
+
+        if (elemento === "bg-warning") {
+            tabla.rows[i].cells[0].parentElement.className = "";
+            document.getElementById('btnDeshacerPadres').disabled = true;
+        }
+
+    }
+
+});
+
+var campoPadres = document.getElementById('txt_padres');
+campoPadres.addEventListener('keypress', (e) => {
+
+    // Si activa evento ENTER
+    if (e.keyCode == 13) {
+
+        let ad = new AdmisionUI();
+        ad.agregarPadres();
+        document.getElementById('txt_padres').value = ""
+
+    }
+
+})
+
+function borrarTelefono() {
+    bt = new AdmisionUI();
+    bt.borrarTelefono();
+}
+
+function borrarPadres() {
+    bt = new AdmisionUI();
+    bt.borrarPadres();
+}
+
+/**
+ * Clase principal del movimiento.
+ * 
+ * Se define toda la funcionalidad para este movimiento.
+ * 
+ * @author <juanftp100@gmail.com> Juan Jose Gonzalez
+ */
 class AdmisionUI {
 
     constructor(persona, fechanac, direccion, ciudad, clasisocial, relacionfamiliar, fechamatri,
@@ -177,8 +291,191 @@ class AdmisionUI {
         });
     }
 
+    agregarTelefono() {
+
+        if (this.controlarTelefonosRepetidos()) {
+
+            // Obtiene datos del formulario
+            let tabla = document.getElementById('tabla_telefonos'),
+
+                // Crea la fila
+                fila = tabla.insertRow(1),
+
+                telefono = document.getElementById('txt_telefono').value,
+                tipotelefono = document.getElementById('cbo_tipotel').value,
+
+                // Crear celdas
+                celda1 = fila.insertCell(0),
+                celda2 = fila.insertCell(1),
+                celda3 = fila.insertCell(2);
+
+            // Agregar celda en la tabla HTML
+            celda1.innerHTML = telefono;
+            celda2.innerHTML = tipotelefono;
+            celda3.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarTelefono()'><i class='fa fa-bolt'></i> Borrar</button>";
+
+        } else {
+            console.error('Algo paso :-( ');
+        }
+
+    }
+
+    borrarTelefono() {
+
+        // Obtener datos de la tabla
+        let indice, tabla = document.getElementById('tabla_telefonos'),
+            borrar = new Array();
+
+        // Recorrer la tabla
+        for (let i = 1; i < tabla.rows.length; i++) {
+
+            // Ligar el evento click al boton dentro de la tabla.
+            tabla.rows[i].cells[2].children[0].onclick = function () {
+
+                // Obtener el indice de fila.                
+                indice = this.parentElement.parentElement.rowIndex;
+
+                // Borrar fila
+                //tabla.deleteRow(indice);
+
+                tabla.rows[i].className = 'bg-warning';
+
+                document.getElementById('btnDeshacerTelefono').disabled = false;
+
+                // Agregar para borrar
+                //borrar.push()
+
+            }
+
+        }
+
+    }
+
+    controlarTelefonosRepetidos() {
+
+        // Obtener data del formulario
+        let tabla = document.getElementById('tabla_telefonos'),
+            telefono = document.getElementById('txt_telefono').value,
+            tipotelefono = document.getElementById('cbo_tipotel').value;
+
+        // Validar
+        if (telefono.trim() !== "" && tipotelefono !== "") {
+
+            // Recorrer la tabla
+            for (let i = 1; i < tabla.rows.length; i++) {
+
+                // Verificar que no se repita el numero de telefono
+                if (tabla.rows[i].cells[0].innerHTML === telefono.trim()) {
+                    alert('Repetido');
+                    return false;
+                }
+
+            }
+
+        } else {
+
+            alert("Campo no debe estar vacio");
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    agregarPadres() {
+
+        if (this.controlarPadresRepetidos()) {
+
+            let tabla = document.getElementById('tabla_padres'),
+                fila, celda1, celda2,
+                padre = document.getElementById('txt_padres').value;
+
+            fila = tabla.insertRow(1);
+
+            celda1 = fila.insertCell(0);
+            celda2 = fila.insertCell(1);
+
+            celda1.innerHTML = padre;
+            celda2.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>";
+
+        } else {
+            console.error('Algo salio mal :-(');
+        }
+
+    }
+
+    controlarPadresRepetidos() {
+
+        let tabla = document.getElementById('tabla_padres'),
+            padre = document.getElementById('txt_padres').value;
+
+        // Validar
+        if (padre.trim() !== "") {
+
+            // Recorrer la tabla
+            for (let i = 1; i < tabla.rows.length; i++) {
+                console.log(tabla.rows[i].cells[0].innerHTM);
+                if (tabla.rows[i].cells[0].innerHTML === padre.trim()) {
+
+                    alert('Repetido');
+                    return false;
+                }
+
+            }
+
+        } else {
+
+            alert('Campo no debe estar vacio');
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    borrarPadres() {
+
+        // Obtener datos de la tabla
+        let indice, tabla = document.getElementById('tabla_padres'),
+            borrar = new Array();
+
+        // Recorrer la tabla
+        for (let i = 1; i < tabla.rows.length; i++) {
+
+            // Ligar el evento click al boton dentro de la tabla.
+            tabla.rows[i].cells[1].children[0].onclick = function () {
+
+                // Obtener el indice de fila.                
+                indice = this.parentElement.parentElement.rowIndex;
+
+                // Borrar fila
+                //tabla.deleteRow(indice);
+
+                tabla.rows[i].className = 'bg-warning';
+
+                document.getElementById('btnDeshacerPadres').disabled = false;
+
+                // Agregar para borrar
+                //borrar.push()
+
+            }
+
+        }
+
+    }
+
 }
 
+
+/**
+ * Clase FormularioPersonaUI
+ * 
+ * Se define todo lo que tenga que ver con el modal de Formulario Persona.
+ * 
+ * @author <juanftp100@gmail.com> Juan Jose Gonzalez
+ */
 class FormularioPersonaUI {
 
     constructor(op) {
@@ -234,7 +531,7 @@ class FormularioPersonaUI {
 
                     $('#mediumModal').modal('toggle');
                     this.limpiaForm();
-                    
+
                     let ad = new AdmisionUI();
                     ad.obtenerDatalistPersonas();
                     ad.mensajeExito('Agregar Persona Exitosa', 'Agregaste una persona!');

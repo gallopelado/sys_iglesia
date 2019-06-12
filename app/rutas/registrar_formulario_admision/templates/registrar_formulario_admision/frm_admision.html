@@ -53,7 +53,7 @@ Registrar Formulario de Admision
                                                     list="lista_personas" class="form-control form-control-sm"
                                                     placeholder="Elegir persona...">
                                                 <datalist id="lista_personas">
-                                                    
+
                                                 </datalist>
                                                 <div class="input-group-btn">
                                                     <button type="button" id="btnAgregarNuevaPersona"
@@ -361,10 +361,12 @@ Registrar Formulario de Admision
                     <div class="form-group">
                         <label for="txt_telefono" class="form-control-label form-control-sm">Agregar Telefono</label>
                         <select name="" id="cbo_tipotel" class="form-control-sm form-control">
-                            <option value="">Please select</option>
+                            <option value="">Elegir...</option>
+                            <option value="CASA">CASA</option>
                             <option value="PERSONAL">PERSONAL</option>
-                            <option value="CELULAR">CELULAR</option>
+                            <option value="TRABAJO">TRABAJO</option>
                             <option value="FAX">FAX</option>
+                            <option value="OTROS">OTROS</option>
                         </select>
                         <input type="text" name="txt_telefono" id="txt_telefono" class="form-control form-control-sm"
                             placeholder="Ingrese datos..">
@@ -373,7 +375,10 @@ Registrar Formulario de Admision
 
                     <!-- Tabla Telefonos-->
                     <div class="top-campaign">
-                        <h3 class="title-3 m-b-30">Telefonos</h3>
+                        <h3 class="title-3 m-b-30">Telefonos <button type="button" id="btnDeshacerTelefono"
+                                class="btn btn-warning btn-sm">
+                                <i class="fa fa-clock-o"></i> Deshacer borrado
+                            </button></h3>
                         <div class="table-responsive">
                             <table id="tabla_telefonos" class="table table-top-campaign">
                                 <thead>
@@ -382,15 +387,6 @@ Registrar Formulario de Admision
                                     <th>Accion</th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>111111</td>
-                                        <td>Celular</td>
-                                    </tr>
-                                    <tr>
-                                        <td>999999</td>
-                                        <td>Personal</td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -405,29 +401,28 @@ Registrar Formulario de Admision
                         <label for="txt_padres" class="form-control-label form-control-sm">Invitado por(Padres
                             espirituales)</label>
                         <input type="text" name="txt_padres" id="txt_padres" class="form-control form-control-sm"
-                            placeholder="Ingrese datos..">
+                            placeholder="Ingrese datos.." list="lista_padres">
+                        <datalist id="lista_padres">
+                            {% if lista_padres -%}
+                            {{ lista_padres | safe }}
+                            {%- endif %}
+                        </datalist>
                     </div>
                     <!---->
 
                     <!--Tabla padres espirituales -->
                     <div class="top-campaign">
-                        <h3 class="title-3 m-b-30">Padres Espirituales</h3>
+                        <h3 class="title-3 m-b-30">Padres Espirituales <button type="button" id="btnDeshacerPadres"
+                                class="btn btn-warning btn-sm">
+                                <i class="fa fa-clock-o"></i> Deshacer borrado
+                            </button></h3>
                         <div class="table-responsive">
-                            <table id="tabla_padres_espirituales" class="table table-top-campaign">
+                            <table id="tabla_padres" class="table table-top-campaign">
                                 <thead>
                                     <th>Persona</th>
                                     <th>Accion</th>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Persona1</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Persona2</td>
-                                        <td></td>
-                                    </tr>
-
+                                <tbody id="tb_padres">
                                 </tbody>
                             </table>
                         </div>
@@ -448,7 +443,7 @@ Registrar Formulario de Admision
                             <button type="button" class="btn btn-primary btn-lg">
                                 <i class="fa fa-dot-circle-o"></i> Guardar
                             </button>
-                            <button type="button" class="btn btn-secondary btn-lg">
+                            <button type="button" id="btnLimpiar" class="btn btn-secondary btn-lg">
                                 <i class="fa fa-ban"></i> Limpiar
                             </button>
                             <button type="button" class="btn btn-danger btn-lg">

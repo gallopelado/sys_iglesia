@@ -27,12 +27,13 @@ def index_formadmi():
 def frm_admi():
 
     lista_personas = datalistPersona()
+    lista_padres = datalistPadres()
     lista_ciudades = comboCiudad()
     lista_clasi = comboClasificacionSocial()
     lista_relaciones = comboRelaciones()
     lista_formas = comboFormaContacto()
     
-    return render_template('registrar_formulario_admision/frm_admision.html', lista_personas = lista_personas, 
+    return render_template('registrar_formulario_admision/frm_admision.html', lista_personas = lista_personas, lista_padres = lista_padres,
     lista_ciudades = lista_ciudades, lista_clasi = lista_clasi, lista_relaciones = lista_relaciones,
     lista_formas = lista_formas)
 
@@ -51,6 +52,21 @@ def datalistPersona():
     combo = ""
     for x in lista:        
         combo += "<option value='" + str(x[0]) +  "'>Id:" + str(x[0]) + " - " + str(x[2]) + " " + str(x[3]) + "</option>"    
+    return combo
+
+def datalistPadres():
+    """Funcion datalistPadres.
+
+    Busca en el modelo todas las personas, convierte los resultados
+    a cadena, en formato del componente html datalist.
+
+    """
+    # Se procesan datos para el datalist
+    pm = PersonaModel()
+    lista = pm.recuperaPersonas()    
+    combo = ""
+    for x in lista:        
+        combo += "<option value='" + str(x[2]) + " " + str(x[3]) +  "'>"    
     return combo
 
 def comboCiudad():
