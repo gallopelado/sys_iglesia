@@ -9,22 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// Definiciones de los eventos de botones
+
 var btLimpiar = document.getElementById('btnLimpiar');
 btLimpiar.addEventListener('click', () => {
-    
+
     let tablatelefonos = document.getElementById('tabla_telefonos'),
         rowCountT = tablatelefonos.rows.length,
         tablapadres = document.getElementById('tabla_padres'),
-        rowCountP = tablapadres.rows.length;
+        rowCountP = tablapadres.rows.length,
+        ad = new AdmisionUI()
+        ad.limpiaForm();
 
-    for(let i=rowCountP - 1; i > 0 ; i--) {
-        tablapadres.deleteRow(i);        
-        
-    }  
-    
-    for(let i=rowCountT - 1; i > 0 ; i--) {
-        tablatelefonos.deleteRow(i);                
-    }  
+    for (let i = rowCountP - 1; i > 0; i--) {
+        tablapadres.deleteRow(i);
+
+    }
+
+    for (let i = rowCountT - 1; i > 0; i--) {
+        tablatelefonos.deleteRow(i);
+    }
 
 });
 
@@ -53,7 +57,7 @@ campoAgregarTelefono.addEventListener('keypress', (e) => {
         let ad = new AdmisionUI();
         ad.agregarTelefono();
         document.getElementById('txt_telefono').value = "";
-        document.getElementById('cbo_tipotel').value = ""; 
+        document.getElementById('cbo_tipotel').value = "";
 
     }
 
@@ -112,11 +116,18 @@ campoPadres.addEventListener('keypress', (e) => {
 
         let ad = new AdmisionUI();
         ad.agregarPadres();
-        document.getElementById('txt_padres').value = ""
 
     }
 
-})
+});
+
+var btnGuardarFormAdmision = document.getElementById('btnGuardarFormAdmision');
+btnGuardarFormAdmision.addEventListener('click', () => {
+
+    ad = new AdmisionUI();
+    ad.guardar(ad);
+
+});
 
 function borrarTelefono() {
     bt = new AdmisionUI();
@@ -152,7 +163,8 @@ class AdmisionUI {
         this.postal = document.getElementById('txt_postal');
         this.fechaprimercontacto = document.getElementById('txt_primercontacto');
         this.estadocivil = document.getElementById('cbo_ecivil');
-        this.sexo = sexo;
+        this.sexoM = document.getElementById('chk_masculino');
+        this.sexoF = document.getElementById('chk_femenino');
         this.formacontacto = document.getElementById('cbo_fcontacto');
         this.asisteotraigle = document.getElementById('chk_otraiglesa');
         this.visita = document.getElementById('chk_visita');
@@ -162,6 +174,9 @@ class AdmisionUI {
         this.fechaultvisita = document.getElementById('txt_ultimavezcontacto');
         this.conyuge = document.getElementById('txt_conyuge');
         this.nrohijos = document.getElementById('txt_nrohijos');
+        this.familia = document.getElementById('cbo_familia');
+        this.tablatelefonos = document.getElementById('tabla_telefonos');
+        this.tablapadres = document.getElementById('tabla_padres');
     }
 
     hacerDatePicker(id, parametros = null) {
@@ -383,24 +398,33 @@ class AdmisionUI {
 
     }
 
-    agregarPadres() {
+    async agregarPadres() {
 
         if (this.controlarPadresRepetidos()) {
 
-            let tabla = document.getElementById('tabla_padres'),
-                fila, celda1, celda2,
-                padre = document.getElementById('txt_padres').value;
 
-            fila = tabla.insertRow(1);
+            if (await this.controlarExistenciaPadres()) {
 
-            celda1 = fila.insertCell(0);
-            celda2 = fila.insertCell(1);
+                let tabla = document.getElementById('tabla_padres'),
+                    fila, celda1, celda2,
+                    padre = document.getElementById('txt_padres').value;
 
-            celda1.innerHTML = padre;
-            celda2.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>";
+                console.log(padre);
 
-        } else {
-            console.error('Algo salio mal :-(');
+                fila = tabla.insertRow(1);
+
+                celda1 = fila.insertCell(0);
+                celda2 = fila.insertCell(1);
+
+                celda1.innerHTML = padre;
+                celda2.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>";
+
+                document.getElementById('txt_padres').value = ""
+
+            } else {
+                alert('Esta persona no existe, favor registrarla');
+            }
+
         }
 
     }
@@ -435,6 +459,37 @@ class AdmisionUI {
 
     }
 
+    async controlarExistenciaPadres() {
+        try {
+
+            // Obtener datos del campo
+            let campo = document.getElementById('txt_padres').value.trim(),
+
+                // Si queres usar el objeto formData(), no hace falta especificar headers en fetch
+                //form = new FormData(),
+                //form.append('palabra', campo);            
+
+                objeto = { palabra: campo };
+
+            const res = await fetch('http://localhost:5000/formulario_admision/buscar_padre_ajax', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(objeto)
+            });
+
+            const data = await res.json();
+
+            return data.existe;
+
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
+
     borrarPadres() {
 
         // Obtener datos de la tabla
@@ -459,6 +514,193 @@ class AdmisionUI {
 
                 // Agregar para borrar
                 //borrar.push()
+
+            }
+
+        }
+
+    }
+
+    // Metodos para preparar el guardado
+
+    limpiaForm() {
+
+        const arrayjIds = [
+
+            "txt_persona",
+            "txt_fechanac",
+            "txt_direccion",
+            "cbo_ciudad",
+            "cbo_clasisocial",
+            "cbo_rfamiliar",
+            "txt_fechamatri",
+            "txt_email",
+            "txt_postal",
+            "txt_primercontacto",
+            "cbo_ecivil",
+            "cbo_fcontacto",
+            "txt_iglesia",
+            "txt_ultimavezcontacto",
+            "txt_conyuge",
+            "txt_nrohijos",
+            "cbo_familia"
+
+        ];
+
+        for (let i = 0; i < arrayjIds.length; i++) {
+
+            document.getElementById(`${arrayjIds[i]}`).value = "";
+
+        }
+
+    }
+
+    validarForm() {
+
+        const arrayjIds = [
+
+            "txt_persona",
+            "txt_fechanac",
+            "txt_direccion",
+            "cbo_ciudad",
+            "cbo_clasisocial",
+            "cbo_rfamiliar",
+            "cbo_ecivil",
+            "cbo_fcontacto",
+            "cbo_familia"
+
+        ];
+
+
+        for (let i = 0; i < arrayjIds.length; i++) {
+
+            if (document.getElementById(`${arrayjIds[i]}`).value.trim() === "" || document.getElementById(`${arrayjIds[i]}`).value === null) {
+
+                document.getElementById(`${arrayjIds[i]}`).focus();
+                return false;
+
+            }
+
+        }
+
+        return true;
+
+    }
+
+    obtenerDatosFormulario() {
+
+        if (this.validarForm()) {
+
+            let tablatelefonos, tablapadres, arrayPadres, dataTotal,
+                formulario = {
+
+                    idpersona: this.persona.value.trim(),
+                    fechanac: this.fechanac.value.trim(),
+                    direccion: this.direccion.value.trim(),
+                    idciudad: this.ciudad.value.trim(),
+                    idsocial: this.clasisocial.value.trim(),
+                    idfamilar: this.relacionfamiliar.value.trim(),
+                    fechamatri: this.fechamatri.value.trim(),
+                    email: this.email.value.trim(),
+                    postal: this.postal.value.trim(),
+                    fechaprimercontacto: this.fechaprimercontacto.value.trim(),
+                    ecivil: this.estadocivil.value.trim(),
+                    sexo: this.saberSexo(),
+                    formacontacto: this.formacontacto.value.trim(),
+                    asisteotraigle: this.asisteotraigle.checked,
+                    requierevisita: this.visita.checked,
+                    nuevociudad: this.nuevociudad.checked,
+                    conyumiembro: this.conyumiembro.checked,
+                    iglesia: this.iglesia.value.trim(),
+                    fechaultvisita: this.fechaultvisita.value.trim(),
+                    idconyuge: this.conyuge.value.trim(),
+                    nrohijos: this.nrohijos.value.trim(),
+                    familia: this.familia.value.trim()
+
+                };
+
+            // Recolectar telefonos de la tabla
+            tablatelefonos = this.tablatelefonos;            
+
+            let datos = [];
+
+            for (let i = 1; i < tablatelefonos.rows.length; i++) {
+                
+                datos[i] = {
+                    "id": i, 
+                    "tipo": tablatelefonos.rows[i].cells[1].innerHTML,
+                    "numero": tablatelefonos.rows[i].cells[0].innerHTML
+                }
+
+            }
+
+            // Recolectar padres de la tabla
+            tablapadres = this.tablapadres;
+            arrayPadres = new Array();
+
+            for (let i = 1; i < tablapadres.rows.length; i++) {
+
+                arrayPadres.push(
+                    tablapadres.rows[i].cells[0].innerHTML
+                );
+
+            }
+
+            dataTotal = {
+                formulario: formulario,                
+                arrayPadres: arrayPadres,
+                telefonos: datos
+            }
+
+            return dataTotal;
+
+        } else {
+            console.error('Error de validacion');
+            return false;
+        }
+
+    }
+
+    saberSexo() {
+        if (this.sexoM.checked) {
+            return "MASCULINO";
+        } else {
+            return "FEMENINO";
+        }
+    }
+
+
+    async guardar() {
+
+        let formulario = this.obtenerDatosFormulario();
+
+        console.log(formulario);
+
+        if (formulario !== false) {
+
+            try {
+
+                const res = await fetch('http://localhost:5000/formulario_admision/guardar', {
+
+                    method: 'POST',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formulario)
+
+                });
+                const data = await res.json();
+
+                console.log(data);
+                if(data.guardado === true){
+                    this.limpiaForm();
+                    document.getElementById('btnLimpiar').click()
+                }
+
+            } catch (error) {
+
+                return console.log(error);
 
             }
 

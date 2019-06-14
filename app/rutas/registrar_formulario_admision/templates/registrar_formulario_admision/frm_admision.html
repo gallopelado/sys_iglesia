@@ -47,7 +47,7 @@ Registrar Formulario de Admision
                                     <div class="col col-8">
                                         <div class="form-group">
                                             <label for="txt_persona"
-                                                class="form-control-label form-control-sm">Persona</label>
+                                                class="form-control-label form-control-sm">Persona(*)</label>
                                             <div class="input-group">
                                                 <input type="text" id="txt_persona" name="txt_persona"
                                                     list="lista_personas" class="form-control form-control-sm"
@@ -71,7 +71,7 @@ Registrar Formulario de Admision
                                         <div class="form-group">
                                             <label for="txt_fechanac" class="form-control-label form-control-sm">Fecha
                                                 de
-                                                Nacimiento</label>
+                                                Nacimiento(*)</label>
                                             <input type="text" id="txt_fechanac" onpaste="return false"
                                                 name="txt_fechanac" class="form-control form-control-sm"
                                                 placeholder="Ingrese fecha..">
@@ -87,7 +87,7 @@ Registrar Formulario de Admision
                                 <!-- Campo direccion -->
                                 <div class="col col-8">
                                     <label for="txt_direccion"
-                                        class="form-control-label form-control-sm">Direccion</label>
+                                        class="form-control-label form-control-sm">Direccion(*)</label>
                                     <input type="text" id="txt_direccion" name="txt_direccion"
                                         class="form-control form-control-sm" placeholder="Direccion">
                                 </div>
@@ -95,7 +95,7 @@ Registrar Formulario de Admision
 
                                 <!-- Combo ciudad -->
                                 <div class="col col-4">
-                                    <label for="cbo_ciudad" class="form-control-label form-control-sm">Ciudad</label>
+                                    <label for="cbo_ciudad" class="form-control-label form-control-sm">Ciudad(*)</label>
                                     <select name="cbo_ciudad" id="cbo_ciudad" class="form-control-sm form-control">
                                         <option value="">Elegir...</option>
                                         {% if lista_ciudades %}
@@ -112,7 +112,7 @@ Registrar Formulario de Admision
                                 <!-- Combo clasificacion social -->
                                 <div class="col col-4">
                                     <label for="cbo_clasisocial"
-                                        class="form-control-label form-control-sm">Clasificación Social</label>
+                                        class="form-control-label form-control-sm">Clasificación Social(*)</label>
                                     <select name="cbo_clasisocial" id="cbo_clasisocial"
                                         class="form-control-sm form-control">
                                         <option value="">Elegir...</option>
@@ -126,7 +126,7 @@ Registrar Formulario de Admision
                                 <!-- Combo relacion familiar -->
                                 <div class="col col-4">
                                     <label for="cbo_rfamiliar" class="form-control-label form-control-sm">Relación
-                                        Familiar</label>
+                                        Familiar(*)</label>
                                     <select name="cbo_rfamiliar" id="cbo_rfamiliar"
                                         class="form-control-sm form-control">
                                         <option value="">Elegir..</option>
@@ -188,7 +188,7 @@ Registrar Formulario de Admision
                                 <!-- Combo estado civil -->
                                 <div class="col col-4">
                                     <label for="cbo_ecivil" class="form-control-label form-control-sm">Estado
-                                        Civil</label>
+                                        Civil(*)</label>
                                     <select name="" name="cbo_ecivil" id="cbo_ecivil"
                                         class="form-control-sm form-control">
                                         <option value="">Elegir...</option>
@@ -202,14 +202,14 @@ Registrar Formulario de Admision
                                 <!-- RadioButton sexo-->
                                 <div class="col col-4">
                                     <div class="form-group">
-                                        <label for="" class="form-control-label form-control-sm">Sexo</label>
+                                        <label for="" class="form-control-label form-control-sm">Sexo(*)</label>
                                     </div>
                                     <div class="form-check-inline form-check">
 
                                         <!-- radio Masculino-->
                                         <label for="chk_masculino" class="form-check-label ">
                                             <input type="radio" id="chk_masculino" name="sexo" value="MASCULINO"
-                                                class="form-check-input">MASCULINO
+                                                class="form-check-input" checked>MASCULINO
                                         </label>
                                         <!---->
 
@@ -227,7 +227,7 @@ Registrar Formulario de Admision
                                 <!-- Combo forma de contacto -->
                                 <div class="col col-4">
                                     <label for="cbo_fcontacto" class="form-control-label form-control-sm">Forma de
-                                        Contacto</label>
+                                        Contacto(*)</label>
                                     <select name="cbo_fcontacto" id="cbo_fcontacto"
                                         class="form-control-sm form-control">
                                         <option value="">Elegir..</option>
@@ -346,6 +346,23 @@ Registrar Formulario de Admision
                                 <!---->
 
                             </div>
+
+                            <div class="row form-group">
+
+                                <!-- Combo familia -->
+                                <div class="col col-8">
+                                    <label for="cbo_familia" class="form-control-label form-control-sm">Familia(*)</label>
+                                    <select name="cbo_familia" id="cbo_familia"
+                                        class="form-control-sm form-control">
+                                        <option value="">Elegir..</option>
+                                        {% if lista_familias %}
+                                        {{lista_familias | safe}}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                            </div>
                         </div>
                         <!--Fin card-body-->
                     </div>
@@ -440,7 +457,7 @@ Registrar Formulario de Admision
                 <div class="col col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" class="btn btn-primary btn-lg">
+                            <button type="button" id="btnGuardarFormAdmision" class="btn btn-primary btn-lg">
                                 <i class="fa fa-dot-circle-o"></i> Guardar
                             </button>
                             <button type="button" id="btnLimpiar" class="btn btn-secondary btn-lg">
