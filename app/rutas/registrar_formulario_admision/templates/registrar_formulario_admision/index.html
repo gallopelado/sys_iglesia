@@ -1,12 +1,202 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Holi</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+Registrar Formulario de Admisión
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mi_css/formulario_admision.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">Registrar Formulario de Admisión</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    <a href="{{ url_for('registrar_formulario_admision.frm_admi') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Nuevo
+                                    </a>
+                                </div>
+                                <div class="col-md-9 mb-2">
+                                    <input type="text" id="txtbusqueda" class="form-control " placeholder="Buscar...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="divTabla" class="table-responsive table--no-card m-b-30">
+                                <table id="tabla_formadmi" class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th>Cédula</th>
+                                            <th>Fecha de Ingreso</th>
+                                            <th class="text-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb_formadmi">
+
+                                    </tbody>
+                                </table>                               
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal dar de baja -->
+    <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Desea dar de baja esta persona ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmBaja" action="" method="post">
+                    <div class="modal-body">
+
+                        <input type="hidden" name="idadmision" id="idadmision">
+
+                        <div class="row form-group">
+
+                            <!-- Campo Persona -->
+                            <div class="col col-12">
+                                <label for="txt_persona" class="form-control-label form-control-sm">Persona</label>
+                                <hr>
+                                <input type="text" id="txt_persona" name="txt_persona"
+                                    class="form-control form-control-sm" placeholder="Persona" disabled>
+                            </div>
+                            <!---->
+
+                        </div>
+
+                        <!-- Radios sobre opciones -->
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                <div class="form-group">
+                                    <label for="" class="form-control-label form-control-sm">Razón de la baja</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-check">
+                                    <!--'DISCIPLINA', 'DEFUNCION', 'EXCOMUNION', 'TRASLADO', 'OTRAS'-->
+
+                                    <!-- radio DISCIPLINA-->
+                                    <div class="radio">
+                                        <label for="chk_disciplina" class="form-check-label ">
+                                            <input type="radio" id="chk_disciplina" name="chk_baja" value="DISCIPLINA"
+                                                class="form-check-input">DISCIPLINA
+                                        </label>
+                                    </div>
+
+                                    <!---->
+
+                                    <!-- radio DEFUNCION-->
+                                    <div class="radio">
+                                        <label for="chk_defuncion" class="form-check-label ">
+                                            <input type="radio" id="chk_defuncion" name="chk_baja" value="DEFUNCION"
+                                                class="form-check-input">DEFUNCION
+                                        </label>
+                                    </div>
+
+                                    <!---->
+
+                                    <!-- radio EXCOMUNION-->
+                                    <div class="radio">
+                                        <label for="chk_excomunion" class="form-check-label ">
+                                            <input type="radio" id="chk_excomunion" name="chk_baja" value="EXCOMUNION"
+                                                class="form-check-input">EXCOMUNION
+                                        </label>
+                                    </div>
+
+                                    <!---->
+
+                                    <!-- radio TRASLADO-->
+                                    <div class="radio">
+                                        <label for="chk_traslado" class="form-check-label ">
+                                            <input type="radio" id="chk_traslado" name="chk_baja" value="TRASLADO"
+                                                class="form-check-input">TRASLADO
+                                        </label>
+                                    </div>
+
+                                    <!---->
+
+                                    <!-- radio OTRAS-->
+                                    <label for="chk_otras" class="form-check-label ">
+                                        <input type="radio" id="chk_otras" name="chk_baja" value="OTRAS"
+                                            class="form-check-input" checked>OTRAS
+                                    </label>
+                                    <!---->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
+                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal baja -->
+
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/moment/moment-with-locales.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_admision/principal.js') }}"></script>
+{% endblock %}

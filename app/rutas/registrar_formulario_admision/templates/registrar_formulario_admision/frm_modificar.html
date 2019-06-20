@@ -23,6 +23,7 @@ Registrar Formulario de Admision
     <div class="section__content section__content--p30">
         <div class="container-fluid">
 
+
             <!--Inicio primer row-->
             <div class="row">
                 <div class="col-lg-12">
@@ -43,7 +44,7 @@ Registrar Formulario de Admision
 
                             <div class="form-horizontal">
                                 <div class="row form-group">
-
+                                    <input type="hidden" name="idadmision" id="idadmision">
                                     <!-- Campo Persona-->
                                     <div class="col col-8">
                                         <div class="form-group">
@@ -52,16 +53,9 @@ Registrar Formulario de Admision
                                             <div class="input-group">
                                                 <input type="text" id="txt_persona" name="txt_persona"
                                                     list="lista_personas" class="form-control form-control-sm"
-                                                    placeholder="Elegir persona...">
+                                                    placeholder="Elegir persona..." disabled>
                                                 <datalist id="lista_personas">
-
                                                 </datalist>
-                                                <div class="input-group-btn">
-                                                    <button type="button" id="btnAgregarNuevaPersona"
-                                                        class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-                                                        Agregar Nueva
-                                                        Persona ?</button>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -386,13 +380,13 @@ Registrar Formulario de Admision
                                 <i class="fa fa-clock-o"></i> Deshacer borrado
                             </button></h3>
                         <div class="table-responsive">
-                            <table id="tabla_telefonos" class="table table-top-campaign">
+                            <table id="tabla_telefonos" class="table table-stripered table-hover">
                                 <thead>
                                     <th>Telefono</th>
                                     <th>Tipo</th>
                                     <th>Accion</th>
                                 </thead>
-                                <tbody>
+                                <tbody id="tb_telefonos">
                                 </tbody>
                             </table>
                         </div>
@@ -423,8 +417,9 @@ Registrar Formulario de Admision
                                 <i class="fa fa-clock-o"></i> Deshacer borrado
                             </button></h3>
                         <div class="table-responsive">
-                            <table id="tabla_padres" class="table table-top-campaign">
+                            <table id="tabla_padres" class="table table-stripered table-hover">
                                 <thead>
+                                    <th>#</th>
                                     <th>Persona</th>
                                     <th>Accion</th>
                                 </thead>
@@ -443,18 +438,20 @@ Registrar Formulario de Admision
             <div class="row">
 
                 <!-- Botones -->
-                <div class="col col-sm-12">
+                <div class="col col-xs-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <button type="button" id="btnGuardarFormAdmision" class="btn btn-primary btn-lg">
-                                <i class="fa fa-dot-circle-o"></i> Guardar
-                            </button>
-                            <button type="button" id="btnLimpiar" class="btn btn-secondary btn-lg">
-                                <i class="fa fa-ban"></i> Limpiar
-                            </button>
-                            <button type="button" class="btn btn-danger btn-lg">
-                                <i class="fa  fa-arrow-down"></i> Cancelar
-                            </button>
+                            <div class="form-group">
+                                <button type="button" id="btnGuardarFormAdmision" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                </button>
+                                <button type="button" id="btnLimpiar" class="btn btn-secondary btn-lg">
+                                    <i class="fa fa-ban"></i> Limpiar
+                                </button>
+                                <button type="button" class="btn btn-danger btn-lg">
+                                    <i class="fa  fa-arrow-down"></i> Cancelar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -550,6 +547,6 @@ Registrar Formulario de Admision
 <script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
 
 <!-- Js Operativo -->
-<script src="{{ url_for('static', filename='jsOperacionales/formulario_admision/formulario_admision.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_admision/formulario_modificar.js') }}"></script>
 
 {%- endblock %}

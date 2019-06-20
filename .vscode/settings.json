@@ -1,5 +1,17 @@
 {
     "python.pythonPath": "flask_env/bin/python3",
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 30,
+            "database": "db_iglesia",
+            "dialect": "PostgreSQL",
+            "name": "db_iglesia",
+            "password": "admin",
+            "port": 5432,
+            "server": "127.0.0.1",
+            "username": "juandba"
+        }
+    ]
 }

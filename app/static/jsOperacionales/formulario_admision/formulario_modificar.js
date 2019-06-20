@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     obj.obtenerDatalistPersonas();
     document.getElementById('btnDeshacerTelefono').disabled = true;
     document.getElementById('btnDeshacerPadres').disabled = true;
-
+    obj.recuperaId();
 });
 
 // Definiciones de los eventos de botones
@@ -19,7 +19,7 @@ btLimpiar.addEventListener('click', () => {
         tablapadres = document.getElementById('tabla_padres'),
         rowCountP = tablapadres.rows.length,
         ad = new AdmisionUI()
-        ad.limpiaForm();
+    ad.limpiaForm();
 
     for (let i = rowCountP - 1; i > 0; i--) {
         tablapadres.deleteRow(i);
@@ -30,20 +30,6 @@ btLimpiar.addEventListener('click', () => {
         tablatelefonos.deleteRow(i);
     }
 
-});
-
-// Evento Click al Boton Agregar Nueva Persona
-var btnAgregarPersona = document.getElementById('btnAgregarNuevaPersona');
-btnAgregarPersona.addEventListener('click', () => {
-    bt = new AdmisionUI();
-    bt.mensaje('Mensaje confirmación', 'Desea agregar un nuevo registro de Persona ?');
-});
-
-// Evento click al boton Guardar del Formulario 
-var btnGuardarPersona = document.getElementById('btnGuardarPersona');
-btnGuardarPersona.addEventListener('click', () => {
-    bt = new FormularioPersonaUI('a');
-    bt.guardar();
 });
 
 var campoAgregarTelefono = document.getElementById('txt_telefono');
@@ -73,10 +59,10 @@ btDeshacerT.addEventListener('click', () => {
 
     for (let i = 1; i < tabla.rows.length; i++) {
 
-        console.log(tabla.rows[i].cells[0].parentElement.className);
+        //console.log(tabla.rows[i].cells[0].parentElement.className);
         let elemento = tabla.rows[i].cells[0].parentElement.className;
 
-        if (elemento === "bg-warning") {
+        if (elemento === "bg-warning text-white") {
             tabla.rows[i].cells[0].parentElement.className = "";
             document.getElementById('btnDeshacerTelefono').disabled = true;
         }
@@ -96,10 +82,10 @@ btDeshacerP.addEventListener('click', () => {
 
     for (let i = 1; i < tabla.rows.length; i++) {
 
-        console.log(tabla.rows[i].cells[0].parentElement.className);
+        //console.log(tabla.rows[i].cells[0].parentElement.className);
         let elemento = tabla.rows[i].cells[0].parentElement.className;
 
-        if (elemento === "bg-warning") {
+        if (elemento === "bg-warning text-white") {
             tabla.rows[i].cells[0].parentElement.className = "";
             document.getElementById('btnDeshacerPadres').disabled = true;
         }
@@ -125,9 +111,30 @@ var btnGuardarFormAdmision = document.getElementById('btnGuardarFormAdmision');
 btnGuardarFormAdmision.addEventListener('click', () => {
 
     ad = new AdmisionUI();
-    ad.guardar(ad);
+    ad.guardar();
 
 });
+
+// Funciones
+function mensajeAlert(id, titulo='Titulo', mensaje='Mensaje', clasemensaje='alert-success') {
+    
+    let cadena = `
+    <div class="sufee-alert alert with-close ${clasemensaje} alert-dismissible fade show">
+		<span class="badge badge-pill badge-success">${titulo}</span>
+			${clasemensaje}.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">×</span>
+		</button>
+	</div>
+    `;
+    //Aplicar a un div
+    caja = document.getElementById(`${id}`);
+    caja.innerHTML = cadena;
+    setTimeout(() => {
+        caja.innerHTML = '';
+    }, 3000 )
+    
+}
 
 function borrarTelefono() {
     bt = new AdmisionUI();
@@ -148,10 +155,8 @@ function borrarPadres() {
  */
 class AdmisionUI {
 
-    constructor(persona, fechanac, direccion, ciudad, clasisocial, relacionfamiliar, fechamatri,
-        email, postal, fechaprimercontacto, estadocivil, sexo, formacontacto, asisteotraigle, visita,
-        nuevociudad, conyumiembro, iglesia, fechaultvisita, conyuge, nrohijos) {
-
+    constructor() {
+        this.idadmision = document.getElementById('idadmision');
         this.persona = document.getElementById('txt_persona');
         this.fechanac = document.getElementById('txt_fechanac');
         this.direccion = document.getElementById('txt_direccion');
@@ -169,7 +174,6 @@ class AdmisionUI {
         this.asisteotraigle = document.getElementById('chk_otraiglesa');
         this.visita = document.getElementById('chk_visita');
         this.nuevociudad = document.getElementById('chk_nuevo');
-        this.conyumiembro = document.getElementById('chk_miembroconyuge');
         this.iglesia = document.getElementById('txt_iglesia');
         this.fechaultvisita = document.getElementById('txt_ultimavezcontacto');
         this.conyuge = document.getElementById('txt_conyuge');
@@ -314,7 +318,7 @@ class AdmisionUI {
             let tabla = document.getElementById('tabla_telefonos'),
 
                 // Crea la fila
-                fila = tabla.insertRow(1),
+                fila = tabla.insertRow(),
 
                 telefono = document.getElementById('txt_telefono').value,
                 tipotelefono = document.getElementById('cbo_tipotel').value,
@@ -323,6 +327,9 @@ class AdmisionUI {
                 celda1 = fila.insertCell(0),
                 celda2 = fila.insertCell(1),
                 celda3 = fila.insertCell(2);
+
+            //fila.className = 'btn-outline-success';                
+            fila.style.backgroundColor = '#C0DF81';
 
             // Agregar celda en la tabla HTML
             celda1.innerHTML = telefono;
@@ -350,15 +357,16 @@ class AdmisionUI {
                 // Obtener el indice de fila.                
                 indice = this.parentElement.parentElement.rowIndex;
 
-                // Borrar fila
-                //tabla.deleteRow(indice);
-
-                tabla.rows[i].className = 'bg-warning';
+                // Borrar fila                
+                tabla.rows[i].className = 'bg-warning text-white';
 
                 document.getElementById('btnDeshacerTelefono').disabled = false;
 
-                // Agregar para borrar
-                //borrar.push()
+                // Borra la fila segun el estilo de color #C0DF81, pasado a RGB.
+                if (tabla.rows[i].style.backgroundColor === 'rgb(192, 223, 129)') {
+                    tabla.deleteRow(indice);
+                    return;
+                }
 
             }
 
@@ -406,18 +414,19 @@ class AdmisionUI {
             if (await this.controlarExistenciaPadres()) {
 
                 let tabla = document.getElementById('tabla_padres'),
-                    fila, celda1, celda2,
+                    fila, celda1, celda2, celda3,
                     padre = document.getElementById('txt_padres').value;
 
-                console.log(padre);
+                fila = tabla.insertRow();
 
-                fila = tabla.insertRow(1);
-
+                fila.style.backgroundColor = '#C0DF81';
                 celda1 = fila.insertCell(0);
                 celda2 = fila.insertCell(1);
+                celda3 = fila.insertCell(2);
 
-                celda1.innerHTML = padre;
-                celda2.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>";
+                celda1.innerHTML = "#";
+                celda2.innerHTML = padre;
+                celda3.innerHTML = "<button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>";
 
                 document.getElementById('txt_padres').value = ""
 
@@ -439,8 +448,10 @@ class AdmisionUI {
 
             // Recorrer la tabla
             for (let i = 1; i < tabla.rows.length; i++) {
-                console.log(tabla.rows[i].cells[0].innerHTM);
-                if (tabla.rows[i].cells[0].innerHTML === padre.trim()) {
+
+                //console.log(tabla.rows[i].cells[0].innerHTML);
+
+                if (tabla.rows[i].cells[1].innerHTML === padre.trim()) {
 
                     alert('Repetido');
                     return false;
@@ -500,7 +511,7 @@ class AdmisionUI {
         for (let i = 1; i < tabla.rows.length; i++) {
 
             // Ligar el evento click al boton dentro de la tabla.
-            tabla.rows[i].cells[1].children[0].onclick = function () {
+            tabla.rows[i].cells[2].children[0].onclick = function () {
 
                 // Obtener el indice de fila.                
                 indice = this.parentElement.parentElement.rowIndex;
@@ -508,12 +519,15 @@ class AdmisionUI {
                 // Borrar fila
                 //tabla.deleteRow(indice);
 
-                tabla.rows[i].className = 'bg-warning';
+                tabla.rows[i].className = 'bg-warning text-white';
 
                 document.getElementById('btnDeshacerPadres').disabled = false;
 
-                // Agregar para borrar
-                //borrar.push()
+                // Borra fila segun el estilo de color #C0DF81, pasado a RGB.
+                if (tabla.rows[i].style.backgroundColor === 'rgb(192, 223, 129)') {
+                    tabla.deleteRow(indice);
+                    return;
+                }
 
             }
 
@@ -587,13 +601,19 @@ class AdmisionUI {
 
     }
 
+    /**
+     * Metodo obtenerDatosFormulario.
+     * 
+     * Recuperar datos del formulario.
+     * 
+     */
     obtenerDatosFormulario() {
 
         if (this.validarForm()) {
 
-            let tablatelefonos, tablapadres, arrayPadres, dataTotal,
+            let tablatelefonos, tablapadres, dataTotal,
                 formulario = {
-
+                    idadmision: this.idadmision.value.trim(),
                     idpersona: this.persona.value.trim(),
                     fechanac: this.fechanac.value.trim(),
                     direccion: this.direccion.value.trim(),
@@ -610,7 +630,7 @@ class AdmisionUI {
                     asisteotraigle: this.asisteotraigle.checked,
                     requierevisita: this.visita.checked,
                     nuevociudad: this.nuevociudad.checked,
-                    conyumiembro: this.conyumiembro.checked,
+                    //conyumiembro: this.conyumiembro.checked,
                     iglesia: this.iglesia.value.trim(),
                     fechaultvisita: this.fechaultvisita.value.trim(),
                     idconyuge: this.conyuge.value.trim(),
@@ -620,36 +640,77 @@ class AdmisionUI {
                 };
 
             // Recolectar telefonos de la tabla
-            tablatelefonos = this.tablatelefonos;            
+            tablatelefonos = this.tablatelefonos;
 
-            let datos = [];
+            let borrarTel = [], agregarTel = [], nuevosPadres = [], borrarPadres = [], cont = 0, contE = 0;
 
             for (let i = 1; i < tablatelefonos.rows.length; i++) {
-                
-                datos[i] = {
-                    "id": i, 
-                    "tipo": tablatelefonos.rows[i].cells[1].innerHTML,
-                    "numero": tablatelefonos.rows[i].cells[0].innerHTML
+
+                // Obtener numero de columna.
+                let indiceTel = tablatelefonos.rows[i].rowIndex;
+
+                // Separamos los registros nuevos que tenga ese estilo.
+                if (tablatelefonos.rows[i].style.backgroundColor === 'rgb(192, 223, 129)') {
+
+                    // Se analiza el primer indice que no es cero, para no dejar un empty slot.                                            
+                    agregarTel[cont] = {
+                        "id": cont,
+                        "tipo": tablatelefonos.rows[i].cells[1].innerHTML,
+                        "numero": tablatelefonos.rows[i].cells[0].innerHTML
+                    }
+                    cont = cont + 1;
+                    // Separamos los registros para borrarse que tenga esa clase.
+                } else if (tablatelefonos.rows[i].className === 'bg-warning text-white') {
+
+                    borrarTel[contE] = {
+                        "id": i,
+                        "tipo": tablatelefonos.rows[i].cells[1].innerHTML,
+                        "numero": tablatelefonos.rows[i].cells[0].innerHTML
+                    }
+                    contE = contE + 1;
                 }
 
             }
 
             // Recolectar padres de la tabla
             tablapadres = this.tablapadres;
-            arrayPadres = new Array();
 
             for (let i = 1; i < tablapadres.rows.length; i++) {
 
-                arrayPadres.push(
-                    tablapadres.rows[i].cells[0].innerHTML
-                );
+                // Agregar al array los nuevos padres.
+                if (tablapadres.rows[i].style.backgroundColor === 'rgb(192, 223, 129)') {
+
+                    //Objeto
+                    let objeto = {
+                        "idpadre": tablapadres.rows[i].cells[0].innerHTML,
+                        "persona": tablapadres.rows[i].cells[1].innerHTML
+                    }
+
+                    nuevosPadres.push(
+                        objeto
+                    );
+                    // Agrega al array los padres a eliminarse.
+                } else if (tablapadres.rows[i].className === 'bg-warning text-white') {
+
+                    //Objeto
+                    let objeto = {
+                        "idpadre": tablapadres.rows[i].cells[0].innerHTML,
+                        "persona": tablapadres.rows[i].cells[1].innerHTML
+                    }
+
+                    borrarPadres.push(
+                        objeto
+                    );
+                }
 
             }
 
             dataTotal = {
-                formulario: formulario,                
-                arrayPadres: arrayPadres,
-                telefonos: datos
+                formulario: formulario,
+                borrarTel: borrarTel,
+                agregarTel: agregarTel,
+                nuevosPadres: nuevosPadres,
+                borrarPadres: borrarPadres
             }
 
             return dataTotal;
@@ -669,9 +730,9 @@ class AdmisionUI {
         }
     }
 
-
     async guardar() {
 
+        // Recuperar datos del formulario.
         let formulario = this.obtenerDatosFormulario();
 
         console.log(formulario);
@@ -680,7 +741,7 @@ class AdmisionUI {
 
             try {
 
-                const res = await fetch('http://localhost:5000/formulario_admision/guardar', {
+                const res = await fetch('http://localhost:5000/formulario_admision/modificar', {
 
                     method: 'POST',
                     headers: {
@@ -693,9 +754,10 @@ class AdmisionUI {
                 const data = await res.json();
 
                 console.log(data);
-                if(data.guardado === true){
+                if (data.guardado === true) {
                     this.limpiaForm();
-                    document.getElementById('btnLimpiar').click()
+                    document.getElementById('btnLimpiar').click();
+                    window.location.href = 'http://localhost:5000/formulario_admision/';
                 }
 
             } catch (error) {
@@ -708,87 +770,194 @@ class AdmisionUI {
 
     }
 
-}
+    recuperaId() {
 
+        // Obtener el ultimo numerito de la URL que es el id, mediante un array.
+        let arrayUrl = window.location.href.split('/'),
+            idadmision = arrayUrl[5];
 
-/**
- * Clase FormularioPersonaUI
- * 
- * Se define todo lo que tenga que ver con el modal de Formulario Persona.
- * 
- * @author <juanftp100@gmail.com> Juan Jose Gonzalez
- */
-class FormularioPersonaUI {
+        this.procesarDatos(idadmision);
+        this.obtenerTelefonos(idadmision);
+        this.obtenerPadres(idadmision);
 
-    constructor(op) {
-        this.op = op;
-        this.cedula = document.getElementById('txtcedula');
-        this.tipopersona = document.getElementById('cbo_tipopersona');
-        this.nombres = document.getElementById('txtnombres');
-        this.apellidos = document.getElementById('txtapellidos');
-        this.obs = document.getElementById('txtobs');
     }
 
-    validarForm() {
-        if (this.op.trim() != "" && this.cedula.value.trim() != "" && this.nombres.value.trim() != "" && this.apellidos.value.trim() != "") {
-            return true;
+    async obtenerDatosFormularioId(id) {
+
+        let datos = {
+            idadmision: id
         }
-        return false;
+
+        try {
+
+            const res = await fetch('http://localhost:5000/formulario_admision/obtener_formulario_id', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            });
+            const data = await res.json();
+
+            return data;
+
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
+
     }
 
-    limpiaForm() {
-        this.op = "";
-        this.cedula.value = "";
-        this.tipopersona.value = "";
-        this.nombres.value = "";
-        this.apellidos.value = "";
-        this.obs.value = "";
+    async procesarDatos(id) {
+
+        // Obtenemos datos del servidor.
+        let data = await this.obtenerDatosFormularioId(id);
+
+        // Setear formulario
+        this.idadmision.value = data[0];
+        this.persona.value = data[21];
+        this.fechanac.value = data[1];
+        this.direccion.value = data[2];
+        this.ciudad.value = data[3];
+        this.clasisocial.value = data[4];
+        this.relacionfamiliar.value = data[7];
+        this.fechamatri.value = data[9];
+        this.email.value = data[10];
+        this.postal.value = data[11];
+        this.fechaprimercontacto.value = data[15];
+        this.estadocivil.value = data[5];
+        this.sexoM.checked = data[6] === 'MASCULINO' ? true : false;
+        this.sexoF.checked = data[6] === 'FEMENINO' ? true : false;
+        this.formacontacto.value = data[12];
+        this.asisteotraigle.checked = data[13];
+        this.visita.checked = data[16];
+        this.nuevociudad.checked = data[17];
+        this.iglesia.value = data[14];
+        this.fechaultvisita.value = data[18];
+        this.conyuge.value = data[19];
+        this.nrohijos.value = data[20];
+        this.familia.value = data[8];
+
+        // Procesar datos para telefonos.
+
     }
 
-    recuperaDatosForm() {
+    /**
+     * Metodo obtenerTelefonos.
+     * 
+     * Se obtiene la lista de telefonos registrados por formulario.(ASINCRONO)
+     * Agrega los registros encontrados en filas HTML.
+     * 
+     * @param {*} id 
+     */
+    async obtenerTelefonos(id) {
 
-        let formulario = new FormData();
-        formulario.append('op', this.op);
-        formulario.append('txtcedula', this.cedula.value.trim());
-        formulario.append('tipopersona', this.tipopersona.value);
-        formulario.append('txtnombres', this.nombres.value.trim());
-        formulario.append('txtapellidos', this.apellidos.value.trim());
-        formulario.append('txtobs', this.obs.value.trim());
+        let data = {
+            idadmision: id
+        },
+            tabla = document.getElementById('tb_telefonos'),
+            cadena = "";
 
-        return formulario;
-    }
+        try {
 
-    async guardar() {
-        if (this.validarForm()) {
+            const res = await fetch('http://localhost:5000/formulario_admision/obtener_telefonos_id', {
 
-            //Proceder            
-            try {
+                method: 'POST',
+                headers: {
 
-                const res = await fetch('http://localhost:5000/persona/guardar_persona_ajax', {
-                    method: 'POST',
-                    body: this.recuperaDatosForm()
-                });
-                const data = await res.json();
-                if (data.estado == true) {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
 
-                    $('#mediumModal').modal('toggle');
-                    this.limpiaForm();
+                },
+                body: JSON.stringify(data)
 
-                    let ad = new AdmisionUI();
-                    ad.obtenerDatalistPersonas();
-                    ad.mensajeExito('Agregar Persona Exitosa', 'Agregaste una persona!');
+            });
 
-                    return data.estado;
-                }
+            const datos = await res.json();
 
-                return data.estado;
+            //Procesar telefonos.
+            for (let i = 0; i < datos.length; i++) {
 
-            } catch (error) {
-                console.error('Algo malo ha pasado.');
-                return console.error(error);
+                cadena += `                
+                    <tr>
+                        <td>${datos[i][3]}</td>
+                        <td>${datos[i][1]}</td>
+                        <td>
+                            <button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarTelefono()'><i class='fa fa-bolt'></i> Borrar</button>
+                        </td>
+                    </tr>                
+                `;
+
             }
+            // Cargamos en el tbody del telefonos            
+            tabla.innerHTML = cadena;
 
+        } catch (error) {
+            console.log(error);
+            return false;
         }
-        return console.log('Algo salio mal.')
+
     }
+
+    /**
+     * Metodo obtenerPadres.
+     * 
+     * Se obtiene la lista de padres espirituales registrados por formulario.(ASINCRONO)
+     * Agrega los registros encontrados en filas HTML.
+     * 
+     * @param {*} id 
+     */
+    async obtenerPadres(id) {
+
+        let data = {
+            idadmision: id
+        },
+            tabla = document.getElementById('tb_padres'),
+            cadena = "";
+
+        try {
+
+            const res = await fetch('http://localhost:5000/formulario_admision/obtener_padres_id', {
+
+                method: 'POST',
+                headers: {
+
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+
+                },
+                body: JSON.stringify(data)
+
+            });
+
+            const datos = await res.json();
+
+            //Procesar padres.
+            for (let i = 0; i < datos.length; i++) {
+
+                cadena += `
+                
+                    <tr>
+                        <td>${datos[i][0]}</td>
+                        <td>${datos[i][1]}</td>                        
+                        <td>
+                            <button type='button' class='btn btn-outline-danger btn-sm btn-block' onclick='borrarPadres()'><i class='fa fa-bolt'></i> Borrar</button>
+                        </td>
+                    </tr>
+                
+                `
+
+            }
+            // Cargamos en el tbody del telefonos
+            tabla.innerHTML = cadena;
+
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+
+    }
+
 }

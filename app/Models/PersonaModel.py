@@ -106,7 +106,8 @@ class PersonaModel():
             cursor.execute("""
             SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja
             FROM referenciales.personas p
-            join referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            LEFT JOIN referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            WHERE p.per_fechabaja IS null
             """)
             persona = cursor.fetchall()
             cursor.close()
