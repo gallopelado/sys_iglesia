@@ -143,6 +143,7 @@ def guardar():
 
     if res == True:
         flash("Exito, se registró correctamente", "success")
+        
         return jsonify({"guardado":True})
     else:        
         return jsonify({'guardado': False})
@@ -279,7 +280,7 @@ def datalistPadres():
     """
     # Se procesan datos para el datalist
     pm = PersonaModel()
-    lista = pm.recuperaPersonas()
+    lista = pm.recuperaPadres()
     combo = ""
     for x in lista:
         combo += "<option value='" + str(x[2]) + ", " + str(x[3]) + "'>"

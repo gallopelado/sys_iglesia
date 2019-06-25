@@ -24,9 +24,20 @@ class PersonaModel():
             con = conexion.getConexion()
             cursor = con.cursor()
             cursor.execute(
-                """SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, t.tipoper_des, p.per_obs
-	            FROM referenciales.personas p
-	            join referenciales.tipo_persona t on p.tipoper_id=t.tipoper_id;
+                """
+
+                    SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, t.tipoper_des, p.per_obs,
+                    p.per_razonbaja,  p.per_fechabaja,
+                    case p.per_razonbaja 
+                    when nullif(p.per_razonbaja, null) then 
+	                    'INACTIVO'	
+                    else
+	                    'ACTIVO'
+                    end
+                    as estado
+                    FROM referenciales.personas p
+                    join referenciales.tipo_persona t on p.tipoper_id=t.tipoper_id;
+
                 """)
             lstpersona = cursor.fetchall()
             cursor.close()
@@ -99,16 +110,68 @@ class PersonaModel():
             personas: -- diccionario
 
         """
-        try:
-            conexion = Conexion()
-            con = conexion.getConexion()
-            cursor = con.cursor()
-            cursor.execute("""
+        consultaOLD = """ 
+        
             SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja
             FROM referenciales.personas p
             LEFT JOIN referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
             WHERE p.per_fechabaja IS null
-            """)
+
+        """
+        # Solamente obtiene los registros que no tienen formulario de admision.
+        consultaNEW = """
+        
+            SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja
+            FROM referenciales.personas p
+            LEFT JOIN referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            left outer join membresia.admision_persona ad on p.per_id = ad.adp_id
+            WHERE (p.per_fechabaja IS null) and (ad.adp_id is null) and (tp.tipoper_id=2);
+        
+        """
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cursor = con.cursor()
+            cursor.execute(consultaNEW)
+            persona = cursor.fetchall()
+            cursor.close()
+            con.close()
+            return persona
+        except con.Error as e:
+            return e.pgerror
+
+    def recuperaPadres(self):
+        """Metodo recuperaPersonas.
+
+        Obtiene registros de persona, con todos los datos.
+
+        Retorna:
+            personas: -- diccionario
+
+        """
+        consultaOLD = """ 
+        
+            SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja
+            FROM referenciales.personas p
+            LEFT JOIN referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            WHERE p.per_fechabaja IS null
+
+        """
+        # Solamente obtiene los registros que no tienen formulario de admision.
+        consultaNEW = """
+        
+            SELECT p.per_id, p.per_ci, p.per_nombres, p.per_apellidos, p.tipoper_id, tp.tipoper_des, p.per_obs, p.per_fechabaja, p.per_razonbaja
+            FROM referenciales.personas p
+            LEFT JOIN referenciales.tipo_persona tp on p.tipoper_id=tp.tipoper_id
+            left outer join membresia.admision_persona ad on p.per_id = ad.adp_id
+            WHERE (p.per_fechabaja IS null) and (ad.adp_id is null) and (tp.tipoper_id=2);
+        
+        """
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cursor = con.cursor()
+            cursor.execute(consultaOLD)
             persona = cursor.fetchall()
             cursor.close()
             con.close()

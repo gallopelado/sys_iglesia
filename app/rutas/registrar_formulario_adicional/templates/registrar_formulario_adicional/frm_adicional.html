@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+Registrar Formulario de datos adicionales
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario datos adicionales
+                                </h3>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-horizontal">
+                                <div class="row form-group">
+                                    <input type="hidden" name="idpersona" id="idpersona">
+                                    <!-- Campo Persona-->
+                                    <div class="col col-4">
+                                        <div class="form-group">
+                                            <label for="txt_persona"
+                                                class="form-control-label form-control-sm">Persona</label>
+                                            <div class="input-group">
+                                                <input type="text" id="txt_persona" name="txt_persona"
+                                                    list="lista_personas" class="form-control form-control-sm"
+                                                    placeholder="Elegir persona..." disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Combo Nacionalidad -->
+                                    <div class="col col-4">
+                                        <label for="cbo_nacionalidad"
+                                            class="form-control-label form-control-sm">Nacionalidad</label>
+                                        <select name="cbo_nacionalidad" id="cbo_nacionalidad"
+                                            class="custom-select form-control-sm form-control">
+                                            <option value="">Elegir...</option>
+                                            {% if lista_nac %}
+                                            {% for item in lista_nac %}
+                                            <option value="{{ item[0] }}">{{ item[1] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Campo Lugar de nacimiento -->
+                                    <div class="col col-4">
+                                        <div class="form-group">
+                                            <label for="txt_lugarnac" class="form-control-label form-control-sm">Lugar
+                                                de
+                                                Nacimiento</label>
+                                            <input type="text" id="txt_lugarnac" onpaste="return false"
+                                                name="txt_lugarnac" class="form-control form-control-sm"
+                                                placeholder="Ingrese lugar..">
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Titulo Alergias -->
+                                <div class="col col-8">
+
+                                    <h4>Alergias o indicaciones medicas</h4>
+                                    <hr>
+
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Campo alergias -->
+                                <div class="col col-6">
+                                    <label for="txt_alergia" class="form-control-label form-control-sm">Alergias o
+                                        indicaciones médicas</label>
+                                    <textarea name="txt_alergia" id="" cols="30" rows="5"
+                                        class="form-control-sm form-control"></textarea>
+                                </div>
+                                <!---->
+
+                                <!-- Combo Tipo de Sangre -->
+                                <div class="col col-2">
+                                    <label for="cbo_tiposangre" class="form-control-label form-control-sm">Tipo de
+                                        sangre(*)</label>
+                                    <select name="cbo_tiposangre" id="cbo_tiposangre"
+                                        class="custom-select form-control-sm form-control">
+                                        <option value="">Elegir...</option>
+                                        {% if lista_san %}
+                                        {% for s in lista_san %}
+                                        <option value="{{ s[0] }}">{{ s[1] }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <!---->
+
+                                <!-- Preview de la foto -->
+                                <div class="col col-4">
+                                    <img id="img_foto" src="{{ url_for('static', filename='images/person.png')}}"
+                                        class="img-thumbnail" alt="Foto Miembro">
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Campo capacidades -->
+                                <div class="col col-6">
+                                    <label for="txt_capacidades" class="form-control-label form-control-sm">Capacidades
+                                        diferentes o especiales</label>
+                                    <textarea name="txt_capacidades" id="txt_capacidades" cols="30" rows="5"
+                                        class="form-control-sm form-control"></textarea>
+                                </div>
+                                <!---->
+
+                                <!-- Campo subir foto -->
+                                <div class="col col-2"></div>
+                                <div class="col col-4">
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="txt_foto">
+                                            <label class="custom-file-label" for="txt_foto"
+                                                aria-describedby="txt_foto">Elija foto</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="txt_foto">Subir</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Titulo Ocupación -->
+                                <div class="col col-8">
+
+                                    <h4>Ocupación</h4>
+                                    <hr>
+
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Combo profesion -->
+                                <div class="col col-5">
+                                    <label for="txt_email"
+                                        class="form-control-label form-control-sm">Profesiones</label>
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm custom-select" id="cbo_profesion"
+                                            aria-label="Profesiones u oficios">
+                                            <option value="" selected>Elegir...</option>
+
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button"
+                                                id="btnAgregarProfesion">Agregar ?</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- Puesto que ocupa -->
+                                <div class="col col-5">
+                                    <label for="txt_puesto" class="form-control-label form-control-sm">Puesto que
+                                        ocupa(Nivel Académico)</label>
+                                    <input type="text" name="txt_puesto" id="txt_puesto"
+                                        class="form-control form-control-sm"
+                                        placeholder="Ingrese puesto o nivel academico..">
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <!-- Puesto que ocupa -->
+                                <div class="col col-8">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control form-control-sm" id="txt_lugartrabajo"
+                                            placeholder="Ingrese lugar de trabajo o centro de estudios"
+                                            aria-label="txt_lugartrabajo" aria-describedby="txt_lugartrabajo">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary btn-sm" type="button"
+                                                id="btnAgregarDatos"><i class="fa fa-plus"></i> Agregar a tabla</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                            <div class="row form-group">
+
+                                <div class="col col-12">
+
+                                    <!-- Tabla Profesiones-->
+                                    <div class="top-campaign">
+                                        <h3 class="title-3 m-b-30">Historial Profesiones <button type="button"
+                                                id="btnDeshacerProfesiones" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-clock-o"></i> Deshacer borrado
+                                            </button></h3>
+                                        <div class="table-responsive">
+                                            <table id="tabla_profesiones" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <th>#</th>
+                                                    <th>Profesión</th>
+                                                    <th>Puesto</th>
+                                                    <th>Lugar</th>
+                                                    <th>Acción</th>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-12">
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <button type="button" id="btnGuardarFormAdicional"
+                                                class="btn btn-primary btn-lg">
+                                                <i class="fa fa-dot-circle-o"></i> Guardar
+                                            </button>
+                                            <button type="button" id="btnLimpiar" class="btn btn-secondary btn-lg">
+                                                <i class="fa fa-ban"></i> Limpiar
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-lg">
+                                                <i class="fa  fa-arrow-down"></i> Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+            <!--inicio tercer row-->
+            <div class="row">
+
+                <!-- Botones -->
+                <div class="col col-sm-12">
+
+                </div>
+                <!---->
+
+            </div>
+            <!--fin tercer row-->
+
+            <!-- Para ajustar espacio-->
+            <div class="row">
+                <!-- Botones -->
+                <div class="col col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+                <!---->
+            </div>
+
+        </div>
+    </div>
+    <!---->
+
+    <!-- modal profesion -->
+    <div class="modal fade" id="modalprofesion" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Formulario Profesion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmProfesion" action="" method="post">
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group has-success">
+                                    <label for="Descripción" class="control-label mb-1">Descripción</label>
+                                    <input id="txt_descripcion" name="txt_descripcion" id="txt_descripcion" type="text"
+                                        class="input-sm form-control-sm form-control" placeholder="Escriba profesión..."
+                                        required autofocus>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnGuardarProfesion" class="btn btn-success">Guardar</button>
+                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal profesion -->
+
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- helper -->
+<script src="{{ url_for('static', filename='jsOperacionales/helper/helper.js') }}"></script>
+
+<!-- Clase ModalProfesion -->
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/ModalProfesion.js') }}"></script>
+
+<!-- Js Operativo -->
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script>
+
+{%- endblock %}

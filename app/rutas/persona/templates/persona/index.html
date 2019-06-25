@@ -41,6 +41,7 @@ Persona
                                         <tr>
                                             <th>Persona</th>
                                             <th>Tipo</th>
+                                            <th>Estado</th>
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
@@ -49,6 +50,7 @@ Persona
                                         <tr>
                                             <td>{{ item[2] }} {{ item[3] }}</td>
                                             <td>{{ item[5] }}</td>
+                                            <td><span class="role {{ 'admin' if item[9]=='INACTIVO' else 'member' }}">{{ item[9] }}</span></td>
                                             <td>
                                                 <div class="table-data-feature">
                                                     <button class="item" data-toggle="modal" data-placement="top"

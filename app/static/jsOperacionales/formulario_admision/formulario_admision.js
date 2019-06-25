@@ -691,7 +691,8 @@ class AdmisionUI {
                 console.log(data);
                 if(data.guardado === true){
                     this.limpiaForm();
-                    document.getElementById('btnLimpiar').click()
+                    document.getElementById('btnLimpiar').click();
+                    window.location.href = 'http://localhost:5000/formulario_admision/';
                 }
 
             } catch (error) {

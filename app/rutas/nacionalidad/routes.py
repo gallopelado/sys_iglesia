@@ -1,7 +1,9 @@
 from flask import Blueprint
 
-mod = Blueprint("nacionalidad", __name__)
+nac = Blueprint("nacionalidad", __name__, template_folder='templates')
 
-@mod.route("/index")
+@nac.route("/")
 def index_nacionalidad():
     return "Estas en Index nacionalidad"
+
+
