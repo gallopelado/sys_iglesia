@@ -21,8 +21,14 @@ def listar_profesiones():
 @profesion.route('/guardar', methods=['POST'])
 def guardar():
 
-    print(f"recibido {request.form}")
-    #prof = ProfesionModel()
-    #prof.guardar()
+    # Recuperar valores del formulario.
+    operacion = request.form['op']
+    descripcion = request.form['descripcion']
 
-    return jsonify({"procesando": True})
+    prof = ProfesionModel()
+    res = prof.guardar(operacion, None, descripcion)
+
+    if res == True:
+        return jsonify({"guardado": True})
+    else:
+        return jsonify({"guardado": False})

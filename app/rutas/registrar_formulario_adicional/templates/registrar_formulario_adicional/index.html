@@ -27,16 +27,7 @@ Registrar Formulario de datos adicionales
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-md-03 mb-2">
-                                    <a href="{{ url_for('registrar_formulario_adicional.frm_adi') }}"
-                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                        <i class="zmdi zmdi-plus"></i> Nuevo
-                                    </a>
-                                </div>                                
-                            </div>
-                        </div>
+
                         <div class="card-body">
                             <div id="divTabla" class="table-responsive table--no-card m-b-30">
                                 <table id="tabla_formadi" class="table table-borderless table-striped table-earning">
@@ -55,18 +46,18 @@ Registrar Formulario de datos adicionales
                                             <td>{{ item[2] }}</td>
                                             <td>
                                                 <div class="table-data-feature">
+
                                                     <button class="item" data-toggle="modal" data-placement="top"
                                                         title="Ver" onclick="iniciarModal({{ item[0] }})">
                                                         <i class="zmdi zmdi-mail-send"></i>
                                                     </button>
-                                                    <button onclick="modificar({{ item[0] }})" class="item"
-                                                        data-toggle="tooltip" data-placement="top" title="Modificar">
+
+                                                    <a href="{{ url_for('registrar_formulario_adicional.frm_adi', idadi = item[0]) }}"
+                                                        class="item" data-toggle="tooltip" data-placement="top"
+                                                        title="Modificar">
                                                         <i class="zmdi zmdi-edit"></i>
-                                                    </button>
-                                                    <button onclick="eliminar({{ item[0] }})" class="item"
-                                                        data-toggle="tooltip" data-placement="top" title="Delete">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
+                                                    </a>
+
                                                 </div>
                                             </td>
                                         </tr>

@@ -61,28 +61,6 @@ var idioma_spanish = {
  * @param {*} id 
  */
 function mensajeConfirmacion(titulo, contenido, fn) {
-    /* $.confirm({
-         theme: 'supervan',
-         title: titulo,
-         content: contenido,
-         buttons: {
-             Si: {
-                 text: 'Si',
-                 btnClass: 'btn-blue',                
-                 action: function() {
- 
-                 }
-                 
-             },
-             No: {
-                 text: 'No',
-                 btnClass: 'btn-red',                
-                 action: function(){
-                     
-                 }
-             }
-         }
-     });*/
     let confirm = $.confirm({
         lazyOpen: true,
         theme: 'supervan',
@@ -107,4 +85,23 @@ function mensajeConfirmacion(titulo, contenido, fn) {
         }
     });
     return confirm;
+}
+
+function mensajeNormal(titulo, contenido) {
+    let v = $.dialog({
+        lazyOpen: true,
+        title: titulo,
+        content: contenido,
+    });
+    return v;
+}
+
+function obtenerIdUrl() {
+
+    // Obtener el ultimo numerito de la URL que es el id, mediante un array.
+    let arrayUrl = window.location.href.split('/'),
+        id = arrayUrl[5];
+
+    return id;
+
 }

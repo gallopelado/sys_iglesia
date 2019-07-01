@@ -1,7 +1,14 @@
+import os
 from flask import Flask
+
+# Se importan las rutas de recursos.
+from app.rutas_recursos.listado_rutas import *
 
 # Se inicia una instancia de Flask
 app = Flask(__name__)
+
+# Definimos rutas estaticas.
+app.config['FORM_ADICIONAL_IMAGENES'] = RUTA_IMAGENES_FORM_ADICIONALES
 
 # Suponiendo que el error sea el no haber añadido este paquete.
 from app import rutas

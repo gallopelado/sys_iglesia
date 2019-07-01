@@ -6,14 +6,19 @@ class ModalProfesion {
         this.descripcion = document.getElementById('txt_descripcion');
         this.btnguardar = document.getElementById('btnGuardarProfesion');
         this.formulario;
-        /*this.btnguardar.addEventListener('click',() => {
+        // Se asigna el evento click al boton.
+        this.btnguardar.addEventListener('click', () => {
+            // Se llama al metodo guardar.
             this.guardar();
-        });*/
+
+        });
 
     }
 
     mostrar() {
 
+        this.descripcion.focus();
+        this.descripcion.className = 'input-sm form-control-sm form-control';
         $('#modalprofesion').modal();
 
     }
@@ -26,16 +31,19 @@ class ModalProfesion {
 
     obtenerDatosForm() {
 
+        // Se recupera y limpia de espacios en blanco a los costados. Fundamental.
         let descripcion = this.descripcion.value.trim();
         if (descripcion !== "") {
 
             this.formulario = new FormData();
             this.formulario.append('op', 'a');
-            this.formulario.append('descripcion', descripcion);
+            this.formulario.append('descripcion', descripcion.toUpperCase());
 
             return this.formulario;
 
         } else {
+            this.descripcion.focus();
+            this.descripcion.className = 'input-sm is-invalid form-control form-control-sm';
             return false;
         }
 
@@ -54,10 +62,29 @@ class ModalProfesion {
                     body: datos
                 });
 
-                const data = res.json();
+                const data = await res.json();
 
-                console.log(data);
+                if(data.guardado === true) {
 
+                    // Se limpia el campo descripcion.
+                    this.descripcion.value = '';
+                    // Se cierra el modal.
+                    this.cerrar();
+                    // Se crea la instancia del mensaje de confirmacion.
+                    let v = mensajeNormal('Éxito', 'Se agregó el registro');                                        
+                    // Se refresca el combo profesion.
+                    let adi = new FormAdicionalUI();
+                    adi.refrescarComboProfesion();
+                    // Se muestra el mensaje.
+                    v.open();
+
+                } else {
+                    console.error(data.guardado);
+                }
+
+            } else {
+
+                console.error('Error al validar formulario de profesión');
             }
 
         } catch (error) {

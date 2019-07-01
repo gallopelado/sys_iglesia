@@ -29,10 +29,10 @@ class ProfesionModel():
                 cur.close()
                 con.close()
     
-    def guardar(self, op, descripcion):
+    def guardar(self, op, idpro, descripcion):
 
         # SQL
-        procedimiento = 'sp_abmprofesion'
+        procedimiento = 'referenciales.sp_abmprofesion'
 
         try:
             
@@ -40,7 +40,7 @@ class ProfesionModel():
             con = conexion.getConexion()
             cur = con.cursor()
 
-            cur.callproc(procedimiento, (op, descripcion,))
+            cur.callproc(procedimiento, (op, idpro, descripcion,))
 
             con.commit()
 
