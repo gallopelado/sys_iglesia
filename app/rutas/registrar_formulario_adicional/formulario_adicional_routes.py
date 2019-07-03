@@ -49,6 +49,15 @@ def obtenerDatosId():
      
     return jsonify(adi.obtenerDatosId(idadi))
 
+@formadi.route('/obtener_frmdatos_id_json', methods=['POST'])
+def obtenerDatosIdJSON():
+
+    idadi = request.json['idadi']
+
+    adi = FormAdicionalModel()
+
+    return jsonify(adi.obtenerDatosIdJSON(idadi))
+
 @formadi.route('/obtener_historial_profesiones', methods=['POST'])
 def obtenerHistorialProfesionesId():
 

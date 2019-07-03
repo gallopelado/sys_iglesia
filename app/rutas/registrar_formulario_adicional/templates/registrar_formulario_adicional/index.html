@@ -41,14 +41,16 @@ Registrar Formulario de datos adicionales
                                     <tbody id="tb_formadmi">
                                         {% if datos %}
                                         {% for item in datos %}
-                                        <tr>
-                                            <td>{{ item[1] }}</td>
+                                        <tr id="{{ item[0] }}">
+                                            <td title="Datos de modificación" data-toggle="popover" data-trigger="hover"
+                                                data-content=" Modificado el : {{ item[3] if item[3] != None else 'No modificado' }}"
+                                                data-placement="bottom" class="text-center">{{ item[1] }}</td>
                                             <td>{{ item[2] }}</td>
-                                            <td>
+                                            <td class="">
                                                 <div class="table-data-feature">
 
                                                     <button class="item" data-toggle="modal" data-placement="top"
-                                                        title="Ver" onclick="iniciarModal({{ item[0] }})">
+                                                        title="Ver">
                                                         <i class="zmdi zmdi-mail-send"></i>
                                                     </button>
 
@@ -77,6 +79,172 @@ Registrar Formulario de datos adicionales
         </div>
     </div>
 
+    <!-- modal ver -->
+    <div class="modal fade" id="modalVer" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!--Inicio card-body-->
+                    <div class="card-body">
+
+                        <div class="card-title">
+                            <h3 class="text-center title-2"><i class="fa fa-edit"></i> Ver datos adicionales
+                            </h3>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-horizontal">
+                            <div class="row form-group">
+                                <input type="hidden" name="idpersona" id="idpersona">
+                                <!-- Campo Persona-->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_persona"
+                                            class="form-control-label form-control-sm">Persona</label>
+                                        <div class="input-group">
+                                            <input type="text" id="txt_persona" name="txt_persona" list="lista_personas"
+                                                class="form-control form-control-sm" placeholder="Elegir persona..."
+                                                disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- texto Nacionalidad -->
+                                <div class="col col-4">
+                                    <label for="txt_nacionalidad"
+                                        class="form-control-label form-control-sm">Nacionalidad</label>
+                                    <div class="input-group">
+                                        <input type="text" id="txt_nacionalidad" name="txt_nacionalidad"
+                                            list="lista_personas" class="form-control form-control-sm" disabled>
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- Campo Lugar de nacimiento -->
+                                <div class="col col-4">
+                                    <div class="form-group">
+                                        <label for="txt_lugarnac" class="form-control-label form-control-sm">Lugar
+                                            de
+                                            Nacimiento</label>
+                                        <input type="text" id="txt_lugarnac" onpaste="return false" name="txt_lugarnac"
+                                            class="form-control form-control-sm" placeholder="Ingrese lugar.." disabled>
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+
+                            <!-- Titulo Alergias -->
+                            <div class="col col-8">
+
+                                <h4>Alergias o indicaciones medicas</h4>
+                                <hr>
+
+                            </div>
+                            <!---->
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <!-- Campo alergias -->
+                            <div class="col col-6">
+                                <label for="txt_alergia" class="form-control-label form-control-sm">Alergias o
+                                    indicaciones médicas</label>
+                                <textarea name="txt_alergia" id="txt_alergia" cols="30" rows="5"
+                                    class="form-control-sm form-control" disabled></textarea>
+                            </div>
+                            <!---->
+
+                            <!-- Combo Tipo de Sangre -->
+                            <div class="col col-2">
+                                <label for="txt_sangre" class="form-control-label form-control-sm">Tipo de
+                                    sangre</label>
+                                <div class="input-group">
+                                    <input type="text" id="txt_sangre" name="txt_sangre" list="lista_personas"
+                                        class="form-control form-control-sm"  disabled>
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Preview de la foto -->
+                            <div class="col col-4">
+                                <img id="img_foto" 
+                                src="{{ url_for('static', filename='multimedia/membresia/02_adicionales/imagenes/')}}" 
+                                class="img-thumbnail" alt="Foto Miembro" width="200"
+                                    height="200">
+                            </div>
+                            <!---->
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <!-- Campo capacidades -->
+                            <div class="col col-6">
+                                <label for="txt_capacidades" class="form-control-label form-control-sm">Capacidades
+                                    diferentes o especiales</label>
+                                <textarea name="txt_capacidades" id="txt_capacidades" cols="30" rows="5"
+                                    class="form-control-sm form-control" disabled></textarea>
+                            </div>
+                            <!---->
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                <!-- Tabla Profesiones-->
+                                <div class="top-campaign">
+                                    <h3 class="title-3 m-b-30">Historial Profesiones</h3>
+                                    <div class="table-responsive">
+                                        <table id="tabla_profesiones" class="table table-bordered table-hover">
+                                            <thead>
+                                                
+                                                <th>Profesión</th>
+                                                <th>Puesto</th>
+                                                <th>Lugar</th>
+                                               
+                                            </thead>
+                                            <tbody id='tbody_profesiones'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!---->
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--Fin card-body-->
+
+                </div>
+                <div class="modal-footer">                    
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end modal ver -->
+
 </div>
 
 <!-- END MAIN CONTENT-->
@@ -90,6 +258,7 @@ Registrar Formulario de datos adicionales
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 <script src="{{ url_for('static', filename='jsOperacionales/helper/helper.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/ModalVer.js') }}"></script>
 <script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/principal.js') }}"></script>
 
 {% endblock %}

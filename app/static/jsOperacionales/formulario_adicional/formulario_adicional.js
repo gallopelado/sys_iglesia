@@ -34,6 +34,14 @@ btnGuardarFormAdicional.addEventListener('click', () => {
 
 });
 
+var btnLimpiar = document.getElementById('btnLimpiar');
+btnLimpiar.addEventListener('click', () => {
+
+    let adi = new FormAdicionalUI();
+    adi.limpiarFormulario();
+
+});
+
 // Evento Formulario Foto
 const frmFoto = document.getElementById('frmFoto');
 frmFoto.addEventListener('submit', e => {
@@ -609,6 +617,19 @@ class FormAdicionalUI {
             console.error(error);
         }
 
+    }
+
+    limpiarFormulario() {
+
+       
+        const arrayItems = [
+            "cbo_nacionalidad", "txt_lugarnac", "txt_alergia", "cbo_tiposangre", "txt_capacidades"
+        ];
+
+        arrayItems.filter(valor => {
+            return document.getElementById(valor).value = "";
+        });
+                
     }
 
 }

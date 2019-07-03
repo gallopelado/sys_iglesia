@@ -13,11 +13,15 @@ class FormAdicionalModel():
 
         consulta = """ 
         
-            SELECT a.add_id,
-            p.per_nombres||' '||p.per_apellidos persona, p.per_ci cedula 
-            FROM membresia.admision_adicionales a 
-            inner join referenciales.personas p on a.add_id = p.per_id
-            where add_estado <> false;
+            SELECT 
+                a.add_id,
+                p.per_nombres||' '||p.per_apellidos persona, p.per_ci cedula, (SELECT to_char(a.fecha_modificado, 'DD/MM/YYYY'::TEXT)) 
+            FROM 
+                membresia.admision_adicionales a 
+            inner join referenciales.personas p 
+                on a.add_id = p.per_id
+            where 
+                add_estado <> false;
         
         """
 
@@ -75,6 +79,59 @@ class FormAdicionalModel():
                 cur.close()
                 con.close()
     
+    def obtenerDatosIdJSON(self, idadi):
+        """Metodo obtenerDatosId.
+
+        Se define la obtencion de los datos del formulario de datos adicionales
+        de la base de datos, retorna una lista.
+
+        """
+
+        # SQL
+        consulta1 = """
+        SELECT 
+            ARRAY_TO_JSON(ARRAY_AGG(ROW_TO_JSON(data)))
+        FROM (
+            SELECT adi.add_id idadicional, 
+                p.per_nombres||' '||p.per_apellidos persona,
+                adi.nac_id idnacionalidad,
+                nac.nac_des nacionalidad, 
+                adi.add_lugarnac lugarnacimiento, 
+                adi.san_id idtiposangre,
+                san.san_des sangre,
+                adi.add_alergias alergias,
+                adi.add_capacdife capacidades,
+                adi.add_foto foto,
+                adi.add_estado estado
+            FROM 
+                membresia.admision_adicionales adi
+            LEFT JOIN referenciales.personas p ON 
+                adi.add_id = p.per_id
+            LEFT JOIN referenciales.nacionalidad nac ON
+                adi.nac_id = nac.nac_id
+            LEFT JOIN referenciales.sangre san ON
+                adi.san_id = san.san_id
+            WHERE 
+                adi.add_id = %s AND adi.add_estado <> false) data;
+        """
+
+        try:
+
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta1, (idadi, ))
+
+            return cur.fetchone()
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def obtenerHistorialProfesionesId(self, id):
         """Metodo obtenerHistoriaProfesionesId.
         
@@ -155,10 +212,13 @@ class FormAdicionalModel():
         
         # SQL
         consulta1 = """
-        UPDATE membresia.admision_adicionales 
-        SET nac_id=%s, add_lugarnac=%s, san_id=%s, 
-        add_alergias=%s, add_capacdife=%s, creado_por_usuario=null 
-        WHERE add_id=%s;
+            UPDATE 
+                membresia.admision_adicionales 
+            SET 
+                nac_id=%s, add_lugarnac=%s, san_id=%s, 
+                add_alergias=%s, add_capacdife=%s, creado_por_usuario=null, fecha_modificado = now() 
+            WHERE 
+                add_id=%s;
         """
 
         parametros1 = (idnacionalidad, lugarnacimiento, tiposangre,
