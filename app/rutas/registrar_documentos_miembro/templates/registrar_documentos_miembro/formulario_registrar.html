@@ -58,10 +58,10 @@ Registrar Formulario de datos adicionales
                             <div class="form-horizontal">
                                 <div class="row form-group">
                                     <!-- Campo id-->
-                                    <input type="hidden" name="idpersona" id="idpersona">
+                                    <input type="hidden" id="idtipodocumento">
 
                                     <!-- Combo Tipo de documento -->
-                                    <div class="col col-4">
+                                    <div class="col col-8">
                                         <label for=txt_tipodocumento" class="form-control-label form-control-sm">Tipo de
                                             documento</label>
                                         <input id="txt_tipodocumento" class="form-control form-control-sm"
@@ -169,7 +169,7 @@ Registrar Formulario de datos adicionales
                                 <div class="col col-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <button type="button" id="btnGuardarFormAdicional"
+                                            <button type="button" id="btnGuardar"
                                                 class="btn btn-primary btn-lg">
                                                 <i class="fa fa-dot-circle-o"></i> Guardar
                                             </button>
@@ -248,10 +248,11 @@ Registrar Formulario de datos adicionales
 <!-- helper -->
 <script src="{{ url_for('static', filename='jsOperacionales/helper/helper.js') }}"></script>
 
-<!-- Clase ModalProfesion -->
-<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/ModalProfesion.js') }}"></script>
+<!-- Clase del formulario -->
+<script src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/Clase_FormularioDocumentos.js') }}"></script>
 
-<!-- Js Operativo -->
-<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script>
+<!-- JS del formulario -->
+<script src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/formulario_documentos.js') }}"></script>
+
 
 {%- endblock %}
