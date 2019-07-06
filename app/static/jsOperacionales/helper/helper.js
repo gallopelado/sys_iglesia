@@ -105,3 +105,37 @@ function obtenerIdUrl() {
     return id;
 
 }
+
+/**
+ * Funcion autoCompletar.
+ * 
+ * Sirve para activar los campos de autocompletado, de a uno.
+ * datos debe ser un array de objetos JSON,
+ * valor es aquella clave del objeto JSON que vamos a mostrar.
+ * 
+ * @param {*} datos 
+ * @param {*} valor 
+ * @param {*} campoid 
+ * @param {*} campodes 
+ */
+function autoCompletar(datos, valor, valorid, campoid, campodes) {
+
+    let options = {
+
+        data: datos,
+
+        getValue: valor,
+
+        list: {
+            maxNumberOfElements: datos.length,
+            onSelectItemEvent: function () {
+                var value = $(`#${campodes}`).getSelectedItemData()[valorid];
+                
+                $(`#${campoid}`).val(value).trigger("change");
+            }
+        }
+    };
+
+    $(`#${campodes}`).easyAutocomplete(options);
+
+}

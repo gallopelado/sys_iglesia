@@ -22,3 +22,8 @@ def frmDocu():
 def listaTipoDocumentos():
 
     return jsonify(obtenerTipoDocumentos())
+
+@docm.route('/lista_personas_json')
+def listaPersonas():
+
+    return jsonify(obtenerPersonas())

@@ -19,28 +19,10 @@ class FormularioDocumentos {
 
     async cargarTiposDocumentos() {
 
-        const d = await this.getTiposDocumentos();
-        console.log(d[0][0]);
+        const d = await this.getTiposDocumentos();                      
 
-        const datos = d[0][0];
-        var options = {
-            
-            data: datos,
-            
-            getValue: "documento",
-
-            list: {
-                maxNumberOfElements: datos.length,
-                onSelectItemEvent: function () {
-                    var value = $("#txt_tipodocumento").getSelectedItemData().iddocumento;
-
-                    $("#idtipodocumento").val(value).trigger("change");
-                }
-            }
-        };
+        autoCompletar(d[0][0], 'documento', 'iddocumento', 'idtipodocumento', 'txt_tipodocumento');
         
-        $("#txt_tipodocumento").easyAutocomplete(options);
-        console.log(options.data);
     }
 
     async getTiposDocumentos() {
@@ -57,5 +39,32 @@ class FormularioDocumentos {
         }
 
     }
+
+    async getPersonas() {
+
+        try {
+            
+            const res = await fetch('http://localhost:5000/documentos_miembro/lista_personas_json');
+            const data = await res.json();
+
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+    async cargarPersonas() {
+
+        const personas = await this.getPersonas();        
+        
+        autoCompletar(personas[0][0], 'persona', 'idpersona', 'idmiembro', 'txt_miembro');
+
+        // Conyuge
+        autoCompletar(personas[0][0], 'persona', 'idpersona', 'idconyuge', 'txt_conyuge');
+
+    }
+
 
 }

@@ -1,5 +1,7 @@
 from app.Models.TipoDocumentoModel import TipoDocumentoModel
 
+from app.Models.PersonaModel import PersonaModel
+
 ##### Funciones que retornan datos de referenciales ######
 
 def obtenerTipoDocumentos():
@@ -11,3 +13,13 @@ def obtenerTipoDocumentos():
     docu = TipoDocumentoModel()
 
     return docu.listarTodos()
+
+def obtenerPersonas():
+    """Función obtenerPersonas.
+
+    Según la instancia, obtiene una un array de objetos JSON.
+
+    """
+    p = PersonaModel()
+
+    return p.listarPersonasJSON()

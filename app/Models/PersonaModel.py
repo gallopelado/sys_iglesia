@@ -46,6 +46,52 @@ class PersonaModel():
         except con.Error as e:
             print(e.pgerror)
 
+    # Para AJAX
+    def listarPersonasJSON(self):
+        """Metodo listarPersonas.
+
+        Obtiene lista de personas en formato JSON.
+
+        """
+        consulta = """
+
+        SELECT ARRAY_TO_JSON(
+                ARRAY_AGG(
+                    ROW_TO_JSON(
+                        data
+                    ) 
+                )
+            )
+        FROM 
+            (
+                SELECT
+                    per_id idpersona,
+                    per_nombres ||' '|| per_apellidos persona
+                FROM
+                    referenciales.personas
+                WHERE
+                    per_fechabaja IS NULL 
+            ) data;
+        
+        """
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta)
+
+            return cur.fetchall()            
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def guardar(self, op, perid, perci, pernombres, perapellidos, tipo, perobs):
         """Metodo guardar.
 
