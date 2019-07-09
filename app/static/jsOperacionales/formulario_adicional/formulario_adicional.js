@@ -503,7 +503,7 @@ class FormAdicionalUI {
 
             } else {
 
-                alert('Tamaño no permitido, hasta 1024 KB');
+                alert('Tamaño no permitido hasta 1024 KB');
 
             }
 

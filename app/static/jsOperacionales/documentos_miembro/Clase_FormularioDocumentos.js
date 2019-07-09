@@ -1,10 +1,15 @@
-class FormularioDocumentos {
+import { autoCompletar, verificaInput } from '../helper/helper.js';
+
+export default class FormularioDocumentos {
 
     constructor() {
 
+        this.idtipodocumento = document.getElementById('idtipodocumento');
         this.txt_tipodocumento = document.getElementById('txt_tipodocumento');
         this.txt_fecha = document.getElementById('txt_fecha');
+        this.idmiembro = document.getElementById('idmiembro');
         this.txt_miembro = document.getElementById('txt_miembro');
+        this.idconyuge = document.getElementById('idconyuge');
         this.txt_conyuge = document.getElementById('txt_conyuge');
         this.txt_oficiador = document.getElementById('txt_oficiador');
         this.txt_documento = document.getElementById('txt_documento');
@@ -19,10 +24,10 @@ class FormularioDocumentos {
 
     async cargarTiposDocumentos() {
 
-        const d = await this.getTiposDocumentos();                      
+        const d = await this.getTiposDocumentos();
 
         autoCompletar(d[0][0], 'documento', 'iddocumento', 'idtipodocumento', 'txt_tipodocumento');
-        
+
     }
 
     async getTiposDocumentos() {
@@ -43,7 +48,7 @@ class FormularioDocumentos {
     async getPersonas() {
 
         try {
-            
+
             const res = await fetch('http://localhost:5000/documentos_miembro/lista_personas_json');
             const data = await res.json();
 
@@ -57,8 +62,8 @@ class FormularioDocumentos {
 
     async cargarPersonas() {
 
-        const personas = await this.getPersonas();        
-        
+        const personas = await this.getPersonas();
+
         autoCompletar(personas[0][0], 'persona', 'idpersona', 'idmiembro', 'txt_miembro');
 
         // Conyuge
@@ -66,5 +71,158 @@ class FormularioDocumentos {
 
     }
 
+    recuperarDatosFormulario() {
 
+        // Crear objeto FormData.
+        const frm = new FormData();
+
+        // Sanear variables.
+        let idtipodocumento = this.idtipodocumento.value;
+        let descridocumento = this.txt_tipodocumento.value;
+        let txt_fecha = this.txt_fecha.value;
+        let idmiembro = this.idmiembro.value;
+        let miembro = this.txt_miembro.value.trim();
+        let idconyuge = this.idconyuge.value;
+        let txt_conyuge = this.txt_conyuge.value.trim();
+        let oficiador = this.txt_oficiador.value.trim();
+        let documento = this.txt_documento;
+        let declaracion = this.txt_declaracion.value.trim();
+        let notas = this.txt_notas.value.trim();
+        let testigo1 = this.txt_testigo1.value.trim();
+        let testigo2 = this.txt_testigo2.value.trim();
+
+
+
+        // Validar
+        if (!descridocumento) {
+            alert('El campo tipo documento no puede estar vacío o no válido');
+            this.txt_tipodocumento.focus();
+            return false;
+        }
+
+        if (!txt_fecha) {
+            alert('El campo fecha no puede estar vacía.');
+            this.txt_fecha.focus();
+            return false;
+        }
+
+        if (!miembro) {
+            alert('El campo miembro no es válido');
+            this.txt_miembro.focus();
+            return false;
+        }
+
+        if (!oficiador) {
+            alert('El campo oficiador no debe quedar vacío');
+            this.txt_oficiador.focus();
+            return false;
+        }
+
+        if (!declaracion) {
+            alert('El campo declaracion no debe quedar vacío');
+            this.txt_declaracion.focus();
+            return false;
+        }
+
+        
+
+        // Validar documento PDF.
+        const extensiones_permitidas = ['PDF', 'EPUB'];
+        const longitud_extension = extensiones_permitidas.length;
+        const peso = 30720; // 30 MB.
+        const objDocumento = documento.files[0];
+
+        // Si no es undefined.
+        if (typeof (objDocumento) !== 'undefined') {
+
+            //console.log(objDocumento);
+
+            // Obtener extensión del fichero.
+            let extensionFile = objDocumento.type.split('/')[1];
+            extensionFile = extensionFile.toUpperCase();
+
+            // Tamaño del documento.
+            const tamaDocumento = Math.round(objDocumento.size / 1024);
+            let nopermitida = true;
+
+            if (tamaDocumento <= peso) {
+
+                // Recorre en busca de extensiones correctas.
+
+                for (let i = 0; i <= longitud_extension; i++) {
+
+                    if (extensionFile === extensiones_permitidas[i]) {
+
+                        nopermitida = false;
+                        const extension_normalizada = extensionFile.toLowerCase();
+                        const nuevoNombre_fichero = `${idmiembro}.${extension_normalizada}`;
+                        
+                        // Asignar binario al objeto frm.
+                        frm.append('documento_binario', objDocumento, nuevoNombre_fichero);
+                        break;
+
+                    }
+                }
+
+                if (nopermitida) {
+
+                    alert('Solo se admiten documentos en PDF o EPUB');
+
+                }
+
+            } else {
+
+                alert('Tamaño permitido hasta 30 MB');
+
+            }
+
+        } else {
+
+            // No subió ningún documento.
+            frm.append('documento_binario', null);
+
+        }
+
+        // Asignar a FormData el resto.
+        frm.append('idtipodocumento', idtipodocumento)
+        frm.append('txt_fecha', txt_fecha);
+        frm.append('idmiembro', idmiembro);
+        frm.append('idconyuge', idconyuge);
+        frm.append('oficiador', oficiador);
+        frm.append('declaracion', (declaracion));
+        frm.append('notas', notas);
+        frm.append('testigo1', testigo1);
+        frm.append('testigo2', testigo2);
+
+        return frm;
+
+    }
+
+    async guardarFormulario() {
+
+        const datosForm = this.recuperarDatosFormulario();
+
+        if (datosForm) {
+
+            try {
+
+                const res = await fetch('http://localhost:5000/documentos_miembro/guardar_formulario', {
+
+                    method: 'POST',
+                    body: datosForm
+
+                });
+                const data = await res.json();
+
+                console.log(data);
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+
+    }
 }

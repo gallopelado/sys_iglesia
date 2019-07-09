@@ -81,7 +81,8 @@ Registrar Formulario de datos adicionales
                                                 <div class="input-group date" id="datetimepicker4"
                                                     data-target-input="nearest">
                                                     <input type="text" class="form-control datetimepicker-input"
-                                                        data-target="#datetimepicker4" id="txt_fecha" onpaste="return false"/>
+                                                        data-target="#datetimepicker4" id="txt_fecha"
+                                                        onpaste="return false" />
                                                     <div class="input-group-append" data-target="#datetimepicker4"
                                                         data-toggle="datetimepicker">
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i>
@@ -124,15 +125,23 @@ Registrar Formulario de datos adicionales
                             <!-- Campo oficiador -->
                             <div class="row form-group">
                                 <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_oficiador" class="form-control-label form-control-sm">Oficiador</label>
+                                    <label for=txt_oficiador"
+                                        class="form-control-label form-control-sm">Oficiador</label>
                                     <input id="txt_oficiador" class="form-control form-control-sm"
                                         placeholder="Nombre del miembro...">
                                 </div>
                             </div>
                             <!---->
 
-                            <!-- Campo documento -->
+                            <!-- Campo previo documento cargado -->
                             <div class="row form-group">
+                                <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">                                    
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo documento -->
+                            <div class="row form-group">                                
                                 <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
@@ -267,15 +276,9 @@ Registrar Formulario de datos adicionales
 <!-- JS de tempusdominus -->
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
-<!-- helper -->
-<script src="{{ url_for('static', filename='jsOperacionales/helper/helper.js') }}"></script>
-
-<!-- Clase del formulario -->
-<script
-    src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/Clase_FormularioDocumentos.js') }}"></script>
-
 <!-- JS del formulario -->
-<script src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/formulario_documentos.js') }}"></script>
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/formulario_documentos.js') }}"></script>
 
 
 {%- endblock %}

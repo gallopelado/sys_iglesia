@@ -5,3 +5,4 @@ import os
 RUTA_MULTIMEDIA = os.path.join(os.path.abspath(os.getcwd()), 'app/static/multimedia/')
 RUTA_MEMBRESIA = os.path.join(RUTA_MULTIMEDIA, 'membresia/')
 RUTA_IMAGENES_FORM_ADICIONALES = os.path.join(RUTA_MEMBRESIA, '02_adicionales/imagenes/')
+RUTA_ARCHIVOS_FORM_DOCUMENTOS = os.path.join(RUTA_MEMBRESIA, '03_documentos/archivos/')

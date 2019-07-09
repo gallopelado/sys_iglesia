@@ -1,7 +1,8 @@
 /**
  * Este fichero pretende incluir todas aquellas funciones genericas.
  * 
- * @author <juanftp100@gmail.com> Juan Jose Gonzalez Ramirez
+ * @author  Juan Jose Gonzalez Ramirez
+ * @email juanftp100@gmail.com
  */
 
 /**
@@ -139,3 +140,23 @@ function autoCompletar(datos, valor, valorid, campoid, campodes) {
     $(`#${campodes}`).easyAutocomplete(options);
 
 }
+
+/**
+ * Función verificaInput.
+ * 
+ * Verificar si una variable esta vacía, si es así, retorna null.
+ * @param {*} campo 
+ * @returns null
+ */
+function verificaInput(campo) {
+
+    if(campo) {
+        console.log(campo);
+        return campo;
+    }
+
+    return null;
+
+}
+
+export { autoCompletar, verificaInput };

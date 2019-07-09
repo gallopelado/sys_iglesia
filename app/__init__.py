@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 # Definimos rutas estaticas.
 app.config['FORM_ADICIONAL_IMAGENES'] = RUTA_IMAGENES_FORM_ADICIONALES
+app.config['FORM_DOCUMENTOS_ARCHIVOS'] = RUTA_ARCHIVOS_FORM_DOCUMENTOS
 
 # Suponiendo que el error sea el no haber añadido este paquete.
 from app import rutas
