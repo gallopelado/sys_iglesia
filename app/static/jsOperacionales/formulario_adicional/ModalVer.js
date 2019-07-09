@@ -6,7 +6,7 @@
  * 
  * @author <juanftp100@gmail.com> Juan José González Ramírez
  */
-class ModalVer {
+export default class ModalVer {
 
     constructor() {
 

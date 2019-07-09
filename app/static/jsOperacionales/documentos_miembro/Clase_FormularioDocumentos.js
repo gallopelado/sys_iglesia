@@ -214,7 +214,13 @@ export default class FormularioDocumentos {
                 });
                 const data = await res.json();
 
-                console.log(data);
+                if (data.guardado === true) {
+
+                    window.location.href = 'http://localhost:5000/documentos_miembro/';
+
+                } else {
+                    console.error(data);
+                }
 
             } catch (error) {
 

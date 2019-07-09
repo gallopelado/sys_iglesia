@@ -1,4 +1,7 @@
-class ModalProfesion {
+import { mensajeNormal } from '../helper/helper.js';
+import FormAdicionalUI from './FormAdicionalUI.js';
+
+export default class ModalProfesion {
 
 
     constructor() {

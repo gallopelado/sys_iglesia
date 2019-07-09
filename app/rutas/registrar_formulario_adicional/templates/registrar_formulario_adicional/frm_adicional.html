@@ -358,13 +358,7 @@ Registrar Formulario de datos adicionales
 <!-- Js de Jquery UI -->
 <script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
 
-<!-- helper -->
-<script src="{{ url_for('static', filename='jsOperacionales/helper/helper.js') }}"></script>
-
-<!-- Clase ModalProfesion -->
-<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/ModalProfesion.js') }}"></script>
-
 <!-- Js Operativo -->
-<script src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script>
 
 {%- endblock %}

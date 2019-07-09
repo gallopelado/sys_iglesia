@@ -61,9 +61,9 @@ def guardarFormulario():
     res = doc.guardar(idtipodocumento, txt_fecha, idmiembro, idconyuge, oficiador,
                 documento_nombre, declaracion, notas, testigo1, testigo2)
     
-    if res:        
-        
+    if res:                
         guardarDocumento(request, 'documento_binario', app, 'FORM_DOCUMENTOS_ARCHIVOS')
-        return jsonify({"guardado": True})
+        flash("Exito, se registró correctamente", "success")
+        return jsonify({"guardado": True})        
 
     return jsonify({"guardado": False})

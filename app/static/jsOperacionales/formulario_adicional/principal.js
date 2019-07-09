@@ -1,3 +1,6 @@
+import { hacerDataTable } from '../helper/helper.js';
+import ModalVer from './ModalVer.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     
     hacerDataTable('tabla_formadi');
