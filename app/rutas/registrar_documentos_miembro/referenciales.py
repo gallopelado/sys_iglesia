@@ -4,6 +4,9 @@ from app.Models.PersonaModel import PersonaModel
 
 ##### Funciones que retornan datos de referenciales ######
 
+def obtenerListaMiembrosDoc():
+    pass
+
 def obtenerTipoDocumentos():
     """Función obtenerTipoDocumentos.
 

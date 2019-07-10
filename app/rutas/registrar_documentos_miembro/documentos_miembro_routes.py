@@ -17,13 +17,35 @@ docm = Blueprint('registrar_documentos_miembro',
 def index_documentos():
     return render_template('registrar_documentos_miembro/index.html')
 
-
 @docm.route('/frm_docu')
 def frmDocu():
 
     return render_template('registrar_documentos_miembro/formulario_registrar.html')
 
+@docm.route('/frm_mod')
+def frmMod():
+    
+    return render_template('registrar_documentos_miembro/formulario_modificar.html')
+
 # Rutas para AJAX ##########
+@docm.route('/lista_miembros_documento')
+def listaMiembrosDocumento():
+    
+    doc = FormDocumentosModel()
+    lista = doc.listarMiembrosDocumentos()
+    
+    return jsonify(lista)
+
+@docm.route('/obtener_miembro_documento', methods=['POST'])
+def obtenerMiembroDocumento():
+    
+    idmiembro = request.json['idmiembro']
+    idtipodocumento = request.json['idtipodocumento']
+    doc = FormDocumentosModel()
+    lista = doc.obtenerMiembroDocumento(idmiembro, idtipodocumento)
+    #print(str(lista[0][0]).encode('utf-8'))
+    return jsonify(lista[0][0])
+
 @docm.route('/lista_tipodocumentos')
 def listaTipoDocumentos():
 

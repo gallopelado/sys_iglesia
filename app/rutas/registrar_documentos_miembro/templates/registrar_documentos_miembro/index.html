@@ -28,43 +28,29 @@ Registrar Documentos de ingreso para miembros
                 <div class="col-lg-12">
                     <div class="card">
 
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    <a href="{{ url_for('registrar_documentos_miembro.frmDocu') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Agregar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div id="divTabla" class="table-responsive table--no-card m-b-30">
-                                <table id="tabla_formadi" class="table table-borderless table-striped table-earning">
+                                <table id="tabla_formdocu" class="table table-borderless table-striped table-earning">
                                     <thead>
                                         <tr>
-                                            <th>Persona</th>
-                                            <th>Cédula</th>
+                                            <th>Documento</th>
+                                            <th>Miembro</th>
+                                            <th>Fecha</th>
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tb_formadmi">
-                                        {% if datos %}
-                                        {% for item in datos %}
-                                        <tr id="{{ item[0] }}">
-                                            <td title="Datos de modificación" data-toggle="popover" data-trigger="hover"
-                                                data-content=" Modificado el : {{ item[3] if item[3] != None else 'No modificado' }}"
-                                                data-placement="bottom" class="text-center">{{ item[1] }}</td>
-                                            <td>{{ item[2] }}</td>
-                                            <td class="">
-                                                <div class="table-data-feature">
-
-                                                    <button class="item" data-toggle="modal" data-placement="top"
-                                                        title="Ver">
-                                                        <i class="zmdi zmdi-mail-send"></i>
-                                                    </button>
-
-                                                    <a href="{{ url_for('registrar_formulario_adicional.frm_adi', idadi = item[0]) }}"
-                                                        class="item" data-toggle="tooltip" data-placement="top"
-                                                        title="Modificar">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                    </a>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                        {% endif%}
+                                    <tbody id="tb_formdocu">
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -72,6 +58,7 @@ Registrar Documentos de ingreso para miembros
                         <div class="card-footer">
                             {{ pintar_alerta(messages) }}
                         </div>
+
                     </div>
 
                 </div>
@@ -257,6 +244,12 @@ Registrar Documentos de ingreso para miembros
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
-<script src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/principal.js') }}"></script>
+<!-- JS para manipular fechas con Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/moment/moment-with-locales.js') }}"></script>
+
+<!-- JS Operacional del documento -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/principal.js') }}"></script>
 
 {% endblock %}

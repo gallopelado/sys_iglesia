@@ -71,6 +71,50 @@ export default class FormularioDocumentos {
 
     }
 
+    cargarFormulario() {
+
+        const solicitud = indexedDB.open('db_documentos', 1);
+        let bd;
+
+        solicitud.onsuccess = (e) => {
+
+            bd = solicitud.result;
+
+            const transaccion = bd.transaction(['documentos_miembro']);
+            const documentoStore = transaccion.objectStore('documentos_miembro');
+            const request = documentoStore.getAll();
+            request.onsuccess = (e) => {
+                const datos = e.target.result[0];
+                console.log(datos);
+                this.idtipodocumento.value = datos.idtipodocumento;
+                this.txt_tipodocumento.value = datos.documento;
+                this.txt_fecha.value = datos.fechadocumento;
+                this.idmiembro.value = datos.idmiembro;
+                this.txt_miembro.value = datos.persona;
+                this.idconyuge.value = datos.conyuge_id;
+                this.txt_conyuge.value = datos.conyuge;
+                this.txt_oficiador.value = datos.oficiador;
+                document.getElementById('txt_nombredocumento').innerHTML = `
+                
+                    <div class="card-header bg-secondary">
+                        <strong class="card-title text-light">Nombre del documento guardado</strong>
+                    </div>
+                    <div class="card-body text-white bg-primary">
+                        <p class="card-text text-light">${datos.archivo}</p>
+                    </div>
+
+                `;
+                this.txt_declaracion.value = datos.declaracion;
+                this.txt_notas.value = datos.notas;
+                this.txt_testigo1.value = datos.testigo1;
+                this.txt_testigo2.value = datos.testigo2;
+            }
+            bd.close();
+
+        }
+
+    }
+
     recuperarDatosFormulario() {
 
         // Crear objeto FormData.
@@ -124,7 +168,7 @@ export default class FormularioDocumentos {
             return false;
         }
 
-        
+
 
         // Validar documento PDF.
         const extensiones_permitidas = ['PDF', 'EPUB'];
@@ -156,7 +200,7 @@ export default class FormularioDocumentos {
                         nopermitida = false;
                         const extension_normalizada = extensionFile.toLowerCase();
                         const nuevoNombre_fichero = `${idmiembro}.${extension_normalizada}`;
-                        
+
                         // Asignar binario al objeto frm.
                         frm.append('documento_binario', objDocumento, nuevoNombre_fichero);
                         break;
@@ -231,4 +275,5 @@ export default class FormularioDocumentos {
         }
 
     }
+
 }
