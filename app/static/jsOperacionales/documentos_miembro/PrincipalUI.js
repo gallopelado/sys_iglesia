@@ -1,4 +1,4 @@
-
+import { idioma_spanish } from '../helper/helper.js';
 
 export default class PrincipalUI {
 
@@ -17,6 +17,7 @@ export default class PrincipalUI {
             const tbody = this.tbody;
 
             let cadena = '';
+            let matrizResultados = [];
             const longitud_data = data.length;
 
             if (longitud_data > 0) {
@@ -25,12 +26,12 @@ export default class PrincipalUI {
                 moment.locale('es');
 
                 for (let item of data[0][0]) {
-
-                    cadena += `
-                        <tr>
-                            <td>${item.documento}</td>
-                            <td>${item.persona}</td>
-                            <td>${ moment(item.fechadocumento).format('LL')}</td>
+                    
+                    matrizResultados.push({
+                        'documento': item.documento,
+                        'persona': item.persona,
+                        'fecha': moment(item.fechadocumento).format('LL'),
+                        'acciones': `
                             <td>
                             
                                 <div class="table-data-feature">
@@ -44,9 +45,8 @@ export default class PrincipalUI {
                                     </button>
                                 </div> 
                             
-                            </td>
-                        </tr>
-                    `
+                            </td>`
+                    });
                 }
 
             } else {
@@ -54,8 +54,20 @@ export default class PrincipalUI {
                 cadena = "No hay datos registrados..";
 
             }
-
-            tbody.innerHTML = cadena;
+            // Formatear con DataTable.
+            $('#tabla_formdocu').DataTable({
+                'destroy': true,
+                "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "Todos"]],
+                "language": idioma_spanish,
+                data: matrizResultados,
+                columns: [
+                    { data: 'documento' },
+                    { data: 'persona' },
+                    { data: 'fecha' },
+                    { data: 'acciones' }
+                ]
+            });
+            //tbody.innerHTML = cadena;
 
         } catch (error) {
             console.error(error);
@@ -112,7 +124,7 @@ export default class PrincipalUI {
         const miembro = await this.obtenerMiembroDocumento(idmiembro, idtipodocu);        
         
         // Borrar base de datos.
-        let borrar = indexedDB.deleteDatabase('db_documentos', 1)
+        let borrar = indexedDB.deleteDatabase('db_documentos', 1);
        /* borrar.onsuccess = function() {
             console.log('Se borro la bd');
         }
@@ -137,9 +149,7 @@ export default class PrincipalUI {
 
             let documento = transaccion.objectStore('documentos_miembro');
 
-            documento.add(miembro);
-            
-            doc.verDatos(idmiembro);
+            documento.add(miembro);                        
 
             bd.close();
         }

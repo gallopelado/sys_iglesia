@@ -5,7 +5,7 @@ import PrincipalUI from './PrincipalUI.js';
 document.addEventListener('DOMContentLoaded', () => {
     const doc = new PrincipalUI();
     doc.cargarTabla();
-    hacerDataTable('tabla_formdocu');
+    //hacerDataTable('tabla_formdocu');
 });
 
 window.modificar = (idpersona, iddocumento) => {

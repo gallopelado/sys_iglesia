@@ -1,7 +1,8 @@
 /**
 * Función documentos_miembro
 * Parámetros: opcion integer,          
-        idpersona integer
+        idpersona integer,
+        idantiguotipodocumento integer,
         idtipodocumento integer,
         idconyuge integer,
         oficiador varchar,
@@ -13,8 +14,8 @@
         fechadoc date,
         estado boolean,        
         usuario integer
-* Versión: 0.1
-* Fecha: 04/07/2019
+* Versión: 0.1.1
+* Fecha: 10/07/2019
 * Autor: Juan José González Ramírez <juanftp100@gmail.com>
 * Descripción: ABM de la tabla.
 *
@@ -24,6 +25,7 @@ CREATE OR REPLACE FUNCTION
     membresia.sp_documentos_miembro(
         opcion varchar,          
         idpersona integer,
+        idantiguotipodocumento integer,
         idtipodocumento integer,
         idconyuge integer,
         oficiador varchar,
@@ -41,6 +43,8 @@ $$
     DECLARE
         -- Se declaran una variable de tipo ROWTYPE de la tabla.
         temp_row membresia.documentos_miembro%ROWTYPE;
+        control_documento boolean;
+        id_antiguo_tipo integer;
     
     BEGIN
 
@@ -55,6 +59,9 @@ $$
         temp_row.doc_testigo2 := null;
         temp_row.doc_fechadocumento := null;
 
+        control_documento := false;
+        id_antiguo_tipo := idantiguotipodocumento;
+
         -- Asignar usuario.
         temp_row.creado_por_usuario := null;
 
@@ -67,6 +74,7 @@ $$
         IF documento IS NOT NULL THEN
 
             temp_row.doc_documento := TRIM(documento);
+            control_documento := true;
 
         END IF;
 
@@ -158,20 +166,42 @@ $$
                 temp_row.fecha_modificado := NOW();
                 temp_row.doc_estado := TRUE;
 
-                -- Realizar UPDATE
-                UPDATE 
-                    membresia.documentos_miembro
-                SET
-                    (conyuge_id, doc_oficiador, doc_documento, doc_declaracion, 
-                    doc_notas, doc_testigo1, doc_testigo2, doc_estado, creado_por_usuario, 
-                    fecha_modificado, doc_fechadocumento) = (
-                        temp_row.conyuge_id, temp_row.doc_oficiador, temp_row.doc_documento, temp_row.doc_declaracion,
-                        temp_row.doc_notas, temp_row.doc_testigo1, temp_row.doc_testigo2, temp_row.doc_estado,
-                        temp_row.creado_por_usuario, temp_row.fecha_modificado, temp_row.doc_fechadocumento)
-
-                WHERE
-                    per_id = temp_row.per_id AND tdoc_id = temp_row.tdoc_id;
+                -- Si se recibió un documento, se sobreescribe el registro.
+                IF control_documento = TRUE THEN
                 
+                    -- Realizar UPDATE
+                    UPDATE 
+                        membresia.documentos_miembro
+                    SET
+                        (tdoc_id, conyuge_id, doc_oficiador, doc_documento, doc_declaracion, 
+                        doc_notas, doc_testigo1, doc_testigo2, doc_estado, creado_por_usuario, 
+                        fecha_modificado, doc_fechadocumento) = (
+                            temp_row.tdoc_id,
+                            temp_row.conyuge_id, temp_row.doc_oficiador, temp_row.doc_documento, temp_row.doc_declaracion,
+                            temp_row.doc_notas, temp_row.doc_testigo1, temp_row.doc_testigo2, temp_row.doc_estado,
+                            temp_row.creado_por_usuario, temp_row.fecha_modificado, temp_row.doc_fechadocumento)
+
+                    WHERE
+                        per_id = temp_row.per_id AND tdoc_id = id_antiguo_tipo;
+                                        
+                ELSE
+
+                    -- Realizar UPDATE sin el documento, para no dejarlo vacío.
+                    UPDATE 
+                        membresia.documentos_miembro
+                    SET
+                        (tdoc_id, conyuge_id, doc_oficiador, doc_declaracion, 
+                        doc_notas, doc_testigo1, doc_testigo2, doc_estado, creado_por_usuario, 
+                        fecha_modificado, doc_fechadocumento) = (
+                            temp_row.tdoc_id,
+                            temp_row.conyuge_id, temp_row.doc_oficiador, temp_row.doc_declaracion,
+                            temp_row.doc_notas, temp_row.doc_testigo1, temp_row.doc_testigo2, temp_row.doc_estado,
+                            temp_row.creado_por_usuario, temp_row.fecha_modificado, temp_row.doc_fechadocumento)
+
+                    WHERE
+                        per_id = temp_row.per_id AND tdoc_id = id_antiguo_tipo;
+
+                END IF;
                 RAISE NOTICE 'SE REALIZO LA ACTUALIZACION documentos_miembros';
                 RETURN TRUE;
 

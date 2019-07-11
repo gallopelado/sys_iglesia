@@ -159,4 +159,4 @@ function verificaInput(campo) {
 
 }
 
-export { autoCompletar, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal };
+export { autoCompletar, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal, idioma_spanish };

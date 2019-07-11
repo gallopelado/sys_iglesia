@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function guardar() {
 
     const doc = new FormularioDocumentos();
-    doc.guardarFormulario();
+    doc.modificarFormulario();
+    indexedDB.deleteDatabase('db_documentos', 1);
 
 }
 

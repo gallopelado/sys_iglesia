@@ -86,6 +86,7 @@ export default class FormularioDocumentos {
             request.onsuccess = (e) => {
                 const datos = e.target.result[0];
                 console.log(datos);
+                document.getElementById('id_antiguo_tipodocumento').value = datos.idtipodocumento;
                 this.idtipodocumento.value = datos.idtipodocumento;
                 this.txt_tipodocumento.value = datos.documento;
                 this.txt_fecha.value = datos.fechadocumento;
@@ -97,10 +98,13 @@ export default class FormularioDocumentos {
                 document.getElementById('txt_nombredocumento').innerHTML = `
                 
                     <div class="card-header bg-secondary">
-                        <strong class="card-title text-light">Nombre del documento guardado</strong>
+                        <strong class="card-title text-light">Nombre del documento guardado.</strong>
                     </div>
                     <div class="card-body text-white bg-primary">
-                        <p class="card-text text-light">${datos.archivo}</p>
+                        <p class="card-text text-light">
+                            <fa class="fa fa-file"></fa>
+                            documento_${datos.archivo}
+                        </p>
                     </div>
 
                 `;
@@ -121,6 +125,7 @@ export default class FormularioDocumentos {
         const frm = new FormData();
 
         // Sanear variables.
+        let id_antiguo_tipodocumento = document.getElementById('id_antiguo_tipodocumento') === null ? null : document.getElementById('id_antiguo_tipodocumento').value;
         let idtipodocumento = this.idtipodocumento.value;
         let descridocumento = this.txt_tipodocumento.value;
         let txt_fecha = this.txt_fecha.value;
@@ -129,7 +134,7 @@ export default class FormularioDocumentos {
         let idconyuge = this.idconyuge.value;
         let txt_conyuge = this.txt_conyuge.value.trim();
         let oficiador = this.txt_oficiador.value.trim();
-        let documento = this.txt_documento;
+        //let documento = this.txt_documento;
         let declaracion = this.txt_declaracion.value.trim();
         let notas = this.txt_notas.value.trim();
         let testigo1 = this.txt_testigo1.value.trim();
@@ -174,7 +179,9 @@ export default class FormularioDocumentos {
         const extensiones_permitidas = ['PDF', 'EPUB'];
         const longitud_extension = extensiones_permitidas.length;
         const peso = 30720; // 30 MB.
+        const documento = document.getElementById('txt_documento');
         const objDocumento = documento.files[0];
+        console.log(objDocumento);
 
         // Si no es undefined.
         if (typeof (objDocumento) !== 'undefined') {
@@ -199,10 +206,11 @@ export default class FormularioDocumentos {
 
                         nopermitida = false;
                         const extension_normalizada = extensionFile.toLowerCase();
-                        const nuevoNombre_fichero = `${idmiembro}.${extension_normalizada}`;
+                        const nuevoNombre_fichero = `${idmiembro}_${idtipodocumento}.${extension_normalizada}`;
 
                         // Asignar binario al objeto frm.
                         frm.append('documento_binario', objDocumento, nuevoNombre_fichero);
+                        frm.append('nombre_binario', nuevoNombre_fichero);
                         break;
 
                     }
@@ -224,10 +232,12 @@ export default class FormularioDocumentos {
 
             // No subió ningún documento.
             frm.append('documento_binario', null);
+            frm.append('nombre_binario', null);
 
         }
 
         // Asignar a FormData el resto.
+        frm.append('id_antiguo_tipodocumento', id_antiguo_tipodocumento)
         frm.append('idtipodocumento', idtipodocumento)
         frm.append('txt_fecha', txt_fecha);
         frm.append('idmiembro', idmiembro);
@@ -251,6 +261,40 @@ export default class FormularioDocumentos {
             try {
 
                 const res = await fetch('http://localhost:5000/documentos_miembro/guardar_formulario', {
+
+                    method: 'POST',
+                    body: datosForm
+
+                });
+                const data = await res.json();
+
+                if (data.guardado === true) {
+
+                    window.location.href = 'http://localhost:5000/documentos_miembro/';
+
+                } else {
+                    console.error(data);
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+
+    }
+
+    async modificarFormulario() {
+
+        const datosForm = this.recuperarDatosFormulario();
+
+        if (datosForm) {
+
+            try {
+
+                const res = await fetch('http://localhost:5000/documentos_miembro/modificar_formulario', {
 
                     method: 'POST',
                     body: datosForm

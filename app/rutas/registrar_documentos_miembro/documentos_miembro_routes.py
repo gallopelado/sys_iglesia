@@ -89,3 +89,36 @@ def guardarFormulario():
         return jsonify({"guardado": True})        
 
     return jsonify({"guardado": False})
+
+
+@docm.route('/modificar_formulario', methods=['POST'])
+def modificarFormulario():
+
+    id_antiguo_tipodocumento = request.form['id_antiguo_tipodocumento']
+    idtipodocumento = request.form['idtipodocumento']
+    txt_fecha = request.form['txt_fecha']
+    idmiembro = request.form['idmiembro']
+    idconyuge = verificaNull(request.form['idconyuge'])
+    oficiador = request.form['oficiador']
+    declaracion = verificaNull(request.form['declaracion'])
+    notas = verificaNull(request.form['notas'])
+    testigo1 = verificaNull(request.form['testigo1'])
+    testigo2 = verificaNull(request.form['testigo2'])
+    documento_nombre = verificaNull(request.form['nombre_binario'])
+
+    if request.files:
+        documento = request.files['documento_binario']
+        documento_nombre = documento.filename
+
+    doc = FormDocumentosModel()
+    res = doc.modificar(id_antiguo_tipodocumento, idtipodocumento, txt_fecha, idmiembro, idconyuge, oficiador,
+                      documento_nombre, declaracion, notas, testigo1, testigo2)
+
+    if res:
+        
+        guardarDocumento(request, 'documento_binario',
+                         app, 'FORM_DOCUMENTOS_ARCHIVOS')
+        flash("Exito, se modificó correctamente", "success")
+        return jsonify({"guardado": True})
+
+    return jsonify({"guardado": False})
