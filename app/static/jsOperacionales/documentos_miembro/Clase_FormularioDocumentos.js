@@ -1,4 +1,4 @@
-import { autoCompletar, verificaInput } from '../helper/helper.js';
+import { autoCompletar } from '../helper/helper.js';
 
 export default class FormularioDocumentos {
 
@@ -319,5 +319,5 @@ export default class FormularioDocumentos {
         }
 
     }
-
+    
 }

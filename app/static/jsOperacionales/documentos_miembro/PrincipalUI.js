@@ -3,7 +3,7 @@ import { idioma_spanish } from '../helper/helper.js';
 export default class PrincipalUI {
 
     constructor() {
-        this.tbody = document.getElementById('tb_formdocu');
+        this.tabla = document.getElementById('tabla_formdocu');
     }
 
     async cargarTabla() {
@@ -11,14 +11,10 @@ export default class PrincipalUI {
         try {
 
             const res = await fetch('http://localhost:5000/documentos_miembro/lista_miembros_documento');
-            const data = await res.json();
-
-            // Obtener tbody del documento.
-            const tbody = this.tbody;
-
-            let cadena = '';
+            const data = await res.json();            
             let matrizResultados = [];
             const longitud_data = data.length;
+            
 
             if (longitud_data > 0) {
 
@@ -28,13 +24,16 @@ export default class PrincipalUI {
                 for (let item of data[0][0]) {
                     
                     matrizResultados.push({
-                        'documento': item.documento,
-                        'persona': item.persona,
-                        'fecha': moment(item.fechadocumento).format('LL'),
-                        'acciones': `
+                        documento: item.documento,
+                        persona: item.persona,
+                        fecha: moment(item.fechadocumento).format('LL'),
+                        acciones: `
                             <td>
                             
                                 <div class="table-data-feature">
+                                    <button onclick="ver(${ item.idmiembro}, ${item.idtipodocumento})" class="item btn btn-primary" data-toggle="modal" data-placement="top" title="Ver">
+                                            <i class="zmdi zmdi-mail-send"></i>
+                                    </button>
                                     <button onclick="modificar( ${ item.idmiembro}, ${item.idtipodocumento} )" class="item btn btn-warning modificar"
                                         data-toggle="tooltip" data-placement="top" title="Modificar">
                                             <i class="zmdi zmdi-edit"></i>
@@ -66,31 +65,14 @@ export default class PrincipalUI {
                     { data: 'fecha' },
                     { data: 'acciones' }
                 ]
-            });
-            //tbody.innerHTML = cadena;
+            });                                 
 
         } catch (error) {
             console.error(error);
         }
 
     }
-
-    async modificar(idmiembro, idtipodocu) {
-
-        try {
-            // Qué URL más bonita! :-D
-            const res = await fetch(`http://localhost:5000/documentos_miembro/frm_mod/${idmiembro}/${idtipodocu}`);
-            const data = await res.json();
-
-            console.log(data);
-            this.guardarTemporal(idmiembro, idtipodocu);
-
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-
+    
     async obtenerMiembroDocumento(idmiembro, idtipodocu) {
 
         const datos = {
@@ -189,4 +171,45 @@ export default class PrincipalUI {
 
     }    
 
+    async eliminarFormulario(idpersona, iddocumento) {
+
+        const datos = {
+            idpersona: idpersona,
+            iddocumento: iddocumento
+        }
+
+        try {
+
+            const res = await fetch('http://localhost:5000/documentos_miembro/eliminar_formulario', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            });
+            const data = await res.json();
+            //console.log(data.estado);
+            this.cargarTabla();
+            return data.estado === true ? data.estado : false;             
+            
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
+    }
+
+    crearModal() {
+
+        let tabla = document.getElementById('tabla_formdocu');
+        let longitud_filas = tabla.rows.length;
+        console.log(longitud_filas);
+       /* for (let i = 1; i < longitud_filas; i++) {
+
+            console.log(tabla.rows);
+
+        }*/
+
+    }
 }

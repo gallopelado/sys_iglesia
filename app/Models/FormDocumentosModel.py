@@ -33,6 +33,8 @@ class FormDocumentosModel():
                 d.per_id = p.per_id
                 LEFT JOIN referenciales.tipo_documento t ON
                 d.tdoc_id = t.tdoc_id
+            WHERE
+                d.doc_estado = true
 
 	        ) data;
 
@@ -155,6 +157,32 @@ class FormDocumentosModel():
         parametros = ('m', idmiembro, id_antiguo_tipodocumento, idtipodocumento, idconyuge, oficiador,
                       documento, declaracion, notas, testigo1, testigo2,
                       txt_fecha, None, None)
+        try:
+
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, parametros)
+
+            con.commit()
+
+            return True
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def eliminar(self, idmiembro, idtipodocumento):
+
+       #SQL
+        procedimiento = "membresia.sp_documentos_miembro"
+        parametros = ('b', idmiembro, None, idtipodocumento, None, None,
+                      None, None, None, None, None,
+                      None, None, None)
         try:
 
             conexion = Conexion()

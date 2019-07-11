@@ -122,3 +122,17 @@ def modificarFormulario():
         return jsonify({"guardado": True})
 
     return jsonify({"guardado": False})
+
+@docm.route('/eliminar_formulario', methods=['POST'])
+def eliminarFormulario():
+
+    idpersona = request.json['idpersona']
+    iddocumento = request.json['iddocumento']
+
+    doc = FormDocumentosModel()
+    res = doc.eliminar(idpersona, iddocumento)
+
+    if res:        
+        return jsonify({"estado": True})
+
+    return jsonify({"estado": False})
