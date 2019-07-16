@@ -1,4 +1,4 @@
-import { autoCompletar } from '../helper/helper.js';
+import { autoCompletar,mensajeNormal } from '../helper/helper.js';
 
 export default class FormularioDocumentos {
 
@@ -85,7 +85,7 @@ export default class FormularioDocumentos {
             const request = documentoStore.getAll();
             request.onsuccess = (e) => {
                 const datos = e.target.result[0];
-                console.log(datos);
+                //console.log(datos);
                 document.getElementById('id_antiguo_tipodocumento').value = datos.idtipodocumento;
                 this.idtipodocumento.value = datos.idtipodocumento;
                 this.txt_tipodocumento.value = datos.documento;
@@ -273,7 +273,13 @@ export default class FormularioDocumentos {
                     window.location.href = 'http://localhost:5000/documentos_miembro/';
 
                 } else {
-                    console.error(data);
+                    //console.error(data);
+                    if (!data.guardado) {
+
+                        const m = mensajeNormal('Cuidado!', 'Posiblemente quieres duplicar este registro o ha sido dado de baja');
+                        m.open();
+
+                    }
                 }
 
             } catch (error) {
@@ -307,7 +313,13 @@ export default class FormularioDocumentos {
                     window.location.href = 'http://localhost:5000/documentos_miembro/';
 
                 } else {
-                    console.error(data);
+                    //console.error(data);
+                    if (!data.guardado) {
+
+                        const m = mensajeNormal('Cuidado!', 'Posiblemente quieres duplicar este registro o ha sido dado de baja');
+                        m.open();
+
+                    }
                 }
 
             } catch (error) {
