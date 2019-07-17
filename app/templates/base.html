@@ -177,6 +177,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
 
+                        <!-- Lista referenciales -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-chart-bar"></i>Gestionar Mantenimiento y Seguridad
@@ -190,6 +191,8 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- Lista módulo membresía -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-table"></i>Gestionar Membresía
@@ -207,12 +210,20 @@
                                     <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}">Registrar
                                         Documentos de Ingreso para Miembro</a>
                                 </li>
+                                <li>
+                                    <a href="{{ url_for('registrar_requisitos_miembro.index_miembrorequisitos') }}">Registrar
+                                        requisitos para miembros</a>
+                                </li>
                             </ul>
                         </li>
+                        
+                        <!-- Lista módulo actividades -->
                         <li>
                             <a href="table.html">
                                 <i class="fas fa-table"></i>Gestionar Actividades</a>
                         </li>
+                        
+                        <!-- Lista módulo cursos -->
                         <li>
                             <a href="table.html">
                                 <i class="fas fa-table"></i>Gestionar Cursos</a>

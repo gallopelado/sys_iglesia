@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_input,pintar_button, pintar_combo, pintar_textarea  %}
+
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_requisitos_miembro.index_miembrorequisitos') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">Formulario Requisito</h3>
+                            </div>
+                            <hr>
+                            <form action="{{ url_for('persona.guardar') }}" method="post">
+                                <input type="hidden" name="idpersona" value="{{ persona[0] if persona else ''}}">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txt_miembro"
+                                                class="form-control-label form-control-sm">Miembro</label>
+                                            <input type="text" name="txt_miembro" id="txt_miembro"
+                                                class="form-control form-control-sm" placeholder="Escriba aquí..">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="cbo_requisito" class="control-label mb-1">Requisitos</label>
+                                            <select name="cbo_requisito" id="cbo_requisito"
+                                                class="input-sm form-control-sm form-control">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="txt_obs"
+                                                class="form-control-label form-control-sm">Observación</label>
+                                            <input type="text" name="txt_obs" id="txt_obs"
+                                                class="form-control form-control-sm" placeholder="Escriba aquí..">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="txt_obs" class="form-control-label form-control-sm">Acción</label>
+                                        <button type="button" class="btn btn-outline-primary btn-sm">Agregar</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <table id="tabla_requisitos" class="table table-bordered">
+                                                <thead>
+                                                    <th>Requisito</th>
+                                                    <th>Fecha</th>
+                                                    <th>Accion</th>
+                                                </thead>
+                                                <tbody id="tb_requisitos"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ pintar_button("Guardar", "btnguardar", "",type="submit") }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ pintar_button("Cancelar", "btncancelar", "",type="reset") }}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
