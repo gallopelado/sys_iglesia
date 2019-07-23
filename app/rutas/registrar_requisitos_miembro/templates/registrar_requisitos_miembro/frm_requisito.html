@@ -26,7 +26,7 @@ Inicio
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">
                             <a href="{{ url_for('registrar_requisitos_miembro.index_miembrorequisitos') }}"
@@ -39,20 +39,21 @@ Inicio
                             </div>
                             <hr>
                             
-                                <input type="hidden" id="idmiembro">
+                                <input type="hidden" id="idmiembro" value="{{ lista_cab[0] }}">
 
                                 <div class="row">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
                                         <div class="form-group">
                                             <label for="txt_miembro"
                                                 class="form-control-label form-control-sm">Miembro</label>
                                             <input type="text" name="txt_miembro" id="txt_miembro"
-                                                class="form-control form-control-sm" placeholder="Escriba algún nombre..">
+                                                class="form-control form-control-sm" placeholder="Escriba algún nombre.."
+                                                value="{{ lista_cab[2] }}" disabled>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
                                         <input type="hidden" id="txt_idrequisito">
                                         <div class="form-group">
                                             <label for="txt_requisito" class="control-label mb-1">Requisitos</label>
@@ -81,10 +82,37 @@ Inicio
                                         <div class="form-group">
                                             <table id="tabla_requisitos" class="table table-bordered">
                                                 <thead>
-                                                    <th>Requisito</th>                                                    
+                                                    <th>Requisito</th>
+                                                    <th>Observación</th>                                                    
                                                     <th>Accion</th>
                                                 </thead>
-                                                <tbody id="tb_requisitos"></tbody>
+                                                <tbody id="tb_requisitos">
+
+                                                    {% if lista_requi %}
+
+                                                        {% for item in lista_requi %}
+                                                        
+                                                            <tr id="{{ item[4] }}" style="background-color: #F1F3E8">
+                                                                <td>{{ item[5] }}</td>
+                                                                <td>{{ item[3] }}</td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                                                        <i class="fa fa-flash"></i>
+                                                                        Eliminar
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        {% endfor %}
+                                                    
+                                                    {% else %}
+                                                        <tr>
+                                                            <td>No posee requisitos registrados...</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    {% endif %}
+
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -96,7 +124,7 @@ Inicio
                                         <button type="button" id="btnGuardar" class="btn btn-success btn-block">Guardar</button>
                                     </div>
                                     <div class="col-lg-6">
-                                        <button type="button" id="btnCancelar" class="btn btn-danger btn-block">Guardar</button>
+                                        <button type="button" id="btnCancelar" class="btn btn-danger btn-block">Cancelar</button>
                                     </div>
                                 </div>
                             

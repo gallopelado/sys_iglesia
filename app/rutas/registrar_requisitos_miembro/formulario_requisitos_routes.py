@@ -18,6 +18,16 @@ def index_miembrorequisitos():
     return render_template('registrar_requisitos_miembro/index.html', lista = lista)
 
 
+@miereq.route('/frm_requisito/<int:idpersona>', methods=['GET'])
+def ver(idpersona):
+    id = int(idpersona)
+
+    req = RequisitoModel()
+    lista = req.getDataPersonaRequisito(id)
+    listacab = req.getNombre(id)
+    
+    return render_template('registrar_requisitos_miembro/frm_requisito.html', lista_requi = lista, lista_cab = listacab)
+
 @miereq.route('/frm_requisito')
 def frmRequisito():
     return render_template('registrar_requisitos_miembro/frm_requisito.html')

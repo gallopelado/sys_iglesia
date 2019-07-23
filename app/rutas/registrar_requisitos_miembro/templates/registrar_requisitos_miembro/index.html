@@ -46,10 +46,11 @@ Registrar Documentos de ingreso para miembros
                                             <td> {{ item[1] }} </td>
                                             <td>
                                                 <div class="table-data-feature">
-                                                    <button class="item btn btn-outline-primary" data-toggle="modal" data-placement="top"
+                                                    <a href="{{ url_for('registrar_requisitos_miembro.ver', idpersona = item[0]) }}"
+                                                        class="item btn btn-outline-primary" data-placement="top"
                                                         title="Ver">
                                                         <i class="zmdi zmdi-mail-send"></i>
-                                                    </button>                                                                                                   
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -86,6 +87,7 @@ Registrar Documentos de ingreso para miembros
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
 <!-- Principal -->
-<script type="module" src="{{ url_for('static', filename='jsOperacionales/requisitos_miembro/principal.js') }}"></script>
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/requisitos_miembro/principal.js') }}"></script>
 
 {% endblock %}

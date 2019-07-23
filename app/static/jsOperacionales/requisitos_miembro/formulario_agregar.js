@@ -24,6 +24,7 @@ btnAgregar.addEventListener('click', () => {
     let fila;
     let celda1;
     let celda2;
+    let celda3;
     let botonEliminar = `
     <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila()">
         <i class="fa fa-flash"></i> Eliminar
@@ -56,11 +57,14 @@ btnAgregar.addEventListener('click', () => {
 
             if (!noencontrado) {
 
+                fila.id = datos.txt_idrequisito;
                 celda1 = fila.insertCell(0);
-                celda2 = fila.insertCell(1);
+                celda2 = fila.insertCell(1)
+                celda3 = fila.insertCell(2);                
 
                 celda1.innerHTML = datos.txt_requisito;
-                celda2.innerHTML = botonEliminar;
+                celda2.innerHTML = datos.txt_obs.toUpperCase();
+                celda3.innerHTML = botonEliminar;
 
             }
 
@@ -81,6 +85,12 @@ btnAgregar.addEventListener('click', () => {
 
 });
 
+const btnGuardar = document.getElementById('btnGuardar');
+btnGuardar.addEventListener('click', () => {
+    console.log('Guardando...');
+    const req = new FormularioMiembroRequisito();
+    req.guardar();
+});
 // Funciones globales.
 window.eliminarFila = () => {
 

@@ -1,4 +1,4 @@
-import { autoCompletar } from '../helper/helper.js'
+import { autoCompletar, hacerDataTable } from '../helper/helper.js'
 
 export default class FormularioMiembroRequisito {    
 
@@ -31,30 +31,10 @@ export default class FormularioMiembroRequisito {
 
     }    
 
-    async obtenerMiembros() {
-
-        try {
-            
-            const res = await fetch('/requisitos_miembro/lista_personas_json');
-            const data = await res.json();
-
-            if (data)
-                return data;
-            
-            return false;
-
-        } catch (error) {
-            console.error(error.message);
-        }
-
-    }
-
     async cargarInputs() {
-
-        const personas = await this.obtenerMiembros();
-        const requisitos = await this.obtenerRequisitos();
         
-        autoCompletar(personas, 'persona', 'idpersona', 'idmiembro', 'txt_miembro');
+        const requisitos = await this.obtenerRequisitos();
+                
         autoCompletar(requisitos, 'descripcion', 'id', 'txt_idrequisito', 'txt_requisito');
 
     }
@@ -74,7 +54,7 @@ export default class FormularioMiembroRequisito {
             datos.txt_miembro = txt_miembro.trim();
             datos.txt_idrequisito = txt_idrequisito;
             datos.txt_requisito = txt_requisito.trim();
-            datos.txt_obs = txt_obs;
+            datos.txt_obs = txt_obs.trim();
 
             return datos;
 
@@ -82,6 +62,39 @@ export default class FormularioMiembroRequisito {
 
         alert('Complete correctamente el formulario.');
         return false;
+
+    }
+
+    guardar() {
+
+        const tabla = document.getElementById('tb_requisitos');
+        //console.log(tabla.rows);
+        const tablaLongi = tabla.rows.length;
+        //console.log(tablaLongi);
+        let nuevosRequisitos = [];
+
+        for (let i = 0; i <= tablaLongi-1; i++) {
+
+            //console.log(tabla.rows[i].style.backgroundColor);
+            const estiloTR = tabla.rows[i].style.backgroundColor;
+            if (estiloTR !== 'rgb(241, 243, 232)') {
+
+                // los que no tienen estilo son nuevos.
+                console.log(tabla.rows[i].id);
+
+                const idpersona = this.idmiembro.value;
+                const idfila = tabla.rows[i].id;
+                const obs = tabla.rows[i].children[1].innerHTML;
+                nuevosRequisitos.push({
+                    idpersona: idpersona,
+                    idrequisito: idfila,
+                    obs: obs
+                });
+                
+            }
+
+        }
+        console.log(nuevosRequisitos);
 
     }
 }
