@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "flask_env/bin/python3",
+    "python.pythonPath": "venv/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "sqltools.connections": [

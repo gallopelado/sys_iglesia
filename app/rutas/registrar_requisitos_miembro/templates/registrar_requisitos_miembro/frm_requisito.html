@@ -5,6 +5,21 @@
 Inicio
 {% endblock %}
 
+{% block mi_css %}
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula todos elementos todo lo que escriba el usuario */
+    input {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
 {% block content %}
 <!-- MAIN CONTENT-->
 <div class="main-content">
@@ -23,32 +38,31 @@ Inicio
                                 <h3 class="text-center title-2">Formulario Requisito</h3>
                             </div>
                             <hr>
-                            <form action="{{ url_for('persona.guardar') }}" method="post">
-                                <input type="hidden" name="idpersona" value="{{ persona[0] if persona else ''}}">
+                            
+                                <input type="hidden" id="idmiembro">
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <div class="form-group">
                                             <label for="txt_miembro"
                                                 class="form-control-label form-control-sm">Miembro</label>
                                             <input type="text" name="txt_miembro" id="txt_miembro"
-                                                class="form-control form-control-sm" placeholder="Escriba aquí..">
+                                                class="form-control form-control-sm" placeholder="Escriba algún nombre..">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <input type="hidden" id="txt_idrequisito">
                                         <div class="form-group">
-                                            <label for="cbo_requisito" class="control-label mb-1">Requisitos</label>
-                                            <select name="cbo_requisito" id="cbo_requisito"
-                                                class="input-sm form-control-sm form-control">
-
-                                            </select>
+                                            <label for="txt_requisito" class="control-label mb-1">Requisitos</label>
+                                            <input name="txt_requisito" id="txt_requisito"
+                                                class="input-sm form-control-sm form-control" placeholder="Escriba un requisito"/>                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
                                         <div class="form-group">
                                             <label for="txt_obs"
                                                 class="form-control-label form-control-sm">Observación</label>
@@ -56,19 +70,18 @@ Inicio
                                                 class="form-control form-control-sm" placeholder="Escriba aquí..">
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col col-sm-12 col-md-12 col-lg-2 col-xl-2">
                                         <label for="txt_obs" class="form-control-label form-control-sm">Acción</label>
-                                        <button type="button" class="btn btn-outline-primary btn-sm">Agregar</button>
+                                        <button type="button" id="btnAgregaItem" class="btn btn-outline-primary btn-sm">Agregar</button>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                         <div class="form-group">
                                             <table id="tabla_requisitos" class="table table-bordered">
                                                 <thead>
-                                                    <th>Requisito</th>
-                                                    <th>Fecha</th>
+                                                    <th>Requisito</th>                                                    
                                                     <th>Accion</th>
                                                 </thead>
                                                 <tbody id="tb_requisitos"></tbody>
@@ -80,13 +93,13 @@ Inicio
                                 <hr>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        {{ pintar_button("Guardar", "btnguardar", "",type="submit") }}
+                                        <button type="button" id="btnGuardar" class="btn btn-success btn-block">Guardar</button>
                                     </div>
                                     <div class="col-lg-6">
-                                        {{ pintar_button("Cancelar", "btncancelar", "",type="reset") }}
+                                        <button type="button" id="btnCancelar" class="btn btn-danger btn-block">Guardar</button>
                                     </div>
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -97,3 +110,12 @@ Inicio
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
 {% endblock %}
+
+{% block mi_script %}
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS Controlador -->
+<script type="module" src="{{ url_for('static', filename='jsOperacionales/requisitos_miembro/formulario_agregar.js') }}"></script>
+{% endblock%}

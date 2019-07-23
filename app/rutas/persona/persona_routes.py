@@ -190,3 +190,4 @@ def get_personas():
         datalist += "<option value=" + str(persona[0]) + ">ID= " + str(persona[0]) + ", " + str(persona[2]) + " " + str(persona[3]) + "</option>"
 
     return datalist
+

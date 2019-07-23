@@ -121,6 +121,8 @@ function obtenerIdUrl() {
  */
 function autoCompletar(datos, valor, valorid, campoid, campodes) {
 
+    //console.log(datos);
+
     let options = {
 
         data: datos,

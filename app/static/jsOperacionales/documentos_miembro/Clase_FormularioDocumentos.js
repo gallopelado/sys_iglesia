@@ -26,6 +26,8 @@ export default class FormularioDocumentos {
 
         const d = await this.getTiposDocumentos();
 
+        //console.log(d[0][0]);
+
         autoCompletar(d[0][0], 'documento', 'iddocumento', 'idtipodocumento', 'txt_tipodocumento');
 
     }

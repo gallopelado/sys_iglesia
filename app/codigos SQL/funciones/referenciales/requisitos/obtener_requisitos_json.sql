@@ -16,11 +16,10 @@ BEGIN
 		) INTO arrayjson
 	FROM 
 		(
-			SELECT referenciales.obtener_todos_requisitos()
+			SELECT * FROM referenciales.obtener_todos_requisitos()
 		) data;
 	
 	RETURN arrayjson;
 	
 END;
 $$ LANGUAGE plpgsql;
-SELECT referenciales.obtener_todos_requisitos_json()
