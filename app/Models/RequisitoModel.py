@@ -111,3 +111,24 @@ class RequisitoModel():
             if con is not None:
                 cur.close()
                 con.close()
+    
+    def eliminar(self, idpersona, idrequisito):
+        #SQL
+        procedimiento = 'membresia.persona_requisitos_eliminar'
+        parametros = (idpersona, idrequisito,)
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur =  con.cursor()
+            cur.callproc(procedimiento, parametros)
+            con.commit()
+            return cur.fetchone()
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

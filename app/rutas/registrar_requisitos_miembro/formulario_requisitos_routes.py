@@ -49,7 +49,7 @@ def listaPersonas():
 @miereq.route('/guardar', methods=['POST'])
 def guardar():
 
-    print(f'Recibido {request.json}')
+    #print(f'Recibido {request.json}')
     idpersona = request.json['idpersona']
     idrequisitos = request.json['idrequisitos']
     observaciones = request.json['observaciones']
@@ -57,6 +57,19 @@ def guardar():
     req = RequisitoModel()
     res = req.guardar(idpersona, idrequisitos, observaciones)
     if res:
-        return jsonify({"procesando": True})
+        return jsonify({"guardado": True})
     
-    return jsonify({"procesando": False})
+    return jsonify({"guardado": False})
+
+@miereq.route('/eliminar', methods=['POST'])
+def eliminar():
+    print(f'Recibido {request.json}')
+    idpersona = request.json['idpersona']
+    idrequisito = request.json['idrequisito']
+
+    req = RequisitoModel()
+    res = req.eliminar(idpersona, idrequisito)
+    if res:
+        return jsonify({"eliminado": True})
+    
+    return jsonify({"eliminado": False})

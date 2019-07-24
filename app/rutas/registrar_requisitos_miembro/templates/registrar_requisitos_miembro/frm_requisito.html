@@ -92,7 +92,7 @@ Inicio
 
                                                         {% for item in lista_requi %}
                                                         
-                                                            <tr id="{{ item[4] }}" style="background-color: #F1F3E8">
+                                                            <tr id="{{ item[4] }}" style="background-color: #F1F3E8" onclick="eliminarFila()">
                                                                 <td>{{ item[5] }}</td>
                                                                 <td>{{ item[3] }}</td>
                                                                 <td>
@@ -104,12 +104,7 @@ Inicio
                                                             </tr>
                                                         
                                                         {% endfor %}
-                                                    
-                                                    {% else %}
-                                                        <tr>
-                                                            <td>No posee requisitos registrados...</td>
-                                                            <td></td>
-                                                        </tr>
+                                                                                                        
                                                     {% endif %}
 
                                                 </tbody>
