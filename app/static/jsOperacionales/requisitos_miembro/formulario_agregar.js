@@ -106,7 +106,7 @@ window.eliminarFila = () => {
     for (let i = 1; i < tablaLongi; i++) {
 
         // Ligar el evento click al boton dentro de la tabla.
-        tabla.rows[i].cells[1].children[0].onclick = function () {
+        tabla.rows[i].cells[2].children[0].onclick = function () {
 
             // Obtener el indice de fila.                
             indice = this.parentElement.parentElement.rowIndex;

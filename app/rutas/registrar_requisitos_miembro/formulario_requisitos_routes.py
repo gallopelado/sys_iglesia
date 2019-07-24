@@ -45,3 +45,18 @@ def listaPersonas():
     per = PersonaModel()
     lista = per.listarPersonasJSON()
     return jsonify(lista[0][0])
+
+@miereq.route('/guardar', methods=['POST'])
+def guardar():
+
+    print(f'Recibido {request.json}')
+    idpersona = request.json['idpersona']
+    idrequisitos = request.json['idrequisitos']
+    observaciones = request.json['observaciones']
+    
+    req = RequisitoModel()
+    res = req.guardar(idpersona, idrequisitos, observaciones)
+    if res:
+        return jsonify({"procesando": True})
+    
+    return jsonify({"procesando": False})

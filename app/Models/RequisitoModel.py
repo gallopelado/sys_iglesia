@@ -90,3 +90,24 @@ class RequisitoModel():
                 cur.close()
                 con.close()
     
+    def guardar(self, idpersona, idrequisitos, observaciones):
+        
+        # SQL
+        procedimiento = "membresia.persona_requisitos"
+
+        try:
+        
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, (idpersona, idrequisitos, observaciones, None, ))
+            con.commit()
+            return True
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

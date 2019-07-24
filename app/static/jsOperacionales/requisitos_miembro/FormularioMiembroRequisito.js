@@ -65,13 +65,17 @@ export default class FormularioMiembroRequisito {
 
     }
 
-    guardar() {
+    async guardar() {
 
         const tabla = document.getElementById('tb_requisitos');
         //console.log(tabla.rows);
         const tablaLongi = tabla.rows.length;
         //console.log(tablaLongi);
         let nuevosRequisitos = [];
+        let datos = {};
+        let idrequisitos = '';
+        let requisitos = '';
+        let observaciones = '';
 
         for (let i = 0; i <= tablaLongi-1; i++) {
 
@@ -80,21 +84,50 @@ export default class FormularioMiembroRequisito {
             if (estiloTR !== 'rgb(241, 243, 232)') {
 
                 // los que no tienen estilo son nuevos.
-                console.log(tabla.rows[i].id);
-
-                const idpersona = this.idmiembro.value;
+                //console.log(tabla.rows[i].id);
+                
                 const idfila = tabla.rows[i].id;
-                const obs = tabla.rows[i].children[1].innerHTML;
-                nuevosRequisitos.push({
-                    idpersona: idpersona,
-                    idrequisito: idfila,
-                    obs: obs
-                });
+                const requisito = tabla.rows[i].children[0].innerHTML; 
+                const obs = tabla.rows[i].children[1].innerHTML;                
+                
+                idrequisitos += idfila + ',';
+                requisitos += requisito + ',';
+                observaciones += obs + ',';                
                 
             }
 
         }
-        console.log(nuevosRequisitos);
+        //console.log(nuevosRequisitos);
+        const idpersona = this.idmiembro.value;
+        idrequisitos = idrequisitos.slice( 0, idrequisitos.length-1 );
+        requisitos = requisitos.slice( 0, requisitos.length-1 );
+        observaciones = observaciones.slice( 0, observaciones.length-1 );
+        datos = {
+            idpersona: idpersona,
+            idrequisitos: idrequisitos,
+            requisitos: requisitos,
+            observaciones: observaciones
+        }
+        console.log(datos);
+
+        // Preparar para guardar
+        try {
+            
+            const res = await fetch('/requisitos_miembro/guardar', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            });
+            const data = await res.json()
+
+            console.log(data)
+
+        } catch (error) {
+            console.log(error.message);
+        }
 
     }
 }
