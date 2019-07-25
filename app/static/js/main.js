@@ -1256,10 +1256,10 @@
     // USE STRICT
     "use strict";
     $(".animsition").animsition({
-      inClass: 'fade-in-up-sm',
-      outClass: 'fade-out-up-sm',
-      inDuration: 900,
-      outDuration: 900,
+      inClass: 'zoom-in-sm',
+      outClass: 'zoom-out-sm',
+      inDuration: 700,
+      outDuration: 700,
       linkElement: 'a:not([target="_blank"]):not([href^="#"]):not([class^="chosen-single"])',
       loading: true,
       loadingParentElement: 'html',

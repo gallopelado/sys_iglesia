@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+Formulario Miembro Oficial
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario Miembro Oficial
+                                </h3>
+                            </div>
+
+                            <hr>
+
+                            <!-- Campos Tipo de documento, fecha -->
+                            <div class="form-horizontal">
+                                <div class="row form-group">
+                                    <!-- Campo id-->
+                                    <input type="hidden" id="idtipodocumento">
+
+                                    <!-- Combo Tipo de documento -->
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <label for=txt_tipodocumento" class="form-control-label form-control-sm">Tipo de
+                                            documento</label>
+                                        <input id="txt_tipodocumento" class="form-control form-control-sm"
+                                            placeholder="Escriba el tipo de documento...">
+                                    </div>
+                                    <!---->
+
+                                    <!-- Campo Fecha -->
+                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <label for="txt_fecha"
+                                                class="form-control-label form-control-sm">Fecha</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="datetimepicker4"
+                                                    data-target-input="nearest">
+                                                    <input type="text" class="form-control datetimepicker-input"
+                                                        data-target="#datetimepicker4" id="txt_fecha"
+                                                        onpaste="return false" />
+                                                    <div class="input-group-append" data-target="#datetimepicker4"
+                                                        data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo miembro -->
+                            <div class="row form-group">
+                                <div class="col col-6">
+                                    <label for=txt_miembro" class="form-control-label form-control-sm">Miembro a quien
+                                        se otorga</label>
+                                    <input type="hidden" id="idmiembro">
+                                    <input id="txt_miembro" class="form-control form-control-sm"
+                                        placeholder="Nombre del miembro...">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo cónyuge -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for=txt_conyuge" class="form-control-label form-control-sm">Cónyuge(Sólo si
+                                        se aplica)</label>
+                                    <input type="hidden" id="idconyuge">
+                                    <input id="txt_conyuge" class="form-control form-control-sm"
+                                        placeholder="Nombre del cónyuge...">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo oficiador -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for=txt_oficiador"
+                                        class="form-control-label form-control-sm">Oficiador</label>
+                                    <input id="txt_oficiador" class="form-control form-control-sm"
+                                        placeholder="Nombre del miembro...">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo previo documento cargado -->
+                            <div class="row form-group">
+                                <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo documento -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="txt_documento">
+                                            <label class="custom-file-label form-control-sm" for="txt_documento"
+                                                aria-describedby="txt_documento">Documento de referencia</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo Declaración Oficial -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for="txt_declaracion" class="form-control-label form-control-sm">Declaración
+                                        Oficial</label>
+                                    <textarea name="txt_declaracion" id="txt_declaracion" cols="30" rows="5"
+                                        class="form-control-sm form-control"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Campo notas adicionales -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for=txt_notas" class="form-control-label form-control-sm">Notas
+                                        Adicionales</label>
+                                    <input id="txt_notas" class="form-control form-control-sm" placeholder="Notas">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Campo testigos -->
+                            <div class="row form-group">
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for=txt_testigo1" class="form-control-label form-control-sm">Testigo</label>
+                                    <input id="txt_testigo1" class="form-control form-control-sm" placeholder="Testigo">
+                                </div>
+                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    <label for=txt_testigo2" class="form-control-label form-control-sm">Testigo</label>
+                                    <input id="txt_testigo2" class="form-control form-control-sm" placeholder="Testigo">
+                                </div>
+                            </div>
+                            <!---->
+
+                            <!-- Botones -->
+                            <div class="row form-group">
+                                <div class="col col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                <i class="fa fa-dot-circle-o"></i> Guardar
+                                            </button>
+                                            <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
+                                                id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <i class="fa  fa-arrow-down"></i> Cancelar
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+
+<!-- JS de tempusdominus/traduccion -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/es.js') }}"></script>
+
+<!-- JS de tempusdominus -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+
+{%- endblock %}
