@@ -57,154 +57,150 @@ Formulario Miembro Oficial
 
                             <hr>
 
-                            <!-- Campos Tipo de documento, fecha -->
-                            <div class="form-horizontal">
-                                <div class="row form-group">
-                                    <!-- Campo id-->
-                                    <input type="hidden" id="idtipodocumento">
+                            <!-- Inicio del formulario -->
+                            <form action="" method="post">
 
-                                    <!-- Combo Tipo de documento -->
-                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                        <label for=txt_tipodocumento" class="form-control-label form-control-sm">Tipo de
-                                            documento</label>
-                                        <input id="txt_tipodocumento" class="form-control form-control-sm"
-                                            placeholder="Escriba el tipo de documento...">
-                                    </div>
-                                    <!---->
+                                <!-- Campo oculto para idmiembro/idpersona -->
+                                <input type="hidden" name="txt_idmiembro" id="txt_idmiembro">
 
-                                    <!-- Campo Fecha -->
-                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        <div class="form-group">
-                                            <label for="txt_fecha"
-                                                class="form-control-label form-control-sm">Fecha</label>
-                                            <div class="form-group">
-                                                <div class="input-group date" id="datetimepicker4"
-                                                    data-target-input="nearest">
-                                                    <input type="text" class="form-control datetimepicker-input"
-                                                        data-target="#datetimepicker4" id="txt_fecha"
-                                                        onpaste="return false" />
-                                                    <div class="input-group-append" data-target="#datetimepicker4"
-                                                        data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
+                                <!-- Persona, razon de alta -->
+                                <div class="form-horizontal">
+                                    <div class="row form-group">
+
+                                        <!-- Campo Persona con el boton de agregar -->
+                                        <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                            <div class="input-group">
+                                                <input type="text" name="txt_miembro" id="txt_miembro"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Buscar Persona...">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-success btn-sm" type="button">
+                                                        <i class="fa fa-file-text"></i> Registrar Formulario de Admisión
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!---->
+
+                                        <!-- Campo Razon de alta -->
+                                        <input type="hidden" name="txt_idrazonalta" id="txt_idrazonalta">
+                                        <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            <input type="text" name="txt_razonalta" id="txt_razonalta"
+                                                class="form-control form-control-sm" placeholder="Razón de Alta">
+                                        </div>
+                                        <!---->
+
                                     </div>
-                                    <!---->
+                                </div>
+                                <!---->
+
+                                <!-- Campos fechas, estado de membresia -->
+                                <div class="row form-group">
+
+                                    <!-- Campo fecha de conversion -->
+                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <label for=txt_fechaconversion" class="form-control-label form-control-sm">Fecha
+                                            de conversión</label>
+                                        <input name="txt_fechaconversion" id="txt_fechaconversion"
+                                            class="form-control form-control-sm">
+                                    </div>
+
+                                    <!-- Campo fecha de bautismo -->
+                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <label for=txt_fechabautismo" class="form-control-label form-control-sm">Fecha
+                                            de bautismo</label>
+                                        <input name="txt_fechabautismo" id="txt_fechabautismo"
+                                            class="form-control form-control-sm">
+                                    </div>
+
+                                    <!-- Campo estado de membresia -->
+                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <label for=txt_estadomembresia"
+                                            class="form-control-label form-control-sm">Estado de su membresía</label>
+                                        <input name="txt_estadomembresia" id="txt_estadomembresia"
+                                            class="form-control form-control-sm">
+                                    </div>
 
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!-- Campo miembro -->
-                            <div class="row form-group">
-                                <div class="col col-6">
-                                    <label for=txt_miembro" class="form-control-label form-control-sm">Miembro a quien
-                                        se otorga</label>
-                                    <input type="hidden" id="idmiembro">
-                                    <input id="txt_miembro" class="form-control form-control-sm"
-                                        placeholder="Nombre del miembro...">
+                                <!-- Campo lugar de bautismo -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <label for=txt_lugarbautismo" class="form-control-label form-control-sm">Lugar o
+                                            Iglesia de bautismo</label>
+                                        <input name="txt_lugarbautismo" id="txt_lugarbautismo" class="form-control form-control-sm">
+                                    </div>
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!-- Campo cónyuge -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_conyuge" class="form-control-label form-control-sm">Cónyuge(Sólo si
-                                        se aplica)</label>
-                                    <input type="hidden" id="idconyuge">
-                                    <input id="txt_conyuge" class="form-control form-control-sm"
-                                        placeholder="Nombre del cónyuge...">
+                                <!-- Campo ministro que lo bautizó, fecha inicio de membresia -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <label for=txt_ministro" class="form-control-label form-control-sm">Ministro que lo bautizó</label>
+                                        <input name="txt_ministro" id="txt_ministro" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                        <label for=txt_fechainiciomembresia" class="form-control-label form-control-sm">Fecha de inicio de membresía aquí</label>
+                                        <input name="txt_fechainiciomembresia" id="txt_fechainiciomembresia" class="form-control form-control-sm">
+                                    </div>
+
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!-- Campo oficiador -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_oficiador"
-                                        class="form-control-label form-control-sm">Oficiador</label>
-                                    <input id="txt_oficiador" class="form-control form-control-sm"
-                                        placeholder="Nombre del miembro...">
-                                </div>
-                            </div>
-                            <!---->
-
-                            <!-- Campo previo documento cargado -->
-                            <div class="row form-group">
-                                <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                </div>
-                            </div>
-                            <!---->
-
-                            <!-- Campo documento -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="input-group mb-3">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="txt_documento">
-                                            <label class="custom-file-label form-control-sm" for="txt_documento"
-                                                aria-describedby="txt_documento">Documento de referencia</label>
+                                <!-- Campos check -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" name="chk_fuebautizado" id="chk_fuebautizado">Fue bautizado en esta iglesia
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" name="chk_padreseniglesia" id="chk_padreseniglesia">Padres son miembros en esta iglesia
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" name="chk_recibioes" id="chk_recibioes">Recibió el Espíritu Santo
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!-- Campo Declaración Oficial -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for="txt_declaracion" class="form-control-label form-control-sm">Declaración
-                                        Oficial</label>
-                                    <textarea name="txt_declaracion" id="txt_declaracion" cols="30" rows="5"
-                                        class="form-control-sm form-control"></textarea>
-                                </div>
-                            </div>
-
-                            <!-- Campo notas adicionales -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_notas" class="form-control-label form-control-sm">Notas
-                                        Adicionales</label>
-                                    <input id="txt_notas" class="form-control form-control-sm" placeholder="Notas">
-                                </div>
-                            </div>
-                            <!---->
-
-                            <!-- Campo testigos -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_testigo1" class="form-control-label form-control-sm">Testigo</label>
-                                    <input id="txt_testigo1" class="form-control form-control-sm" placeholder="Testigo">
-                                </div>
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <label for=txt_testigo2" class="form-control-label form-control-sm">Testigo</label>
-                                    <input id="txt_testigo2" class="form-control form-control-sm" placeholder="Testigo">
-                                </div>
-                            </div>
-                            <!---->
-
-                            <!-- Botones -->
-                            <div class="row form-group">
-                                <div class="col col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
-                                                <i class="fa fa-dot-circle-o"></i> Guardar
-                                            </button>
-                                            <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
-                                                id="btnCancelar" class="btn btn-danger btn-lg">
-                                                <i class="fa  fa-arrow-down"></i> Cancelar
-                                            </a>
-                                        </div>
+                                <!-- Campo observacion -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <label for="txt_obs"
+                                            class="form-control-label form-control-sm">Observaciones</label>
+                                        <textarea name="txt_obs" id="txt_obs" cols="30" rows="5"
+                                            class="form-control-sm form-control"></textarea>
                                     </div>
-
                                 </div>
-                            </div>
 
+                                <!-- Botones -->
+                                <div class="row form-group">
+                                    <div class="col col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                                </button>
+                                                <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
+                                                    id="btnCancelar" class="btn btn-danger btn-lg">
+                                                    <i class="fa  fa-arrow-down"></i> Cancelar
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </form>
+                            <!-- Fin del formulario -->
                         </div>
                         <!--Fin card-body-->
                     </div>
