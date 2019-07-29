@@ -441,3 +441,22 @@ class FormAdmisionModel():
             if con is not None:
                 cur.close()
                 con.close()
+
+    def getAdmisionesActivas(self, estado):
+        # SQL
+        procedimiento = 'membresia.get_miembro_admision_json'
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, (estado, ))
+            return cur.fetchall()
+
+        except con.Error as e:
+            print(str(e.pgerror).encode('utf-8'))
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
