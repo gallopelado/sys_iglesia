@@ -12,6 +12,7 @@ class Conexion:
 
         """
         self.__con = psycopg2.connect("dbname=db_iglesia user=juandba host=localhost password=admin")
+        
 
     def getConexion(self):
         """Método getConexion, retorna la conexion.

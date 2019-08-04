@@ -74,7 +74,7 @@ Formulario Miembro Oficial
                                                     class="form-control form-control-sm"
                                                     placeholder="Buscar Persona...">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-success btn-sm" type="button">
+                                                    <button id="btnFormAdmi" class="btn btn-success btn-sm" type="button">
                                                         <i class="fa fa-file-text"></i> Registrar Formulario de Admisión
                                                     </button>
                                                 </div>
@@ -99,18 +99,44 @@ Formulario Miembro Oficial
 
                                     <!-- Campo fecha de conversion -->
                                     <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        <label for=txt_fechaconversion" class="form-control-label form-control-sm">Fecha
-                                            de conversión</label>
-                                        <input name="txt_fechaconversion" id="txt_fechaconversion"
-                                            class="form-control form-control-sm">
+                                        <div class="form-group">
+                                            <label for=txt_fechaconversion"
+                                                class="form-control-label form-control-sm">Fecha
+                                                de conversión</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="picker_fechaconversion"
+                                                    data-target-input="nearest">
+                                                    <input type="text"
+                                                        class="form-control form-control-sm datetimepicker-input"
+                                                        data-target="#picker_fechaconversion" name="txt_fechaconversion"
+                                                        id="txt_fechaconversion" onpaste="return false"/>
+                                                    <div class="input-group-append" data-target="#picker_fechaconversion"
+                                                        data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Campo fecha de bautismo -->
                                     <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        <label for=txt_fechabautismo" class="form-control-label form-control-sm">Fecha
-                                            de bautismo</label>
-                                        <input name="txt_fechabautismo" id="txt_fechabautismo"
-                                            class="form-control form-control-sm">
+                                        <div class="form-group">
+                                            <label for=txt_fechabautismo"
+                                                class="form-control-label form-control-sm">Fecha
+                                                de bautismo</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="picker_fechabautismo" data-target-input="nearest">
+                                                    <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#picker_fechabautismo"
+                                                        name="txt_fechabautismo" id="txt_fechabautismo" onpaste="return false" />
+                                                    <div class="input-group-append" data-target="#picker_fechabautismo" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Campo estado de membresia -->
@@ -118,7 +144,15 @@ Formulario Miembro Oficial
                                         <label for=txt_estadomembresia"
                                             class="form-control-label form-control-sm">Estado de su membresía</label>
                                         <input name="txt_estadomembresia" id="txt_estadomembresia"
-                                            class="form-control form-control-sm">
+                                            class="form-control form-control-sm" list="list_estadomembresia">
+                                        <datalist id="list_estadomembresia">
+                                            <option value="ACTIVO, CON CARGOS"></option>
+                                            <option value="ACTIVO, SIN CARGOS"></option>
+                                            <option value="INACTIVO"></option>
+                                            <option value="A PRUEBA"></option>
+                                            <option value="DADO DE BAJA"></option>
+                                            <option value="EN OBSERVACION"></option>
+                                        </datalist>
                                     </div>
 
                                 </div>
@@ -129,7 +163,8 @@ Formulario Miembro Oficial
                                     <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
                                         <label for=txt_lugarbautismo" class="form-control-label form-control-sm">Lugar o
                                             Iglesia de bautismo</label>
-                                        <input name="txt_lugarbautismo" id="txt_lugarbautismo" class="form-control form-control-sm">
+                                        <input name="txt_lugarbautismo" id="txt_lugarbautismo"
+                                            class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <!---->
@@ -137,13 +172,29 @@ Formulario Miembro Oficial
                                 <!-- Campo ministro que lo bautizó, fecha inicio de membresia -->
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <label for=txt_ministro" class="form-control-label form-control-sm">Ministro que lo bautizó</label>
-                                        <input name="txt_ministro" id="txt_ministro" class="form-control form-control-sm">
+                                        <label for=txt_ministro" class="form-control-label form-control-sm">Ministro que
+                                            lo bautizó</label>
+                                        <input name="txt_ministro" id="txt_ministro"
+                                            class="form-control form-control-sm">
                                     </div>
 
                                     <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        <label for=txt_fechainiciomembresia" class="form-control-label form-control-sm">Fecha de inicio de membresía aquí</label>
-                                        <input name="txt_fechainiciomembresia" id="txt_fechainiciomembresia" class="form-control form-control-sm">
+                                        <div class="form-group">
+                                            <label for=txt_fechabautismo" class="form-control-label form-control-sm">Fecha de inicio de membresía aquí</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="picker_fechainiciomembresia" data-target-input="nearest">
+                                                    <input type="text" class="form-control form-control-sm datetimepicker-input"
+                                                        data-target="#picker_fechainiciomembresia" name="txt_fechainiciomembresia" id="txt_fechainiciomembresia"
+                                                        onpaste="return false" />
+                                                    <div class="input-group-append" data-target="#picker_fechainiciomembresia" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <input name="txt_fechainiciomembresia" id="txt_fechainiciomembresia"
+                                            class="form-control form-control-sm"> -->
                                     </div>
 
                                 </div>
@@ -154,17 +205,21 @@ Formulario Miembro Oficial
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" name="chk_fuebautizado" id="chk_fuebautizado">Fue bautizado en esta iglesia
+                                                <input type="checkbox" class="form-check-input" name="chk_fuebautizado"
+                                                    id="chk_fuebautizado">Fue bautizado en esta iglesia
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" name="chk_padreseniglesia" id="chk_padreseniglesia">Padres son miembros en esta iglesia
+                                                <input type="checkbox" class="form-check-input"
+                                                    name="chk_padreseniglesia" id="chk_padreseniglesia">Padres son
+                                                miembros en esta iglesia
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" name="chk_recibioes" id="chk_recibioes">Recibió el Espíritu Santo
+                                                <input type="checkbox" class="form-check-input" name="chk_recibioes"
+                                                    id="chk_recibioes">Recibió el Espíritu Santo
                                             </label>
                                         </div>
                                     </div>

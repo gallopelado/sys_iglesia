@@ -2,7 +2,12 @@ from app.Conexion.Conexion import Conexion
 
 
 class RequisitoModel():
-
+    """Clase RequisitoModel.
+    Se definen los métodos para gestionar datos
+    para la BD. Pertenenciente al movimiento de
+    requisitos de person, no al referencial de requisitos.
+    
+    """
     def listarTodo(self):
 
         # SQL

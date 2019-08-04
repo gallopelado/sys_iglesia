@@ -1,4 +1,4 @@
-import { autoCompletar } from '../helper/helper.js';
+import { autoCompletar, dateTimePicker4, mensajeConfirmacion, mensajeNormal } from '../helper/helper.js';
 
 export default class FormularioOficial {
 
@@ -6,6 +6,7 @@ export default class FormularioOficial {
 
         this.txt_idmiembro = document.getElementById('txt_idmiembro');
         this.txt_miembro = document.getElementById('txt_miembro');
+        this.txt_idrazonalta = document.getElementById('txt_idrazonalta');
         this.txt_razonalta = document.getElementById('txt_razonalta');
         this.txt_fechaconversion = document.getElementById('txt_fechaconversion');
         this.txt_fechabautismo = document.getElementById('txt_fechabautismo');
@@ -17,6 +18,7 @@ export default class FormularioOficial {
         this.chk_padreseniglesia = document.getElementById('chk_padreseniglesia');
         this.chk_recibioes = document.getElementById('chk_recibioes');
         this.txt_obs = document.getElementById('txt_obs');
+        this.btnFormAdmi = document.getElementById('btnFormAdmi');
         this.btnGuardar = document.getElementById('btnGuardar');
         this.btnCancelar = document.getElementById('btnCancelar');
     }
@@ -26,7 +28,7 @@ export default class FormularioOficial {
         const endpoint = '/miembro_oficial/personas_activas';
 
         try {
-            
+
             const res = await fetch(endpoint);
             const data = await res.json();
             //console.log(data);
@@ -37,7 +39,74 @@ export default class FormularioOficial {
         } catch (error) {
             console.error(error);
         }
-        
+
     }
 
+    async autoCompletarRequisitos() {
+
+        const endpoint = '/requisito/lista_requisito';
+        const res = await fetch(endpoint);
+        const data = await res.json();
+
+        const idrazon = this.txt_idrazonalta.id;
+        const razon = this.txt_razonalta.id;
+        autoCompletar(data, 'descripcion', 'id', idrazon, razon);
+
+    }
+
+    /**
+     * Funcion formatearFechas.
+     * 
+     * Activa el calendario muy vistoso en los campos.
+     * 
+     */
+    formatearFechas() {
+
+        dateTimePicker4('picker_fechaconversion');
+        dateTimePicker4('picker_fechabautismo');
+        dateTimePicker4('picker_fechainiciomembresia');
+
+    }
+
+    /**
+     * Método abrirFormularioAdmision.
+     * 
+     * Luego del mensaje de confirmación, se redirige al
+     * formulario de admisión.
+     */
+    abrirFormularioAdmision() {
+
+        const conf = mensajeConfirmacion('Mensaje de confirmación', 'Desea realizar una nueva admisión ?');
+        conf.buttons.Si.action = () => {
+            open('/formulario_admision');
+        };
+        // Dibujar mensaje.
+        conf.open();
+
+
+    }
+
+    validarFormulario() {
+
+        const identificadores = [
+            'txt_idmiembro', 'txt_miembro', 'txt_idrazonalta', 'txt_razonalta',
+            'txt_fechaconversion', 'txt_fechabautismo', 'txt_estadomembresia',
+            'txt_lugarbautismo', 'txt_ministro', 'txt_fechainiciomembresia'
+        ];
+        const longi = identificadores.length;
+
+        for (let i = 0; i <= longi; i++) {
+
+            if (document.getElementById(identificadores[i]).value === '') {
+                
+                const msg = mensajeNormal('Cuidado!', `Algún campo parece no estar correctamente completado. Revisa de vuelta`);
+                msg.open();
+                
+                return false;
+
+            }
+
+        }
+
+    }
 }

@@ -133,7 +133,7 @@ function autoCompletar(datos, valor, valorid, campoid, campodes) {
             maxNumberOfElements: datos.length,
             onSelectItemEvent: function () {
                 var value = $(`#${campodes}`).getSelectedItemData()[valorid];
-                
+
                 $(`#${campoid}`).val(value).trigger("change");
             }
         }
@@ -141,6 +141,23 @@ function autoCompletar(datos, valor, valorid, campoid, campodes) {
 
     $(`#${campodes}`).easyAutocomplete(options);
 
+}
+
+/**
+ * Funcion dateTimePicker4.
+ * Formatea un campo con el formato datetimepicker4
+ * de la libreria tempus.
+ * 
+ * @param {int} idcampo 
+ */
+function dateTimePicker4(idcampo='', formato='L', idioma='es', formato2='DD/MM/YYYY') {
+    const id = idcampo;
+    $(`#${id}`).datetimepicker({
+        //format: 'L',
+        locale: 'es',
+        format: 'DD/MM/YYYY',
+        maxDate: new Date()
+    });
 }
 
 /**
@@ -152,7 +169,7 @@ function autoCompletar(datos, valor, valorid, campoid, campodes) {
  */
 function verificaInput(campo) {
 
-    if(campo) {
+    if (campo) {
         console.log(campo);
         return campo;
     }
@@ -161,4 +178,4 @@ function verificaInput(campo) {
 
 }
 
-export { autoCompletar, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal, idioma_spanish };
+export { autoCompletar, dateTimePicker4, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal, idioma_spanish };
