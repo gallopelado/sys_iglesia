@@ -28,3 +28,24 @@ def personasActivas():
     lista = adm.getAdmisionesActivas(True)
     
     return jsonify(lista[0][0])
+
+
+@mieofi.route('/guardar', methods=['POST'])
+def guardar():
+    print(f'Recibido {request.json}')
+
+    # Procesar variables
+    idmiembro = request.json['idmiembro']
+    idrazonalta = request.json['idrazonalta']
+    fechaconversion = request.json['fechaconversion']
+    fechabautismo = request.json['fechabautismo']
+    estadomembresia = request.json['estadomembresia']
+    lugarbautismo = request.json['lugarbautismo']
+    ministro = request.json['ministro']
+    fechainiciomembresia = request.json['fechainiciomembresia']
+    fuebautizado = request.jsonn['fuebautizado']
+    padreseniglesia = request.json['padreseniglesia']
+    recibioes = request.json['recibioes']
+    observacion = request.json['observacion']
+
+    return jsonify({"guardando":True})

@@ -1,4 +1,5 @@
 import { autoCompletar, dateTimePicker4, mensajeConfirmacion, mensajeNormal } from '../helper/helper.js';
+import { end_guardar } from '../helper/lista_endpoints.js';
 
 export default class FormularioOficial {
 
@@ -78,7 +79,7 @@ export default class FormularioOficial {
 
         const conf = mensajeConfirmacion('Mensaje de confirmación', 'Desea realizar una nueva admisión ?');
         conf.buttons.Si.action = () => {
-            open('/formulario_admision');
+            open('/formulario_admision/frm_admi');
         };
         // Dibujar mensaje.
         conf.open();
@@ -95,15 +96,71 @@ export default class FormularioOficial {
         ];
         const longi = identificadores.length;
 
-        for (let i = 0; i <= longi; i++) {
+        for (let i = 0; i < longi; i++) {
 
             if (document.getElementById(identificadores[i]).value === '') {
                 
-                const msg = mensajeNormal('Cuidado!', `Algún campo parece no estar correctamente completado. Revisa de vuelta`);
+                const msg = mensajeNormal('Cuidado!', `Algún campo parece no estar correctamente completado. Los campos obligatorios tienen un (*)`);
                 msg.open();
                 
                 return false;
 
+            }
+
+        }
+
+        return true;
+
+    }
+
+    recuperaDatosForm() {
+
+        const validar = this.validarFormulario();
+
+        if (validar) {
+            
+            const datosForm = {
+                idmiembro: this.txt_idmiembro.value,
+                idrazonalta: this.txt_idrazonalta.value,
+                fechaconversion: this.txt_fechaconversion.value,
+                fechabautismo: this.txt_fechabautismo.value,
+                estadomembresia: this.txt_estadomembresia.value,
+                lugarbautismo: this.txt_lugarbautismo.value.trim() !== '' ? this.txt_lugarbautismo.value.toUpperCase() : null,
+                ministro: this.txt_ministro.value.trim() !== '' ? this.txt_ministro.value.toUpperCase() : null,
+                fechainiciomembresia: this.txt_fechainiciomembresia.value,
+                fuebautizado: this.chk_fuebautizado.checked,
+                padreseniglesia: this.chk_padreseniglesia.checked,
+                recibioes: this.chk_recibioes.checked,
+                observacion: this.txt_obs.value.trim() !== '' ? this.txt_obs.value.toUpperCase() : null 
+            }
+
+            return datosForm;
+
+        }
+
+        return false;
+
+    }
+
+    async guardar() {
+
+        const formulario = this.recuperaDatosForm();
+
+        if (formulario) {
+
+            try {
+                
+                const res = await fetch(end_guardar, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                        'Accept': 'application/ json'
+                    },
+                    body: JSON.stringify(formulario)
+                });
+
+            } catch (error) {
+                console.error(error);
             }
 
         }

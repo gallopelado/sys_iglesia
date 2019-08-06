@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonGuardar = ofi.btnGuardar;
     botonGuardar.addEventListener('click', () => {
         
-        ofi.validarFormulario();
+        ofi.guardar();
         
        
     });
