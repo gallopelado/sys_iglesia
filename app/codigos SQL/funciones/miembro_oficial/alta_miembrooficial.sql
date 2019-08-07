@@ -1,12 +1,12 @@
 CREATE OR REPLACE FUNCTION 
 membresia.alta_miembrooficial(
 	id integer,
+	razonaltaid integer,
 	fechaconversion date,
 	fechabautismo date,
 	lugarbautismo varchar,
 	oficiador varchar,
-	fechainiciomembresia date,
-	razonaltaid integer,
+	fechainiciomembresia date,	
 	estadomembresia membresia.estado_membresia,
 	bautizadoeniglesia boolean,
 	padresmiembros boolean,
@@ -57,11 +57,18 @@ BEGIN
 		RETURN TRUE;
 	ELSE
 		--No se encontró.
-		RAISE EXCEPTION 'Esta persona no tiene los requisitos para ser miembro' USING ERRCODE = '15003';
+		RAISE EXCEPTION 'Esta persona no tiene los requisitos para ser miembro' USING ERRCODE = '15003';			
+		
 		RETURN FALSE;
 	END IF;
 
-	
+	-- Excepciones
+	EXCEPTION 
+	WHEN SQLSTATE '15003' THEN
+		RAISE EXCEPTION '% %', SQLERRM, SQLSTATE;
+	WHEN unique_violation THEN
+		RAISE EXCEPTION 'Esta usuario con este requisito ya existe, estas queriendo duplicar datos. CODIGO: % %', SQLERRM, SQLSTATE;
+		RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 

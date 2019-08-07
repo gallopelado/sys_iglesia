@@ -99,10 +99,10 @@ export default class FormularioOficial {
         for (let i = 0; i < longi; i++) {
 
             if (document.getElementById(identificadores[i]).value === '') {
-                
+
                 const msg = mensajeNormal('Cuidado!', `Algún campo parece no estar correctamente completado. Los campos obligatorios tienen un (*)`);
                 msg.open();
-                
+
                 return false;
 
             }
@@ -116,12 +116,12 @@ export default class FormularioOficial {
     recuperaDatosForm() {
 
         const validar = this.validarFormulario();
-
+        
         if (validar) {
-            
+
             const datosForm = {
-                idmiembro: this.txt_idmiembro.value,
-                idrazonalta: this.txt_idrazonalta.value,
+                idmiembro: parseInt(this.txt_idmiembro.value),
+                idrazonalta: parseInt(this.txt_idrazonalta.value),
                 fechaconversion: this.txt_fechaconversion.value,
                 fechabautismo: this.txt_fechabautismo.value,
                 estadomembresia: this.txt_estadomembresia.value,
@@ -131,7 +131,7 @@ export default class FormularioOficial {
                 fuebautizado: this.chk_fuebautizado.checked,
                 padreseniglesia: this.chk_padreseniglesia.checked,
                 recibioes: this.chk_recibioes.checked,
-                observacion: this.txt_obs.value.trim() !== '' ? this.txt_obs.value.toUpperCase() : null 
+                observacion: this.txt_obs.value.trim() !== '' ? this.txt_obs.value.toUpperCase() : null
             }
 
             return datosForm;
@@ -145,19 +145,34 @@ export default class FormularioOficial {
     async guardar() {
 
         const formulario = this.recuperaDatosForm();
-
+        console.log(formulario);
         if (formulario) {
 
             try {
-                
+
                 const res = await fetch(end_guardar, {
                     method: 'POST',
                     headers: {
-                        'Content-Type':'application/json',
+                        'Content-Type': 'application/json',
                         'Accept': 'application/ json'
                     },
                     body: JSON.stringify(formulario)
                 });
+                const data = await res.json();
+                
+                if (data.guardado === true) {
+
+                    const m = mensajeNormal('Exito!', 'Se ha guardado correctamente');
+                    m.open();
+                    return true;
+
+                } else {
+                    
+                    const m = mensajeNormal('Upps!', 'Aparentemente se ha detectado un problema al guardar, podria ser que el registro ya existe o el miembro no cumple con los requisitos');
+                    m.open();
+                    return false;
+
+                }
 
             } catch (error) {
                 console.error(error);

@@ -10,9 +10,11 @@
   */
 
   // 05. Registrar Formulario De Miembro Oficial
+  // Vista principal
+const end_principal = '/miembro_oficial';
   // Guardar
-const end_guardar = '/miembro_oficial/guardar';
+const end_guardar = `${end_principal}/guardar`;
 
 
 //Exportar todo.
-export {end_guardar};
+export { end_principal, end_guardar};

@@ -6,6 +6,9 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 # Importar Modelo de Admision
 from app.Models.FormAdmisionModel import FormAdmisionModel
 
+# Importar Modelo MiembroOficialModel.
+from app.Models.MiembroOficialModel import MiembroOficialModel
+
 # Registrar las rutas en Blueprint
 mieofi = Blueprint('registrar_miembro_oficial', __name__, template_folder='templates')
 
@@ -32,20 +35,29 @@ def personasActivas():
 
 @mieofi.route('/guardar', methods=['POST'])
 def guardar():
-    print(f'Recibido {request.json}')
-
+    
     # Procesar variables
     idmiembro = request.json['idmiembro']
-    idrazonalta = request.json['idrazonalta']
+    razonaltaid = request.json['idrazonalta']
     fechaconversion = request.json['fechaconversion']
     fechabautismo = request.json['fechabautismo']
     estadomembresia = request.json['estadomembresia']
     lugarbautismo = request.json['lugarbautismo']
-    ministro = request.json['ministro']
+    oficiador = request.json['ministro']
     fechainiciomembresia = request.json['fechainiciomembresia']
-    fuebautizado = request.jsonn['fuebautizado']
-    padreseniglesia = request.json['padreseniglesia']
+    bautizadoeniglesia = request.json['fuebautizado']
+    padresmiembros = request.json['padreseniglesia']
     recibioes = request.json['recibioes']
-    observacion = request.json['observacion']
+    obs = request.json['observacion']
 
-    return jsonify({"guardando":True})
+
+    # Enviar al Modelo.
+    m = MiembroOficialModel()
+    res = m.guardar(idmiembro, razonaltaid, fechaconversion, fechabautismo,
+              lugarbautismo, oficiador, fechainiciomembresia, estadomembresia,
+              bautizadoeniglesia, padresmiembros, recibioes, obs,
+              0)
+    if res:
+        return jsonify({"guardado":True})
+    
+    return jsonify({"guardado": False})
