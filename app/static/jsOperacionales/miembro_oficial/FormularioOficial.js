@@ -1,5 +1,5 @@
 import { autoCompletar, dateTimePicker4, mensajeConfirmacion, mensajeNormal } from '../helper/helper.js';
-import { end_guardar } from '../helper/lista_endpoints.js';
+import { end_guardar, end_principal } from '../helper/lista_endpoints.js';
 
 export default class FormularioOficial {
 
@@ -116,7 +116,7 @@ export default class FormularioOficial {
     recuperaDatosForm() {
 
         const validar = this.validarFormulario();
-        
+
         if (validar) {
 
             const datosForm = {
@@ -159,15 +159,19 @@ export default class FormularioOficial {
                     body: JSON.stringify(formulario)
                 });
                 const data = await res.json();
-                
+
                 if (data.guardado === true) {
 
                     const m = mensajeNormal('Exito!', 'Se ha guardado correctamente');
                     m.open();
+                    setTimeout(() => {
+                        location.href = end_principal;
+                    }, 3000
+                    )
                     return true;
 
                 } else {
-                    
+
                     const m = mensajeNormal('Upps!', 'Aparentemente se ha detectado un problema al guardar, podria ser que el registro ya existe o el miembro no cumple con los requisitos');
                     m.open();
                     return false;

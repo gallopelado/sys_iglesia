@@ -49,12 +49,24 @@ Registrar Formulario de Miembro Oficial
                                     <thead>
                                         <tr>
                                             <th>Miembro</th>
-                                            <th>Fecha</th>                                            
+                                            <th>Requisito Cumplido</th>
+                                            <th>Estado</th>
+                                            <th>Inicio de Membresía</th>                                            
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tb_miembros">
-
+                                        {% if lista %}
+                                            {% for item in lista %}
+                                                <tr>
+                                                    <td>{{ item[1] }}</td>
+                                                    <td>{{ item[5] }}</td>
+                                                    <td>{{ item[3] }}</td>
+                                                    <td>{{ item[2] }}</td>
+                                                    <td></td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif%}
                                     </tbody>
                                 </table>
                             </div>

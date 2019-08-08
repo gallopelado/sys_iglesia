@@ -15,7 +15,10 @@ mieofi = Blueprint('registrar_miembro_oficial', __name__, template_folder='templ
 
 @mieofi.route('/')
 def index_mieofi():
-    return render_template('registrar_miembro_oficial/index.html')
+
+    m = MiembroOficialModel()
+    lista = m.listarMiembros()
+    return render_template('registrar_miembro_oficial/index.html', lista = lista)
 
 
 @mieofi.route('/frm_miembro')
@@ -31,7 +34,7 @@ def personasActivas():
     lista = adm.getAdmisionesActivas(True)
     
     return jsonify(lista[0][0])
-
+    
 
 @mieofi.route('/guardar', methods=['POST'])
 def guardar():
