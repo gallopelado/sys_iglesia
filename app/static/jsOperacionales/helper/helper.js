@@ -153,10 +153,12 @@ function autoCompletar(datos, valor, valorid, campoid, campodes) {
 function dateTimePicker4(idcampo='', formato='L', idioma='es', formato2='DD/MM/YYYY') {
     const id = idcampo;
     $(`#${id}`).datetimepicker({
-        //format: 'L',
+        maxDate: new Date(),
+        defaultDate: '',
+        format: 'L',
         locale: 'es',
         format: 'DD/MM/YYYY',
-        maxDate: new Date()
+        useCurrent: false        
     });
 }
 

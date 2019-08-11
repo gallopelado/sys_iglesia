@@ -1,5 +1,5 @@
 import { autoCompletar, dateTimePicker4, mensajeConfirmacion, mensajeNormal } from '../helper/helper.js';
-import { end_guardar, end_principal } from '../helper/lista_endpoints.js';
+import { end_guardar_miembrooficial, end_principal_miembrooficial, end_modificar_miembrooficial } from '../helper/lista_endpoints.js';
 
 export default class FormularioOficial {
 
@@ -21,6 +21,7 @@ export default class FormularioOficial {
         this.txt_obs = document.getElementById('txt_obs');
         this.btnFormAdmi = document.getElementById('btnFormAdmi');
         this.btnGuardar = document.getElementById('btnGuardar');
+        this.btnModificar = document.getElementById('btnModificar');
         this.btnCancelar = document.getElementById('btnCancelar');
     }
 
@@ -65,7 +66,7 @@ export default class FormularioOficial {
 
         dateTimePicker4('picker_fechaconversion');
         dateTimePicker4('picker_fechabautismo');
-        dateTimePicker4('picker_fechainiciomembresia');
+        dateTimePicker4('picker_fechainiciomembresia');       
 
     }
 
@@ -150,7 +151,7 @@ export default class FormularioOficial {
 
             try {
 
-                const res = await fetch(end_guardar, {
+                const res = await fetch(end_guardar_miembrooficial, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -165,7 +166,51 @@ export default class FormularioOficial {
                     const m = mensajeNormal('Exito!', 'Se ha guardado correctamente');
                     m.open();
                     setTimeout(() => {
-                        location.href = end_principal;
+                        location.href = end_principal_miembrooficial;
+                    }, 3000
+                    )
+                    return true;
+
+                } else {
+
+                    const m = mensajeNormal('Upps!', 'Aparentemente se ha detectado un problema al guardar, podria ser que el registro ya existe o el miembro no cumple con los requisitos');
+                    m.open();
+                    return false;
+
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
+    }
+
+    async modificar() {
+
+        const formulario = this.recuperaDatosForm();
+        console.log(formulario);
+        if (formulario) {
+
+            try {
+
+                const res = await fetch(end_modificar_miembrooficial, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/ json'
+                    },
+                    body: JSON.stringify(formulario)
+                });
+                const data = await res.json();
+
+                if (data.guardado === true) {
+
+                    const m = mensajeNormal('Exito!', 'Se ha modificado correctamente');
+                    m.open();
+                    setTimeout(() => {
+                        location.href = end_principal_miembrooficial;
                     }, 3000
                     )
                     return true;

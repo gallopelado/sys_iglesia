@@ -26,6 +26,15 @@ def frmMiembro():
     return render_template('registrar_miembro_oficial/formulario_miembro.html')
 
 
+@mieofi.route('/frm_miembro/<int:idmiembro>', methods=['GET'])
+def frmModificar(idmiembro):
+    print(f'Parametro Recibido :{idmiembro}')
+    m = MiembroOficialModel()
+    lista = m.getMiembroById(idmiembro)
+    print(lista)
+    return render_template('registrar_miembro_oficial/formulario_miembro.html', miembro = lista)
+
+
 # Rutas para AJAX.
 @mieofi.route('/personas_activas')
 def personasActivas():
@@ -63,4 +72,33 @@ def guardar():
     if res:
         return jsonify({"guardado":True})
     
+    return jsonify({"guardado": False})
+
+
+@mieofi.route('/modificar', methods=['POST'])
+def modificar():
+
+    # Procesar variables
+    idmiembro = request.json['idmiembro']
+    razonaltaid = request.json['idrazonalta']
+    fechaconversion = request.json['fechaconversion']
+    fechabautismo = request.json['fechabautismo']
+    estadomembresia = request.json['estadomembresia']
+    lugarbautismo = request.json['lugarbautismo']
+    oficiador = request.json['ministro']
+    fechainiciomembresia = request.json['fechainiciomembresia']
+    bautizadoeniglesia = request.json['fuebautizado']
+    padresmiembros = request.json['padreseniglesia']
+    recibioes = request.json['recibioes']
+    obs = request.json['observacion']
+
+    # Enviar al Modelo.
+    m = MiembroOficialModel()
+    res = m.modificar(idmiembro, razonaltaid, fechaconversion, fechabautismo,
+                    lugarbautismo, oficiador, fechainiciomembresia, estadomembresia,
+                    bautizadoeniglesia, padresmiembros, recibioes, obs,
+                    0)
+    if res:
+        return jsonify({"guardado": True})
+
     return jsonify({"guardado": False})

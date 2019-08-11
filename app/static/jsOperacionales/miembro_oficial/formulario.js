@@ -15,10 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const botonGuardar = ofi.btnGuardar;
-    botonGuardar.addEventListener('click', () => {
+    if (botonGuardar !== null) {
+        botonGuardar.addEventListener('click', () => {
 
-        const res = ofi.guardar();
-       
-    });
+            const res = ofi.guardar();
+
+        });
+    }
+
+    const botonModificar = ofi.btnModificar;
+    if (botonModificar !== null) {
+        botonModificar.addEventListener('click', () => {
+
+            const res = ofi.modificar();
+
+        });
+    }
 
 });

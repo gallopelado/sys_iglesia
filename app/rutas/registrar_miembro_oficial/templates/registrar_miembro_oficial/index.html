@@ -63,7 +63,22 @@ Registrar Formulario de Miembro Oficial
                                                     <td>{{ item[5] }}</td>
                                                     <td>{{ item[3] }}</td>
                                                     <td>{{ item[2] }}</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div class="table-data-feature">
+                                                            <button onclick="ver('{{ item[0] }}')" class="item btn btn-primary" data-toggle="modal"
+                                                                data-placement="top" title="Ver">
+                                                                <i class="zmdi zmdi-mail-send"></i>
+                                                            </button>
+                                                            <button onclick="modificar('{{ item[0] }}')" class="item btn btn-warning modificar"
+                                                                data-toggle="tooltip" data-placement="top" title="Modificar">
+                                                                <i class="zmdi zmdi-edit"></i>
+                                                            </button>
+                                                            <button onclick="baja('{{ item[0] }}')" class="item btn btn-danger"
+                                                                data-toggle="tooltip" data-placement="top" title="Dar de baja">
+                                                                <i class="zmdi zmdi-delete"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             {% endfor %}
                                         {% endif%}
@@ -217,6 +232,9 @@ Registrar Formulario de Miembro Oficial
 <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<!-- Controlador -->
+<script type='module' src="{{ url_for('static', filename='jsOperacionales/miembro_oficial/principal.js') }}"></script>
 
 
 {% endblock %}
