@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+Personas dadas de baja de Membresía
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">Registrar Formulario de Miembro Oficial</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    <a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}"
+                                        class="btn btn-secondary bt-sm">
+                                        <i class="fa fa-angle-left"></i> Volver
+                                    </a>
+                                </div>                               
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="divTabla" class="table-responsive m-b-40">
+                                <table id="tabla_miembros" class="table table-borderless table-data3">
+                                    <thead>
+                                        <tr>
+                                            <th>Miembro</th>
+                                            <th>Tipo</th>
+                                            <th>Razon baja</th>                                            
+                                            <th class="text-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb_miembros">
+                                        {% if lista %}
+                                        {% for item in lista %}
+                                        <tr>
+                                            <td>{{ item[1] }}</td>
+                                            <td>{{ item[5] }}</td>
+                                            <td>{{ item[3] }}</td>                                            
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger">REINCORPORAR</button>                                                
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>    
+
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<!-- Controlador -->
+
+
+
+{% endblock %}

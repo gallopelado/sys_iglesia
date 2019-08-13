@@ -35,6 +35,10 @@ def frmModificar(idmiembro):
     return render_template('registrar_miembro_oficial/formulario_miembro.html', miembro = lista)
 
 
+@mieofi.route('/dados_baja')
+def dadosBaja():
+    return render_template('registrar_miembro_oficial/dadosbaja.html')
+
 # Rutas para AJAX.
 @mieofi.route('/personas_activas')
 def personasActivas():

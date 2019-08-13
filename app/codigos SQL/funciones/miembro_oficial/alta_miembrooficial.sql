@@ -46,7 +46,7 @@ BEGIN
 	-- Verificación de requisitos cumplidos.
 	SELECT membresia.controlar_requisitos(temp_row.mo_id, temp_row.razonalta_id) INTO requisito;
 	IF requisito THEN
-		-- Insertar.
+		-- Insertar en tabla miembros_oficiales.
 		INSERT INTO 
 			membresia.miembros_oficiales(mo_id, mo_fechaconversion, mo_fechabautismo, 
 			mo_lugarbautismo, mo_oficiador, mo_fechainiciomembresia, razonalta_id, 
@@ -54,6 +54,14 @@ BEGIN
 			mo_obs, creado_por_usuario)
 		VALUES
 			(temp_row.*);
+		
+		--También actualizar el tipo de miembro en persona.
+		UPDATE 
+			referenciales.personas
+		SET
+			tipoper_id = (SELECT tipoper_id FROM referenciales.tipo_persona WHERE tipoper_des = 'MIEMBRO-OFICIAL')
+		WHERE
+			per_id = temp_row.mo_id;
 		RETURN TRUE;
 	ELSE
 		--No se encontró.
