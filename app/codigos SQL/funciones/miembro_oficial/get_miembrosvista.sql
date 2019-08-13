@@ -16,7 +16,9 @@ FROM
 LEFT JOIN 
 	referenciales.personas AS per ON mie.mo_id = per.per_id
 LEFT JOIN
-	referenciales.requisitos AS req ON mie.razonalta_id = req.req_id;
+	referenciales.requisitos AS req ON mie.razonalta_id = req.req_id
+WHERE
+	per.per_razonbaja IS NULL;
 
 $$ LANGUAGE SQL;
 

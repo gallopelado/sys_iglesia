@@ -16,7 +16,8 @@ const end_principal_miembrooficial = '/miembro_oficial';
 const end_guardar_miembrooficial = `${end_principal_miembrooficial}/guardar`;
 const end_modificar_miembrooficial = `${end_principal_miembrooficial}/modificar`;
 const end_carga_modificar = `${end_principal_miembrooficial}/frm_miembro`;
+const end_baja_miembrooficial = `${end_principal_miembrooficial}/baja`;
 
 
 //Exportar todo.
-export { end_principal_miembrooficial, end_guardar_miembrooficial, end_carga_modificar, end_modificar_miembrooficial};
+export { end_principal_miembrooficial, end_guardar_miembrooficial, end_carga_modificar, end_modificar_miembrooficial, end_baja_miembrooficial};

@@ -220,6 +220,122 @@ Registrar Formulario de Miembro Oficial
     </div>
     <!-- end modal ver -->
 
+    <!-- modal dar de baja -->
+    <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Desea dar de baja esta persona ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmBaja" action="" method="post">
+                    <div class="modal-body">
+    
+                        <input type="hidden" name="idadmision" id="idadmision">
+    
+                        <div class="row form-group">
+    
+                            <!-- Campo Persona -->
+                            <div class="col col-12">
+                                <label for="txt_persona" class="form-control-label form-control-sm">Persona</label>
+                                <hr>
+                                <input type="text" id="txt_persona" name="txt_persona" class="form-control form-control-sm"
+                                    placeholder="Persona" disabled>
+                            </div>
+                            <!---->
+    
+                        </div>
+    
+                        <!-- Radios sobre opciones -->
+                        <div class="row form-group">
+    
+                            <div class="col col-12">
+    
+                                <div class="form-group">
+                                    <label for="" class="form-control-label form-control-sm">Razón de la baja</label>
+                                </div>
+    
+                                <hr>
+    
+                                <div class="form-check">
+                                    <!--'DISCIPLINA', 'DEFUNCION', 'EXCOMUNION', 'TRASLADO', 'OTRAS'-->
+    
+                                    <!-- radio DISCIPLINA-->
+                                    <div class="radio">
+                                        <label for="chk_disciplina" class="form-check-label ">
+                                            <input type="radio" id="chk_disciplina" name="chk_baja" value="DISCIPLINA"
+                                                class="form-check-input">DISCIPLINA
+                                        </label>
+                                    </div>
+    
+                                    <!---->
+    
+                                    <!-- radio DEFUNCION-->
+                                    <div class="radio">
+                                        <label for="chk_defuncion" class="form-check-label ">
+                                            <input type="radio" id="chk_defuncion" name="chk_baja" value="DEFUNCION"
+                                                class="form-check-input">DEFUNCION
+                                        </label>
+                                    </div>
+    
+                                    <!---->
+    
+                                    <!-- radio EXCOMUNION-->
+                                    <div class="radio">
+                                        <label for="chk_excomunion" class="form-check-label ">
+                                            <input type="radio" id="chk_excomunion" name="chk_baja" value="EXCOMUNION"
+                                                class="form-check-input">EXCOMUNION
+                                        </label>
+                                    </div>
+    
+                                    <!---->
+    
+                                    <!-- radio TRASLADO-->
+                                    <div class="radio">
+                                        <label for="chk_traslado" class="form-check-label ">
+                                            <input type="radio" id="chk_traslado" name="chk_baja" value="TRASLADO"
+                                                class="form-check-input">TRASLADO
+                                        </label>
+                                    </div>
+    
+                                    <!---->
+    
+                                    <!-- radio OTRAS-->
+                                    <label for="chk_otras" class="form-check-label ">
+                                        <input type="radio" id="chk_otras" name="chk_baja" value="OTRAS"
+                                            class="form-check-input" checked>OTRAS
+                                    </label>
+                                    <!---->
+    
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="row form-group">
+    
+                            <div class="col col-12">
+    
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+    
+                            </div>
+    
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
+                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal baja -->
+
 </div>
 
 <!-- END MAIN CONTENT-->

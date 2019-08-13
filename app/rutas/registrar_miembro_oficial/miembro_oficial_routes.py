@@ -31,7 +31,7 @@ def frmModificar(idmiembro):
     print(f'Parametro Recibido :{idmiembro}')
     m = MiembroOficialModel()
     lista = m.getMiembroById(idmiembro)
-    print(lista)
+    
     return render_template('registrar_miembro_oficial/formulario_miembro.html', miembro = lista)
 
 
