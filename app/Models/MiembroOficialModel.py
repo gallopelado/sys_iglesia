@@ -31,6 +31,7 @@ class MiembroOficialModel():
                 cur.close()
                 con.close()
 
+                
     def modificar(self, id, razonaltaid, fechaconversion, fechabautismo,
                 lugarbautismo, oficiador, fechainiciomembresia, estadomembresia,
                 bautizadoeniglesia, padresmiembros, recibioes, obs,
@@ -59,6 +60,7 @@ class MiembroOficialModel():
             if con is not None:
                 cur.close()
                 con.close()
+
 
     def listarMiembros(self):
 
@@ -91,6 +93,49 @@ class MiembroOficialModel():
             con = conexion.getConexion()
             cur = con.cursor()
             cur.callproc(funcion, (idmiembro,))
+            return cur.fetchone()
+
+        except con.Error as e:
+            print(e.pgerror.encode('utf8'))
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+    
+
+    def getMiembrosDadosDeBaja(self):
+
+        procedimiento = 'membresia.get_miembros_baja'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento)
+            return cur.fetchall()
+
+        except con.Error as e:
+            print(e.pgerror.encode('utf8'))
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
+    def reincorporarMiembro(self, idmiembro, obs):
+
+        procedimiento = 'membresia.reincorporar_miembro'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, (idmiembro, obs,))
+            con.commit()
             return cur.fetchone()
 
         except con.Error as e:

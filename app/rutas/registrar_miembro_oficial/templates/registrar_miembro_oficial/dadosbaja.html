@@ -10,11 +10,26 @@ Personas dadas de baja de Membresía
 <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+    .easy-autocomplete {
+       /* width: auto;*/
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <!-- MAIN CONTENT-->
 <div class="main-content">
+    <!-- Contenido principal -->
     <div class="section__content section__content--p30">
 
         <div class="container-fluid">
@@ -34,7 +49,7 @@ Personas dadas de baja de Membresía
                                         class="btn btn-secondary bt-sm">
                                         <i class="fa fa-angle-left"></i> Volver
                                     </a>
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -44,19 +59,20 @@ Personas dadas de baja de Membresía
                                         <tr>
                                             <th>Miembro</th>
                                             <th>Tipo</th>
-                                            <th>Razon baja</th>                                            
+                                            <th>Razon baja</th>
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tb_miembros">
-                                        {% if lista %}
-                                        {% for item in lista %}
+                                        {% if miembros %}
+                                        {% for miembro in miembros %}
                                         <tr>
-                                            <td>{{ item[1] }}</td>
-                                            <td>{{ item[5] }}</td>
-                                            <td>{{ item[3] }}</td>                                            
+                                            <td>{{ miembro[1] }}</td>
+                                            <td>{{ miembro[3] }}</td>
+                                            <td>{{ miembro[4] }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger">REINCORPORAR</button>                                                
+                                                <button type="button" class="btn btn-outline-danger"
+                                                    onclick="mostrar({{ miembro[0] }})">REINCORPORAR</button>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -74,8 +90,55 @@ Personas dadas de baja de Membresía
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    <!---->
 
+    <!-- modal reincorporacion -->
+    <div class="modal fade" id="modal_reincorporacion" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Desea regresar esta persona a Membresía ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmReinc" action="" method="post">
+                    <div class="modal-body">
+
+                        <div class="row form-group">
+                            <input type="hidden" name="idpersona" id="idpersona">
+                            <!-- Campo Persona -->
+                            <div class="col col-12">
+                                <label for="txt_persona" class="form-control-label form-control-sm">Persona</label>
+                                <hr>
+                                <input type="text" id="txt_persona" name="txt_persona"
+                                    class="form-control form-control-sm" placeholder="Persona" disabled>
+                            </div>
+                            <!---->
+                        </div>                       
+
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
+                            <button type="reset" class="btn btn-secondary" id="btnCancelar"
+                                data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal -->
 </div>
 
 <!-- END MAIN CONTENT-->
@@ -89,8 +152,10 @@ Personas dadas de baja de Membresía
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
 <!-- Controlador -->
-
-
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/miembro_oficial/reincorporacion.js') }}"></script>
 
 {% endblock %}
