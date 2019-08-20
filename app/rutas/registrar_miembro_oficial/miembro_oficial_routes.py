@@ -24,19 +24,25 @@ def index_mieofi():
     lista = m.listarMiembros()
     return render_template('registrar_miembro_oficial/index.html', lista = lista)
 
+
+
 # Formulario principal.
 @mieofi.route('/frm_miembro')
 def frmMiembro():
     return render_template('registrar_miembro_oficial/formulario_miembro.html')
 
+
+
 # Para editar.
 @mieofi.route('/frm_miembro/<int:idmiembro>', methods=['GET'])
 def frmModificar(idmiembro):
-    print(f'Parametro Recibido :{idmiembro}')
+    #print(f'Parametro Recibido :{idmiembro}')
     m = MiembroOficialModel()
     lista = m.getMiembroById(idmiembro)
     
     return render_template('registrar_miembro_oficial/formulario_miembro.html', miembro = lista)
+
+
 
 # Vista para dados de baja.
 @mieofi.route('/dados_baja')
@@ -47,7 +53,15 @@ def dadosBaja():
 
     return render_template('registrar_miembro_oficial/dadosbaja.html', miembros = lista)
 
-# Rutas para AJAX.
+
+@mieofi.route('/ver_miembro/<int:idmiembro>', methods=['GET'])
+def verMiembro(idmiembro):
+    m = MiembroOficialModel()
+    lista = m.getMiembroById(idmiembro)
+
+    return render_template('registrar_miembro_oficial/ver.html', miembro=lista)
+
+################################## Rutas para AJAX.
 @mieofi.route('/personas_activas')
 def personasActivas():
 

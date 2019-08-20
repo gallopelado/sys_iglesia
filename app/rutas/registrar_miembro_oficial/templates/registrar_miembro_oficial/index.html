@@ -37,7 +37,8 @@ Registrar Formulario de Miembro Oficial
                                     </a>
                                 </div>
                                 <div class="col-md-03 mb-2 ml-2">
-                                    <a href="{{ url_for('registrar_miembro_oficial.dadosBaja') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small ">
+                                    <a href="{{ url_for('registrar_miembro_oficial.dadosBaja') }}"
+                                        class="au-btn au-btn-icon au-btn--blue au-btn--small ">
                                         <i class="fa fa-group"></i> Personas dadas de Baja de Membresía
                                     </a>
                                 </div>
@@ -51,36 +52,36 @@ Registrar Formulario de Miembro Oficial
                                             <th>Miembro</th>
                                             <th>Requisito Cumplido</th>
                                             <th>Estado</th>
-                                            <th>Inicio de Membresía</th>                                            
+                                            <th>Inicio de Membresía</th>
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tb_miembros">
                                         {% if lista %}
-                                            {% for item in lista %}
-                                                <tr>
-                                                    <td>{{ item[1] }}</td>
-                                                    <td>{{ item[5] }}</td>
-                                                    <td>{{ item[3] }}</td>
-                                                    <td>{{ item[2] }}</td>
-                                                    <td>
-                                                        <div class="table-data-feature">
-                                                            <button onclick="ver('{{ item[0] }}')" class="item btn btn-primary" data-toggle="modal"
-                                                                data-placement="top" title="Ver">
-                                                                <i class="zmdi zmdi-mail-send"></i>
-                                                            </button>
-                                                            <button onclick="modificar('{{ item[0] }}')" class="item btn btn-warning modificar"
-                                                                data-toggle="tooltip" data-placement="top" title="Modificar">
-                                                                <i class="zmdi zmdi-edit"></i>
-                                                            </button>
-                                                            <button onclick="baja('{{ item[0] }}')" class="item btn btn-danger"
-                                                                data-toggle="tooltip" data-placement="top" title="Dar de baja">
-                                                                <i class="zmdi zmdi-delete"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
+                                        {% for item in lista %}
+                                        <tr>
+                                            <td>{{ item[1] }}</td>
+                                            <td>{{ item[5] }}</td>
+                                            <td>{{ item[3] }}</td>
+                                            <td>{{ item[2] }}</td>
+                                            <td>
+                                                <div class="table-data-feature">
+                                                    <a href="{{ url_for('registrar_miembro_oficial.verMiembro', idmiembro=item[0]) }}" class="item btn btn-primary" title="Ver">
+                                                        <i class="zmdi zmdi-mail-send"></i>
+                                                    </a>
+                                                    <button onclick="modificar('{{ item[0] }}')"
+                                                        class="item btn btn-warning modificar" data-toggle="tooltip"
+                                                        data-placement="top" title="Modificar">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </button>
+                                                    <button onclick="baja('{{ item[0] }}')" class="item btn btn-danger"
+                                                        data-toggle="tooltip" data-placement="top" title="Dar de baja">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
                                         {% endif%}
                                     </tbody>
                                 </table>
@@ -97,129 +98,6 @@ Registrar Formulario de Miembro Oficial
         </div>
     </div>
 
-    <!-- modal ver -->
-    <div class="modal fade" id="modalVer" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mediumModalLabel"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-
-                    <!--Inicio card-body-->
-                    <div class="card-body">
-
-                        <div class="card-title">
-                            <h3 class="text-center title-2"><i class="fa fa-edit"></i> Ver datos documento
-                            </h3>
-                        </div>
-
-                        <hr>
-
-                        <!-- Campos Tipo de documento, fecha -->
-                        <div class="form-horizontal">
-                            <div class="row form-group">
-
-                                <!-- Combo Tipo de documento -->
-                                <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                    <label for=txt_tipodocumento" class="form-control-label form-control-sm">Tipo de
-                                        documento</label>
-                                    <input id="txt_tipodocumento" class="form-control form-control-sm" disabled>
-                                </div>
-                                <!---->
-
-                                <!-- Campo Fecha -->
-                                <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                    <label for=txt_tipodocumento"
-                                        class="form-control-label form-control-sm">Fecha</label>
-                                    <input id="txt_fecha" class="form-control form-control-sm" disabled>
-                                </div>
-                                <!---->
-
-                            </div>
-                        </div>
-                        <!---->
-
-                        <!-- Campo miembro -->
-                        <div class="row form-group">
-                            <div class="col col-6">
-                                <label for=txt_miembro" class="form-control-label form-control-sm">Miembro a quien
-                                    se otorga</label>
-                                <input id="txt_miembro" class="form-control form-control-sm" disabled>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <!-- Campo cónyuge -->
-                        <div class="row form-group">
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for=txt_conyuge" class="form-control-label form-control-sm">Cónyuge(Sólo si
-                                    se aplica)</label>
-                                <input id="txt_conyuge" class="form-control form-control-sm" disabled>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <!-- Campo oficiador -->
-                        <div class="row form-group">
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for=txt_oficiador" class="form-control-label form-control-sm">Oficiador</label>
-                                <input id="txt_oficiador" class="form-control form-control-sm" disabled>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <!-- Campo Declaración Oficial -->
-                        <div class="row form-group">
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for="txt_declaracion" class="form-control-label form-control-sm">Declaración
-                                    Oficial</label>
-                                <textarea name="txt_declaracion" id="txt_declaracion" cols="30" rows="5"
-                                    class="form-control-sm form-control" disabled></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Campo notas adicionales -->
-                        <div class="row form-group">
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for=txt_notas" class="form-control-label form-control-sm">Notas
-                                    Adicionales</label>
-                                <input id="txt_notas" class="form-control form-control-sm" disabled>
-                            </div>
-                        </div>
-                        <!---->
-
-                        <!-- Campo testigos -->
-                        <div class="row form-group">
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for=txt_testigo1" class="form-control-label form-control-sm">Testigo</label>
-                                <input id="txt_testigo1" class="form-control form-control-sm" disabled>
-                            </div>
-                            <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                <label for=txt_testigo2" class="form-control-label form-control-sm">Testigo</label>
-                                <input id="txt_testigo2" class="form-control form-control-sm" disabled>
-                            </div>
-                        </div>
-                        <!---->
-
-                    </div>
-                    <!--Fin card-body-->
-
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- end modal ver -->
-
     <!-- modal dar de baja -->
     <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
         aria-hidden="true">
@@ -233,36 +111,36 @@ Registrar Formulario de Miembro Oficial
                 </div>
                 <form id="frmBaja" action="" method="post">
                     <div class="modal-body">
-    
+
                         <input type="hidden" name="idadmision" id="idadmision">
-    
+
                         <div class="row form-group">
-    
+
                             <!-- Campo Persona -->
                             <div class="col col-12">
                                 <label for="txt_persona" class="form-control-label form-control-sm">Persona</label>
                                 <hr>
-                                <input type="text" id="txt_persona" name="txt_persona" class="form-control form-control-sm"
-                                    placeholder="Persona" disabled>
+                                <input type="text" id="txt_persona" name="txt_persona"
+                                    class="form-control form-control-sm" placeholder="Persona" disabled>
                             </div>
                             <!---->
-    
+
                         </div>
-    
+
                         <!-- Radios sobre opciones -->
                         <div class="row form-group">
-    
+
                             <div class="col col-12">
-    
+
                                 <div class="form-group">
                                     <label for="" class="form-control-label form-control-sm">Razón de la baja</label>
                                 </div>
-    
+
                                 <hr>
-    
+
                                 <div class="form-check">
                                     <!--'DISCIPLINA', 'DEFUNCION', 'EXCOMUNION', 'TRASLADO', 'OTRAS'-->
-    
+
                                     <!-- radio DISCIPLINA-->
                                     <div class="radio">
                                         <label for="chk_disciplina" class="form-check-label ">
@@ -270,9 +148,9 @@ Registrar Formulario de Miembro Oficial
                                                 class="form-check-input">DISCIPLINA
                                         </label>
                                     </div>
-    
+
                                     <!---->
-    
+
                                     <!-- radio DEFUNCION-->
                                     <div class="radio">
                                         <label for="chk_defuncion" class="form-check-label ">
@@ -280,9 +158,9 @@ Registrar Formulario de Miembro Oficial
                                                 class="form-check-input">DEFUNCION
                                         </label>
                                     </div>
-    
+
                                     <!---->
-    
+
                                     <!-- radio EXCOMUNION-->
                                     <div class="radio">
                                         <label for="chk_excomunion" class="form-check-label ">
@@ -290,9 +168,9 @@ Registrar Formulario de Miembro Oficial
                                                 class="form-check-input">EXCOMUNION
                                         </label>
                                     </div>
-    
+
                                     <!---->
-    
+
                                     <!-- radio TRASLADO-->
                                     <div class="radio">
                                         <label for="chk_traslado" class="form-check-label ">
@@ -300,32 +178,32 @@ Registrar Formulario de Miembro Oficial
                                                 class="form-check-input">TRASLADO
                                         </label>
                                     </div>
-    
+
                                     <!---->
-    
+
                                     <!-- radio OTRAS-->
                                     <label for="chk_otras" class="form-check-label ">
                                         <input type="radio" id="chk_otras" name="chk_baja" value="OTRAS"
                                             class="form-check-input" checked>OTRAS
                                     </label>
                                     <!---->
-    
+
                                 </div>
-    
+
                             </div>
-    
+
                         </div>
-    
+
                         <div class="row form-group">
-    
+
                             <div class="col col-12">
-    
+
                                 {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
-    
+
                             </div>
-    
+
                         </div>
-    
+
                         <div class="modal-footer">
                             <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
                             <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
