@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/juan/Documentos/Universidad/Taller de Programacion II/sys_iglesia/venv/bin/python" "$0" "$@"
-' '''
+#!/home/dgtic-juan/Juan/universidad/master/sys_iglesia/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

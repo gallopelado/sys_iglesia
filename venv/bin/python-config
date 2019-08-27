@@ -1,4 +1,4 @@
-#!/home/juan/Documentos/Universidad/Taller de Programacion II/sys_iglesia/venv/bin/python
+#!/home/dgtic-juan/Juan/universidad/master/sys_iglesia/venv/bin/python
 
 import sys
 import getopt
