@@ -17,3 +17,11 @@ def index_perfil():
 def formPerfil():
     return render_template('registrar_formulario_perfil/formulario_perfil.html')
 
+
+@perfil.route('/form_perfil', methods=['POST'])
+def procesarPerfil():
+    
+    print(request.form)
+
+    return "probando POST"
+
