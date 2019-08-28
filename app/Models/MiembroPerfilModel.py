@@ -8,6 +8,11 @@ class MiembroPerfilModel():
         mo = MiembroOficialModel()
         return mo.listarMiembros()        
 
+    
+    def obtenerMiembroId(self, id):
+        pass
+
+    
     def guardar(self, id, serviren, cualipers, 
     actiminis, anteced, estado, idusuario):
 
@@ -32,6 +37,5 @@ class MiembroPerfilModel():
                 cur.close()
                 con.close()
         
-    ## (2, 'tesoreria', 'buen tipo', 'buen administrador', null,
-	##now(), true, null): : membresia.miembro_perfil
+    
 

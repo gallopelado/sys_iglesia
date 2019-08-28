@@ -51,12 +51,13 @@ Formulario de Miembro Oficial
                         <div class="card-body">
 
                             <div class="card-title">
-                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario de Miembro Oficial</h3>
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario de Miembro Oficial
+                                </h3>
                                 <h4 class="text-center title-5">
                                     {% if not miembro %}
-                                        <span class="badge badge-primary">Agregando registro</span>
+                                    <span class="badge badge-primary">Agregando registro</span>
                                     {% else %}
-                                        <span class="badge badge-info">Modificando registro</span>
+                                    <span class="badge badge-info">Modificando registro</span>
                                     {% endif %}
                                 </h4>
                             </div>
@@ -66,59 +67,78 @@ Formulario de Miembro Oficial
                             <!-- Inicio del formulario -->
                             <form action="" method="post">
 
-                                <!-- Campo oculto para idmiembro/idpersona -->
-                                <input type="hidden" name="txt_idmiembro" id="txt_idmiembro" value="{{ miembro[0] if miembro else '' }}">
 
                                 <!-- Persona, razon de alta -->
                                 <div class="form-horizontal">
                                     <div class="row form-group">
 
-                                        <!-- Campo Persona -->
-                                        <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                            <div class="input-group">
-                                                <input type="text" name="txt_miembro" id="txt_miembro"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Buscar Persona...(*)" disabled>                                                
-                                            </div>
+                                        <!-- Campo oculto para idmiembro/idpersona -->
+                                        <input type="hidden" name="txt_idmiembro" id="txt_idmiembro" value="">
+                                        <!-- Miembro -->
+                                        <div class="col col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                                            <label for="txt_miembro"
+                                                class="form-control-label form-control-sm">Miembro</label>
+                                            <input type="text" name="txt_miembro" id="txt_miembro"
+                                                class="form-control form-control-sm" placeholder="" disabled>
                                         </div>
                                         <!---->
 
-                                        <!-- Campo Razon de alta -->
-                                        <input type="hidden" name="txt_idrazonalta" id="txt_idrazonalta" value="{{ miembro[2] if miembro else '' }}">
-                                        <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                            <input type="text" name="txt_razonalta" id="txt_razonalta"
-                                                class="form-control form-control-sm" placeholder="Razón de Alta(*)" value="{{ miembro[3] if miembro else '' }}">
+                                        <!-- Campo donde desea servir el postulante -->
+                                        <div class="col col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                                            <label for="txt_serviren" class="form-control-label form-control-sm">Dónde
+                                                desea
+                                                servir(Separado por comas.)(*)</label>
+                                            <input type="text" name="txt_serviren" id="txt_serviren"
+                                                class="form-control form-control-sm" placeholder="Alabanza,Juvenil,etc"
+                                                value="" maxlength="150">
                                         </div>
                                         <!---->
 
                                     </div>
                                 </div>
-                                <!---->                               
+                                <!---->
 
-                                <!-- Campo observacion -->
+                                <!-- Campo cualidades personales -->
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <label for="txt_obs"
-                                            class="form-control-label form-control-sm">Observaciones</label>
-                                        <textarea name="txt_obs" id="txt_obs" cols="30" rows="5"
-                                            class="form-control-sm form-control">{% if miembro %}{% if miembro[13] %}{{ miembro[13] }}{%endif %}{% endif %}</textarea>
+                                        <label for="txt_cualipers"
+                                            class="form-control-label form-control-sm">Cualidades personales(*)</label>
+                                        <textarea name="txt_cualipers" id="txt_cualipers" cols="30" rows="5"
+                                            class="form-control-sm form-control" maxlength="150"></textarea>
                                     </div>
                                 </div>
+
+                                <!-- Actitudes ministeriales -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <label for="txt_actiminis"
+                                            class="form-control-label form-control-sm">Actitudes ministeriales(*)</label>
+                                        <textarea name="txt_actiminis" id="txt_actiminis" cols="30" rows="5"
+                                            class="form-control-sm form-control" maxlength="150"></textarea>
+                                    </div>
+                                </div>
+                                <!-- -->    
+                                
+                                <!-- Antecedentes -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <label for="txt_antecedentes" class="form-control-label form-control-sm">Antecedentes</label>
+                                        <textarea name="txt_antecedentes" id="txt_antecedentes" cols="30" rows="5" class="form-control-sm form-control"
+                                            maxlength="150"></textarea>
+                                    </div>
+                                </div>
+                                <!-- -->
 
                                 <!-- Botones -->
                                 <div class="row form-group">
                                     <div class="col col-12">
                                         <div class="card">
-                                            <div class="card-body">                                                
-                                                {%if not miembro %}
-                                                    <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
-                                                        <i class="fa fa-dot-circle-o"></i> Guardar
-                                                    </button>
-                                                {%else%}
-                                                    <button type="button" id="btnModificar" class="btn btn-primary btn-lg">
-                                                        <i class="fa fa-cogs"></i> Modificar
-                                                    </button>
-                                                {% endif %}
+                                            <div class="card-body">
+                                                
+                                                <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                                </button>
+                                                
                                                 <a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}"
                                                     id="btnCancelar" class="btn btn-danger btn-lg">
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
@@ -167,6 +187,6 @@ Formulario de Miembro Oficial
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- Controlador del formulario -->
-<script type="module" src="{{ url_for('static', filename='jsOperacionales/miembro_oficial/formulario.js') }}"></script>
+
 
 {%- endblock %}
