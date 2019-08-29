@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 
 # Importar modelos
 from app.Models.MiembroPerfilModel import MiembroPerfilModel
+from app.Models.ReferencialModel import ReferencialModel
 
 perfil = Blueprint('registrar_formulario_perfil', __name__, template_folder='templates')
 
@@ -15,7 +16,12 @@ def index_perfil():
 
 @perfil.route('/form_perfil')
 def formPerfil():
-    return render_template('registrar_formulario_perfil/formulario_perfil.html')
+
+    referencial = ReferencialModel()
+    ministerios = referencial.getAll('referenciales.ministerios')
+    print(ministerios)
+
+    return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios)
 
 
 @perfil.route('/form_perfil', methods=['POST'])

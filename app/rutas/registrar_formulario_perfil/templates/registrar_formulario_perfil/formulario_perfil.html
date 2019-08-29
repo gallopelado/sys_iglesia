@@ -87,10 +87,18 @@ Formulario de Miembro Oficial
                                         <div class="col col-sm-12 col-md-12 col-lg-7 col-xl-7">
                                             <label for="txt_serviren" class="form-control-label form-control-sm">Dónde
                                                 desea
-                                                servir(Separado por comas.)(*)</label>
-                                            <input type="text" name="txt_serviren" id="txt_serviren"
-                                                class="form-control form-control-sm" placeholder="Alabanza,Juvenil,etc"
-                                                value="" maxlength="150">
+                                                servir(*)</label>                                            
+                                            <select class="form-control form-control-sm" name="ministerios" id="ministerios" multiple>
+                                                {% if ministerios %}
+
+                                                    {% for ministerio in ministerios %}
+
+                                                        <option value="{{ ministerio[1] }}">{{ ministerio[1] }}</option>
+
+                                                    {% endfor %}
+
+                                                {% endif %}
+                                            </select>
                                         </div>
                                         <!---->
 
