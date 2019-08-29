@@ -53,7 +53,7 @@ Registrar Formulario de Miembro Oficial
                                                         class="item btn btn-primary" title="Ver">
                                                         <i class="zmdi zmdi-mail-send"></i>
                                                     </a>
-                                                    <a href="{{ url_for('registrar_formulario_perfil.formPerfil') }}"
+                                                    <a href="{{ url_for('registrar_formulario_perfil.formPerfil', idmiembro=item[0] ) }}"
                                                         class="item btn btn-warning modificar" data-toggle="tooltip"
                                                         data-placement="top" title="Modificar">
                                                         <i class="zmdi zmdi-edit"></i>

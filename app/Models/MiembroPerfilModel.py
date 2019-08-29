@@ -10,7 +10,25 @@ class MiembroPerfilModel():
 
     
     def obtenerMiembroId(self, id):
-        pass
+        # SQL
+        procedimiento = 'membresia.get_perfil_id'
+        parametros = (id,)
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, parametros)
+            return cur.fetchall()
+
+        except con.Error as e:
+            print(e.pgerror.encode('utf8'))
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
 
     
     def guardar(self, id, serviren, cualipers, 

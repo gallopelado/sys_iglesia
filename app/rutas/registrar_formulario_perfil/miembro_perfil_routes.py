@@ -14,12 +14,19 @@ def index_perfil():
     return render_template('registrar_formulario_perfil/index.html', lista=lista)
 
 
-@perfil.route('/form_perfil')
-def formPerfil():
+@perfil.route('/form_perfil/<int:idmiembro>', methods=['GET'])
+def formPerfil(idmiembro):
 
+    #print(f'Idmiembro = {idmiembro}')
+    id = idmiembro
+    # Obtener lista de ministerios.
     referencial = ReferencialModel()
     ministerios = referencial.getAll('referenciales.ministerios')
-    print(ministerios)
+
+    # Obtener datos de miembro por id.
+    miembro = MiembroPerfilModel()
+    lista = miembro.obtenerMiembroId(id)
+    print(lista)
 
     return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios)
 
