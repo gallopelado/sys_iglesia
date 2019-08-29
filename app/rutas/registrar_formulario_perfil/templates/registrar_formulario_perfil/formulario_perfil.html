@@ -73,13 +73,15 @@ Formulario de Miembro Oficial
                                     <div class="row form-group">
 
                                         <!-- Campo oculto para idmiembro/idpersona -->
-                                        <input type="hidden" name="txt_idmiembro" id="txt_idmiembro" value="">
+                                        <input type="hidden" name="txt_idmiembro" id="txt_idmiembro" 
+                                        value="{{ perfil[0] if perfil else ''}}">
                                         <!-- Miembro -->
                                         <div class="col col-sm-12 col-md-12 col-lg-5 col-xl-5">
                                             <label for="txt_miembro"
                                                 class="form-control-label form-control-sm">Miembro</label>
                                             <input type="text" name="txt_miembro" id="txt_miembro"
-                                                class="form-control form-control-sm" placeholder="" disabled>
+                                                class="form-control form-control-sm" 
+                                                value="{{ perfil[1] if perfil else ''}}" disabled>
                                         </div>
                                         <!---->
 
@@ -98,6 +100,9 @@ Formulario de Miembro Oficial
                                                     {% endfor %}
 
                                                 {% endif %}
+                                                {% if minis %}
+
+                                                {% endif%}
                                             </select>
                                         </div>
                                         <!---->
