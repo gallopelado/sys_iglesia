@@ -31,7 +31,7 @@ def formPerfil(idmiembro):
     lista = perfil[2]
     minis = None
     if lista:
-        print(lista.split(','))
+        
         minis = lista.split(',')    
 
     return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios, perfil = perfil, minis = minis)
@@ -40,7 +40,23 @@ def formPerfil(idmiembro):
 @perfil.route('/form_perfil', methods=['POST'])
 def procesarPerfil():
     
-    print(request.form)
+    idmiembro = int(request.form['txt_idmiembro'])
+    cualidades = request.form['txt_cualipers']
+    actitudes = request.form['txt_actiminis']
+    antecedentes = request.form['txt_antecedentes']
+    ministerios = request.form.getlist('ministerios')
 
-    return "probando POST"
+    # Convertir ministerios a string.
+    r_ministerio = ''
+    for m in ministerios:
+        r_ministerio += m + ','
+    
+    r_ministerio = r_ministerio.rstrip(',')
+    print(idmiembro, r_ministerio, cualidades, actitudes, antecedentes,)
+    perf = MiembroPerfilModel()
+    perf.guardar(idmiembro, r_ministerio, cualidades, actitudes, antecedentes, True, None)
+    
+    return redirect(url_for('registrar_formulario_perfil.index_perfil'))
+
+    
 

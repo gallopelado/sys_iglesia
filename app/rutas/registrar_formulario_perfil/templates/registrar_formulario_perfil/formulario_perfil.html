@@ -3,7 +3,7 @@
 
 
 {% block title %}
-Formulario de Miembro Oficial
+Formulario de Miembro Perfil
 {% endblock %}
 
 {% block mi_css -%}
@@ -51,10 +51,10 @@ Formulario de Miembro Oficial
                         <div class="card-body">
 
                             <div class="card-title">
-                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario de Miembro Oficial
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario de Perfil
                                 </h3>
                                 <h4 class="text-center title-5">
-                                    {% if not miembro %}
+                                    {% if not perfil[2] %}
                                     <span class="badge badge-primary">Agregando registro</span>
                                     {% else %}
                                     <span class="badge badge-info">Modificando registro</span>
@@ -65,7 +65,7 @@ Formulario de Miembro Oficial
                             <hr>
 
                             <!-- Inicio del formulario -->
-                            <form name="form1" action="/membresia/formulario_perfil/form_perfil" method="POST" onsubmit="return validarForm(this);">
+                            <form name="formulario_perfil" action="{{ url_for('registrar_formulario_perfil.procesarPerfil') }}" method="POST" onsubmit="return validarForm(this);">
 
 
                                 <!-- Persona, razon de alta -->
@@ -135,7 +135,7 @@ Formulario de Miembro Oficial
                                         <label for="txt_actiminis"
                                             class="form-control-label form-control-sm">Actitudes ministeriales(*)</label>
                                         <textarea name="txt_actiminis" id="txt_actiminis" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150"></textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"></textarea>
                                     </div>
                                 </div>
                                 <!-- -->    

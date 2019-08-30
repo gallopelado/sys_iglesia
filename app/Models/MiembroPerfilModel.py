@@ -31,12 +31,12 @@ class MiembroPerfilModel():
                 con.close()
 
     
-    def guardar(self, id, serviren, cualipers, 
+    def guardar(self, idmiembro, serviren, cualipers, 
     actiminis, anteced, estado, idusuario):
 
         # SQL
         procedimiento = 'membresia.altamiembroperfil'
-        parametros = (id, serviren, cualipers, actiminis, anteced,
+        parametros = (idmiembro, serviren, cualipers, actiminis, anteced,
         estado, idusuario,)
         try:
         
