@@ -28,10 +28,11 @@ def formPerfil(idmiembro):
     perfil = miembro.obtenerMiembroId(id)[0]
 
     # Procesar los ministerios 
-    minis = perfil[2]
-    if minis:
-        print(minis.split(','))
-        minis = minis.split(',')    
+    lista = perfil[2]
+    minis = None
+    if lista:
+        print(lista.split(','))
+        minis = lista.split(',')    
 
     return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios, perfil = perfil, minis = minis)
 

@@ -65,7 +65,7 @@ Formulario de Miembro Oficial
                             <hr>
 
                             <!-- Inicio del formulario -->
-                            <form action="" method="POST" onsubmit="return validarForm(this)">
+                            <form name="form1" action="/membresia/formulario_perfil/form_perfil" method="POST" onsubmit="return validarForm(this);">
 
 
                                 <!-- Persona, razon de alta -->
@@ -95,14 +95,22 @@ Formulario de Miembro Oficial
 
                                                     {% for ministerio in ministerios %}
 
-                                                        <option value="{{ ministerio[1] }}">{{ ministerio[1] }}</option>
+                                                        <option value="{{ ministerio[1] }}"
+                                                        {% if minis %}
+                                                         
+                                                           {% for i in minis %}
+
+                                                                {{ 'selected' if i == ministerio[1] }}
+
+                                                           {% endfor %}
+                                                         
+                                                        {% endif %}
+                                                        >{{ ministerio[1] }}</option>
 
                                                     {% endfor %}
 
                                                 {% endif %}
-                                                {% if minis %}
-
-                                                {% endif%}
+                                                
                                             </select>
                                         </div>
                                         <!---->
@@ -117,7 +125,7 @@ Formulario de Miembro Oficial
                                         <label for="txt_cualipers"
                                             class="form-control-label form-control-sm">Cualidades personales(*)</label>
                                         <textarea name="txt_cualipers" id="txt_cualipers" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150"></textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"></textarea>
                                     </div>
                                 </div>
 
@@ -148,11 +156,11 @@ Formulario de Miembro Oficial
                                         <div class="card">
                                             <div class="card-body">
                                                 
-                                                <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                <button type="submit" id="btnGuardar" class="btn btn-primary btn-lg">
                                                     <i class="fa fa-dot-circle-o"></i> Guardar
                                                 </button>
                                                 
-                                                <a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}"
+                                                <a href=""
                                                     id="btnCancelar" class="btn btn-danger btn-lg">
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
                                                 </a>
@@ -200,6 +208,6 @@ Formulario de Miembro Oficial
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- Controlador del formulario -->
-
+<script src="{{ url_for('static', filename='jsOperacionales/miembro_perfil/controlador.js') }}"></script>
 
 {%- endblock %}
