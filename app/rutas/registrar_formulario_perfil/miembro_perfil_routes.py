@@ -37,6 +37,29 @@ def formPerfil(idmiembro):
     return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios, perfil = perfil, minis = minis)
 
 
+@perfil.route('/ver_perfil/<int:idmiembro>', methods=['GET'])
+def ver(idmiembro):
+
+    id = idmiembro
+
+    # Obtener lista de ministerios.
+    referencial = ReferencialModel()
+    ministerios = referencial.getAll('referenciales.ministerios')
+
+    # Obtener datos de miembro por id.
+    miembro = MiembroPerfilModel()
+    perfil = miembro.obtenerMiembroId(id)[0]
+
+    # Procesar los ministerios 
+    lista = perfil[2]
+    minis = None
+    if lista:
+        
+        minis = lista.split(',')    
+
+    return render_template('registrar_formulario_perfil/formulario_perfil.html', ministerios = ministerios, perfil = perfil, minis = minis, lista_perfil = perfil)
+
+
 @perfil.route('/form_perfil', methods=['POST'])
 def procesarPerfil():
     

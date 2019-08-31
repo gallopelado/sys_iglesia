@@ -49,7 +49,7 @@ Registrar Formulario de Perfil
                                             <td>{{ item[2] }}</td>
                                             <td>
                                                 <div class="table-data-feature">
-                                                    <a href=""
+                                                    <a href="{{ url_for('registrar_formulario_perfil.ver', idmiembro=item[0] ) }}"
                                                         class="item btn btn-primary" title="Ver">
                                                         <i class="zmdi zmdi-mail-send"></i>
                                                     </a>

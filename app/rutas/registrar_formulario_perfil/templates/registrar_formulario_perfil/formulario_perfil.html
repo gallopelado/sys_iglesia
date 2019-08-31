@@ -54,10 +54,12 @@ Formulario de Miembro Perfil
                                 <h3 class="text-center title-2"><i class="fa fa-edit"></i> Formulario de Perfil
                                 </h3>
                                 <h4 class="text-center title-5">
-                                    {% if not perfil[2] %}
+                                    {% if not perfil[2] and not lista_perfil %}
                                     <span class="badge badge-primary">Agregando registro</span>
-                                    {% else %}
+                                    {% elif perfil[2] and not lista_perfil %}
                                     <span class="badge badge-info">Modificando registro</span>
+                                    {% elif lista_perfil %}
+                                    <span class="badge badge-success">Ver registro</span>
                                     {% endif %}
                                 </h4>
                             </div>
@@ -90,7 +92,7 @@ Formulario de Miembro Perfil
                                             <label for="txt_serviren" class="form-control-label form-control-sm">Dónde
                                                 desea
                                                 servir(*)</label>                                            
-                                            <select class="form-control form-control-sm" name="ministerios" id="ministerios" multiple>
+                                            <select class="form-control form-control-sm" name="ministerios" id="ministerios" multiple {{ 'disabled' if lista_perfil }}>
                                                 {% if ministerios %}
 
                                                     {% for ministerio in ministerios %}
@@ -125,7 +127,9 @@ Formulario de Miembro Perfil
                                         <label for="txt_cualipers"
                                             class="form-control-label form-control-sm">Cualidades personales(*)</label>
                                         <textarea name="txt_cualipers" id="txt_cualipers" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()">{{ perfil[3] if perfil[3] else ''}}</textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"
+                                            {{ 'disabled' if lista_perfil }}
+                                            >{{ perfil[3] if perfil[3] else ''}}</textarea>
                                     </div>
                                 </div>
 
@@ -135,7 +139,9 @@ Formulario de Miembro Perfil
                                         <label for="txt_actiminis"
                                             class="form-control-label form-control-sm">Actitudes ministeriales(*)</label>
                                         <textarea name="txt_actiminis" id="txt_actiminis" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()">{{ perfil[4] if perfil[4] else ''}}</textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"
+                                            {{ 'disabled' if lista_perfil }}
+                                            >{{ perfil[4] if perfil[4] else ''}}</textarea>
                                     </div>
                                 </div>
                                 <!-- -->    
@@ -145,7 +151,7 @@ Formulario de Miembro Perfil
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <label for="txt_antecedentes" class="form-control-label form-control-sm">Antecedentes</label>
                                         <textarea name="txt_antecedentes" id="txt_antecedentes" cols="30" rows="5" class="form-control-sm form-control"
-                                            maxlength="150">{{ perfil[5] if perfil[5] else ''}}</textarea>
+                                            maxlength="150" {{ 'disabled' if lista_perfil }}>{{ perfil[5] if perfil[5] else ''}}</textarea>
                                     </div>
                                 </div>
                                 <!-- -->
@@ -156,12 +162,12 @@ Formulario de Miembro Perfil
                                         <div class="card">
                                             <div class="card-body">
                                                 
-                                                <button type="submit" id="btnGuardar" class="btn btn-primary btn-lg">
-                                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                                <button type="submit" id="btnGuardar" class="btn btn-primary btn-lg" {{ 'disabled' if lista_perfil }}>
+                                                    <i class="fa fa-dot-circle-o" ></i> Guardar
                                                 </button>
                                                 
-                                                <a href=""
-                                                    id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <a href="{{ url_for('registrar_formulario_perfil.index_perfil') }}"
+                                                    id="btnCancelar" class="btn btn-danger btn-lg" {{ 'disabled' if lista_perfil }}>
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
                                                 </a>
                                             </div>
