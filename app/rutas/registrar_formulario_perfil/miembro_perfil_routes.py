@@ -52,11 +52,12 @@ def procesarPerfil():
         r_ministerio += m + ','
     
     r_ministerio = r_ministerio.rstrip(',')
-    print(idmiembro, r_ministerio, cualidades, actitudes, antecedentes,)
+    
     perf = MiembroPerfilModel()
     perf.guardar(idmiembro, r_ministerio, cualidades, actitudes, antecedentes, True, None)
     
     return redirect(url_for('registrar_formulario_perfil.index_perfil'))
+    
 
     
 

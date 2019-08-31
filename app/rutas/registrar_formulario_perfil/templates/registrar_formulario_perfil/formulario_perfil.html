@@ -125,7 +125,7 @@ Formulario de Miembro Perfil
                                         <label for="txt_cualipers"
                                             class="form-control-label form-control-sm">Cualidades personales(*)</label>
                                         <textarea name="txt_cualipers" id="txt_cualipers" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"></textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()">{{ perfil[3] if perfil[3] else ''}}</textarea>
                                     </div>
                                 </div>
 
@@ -135,7 +135,7 @@ Formulario de Miembro Perfil
                                         <label for="txt_actiminis"
                                             class="form-control-label form-control-sm">Actitudes ministeriales(*)</label>
                                         <textarea name="txt_actiminis" id="txt_actiminis" cols="30" rows="5"
-                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()"></textarea>
+                                            class="form-control-sm form-control" maxlength="150" onfocus="this.select()">{{ perfil[4] if perfil[4] else ''}}</textarea>
                                     </div>
                                 </div>
                                 <!-- -->    
@@ -145,7 +145,7 @@ Formulario de Miembro Perfil
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <label for="txt_antecedentes" class="form-control-label form-control-sm">Antecedentes</label>
                                         <textarea name="txt_antecedentes" id="txt_antecedentes" cols="30" rows="5" class="form-control-sm form-control"
-                                            maxlength="150"></textarea>
+                                            maxlength="150">{{ perfil[5] if perfil[5] else ''}}</textarea>
                                     </div>
                                 </div>
                                 <!-- -->

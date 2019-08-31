@@ -35,7 +35,7 @@ class MiembroPerfilModel():
     actiminis, anteced, estado, idusuario):
 
         # SQL
-        procedimiento = 'membresia.altamiembroperfil'
+        procedimiento = 'membresia.alta_miembroperfil'
         parametros = (idmiembro, serviren, cualipers, actiminis, anteced,
         estado, idusuario,)
         try:
