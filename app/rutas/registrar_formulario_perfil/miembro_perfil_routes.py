@@ -77,9 +77,16 @@ def procesarPerfil():
     r_ministerio = r_ministerio.rstrip(',')
     
     perf = MiembroPerfilModel()
-    perf.guardar(idmiembro, r_ministerio, cualidades, actitudes, antecedentes, True, None)
+    res = perf.guardar(idmiembro, r_ministerio, cualidades, actitudes, antecedentes, True, None)
     
-    return redirect(url_for('registrar_formulario_perfil.index_perfil'))
+    # Mensaje de éxito.
+    if res == True:
+        flash('Se ha procesado con éxito su acción !', 'success')
+        return redirect(url_for('registrar_formulario_perfil.index_perfil'))
+    
+    flash('Algo ha salido mal', 'warning')
+    return redirect(url_for('registrar_formulario_perfil.formPerfil', idmiembro=idmiembro))
+
     
 
     

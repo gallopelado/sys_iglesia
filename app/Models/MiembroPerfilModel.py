@@ -45,7 +45,9 @@ class MiembroPerfilModel():
             cur = con.cursor()
             cur.callproc(procedimiento, parametros)
             con.commit()
-            return cur.fetchone()
+            res = cur.fetchone()[0]
+            
+            return res
 
         except con.Error as e:
             print(e.pgerror.encode('utf8'))

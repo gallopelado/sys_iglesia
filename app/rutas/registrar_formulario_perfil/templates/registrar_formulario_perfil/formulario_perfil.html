@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea,pintar_alerta %}
 
 
 {% block title %}
@@ -180,6 +180,11 @@ Formulario de Miembro Perfil
                             <!-- Fin del formulario -->
                         </div>
                         <!--Fin card-body-->
+
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+
                     </div>
                 </div>
             </div>

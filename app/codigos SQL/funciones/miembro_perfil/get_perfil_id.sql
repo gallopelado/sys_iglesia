@@ -49,9 +49,3 @@ BEGIN
 	RETURN;
 END;
 $$ LANGUAGE plpgsql;
---SELECT membresia.get_perfil_id(2);
-/*
-Quiero:
-idmiembro, miembro, donde quiere servir, cualidad, actitud ministerial,
-antecedentes.
-*/
