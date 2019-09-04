@@ -31,6 +31,7 @@ from app.rutas.registrar_documentos_miembro.documentos_miembro_routes import doc
 from app.rutas.registrar_requisitos_miembro.formulario_requisitos_routes import miereq
 from app.rutas.registrar_miembro_oficial.miembro_oficial_routes import mieofi
 from app.rutas.registrar_formulario_perfil.miembro_perfil_routes import perfil
+from app.rutas.registrar_postulacion.postulacion_routes import postu
 
 # Ordena el espaciado en la plantilla HTML
 app.jinja_env.trim_blocks = True
@@ -51,6 +52,7 @@ app.register_blueprint(rutas.registrar_documentos_miembro.documentos_miembro_rou
 app.register_blueprint(rutas.registrar_requisitos_miembro.formulario_requisitos_routes.miereq, url_prefix="/requisitos_miembro")
 app.register_blueprint(rutas.registrar_miembro_oficial.miembro_oficial_routes.mieofi, url_prefix='/miembro_oficial')
 app.register_blueprint(rutas.registrar_formulario_perfil.miembro_perfil_routes.perfil, url_prefix='/membresia/formulario_perfil')
+app.register_blueprint(rutas.registrar_postulacion.postulacion_routes.postu, url_prefix='/membresia/formulario_postulacion')
 
 # Codigo secreto para generar la cookie.
 app.secret_key = "12345"
