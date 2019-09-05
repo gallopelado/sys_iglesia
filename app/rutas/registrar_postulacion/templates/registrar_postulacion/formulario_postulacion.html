@@ -107,7 +107,7 @@ Formulario Postulación
                                 <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                     <div class="input-group mb-3">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="txt_documento"
+                                            <input type="file" class="custom-file-input form-control form-control-sm datetimepicker-input" id="txt_documento"
                                                 name="txt_documento">
                                             <label class="custom-file-label form-control-sm" for="txt_documento"
                                                 aria-describedby="txt_documento">Documento de referencia</label>
@@ -141,7 +141,7 @@ Formulario Postulación
 
                             <!--Tabla-->
                             <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
                                     <div class="card">
                                         <div class="card-body">
                                             <div id="divTabla" class="table-responsive m-b-40">
@@ -172,7 +172,7 @@ Formulario Postulación
                                         <div class="form-group">
                                             <div class="input-group date" id="datetimepicker4"
                                                 data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input"
+                                                <input type="text" class="form-control form-control-sm datetimepicker-input"
                                                     data-target="#datetimepicker4" id="txt_fecha"
                                                     onpaste="return false" />
                                                 <div class="input-group-append" data-target="#datetimepicker4"
@@ -190,7 +190,7 @@ Formulario Postulación
                                         <div class="form-group">
                                             <div class="input-group date" id="datetimepicker4"
                                                 data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input"
+                                                <input type="text" class="form-control form-control-sm datetimepicker-input"
                                                     data-target="#datetimepicker4" id="txt_fecha"
                                                     onpaste="return false" />
                                                 <div class="input-group-append" data-target="#datetimepicker4"
@@ -259,8 +259,8 @@ Formulario Postulación
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- JS del formulario -->
-<!-- <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/formulario_documentos.js') }}"></script> -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/registrar_postulacion/formulario.js') }}"></script>
 
 
 {%- endblock %}
