@@ -1,22 +1,25 @@
 class Postulacion {
 
-    constructor() {
+    constructor(id, idcomite, nombrecomite, descripcion,
+        lugaresdisponibles, preview_documento, documento, 
+        idpuesto, puesto, tabla, tabla_tbody, fechainicio,
+        fechafin, btnguardar, btncancelar) {
 
-        this.id = document.getElementById('idpostulacion');
-        this.idcomite = document.getElementById('idministerio');
-        this.nombrecomite = document.getElementById('txt_ministerio');
-        this.descripcion = document.getElementById('txt_descripcion');
-        this.lugaresdisponibles = document.getElementById('txt_lugares');
-        this.preview_documento = '';
-        this.documento;
-        this.idpuesto;
-        this.puesto;
-        this.tabla;
-        this.tabla_tbody;
-        this.fechainicio;
-        this.fechafin;
-        this.btnguardar;
-        this.btncancelar;
+        this.id = id;
+        this.idcomite = idcomite;
+        this.nombrecomite = nombrecomite;
+        this.descripcion = descripcion;
+        this.lugaresdisponibles = lugaresdisponibles;
+        this.preview_documento = preview_documento;
+        this.documento = documento;
+        this.idpuesto = idpuesto;
+        this.puesto = puesto;
+        this.tabla = tabla;
+        this.tabla_tbody = tabla_tbody;
+        this.fechainicio = fechainicio;
+        this.fechafin = fechafin;
+        this.btnguardar = btnguardar;
+        this.btncancelar = btncancelar;
 
     }
 
