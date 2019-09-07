@@ -14,8 +14,8 @@ $$
  */
 DECLARE
 	v_fechaactual date := current_date;
-	v_fechainicio date := '2019-09-06';
-	v_fechafin date := '2019-10-06';
+	v_fechainicio date := fechainicio;
+	v_fechafin date := fechafin;
 
 BEGIN
 
@@ -46,3 +46,4 @@ END
 
 $$ LANGUAGE plpgsql;
 
+--SELECT membresia.verifica_fechas_postulacion('2019-09-07', '2019-01-01');
