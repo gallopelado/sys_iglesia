@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION membresia.nueva_postulacion(
-	postdes TEXT
+	minid integer
+	, postdes TEXT
 	, postdoc TEXT
 	, postestado boolean
 	, postiniciopostu date
@@ -26,6 +27,7 @@ DECLARE
 	v_cantidad integer;
 
 	-- El resto de variables.
+	v_minid integer := minid; 
 	v_postdes TEXT := postdes;
 	v_postdoc TEXT := postdoc;
 	v_postestado boolean := postestado;
@@ -54,10 +56,11 @@ BEGIN
 	
 	-- Insertar cabecera.
 	INSERT INTO membresia.cabe_postulacion
-	(post_id, post_des, post_doc, post_estado, post_iniciopostu, post_finpostu, post_fechaprocesado, creado_por_usuario, post_fechacreacion)
+	(post_id, min_id, post_des, post_doc, post_estado, post_iniciopostu, post_finpostu, post_fechaprocesado, creado_por_usuario, post_fechacreacion)
 	VALUES
 	(
 		(SELECT COALESCE(max(post_id), 0) + 1)
+		, v_minid
 		, v_postdes
 		, v_postdoc
 		, v_postestado
