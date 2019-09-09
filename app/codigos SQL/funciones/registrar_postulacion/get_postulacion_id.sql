@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION membresia.get_postulacion_id(idpostulacion integer)
 RETURNS [tipo] AS
-$
+$$
 /**
 * Procedimiento:get_postulacion_id
 * Parametros:
@@ -12,17 +12,33 @@ $
 BEGIN
 
 	SELECT 
-		post_id AS idpostulacion
-		, min_id AS idministerio
-		, post_des AS descripcion
-		, post_doc AS documento
-		, post_iniciopostu AS fechainicio
-		, post_finpostu AS fechafin
-	FROM 
-		membresia.cabe_postulacion
+	-- Muestra datos de cabecera.
+	cab.post_id idpostulacion
+	, cab.min_id idministerio
+	, m.min_des ministerio
+	, cab.post_des descripcion
+	, cab.post_doc documento
+	-- Ver el detalle.
+	, ARRAY(
+		SELECT 
+			json_build_object(
+			'post_id',post_id, 'pro_des', pro_des
+			,'pro_id',pro_id)
+		FROM
+			membresia.postu_detalle
+		LEFT JOIN referenciales.profesiones using (pro_id)
+		WHERE
+			post_id = cab.post_id
+	) detalle
+FROM
+	membresia.cabe_postulacion cab
+LEFT JOIN 
+	referenciales.ministerios m using(min_id)
+WHERE
+	cab.post_id = 1;
+
 	
-	WHERE post_id = idpostulacion;
 	
 
 END
-$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
