@@ -1,3 +1,5 @@
+import { autoCompletar } from '../helper/helper.js';
+
 class Postulacion {
 
     constructor(id, idcomite, nombrecomite, descripcion,
@@ -20,6 +22,23 @@ class Postulacion {
         this.fechafin = fechafin;
         this.btnguardar = btnguardar;
         this.btncancelar = btncancelar;
+
+    }
+
+    async getMinisterios() {
+
+        const endpoint = '/membresia/formulario_postulacion/get_ministerios';
+
+        try {
+            
+            const res = await fetch(endpoint);
+            const data = await res.json()
+
+            console.log(data);
+            
+        } catch (error) {
+            console.error(error);
+        }
 
     }
 

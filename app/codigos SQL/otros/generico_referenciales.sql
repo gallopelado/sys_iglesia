@@ -16,3 +16,33 @@ end;
 $$ language plpgsql;
 
 select getall_referencial('referenciales.sangre');
+
+
+
+-- Para generar json
+CREATE OR REPLACE FUNCTION get_referencial_json(tabla varchar)
+RETURNS json AS
+$$
+/**
+* Funcion: get_referencial_json
+* Parametros: tabla varchar
+* Descripcion: De cualquier tabla simple(id, descripcion)
+* genera un json de sus registros.
+* Autor: Juan José González Ramírez <juanftp100@gmail.com>
+* Version: 1.0
+* Fecha: 10-09-2019
+*/
+
+	 SELECT 
+		array_to_json(
+			array_agg(
+				data
+			)
+		) resultado
+	FROM (
+	
+		SELECT * FROM public.getall_referencial(tabla)
+	
+	) data;
+
+$$ LANGUAGE sql;
