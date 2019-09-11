@@ -39,6 +39,7 @@ def listaMiembrosDocumento():
 @docm.route('/obtener_miembro_documento', methods=['POST'])
 def obtenerMiembroDocumento():
     
+    #print(f'RECIBIDO = {request.json}')
     idmiembro = request.json['idmiembro']
     idtipodocumento = request.json['idtipodocumento']
     doc = FormDocumentosModel()

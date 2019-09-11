@@ -18,8 +18,7 @@ window.modificar = (idpersona, iddocumento) => {
     conf.buttons.Si.action = () => {
 
         const doc = new PrincipalUI();
-        doc.guardarTemporal(idpersona, iddocumento);
-        window.location.href = 'http://localhost:5000/documentos_miembro/frm_mod';
+        doc.guardarTemporal(idpersona, iddocumento);        
 
     }
     conf.open();

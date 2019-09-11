@@ -11,10 +11,10 @@ export default class PrincipalUI {
         try {
 
             const res = await fetch('http://localhost:5000/documentos_miembro/lista_miembros_documento');
-            const data = await res.json();            
+            const data = await res.json();
             let matrizResultados = [];
             const longitud_data = data.length;
-            
+
 
             if (longitud_data > 0) {
 
@@ -22,7 +22,7 @@ export default class PrincipalUI {
                 moment.locale('es');
 
                 for (let item of data[0][0]) {
-                    
+
                     matrizResultados.push({
                         documento: item.documento,
                         persona: item.persona,
@@ -65,14 +65,14 @@ export default class PrincipalUI {
                     { data: 'fecha' },
                     { data: 'acciones' }
                 ]
-            });                                 
+            });
 
         } catch (error) {
             console.error(error);
         }
 
     }
-    
+
     async obtenerMiembroDocumento(idmiembro, idtipodocu) {
 
         const datos = {
@@ -81,7 +81,7 @@ export default class PrincipalUI {
         }
 
         try {
-            
+
             const res = await fetch('http://localhost:5000/documentos_miembro/obtener_miembro_documento', {
                 method: 'POST',
                 headers: {
@@ -101,48 +101,58 @@ export default class PrincipalUI {
     }
 
     async guardarTemporal(idmiembro, idtipodocu) {
-        
-        // Se obtienen datos del servidor.
-        const miembro = await this.obtenerMiembroDocumento(idmiembro, idtipodocu);        
-        
-        // Borrar base de datos.
-        let borrar = indexedDB.deleteDatabase('db_documentos', 1);
-       /* borrar.onsuccess = function() {
-            console.log('Se borro la bd');
+
+        try {
+
+            // Se obtienen datos del servidor.
+            const miembro = await this.obtenerMiembroDocumento(idmiembro, idtipodocu);
+            
+            // Borrar base de datos.
+            let borrar = indexedDB.deleteDatabase('db_documentos', 1);
+            /* borrar.onsuccess = function() {
+                 console.log('Se borro la bd');
+             }
+             borrar.onerror = function() {
+                 console.error('Ocurrió un error al borrar');
+             }
+             borrar.onblocked = function () {
+                 console.error('no se pudo borrar, bd bloqueada');
+             }*/
+
+            // Creacion e insercion.
+            const dbName = 'db_documentos';
+            let bd;
+            let solicitud = indexedDB.open(dbName, 1);
+            const doc = new PrincipalUI();
+
+            solicitud.onsuccess = function () {
+
+                bd = solicitud.result;
+
+                let transaccion = bd.transaction(['documentos_miembro'], 'readwrite');
+
+                let documento = transaccion.objectStore('documentos_miembro');
+
+                documento.add(miembro);
+
+                bd.close();
+
+                // Redireccionar al formulario.
+                window.location.href = '/documentos_miembro/frm_mod';
+            }
+
+            solicitud.onupgradeneeded = function (e) {
+
+                bd = e.target.result;
+                bd.createObjectStore('documentos_miembro', { keyPath: 'idmiembro' });
+
+            }
+
+        } catch (error) {
+            console.error(error);
         }
-        borrar.onerror = function() {
-            console.error('Ocurrió un error al borrar');
-        }
-        borrar.onblocked = function () {
-            console.error('no se pudo borrar, bd bloqueada');
-        }*/
 
-        // Creacion e insercion.
-        const dbName = 'db_documentos';
-        let bd;
-        let solicitud = indexedDB.open(dbName, 1);
-        const doc = new PrincipalUI();
 
-        solicitud.onsuccess = function () {                        
-
-            bd = solicitud.result;
-
-            let transaccion = bd.transaction(['documentos_miembro'], 'readwrite');
-
-            let documento = transaccion.objectStore('documentos_miembro');
-
-            documento.add(miembro);                        
-
-            bd.close();
-        }
-
-        solicitud.onupgradeneeded = function (e) {
-
-            bd = e.target.result;
-            bd.createObjectStore('documentos_miembro', { keyPath: 'idmiembro' });
-                                    
-        }        
-        
     }
 
     verDatos(idmiembro) {
@@ -153,7 +163,7 @@ export default class PrincipalUI {
         solicitud.onsuccess = () => {
 
             bd = solicitud.result;
-            
+
             let transaccion = bd.transaction(['documentos_miembro']);
             let documentoStore = transaccion.objectStore('documentos_miembro');
             let request = documentoStore.get(idmiembro);
@@ -169,7 +179,7 @@ export default class PrincipalUI {
 
         }
 
-    }    
+    }
 
     async eliminarFormulario(idpersona, iddocumento) {
 
@@ -191,8 +201,8 @@ export default class PrincipalUI {
             const data = await res.json();
             //console.log(data.estado);
             this.cargarTabla();
-            return data.estado === true ? data.estado : false;             
-            
+            return data.estado === true ? data.estado : false;
+
         } catch (error) {
             console.error(error);
             return false;
@@ -205,11 +215,11 @@ export default class PrincipalUI {
         let tabla = document.getElementById('tabla_formdocu');
         let longitud_filas = tabla.rows.length;
         console.log(longitud_filas);
-       /* for (let i = 1; i < longitud_filas; i++) {
-
-            console.log(tabla.rows);
-
-        }*/
+        /* for (let i = 1; i < longitud_filas; i++) {
+ 
+             console.log(tabla.rows);
+ 
+         }*/
 
     }
 }
