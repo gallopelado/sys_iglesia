@@ -26,3 +26,11 @@ def getMinisterios():
     lista = ref.getReferencialJson('referenciales.ministerios')
     
     return jsonify(lista)
+
+
+@postu.route('/get_profesiones', methods=['GET'])
+def getProfesiones():
+    ref = ReferencialModel()
+    lista = ref.getReferencialJson('referenciales.profesiones')
+    
+    return jsonify(lista)

@@ -1,6 +1,6 @@
 import { autoCompletar } from '../helper/helper.js';
 
-class Postulacion {
+export default class Postulacion {
 
     constructor(id, idcomite, nombrecomite, descripcion,
         lugaresdisponibles, preview_documento, documento, 
@@ -34,7 +34,24 @@ class Postulacion {
             const res = await fetch(endpoint);
             const data = await res.json()
 
-            console.log(data);
+            autoCompletar(data, 'descripcion', 'id', 'idministerio', 'txt_ministerio');
+            
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+    async getProfesiones() {
+
+        const endpoint = '/membresia/formulario_postulacion/get_profesiones';
+
+        try {
+            
+            const res = await fetch(endpoint);
+            const data = await res.json()            
+
+            autoCompletar(data, 'descripcion', 'id', 'idpuesto', 'txt_puesto');
             
         } catch (error) {
             console.error(error);
