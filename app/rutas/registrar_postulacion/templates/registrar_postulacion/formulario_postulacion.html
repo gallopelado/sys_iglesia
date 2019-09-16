@@ -57,171 +57,186 @@ Formulario Postulación
 
                             <hr>
 
-                            <!-- Campo idpostulacion -->
-                            <input type="hidden" name="idpostulacion" id="idpostulacion">
+                            <!-- Inicio del formulario -->
+                            <form id="frm_postu" action="" method="post">
 
-                            <!-- Comites -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                    <input type="hidden" name="idministerio" id="idministerio">
-                                    <label for=txt_ministerio"
-                                        class="form-control-label form-control-sm">Comité(*)</label>
-                                    <input name="txt_ministerio" id="txt_ministerio"
-                                        class="form-control form-control-sm" placeholder="Digite nombre del comité...">
-                                </div>
-                            </div>
-                            <!---->
+                                <!-- Campo idpostulacion -->
+                                <input type="hidden" name="idpostulacion" id="idpostulacion">
 
-                            <!-- Descripcion, cantidad -->
-                            <div class="form-horizontal">
-                                <!-- Campo Descripcion -->
+                                <!-- Comites -->
                                 <div class="row form-group">
-                                    <!--Campo1-->
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <label for="txt_declaracion"
-                                            class="form-control-label form-control-sm">Descripción de la
-                                            Postulación</label>
-                                        <textarea name="txt_descripcion" id="txt_descripcion" cols="30" rows="5"
-                                            class="form-control-sm form-control"></textarea>
-                                    </div>
-
-                                    <!--Campo2-->
-                                    <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                                        <label for="txt_lugares" class="form-control-label form-control-sm">Lugares
-                                            disponibles</label>
-                                        <input name="txt_lugares" id="txt_lugares" class="form-control form-control-sm" disabled>
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <input type="hidden" name="idministerio" id="idministerio">
+                                        <label for=txt_ministerio"
+                                            class="form-control-label form-control-sm">Comité(*)</label>
+                                        <input type="text" name="txt_ministerio" id="txt_ministerio"
+                                            class="form-control form-control-sm"
+                                            placeholder="Digite nombre del comité..." maxlength="100" min="1" required>
                                     </div>
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!-- Campo previo documento cargado -->
-                            <div class="row form-group">
-                                <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                </div>
-                            </div>
-                            <!---->
+                                <!-- Descripcion, cantidad -->
+                                <div class="form-horizontal">
+                                    <!-- Campo Descripcion -->
+                                    <div class="row form-group">
+                                        <!--Campo1-->
+                                        <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label for="txt_declaracion"
+                                                class="form-control-label form-control-sm">Descripción de la
+                                                Postulación(*)</label>
+                                            <textarea name="txt_descripcion" id="txt_descripcion" cols="30" rows="5"
+                                                class="form-control-sm form-control" required></textarea>
+                                        </div>
 
-                            <!-- Campo documento -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="input-group mb-3">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input form-control form-control-sm datetimepicker-input" id="txt_documento"
-                                                name="txt_documento">
-                                            <label class="custom-file-label form-control-sm" for="txt_documento"
-                                                aria-describedby="txt_documento">Documento de referencia</label>
+                                        <!--Campo2-->
+                                        <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                            <label for="txt_lugares" class="form-control-label form-control-sm">Lugares
+                                                disponibles</label>
+                                            <input name="txt_lugares" id="txt_lugares"
+                                                class="form-control form-control-sm" disabled>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!---->
+                                <!---->
 
-                            <!--Puesto/cargo-->
-                            <div class="form-horizontal">
+                                <!-- Campo previo documento cargado -->
+                                <div class="row form-group">
+                                    <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!-- Campo documento -->
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <label for=txt_puesto" class="form-control-label form-control-sm">Elegir
-                                            puesto/cargo</label>
-                                        <input type="hidden" name="idpuesto" id="idpuesto">
-                                        <input name="txt_puesto" id="txt_puesto" class="form-control form-control-sm"
-                                            placeholder="Digite nombre del puesto...">
-                                    </div>
-
-                                    <!--Vacancias-->
-                                    <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                                        <label for="txt_vacancias"
-                                            class="form-control-label form-control-sm">Vacancias</label>
-                                        <input name="txt_vacancias" id="txt_vacancias"
-                                            class="form-control form-control-sm">
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!--Tabla-->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div id="divTabla" class="table-responsive m-b-40">
-                                                <table id="tabla_detalle" class="table table-borderless table-data3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Puesto</th>
-                                                            <th>Vacancia</th>
-                                                            <th class="text-right">Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tb_detalle">
-                                                    </tbody>
-                                                </table>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file"
+                                                    class="custom-file-input form-control form-control-sm datetimepicker-input"
+                                                    id="txt_documento" name="txt_documento">
+                                                <label class="custom-file-label form-control-sm" for="txt_documento"
+                                                    aria-describedby="txt_documento">Documento de referencia</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--Fin Tabla-->
+                                <!---->
+
+                                <!--Puesto/cargo-->
+                                <div class="form-horizontal">
+                                    <div class="row form-group">
+                                        <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label for=txt_puesto" class="form-control-label form-control-sm">Elegir
+                                                puesto/cargo(*)</label>
+                                            <input type="hidden" name="idpuesto" id="idpuesto">
+                                            <input name="txt_puesto" id="txt_puesto"
+                                                class="form-control form-control-sm"
+                                                placeholder="Digite nombre del puesto..." maxlength="100" minlength="5" required>
+                                        </div>
+
+                                        <!--Vacancias-->
+                                        <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                            <label for="txt_vacancias"
+                                                class="form-control-label form-control-sm">Vacancias(*)</label>
+                                            <input name="txt_vacancias" id="txt_vacancias" type="number"
+                                                class="form-control form-control-sm" min="1" max="100" required>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--Tabla-->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div id="divTabla" class="table-responsive m-b-40">
+                                                    <table id="tabla_detalle"
+                                                        class="table table-borderless table-data3">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Puesto</th>
+                                                                <th>Vacancia</th>
+                                                                <th class="text-right">Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tb_detalle">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin Tabla-->
 
 
-                            <!-- Campo fechas -->
-                            <div class="row form-group">
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="txt_fechainicio" class="form-control-label form-control-sm">Inicio de Postulación</label>
+                                <!-- Campo fechas -->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <div class="form-group">
-                                            <div class="input-group date" id="picker_fechainicio"
-                                                data-target-input="nearest">
-                                                <input type="text" class="form-control form-control-sm datetimepicker-input"
-                                                    data-target="#datetimepicker4" id="txt_fechainicio" name="txt_fechainicio"
-                                                    onpaste="return false" />
-                                                <div class="input-group-append" data-target="#picker_fechainicio"
-                                                    data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                            <label for="txt_fechainicio"
+                                                class="form-control-label form-control-sm">Inicio de Postulación(*)</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="picker_fechainicio"
+                                                    data-target-input="nearest">
+                                                    <input type="text"
+                                                        class="form-control form-control-sm datetimepicker-input"
+                                                        data-target="#datetimepicker4" id="txt_fechainicio"
+                                                        name="txt_fechainicio" onpaste="return false" required/>
+                                                    <div class="input-group-append" data-target="#picker_fechainicio"
+                                                        data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="txt_fechafin" class="form-control-label form-control-sm">Fin de
+                                                Postulación(*)</label>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="picker_fechafin"
+                                                    data-target-input="nearest">
+                                                    <input type="text"
+                                                        class="form-control form-control-sm datetimepicker-input"
+                                                        data-target="#datetimepicker4" id="txt_fecha"
+                                                        name="txt_fechafin" onpaste="return false" required/>
+                                                    <div class="input-group-append" data-target="#picker_fechafin"
+                                                        data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                    <div class="form-group">
-                                        <label for="txt_fechafin" class="form-control-label form-control-sm">Fin de Postulación</label>
-                                        <div class="form-group">
-                                            <div class="input-group date" id="picker_fechafin"
-                                                data-target-input="nearest">
-                                                <input type="text" class="form-control form-control-sm datetimepicker-input"
-                                                    data-target="#datetimepicker4" id="txt_fecha" name="txt_fechafin"
-                                                    onpaste="return false" />
-                                                <div class="input-group-append" data-target="#picker_fechafin"
-                                                    data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
+                                <!---->
+
+                                <!-- Botones -->
+                                <div class="row form-group">
+                                    <div class="col col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                                </button>
+                                                <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
+                                                    id="btnCancelar" class="btn btn-danger btn-lg">
+                                                    <i class="fa  fa-arrow-down"></i> Cancelar
+                                                </a>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <!---->
 
-                            <!-- Botones -->
-                            <div class="row form-group">
-                                <div class="col col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
-                                                <i class="fa fa-dot-circle-o"></i> Guardar
-                                            </button>
-                                            <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
-                                                id="btnCancelar" class="btn btn-danger btn-lg">
-                                                <i class="fa  fa-arrow-down"></i> Cancelar
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+                            </form>
+                            <!-- fin del formulario -->
 
                         </div>
                         <!--Fin card-body-->

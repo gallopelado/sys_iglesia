@@ -2,26 +2,24 @@ import { autoCompletar } from '../helper/helper.js';
 
 export default class Postulacion {
 
-    constructor(id, idcomite, nombrecomite, descripcion,
-        lugaresdisponibles, preview_documento, documento, 
-        idpuesto, puesto, tabla, tabla_tbody, fechainicio,
-        fechafin, btnguardar, btncancelar) {
+    constructor() {
 
-        this.id = id;
-        this.idcomite = idcomite;
-        this.nombrecomite = nombrecomite;
-        this.descripcion = descripcion;
-        this.lugaresdisponibles = lugaresdisponibles;
-        this.preview_documento = preview_documento;
-        this.documento = documento;
-        this.idpuesto = idpuesto;
-        this.puesto = puesto;
-        this.tabla = tabla;
-        this.tabla_tbody = tabla_tbody;
-        this.fechainicio = fechainicio;
-        this.fechafin = fechafin;
-        this.btnguardar = btnguardar;
-        this.btncancelar = btncancelar;
+        this.id = document.getElementById('idpostulacion');
+        this.idcomite = document.getElementById('idministerio');
+        this.nombrecomite = document.getElementById('txt_ministerio');
+        this.descripcion = document.getElementById('txt_descripcion');
+        this.lugaresdisponibles = document.getElementById('txt_lugares');
+        this.preview_documento = document.getElementById('txt_nombredocumento');
+        this.documento = document.getElementById('txt_documento');
+        this.idpuesto = document.getElementById('idpuesto');
+        this.puesto = document.getElementById('txt_puesto');
+        this.vacancias =  document.getElementById('txt_vacancias');
+        this.tabla = document.getElementById('tabla_detalle');
+        this.tabla_tbody = document.getElementById('tb_detalle');
+        this.fechainicio = document.getElementById('txt_fechainicio');
+        this.fechafin = document.getElementById('txt_fechafin');
+        this.btnguardar = document.getElementById('btnGuardar');
+        this.btncancelar = document.getElementById('btnCancelar');
 
     }
 
@@ -58,5 +56,41 @@ export default class Postulacion {
         }
 
     }
+
+    /**
+     * Formatea las fechas con la libreria datetimepicker de tempus.
+     * La fecha de inicio/fin permiten solamente la seleccion
+     * de fecha actual y futura.
+     */
+    inicializarFechas() {
+
+        $(`#picker_fechainicio`).datetimepicker({
+            minDate: new Date(),
+            defaultDate: '',
+            format: 'L',
+            locale: 'es',
+            format: 'DD/MM/YYYY',
+            useCurrent: false        
+        });
+
+        $(`#picker_fechafin`).datetimepicker({
+            minDate: new Date() + 1,
+            defaultDate: '',
+            format: 'L',
+            locale: 'es',
+            format: 'DD/MM/YYYY',
+            useCurrent: false        
+        });
+
+    }
+
+    gestionarDetalle() {
+
+        const tabla = document.getElementById('tb_detalle');
+        const dimen = tabla.rows.length;
+        //if (dimen >)
+
+    }
+
 
 }

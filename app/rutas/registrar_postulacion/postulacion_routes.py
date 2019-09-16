@@ -12,7 +12,7 @@ def index_postulacion():
     return render_template('registrar_postulacion/index.html')
 
 
-@postu.route('/frm_postulacion')
+@postu.route('/frm_postulacion', methods=['GET'])
 def frmPostulacion():
 
     return render_template('registrar_postulacion/formulario_postulacion.html')
