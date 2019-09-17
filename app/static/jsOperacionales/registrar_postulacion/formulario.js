@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nodo vacancias.
     const txtVacancias = document.getElementById('txt_vacancias');
 
-    
+
     txtVacancias.addEventListener('keypress', (e) => {
 
         if (e.code === 'Enter' || e.code === 'NumpadEnter') {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let celda2;
             let celda3;
             let botonEliminar = `
-        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila()">
+        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">
             <i class="fa fa-flash"></i> Eliminar
         </button>`;
             let noencontrado = false;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 }); // Fin de DOMContentLoaded
 
 // Funciones globales.
-window.eliminarFila = () => {
+window.eliminarFila = (e) => {
 
     // Obtener datos de la tabla.
     const tabla = document.getElementById('tabla_detalle');
@@ -98,33 +98,20 @@ window.eliminarFila = () => {
     let indice;
     let idfila;
 
-    // Recorrer tabla
-    for (let i = 1; i < tablaLongi; i++) {
+    // Obtener el indice de la fila    
+    indice = e.parentElement.parentElement.rowIndex;   
+    
+    // Confirmar. 
+    const confirmacion = confirm('Desea eliminarlo?');
+    if (confirmacion) {
 
-        // Ligar evento click al boton dentro de la tabla.
-        tabla.rows[i].cells[2].children[0].onclick = () => {
+        let res = document.getElementById('txt_lugares').value;
+        lugares = lugares - parseInt(e.parentElement.parentElement.children[1].innerHTML);
+        res = parseInt(res) - parseInt(e.parentElement.parentElement.children[1].innerHTML);
 
-            if (tabla.rows[i] !== undefined) {
-                const boton = tabla.rows[i].cells[2].children[0];
-                // Obtener el indice de la fila.
-                indice = boton.parentElement.parentElement.rowIndex;
-
-                const confirmacion = confirm('Desea eliminarlo?');
-                if (confirmacion) {
-
-                    let res = document.getElementById('txt_lugares').value;
-                    lugares = lugares - parseInt(tabla.rows[i].cells[1].innerHTML);
-                    res = parseInt(res) - parseInt(tabla.rows[i].cells[1].innerHTML);
-                    
-                    document.getElementById('txt_lugares').value = res;
-                    tabla.deleteRow(indice);
-                }
-            } else {
-                console.log('problemas con tabla indefinida');
-                console.log(tabla.rows[i]);
-            }
-        }
-
+        document.getElementById('txt_lugares').value = res;
+        tabla.deleteRow(indice);
+        
     }
 
 }
