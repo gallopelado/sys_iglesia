@@ -72,21 +72,7 @@ btnAgregar.addEventListener('click', () => {
             frm.txt_requisito.value = '';
             frm.txt_obs.value = '';
 
-        }
-
-        /*} else {
-
-            fila.id = datos.txt_idrequisito;
-            celda1 = fila.insertCell(0);
-            celda2 = fila.insertCell(1);
-            celda3 = fila.insertCell(2);
-
-            celda1.innerHTML = datos.txt_requisito;
-            celda2.innerHTML = datos.txt_obs.toUpperCase();
-            celda3.innerHTML = botonEliminar;
-
-        }*/
-
+        }        
 
     }
 

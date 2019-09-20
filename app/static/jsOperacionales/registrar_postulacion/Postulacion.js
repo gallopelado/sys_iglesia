@@ -1,10 +1,10 @@
 import { autoCompletar } from '../helper/helper.js';
+import Documento from '../helper/Documento.js';
 
 export default class Postulacion {
 
     constructor() {
-
-        this.id = document.getElementById('idpostulacion');
+        
         this.idcomite = document.getElementById('idministerio');
         this.nombrecomite = document.getElementById('txt_ministerio');
         this.descripcion = document.getElementById('txt_descripcion');
@@ -83,12 +83,58 @@ export default class Postulacion {
         });
 
     }
+    
 
-    gestionarDetalle() {
+    validarForm() {
 
-        const tabla = document.getElementById('tb_detalle');
-        const dimen = tabla.rows.length;
-        //if (dimen >)
+        if (this.nombrecomite === '')
+            return false;
+        
+        if (this.descripcion === '')
+            return false;
+
+        if (this.tabla.tBodies.length === 0)
+            return false;
+        
+        if (this.fechainicio.value === '')
+            return false;
+
+        if (this.fechafin.value === '')
+            return false;
+
+        return true;
+
+    }
+
+    getDatosFormulario() {
+
+        // Generar instancia de FormData
+        const datos = new FormData();
+
+        // Generar instancia de la clase Documento.
+        const docu = new Documento();
+
+        // Obtener detalle.
+        const tabla = this.tabla;
+        //console.log(this.tabla.rows.length);
+        if (this.tabla.rows !== undefined) {
+            
+            if(this.tabla.rows.length > 0) {
+
+                // recorrer la tabla
+                for (let i = 1; i < this.tabla.rows.length; i++) {
+
+                    console.log(tabla.rows[i].id);
+
+                }
+
+            }
+
+        }
+        
+        // Agregando al objeto datos.
+        //datos.append('idcomite', this.idcomite.value);
+        //datos.append('descripcion', this.descripcion.value.trim());        
 
     }
 

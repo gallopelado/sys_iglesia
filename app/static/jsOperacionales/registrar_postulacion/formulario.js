@@ -13,11 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Campos con datetimepicker
     frm.inicializarFechas();
 
-    // Capturar evento keypress del campo vacancas.
+    
     // Nodo vacancias.
     const txtVacancias = document.getElementById('txt_vacancias');
 
+    // Nodo boton guardar
+    const btnGuardar = frm.btnguardar;
 
+    // Capturar evento click del boton guardar.
+    btnGuardar.addEventListener('click', () => {
+        frm.getDatosFormulario();
+    });
+
+    // Capturar evento keypress del campo vacancas.
     txtVacancias.addEventListener('keypress', (e) => {
 
         if (e.code === 'Enter' || e.code === 'NumpadEnter') {
@@ -93,10 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 window.eliminarFila = (e) => {
 
     // Obtener datos de la tabla.
-    const tabla = document.getElementById('tabla_detalle');
-    const tablaLongi = tabla.rows.length;
-    let indice;
-    let idfila;
+    const tabla = document.getElementById('tabla_detalle');    
+    let indice;    
 
     // Obtener el indice de la fila    
     indice = e.parentElement.parentElement.rowIndex;   
