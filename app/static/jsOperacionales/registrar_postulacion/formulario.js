@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const v_puesto = frm.puesto.value.trim();
             const vacancias = txtVacancias.value.trim();
 
-            if (v_puesto !== '' && v_idpuesto !== '' && vacancias !== '') {
+            if (v_puesto !== '' && v_idpuesto !== '' && vacancias !== '' && parseInt(vacancias) > 0) {
                 
                 fila = tbody.insertRow(tablaLongi);
 
@@ -65,9 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         }
 
-                    } else {
-                        console.log('Tabla vacia.');
-                    }
+                    } 
 
                 }
 
@@ -90,9 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
             } else {
-                alert('No debe estar vacios puesto y vacancias!');
+                alert('No debe estar vacios puesto y vacancias o con valores inválidos!');
             }
-            //
+            
         }
     });
 

@@ -334,4 +334,4 @@ export default class FormularioDocumentos {
 
     }
     
-}
+}flatpak run com.getpostman.Postman
