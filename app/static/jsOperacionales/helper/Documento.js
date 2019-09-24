@@ -1,11 +1,7 @@
 export default class Documento {
 
-    constructor(nombre, extension, peso, ruta, binario) {
-
-        this.nombre = nombre;
-        this.extension = extension;
-        this.peso = peso;
-        this.ruta = ruta;        
+    constructor(binario) {
+               
         this.binario = binario;
         
     }
@@ -34,7 +30,12 @@ export default class Documento {
         if ( typeof(this.binario) !== 'undefined' ) {
 
             // Get extension.
+            if ( this.binario.type === '' ) {
+                alert('No se permiten archivos sin extension PDF o EPUB.');
+                return;
+            }
             extensionFile = this.binario.type.split('/')[1];
+            
             extensionFile = extensionFile.toUpperCase();
 
             // Tamaño del documento
@@ -47,10 +48,8 @@ export default class Documento {
 
                     if (extensionFile === extensiones_permitidas[i]) {
 
-                        nopermitida = true;
-                        //const extension_normalizada = extensiones_permitidas.toLowerCase();
-                        //const nuevoNombre_fichero = `${this.binario.name}.${extension_normalizada}`;
-                        return true;
+                        nopermitida = true;                        
+                        return this.binario;
                         
                     }                     
 

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Variables a usar.
             // Tabla, tbody.
             const tbody = document.getElementById('tb_detalle');
-            const tablaLongi = tbody.length;
+            const tablaLongi = tbody.rows.length;
             let fila;
             let celda1;
             let celda2;
@@ -50,11 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const vacancias = txtVacancias.value.trim();
 
             if (v_puesto !== '' && v_idpuesto !== '' && vacancias !== '') {
+                
                 fila = tbody.insertRow(tablaLongi);
 
                 for (let i = 0; i < tbody.rows.length; i++) {
 
-                    if (tbody.rows[i].cells[0] !== undefined) {
+                    if (tbody.rows[i].cells.length !== 0) {
 
                         if (tbody.rows[i].cells[0].innerHTML === v_puesto) {
 
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                     } else {
-                        console.log('Filas indefinidas');
+                        console.log('Tabla vacia.');
                     }
 
                 }
