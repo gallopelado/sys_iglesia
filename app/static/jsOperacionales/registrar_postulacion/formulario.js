@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Capturar evento click del boton guardar.
     btnGuardar.addEventListener('click', () => {
-        frm.getDatosFormulario();
+        frm.guardar();
     });
 
     // Capturar evento keypress del campo vacancas.
