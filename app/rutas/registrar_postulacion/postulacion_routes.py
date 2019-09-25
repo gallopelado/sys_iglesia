@@ -1,6 +1,9 @@
 # Se importan las librerias basicas
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 
+# Importar funciones genericas
+from app.rutas.registrar_postulacion.helpers import validarFormulario
+
 # Importar modelos
 from app.Models.ReferencialModel import ReferencialModel
 
@@ -19,6 +22,14 @@ def frmPostulacion():
 
 
 # Rutas para AJAX
+@postu.route('/guardar_formulario', methods=['PUT'])
+def guardarFormulario():
+
+    validarFormulario(request)
+
+    return jsonify({'procesado': True})
+
+
 @postu.route('/get_ministerios', methods=['GET'])
 def getMinisterios():
 
