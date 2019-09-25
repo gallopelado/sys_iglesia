@@ -102,7 +102,7 @@ export default class Postulacion {
             this.descripcion.focus();
             return false;
         }
-        console.log(this.tabla_tbody.rows.length);
+
         if (this.tabla_tbody.rows.length === 0) {
             alert('Tabla de puestos vacio');
             this.puesto.focus();
@@ -113,7 +113,7 @@ export default class Postulacion {
             this.fechainicio.focus();
             return false;
         }
-        if (this.fechafin.value === ''){
+        if (this.fechafin.value === '') {
             alert('Fecha fin vacio');
             this.fechafin.focus();
             return false;
@@ -131,7 +131,7 @@ export default class Postulacion {
      */
     getDatosFormulario() {
 
-        /* if (this.validarForm()) { */
+        if (this.validarForm()) {
             // Generar instancia de FormData
             const datos = new FormData();
 
@@ -145,7 +145,7 @@ export default class Postulacion {
             let cadena_vacancia = '';
             // Obtener detalle.
             const tabla = this.tabla;
-            
+
             if (this.tabla.rows !== undefined) {
 
                 if (this.tabla.rows.length > 0) {
@@ -166,7 +166,6 @@ export default class Postulacion {
             // Limpieza de la última coma.
             cadena_idpuesto = cadena_idpuesto.slice(0, (cadena_idpuesto.length - 1));
             cadena_vacancia = cadena_vacancia.slice(0, (cadena_vacancia.length - 1));
-            console.log(`Idpuestos = ${cadena_idpuesto}   +++   vacancias= ${cadena_vacancia}`);
 
             // Agregando al objeto datos.
             datos.append('idcomite', this.idcomite.value);
@@ -176,9 +175,33 @@ export default class Postulacion {
             datos.append('vacancias', cadena_vacancia);
             datos.append('fechainicio', this.fechainicio.value.trim());
             datos.append('fechafin', this.fechafin.value.trim());
-        /* } else {
-            console.error('Algun problema con el formulario');
-        } */
+
+            alert('Datos cargados exitosamente.. enviando formulario !');
+            return datos;
+        }
+        return false;
+    }
+
+    async guardar() {
+
+        const datos = this.getDatosFormulario();
+
+        if (datos !== false) {
+            try {
+
+                const res = await fetch('/membresia/formulario_postulacion/guardar_formulario', {
+                    method: 'PUT',
+                    body: datos
+                });
+                const data = await res.json();
+
+                console.log(data);
+
+            } catch (error) {
+                alert('Hubo un error en el servidor');
+                console.error(error);
+            }
+        }
     }
 
 
