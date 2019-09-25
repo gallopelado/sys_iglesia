@@ -1,3 +1,4 @@
+
 def validarFormulario(req):
     '''Funcion validarFormulario.
 
@@ -6,14 +7,50 @@ def validarFormulario(req):
 
     '''
 
-    print('Desde la funcion validarFormulario')
-    print(f'Recibido {req.form}')
-
     # Variables de entrada.
-    datos = req.form;
+    datos = req.form
     idcomite = datos['idcomite']
     descripcion = datos['descripcion']
     idpuestos = datos['idpuestos']
     vacancias = datos['vacancias']
     fechainicio = datos['fechainicio']
     fechafin = datos['fechafin']
+    documento = req.files['docu_binario']
+
+    """ print(f'''
+    {idcomite}, 
+    {descripcion}, 
+    {idpuestos}, 
+    {vacancias},
+    {fechainicio},
+    {fechafin},
+    {documento.filename}''') """
+
+    # Limpiar espacios en blanco.
+    idcomite = idcomite.strip()
+    descripcion = descripcion.strip()
+    idpuestos = idpuestos.strip()
+    vacancias = vacancias.strip()
+    fechainicio = fechainicio.strip()
+    fechafin = fechafin.strip()
+
+    # Si alguno esta vacío, retorna False.
+    if not idcomite and not descripcion and not idpuestos and not vacancias and not fechainicio and not fechafin:
+        return False
+
+    return True
+
+
+EXTENSIONES_PERMITIDAS = {'PDF', 'EPUB'}
+
+
+def permitido_file(filename):
+    return '.' in filename and filename.split('.', 1)[1].lower() in EXTENSIONES_PERMITIDAS
+
+
+def validarDocumento(req):
+
+    if 'docu_binario' not in req.files:
+        return None
+
+    return True
