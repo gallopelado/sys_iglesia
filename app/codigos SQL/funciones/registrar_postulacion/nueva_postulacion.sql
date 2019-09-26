@@ -9,18 +9,22 @@ CREATE OR REPLACE FUNCTION membresia.nueva_postulacion(
 	, detalle_idprofesion TEXT
 	, detalle_cantidad TEXT
 )
-RETURNS boolean AS
+RETURNS TEXT AS
 $$
 /**
  * Funcion: nueva_postulacion.
  * Descripción: Da de alta un nuevo registro de postulación.
  * Parámetros: postdes text, postdoc text, postestado boolean, postiniciopostu date, postfinpostu date, creadoporusuario integer
  * Autor: Juan José González Ramírez <juanftp100@gmail.com>	
+ * Version: 1.1
+ * Fecha: 26-09-2019
  */
 DECLARE	
 
-	--ID del la tabla
+	--ID del la tabla.
 	v_idpostulacion integer;
+	-- Obtiene el último valor mas uno.
+	v_autoidpostulacion integer := (SELECT COALESCE(max(post_id), 0) + 1 FROM membresia.cabe_postulacion);
 
 	-- Variables para el FOR
 	v_idprofesion integer;
@@ -28,8 +32,8 @@ DECLARE
 
 	-- El resto de variables.
 	v_minid integer := minid; 
-	v_postdes TEXT := postdes;
-	v_postdoc TEXT := postdoc;
+	v_postdes TEXT := TRIM(UPPER(postdes));
+	v_postdoc TEXT := v_autoidpostulacion::varchar ||'_'|| postdoc;
 	v_postestado boolean := postestado;
 	v_postiniciopostu date := postiniciopostu;
 	v_postfinpostu date	:= postfinpostu;
@@ -50,8 +54,7 @@ BEGIN
 	
 	-- Controlar el detalle, deben coincidir.
 	IF v_cont_idprofesion != v_cont_cantidad THEN
-		RAISE EXCEPTION 'Las cantidades de idprofesion y cantidad no coinciden !!!';
-		RETURN FALSE;
+		RAISE EXCEPTION 'Las cantidades de idprofesion y cantidad no coinciden !!!';		
 	END IF;
 	
 	-- Insertar cabecera.
@@ -59,7 +62,7 @@ BEGIN
 	(post_id, min_id, post_des, post_doc, post_estado, post_iniciopostu, post_finpostu, post_fechaprocesado, creado_por_usuario, post_fechacreacion)
 	VALUES
 	(
-		(SELECT COALESCE(max(post_id), 0) + 1)
+		v_autoidpostulacion
 		, v_minid
 		, v_postdes
 		, v_postdoc
@@ -86,7 +89,8 @@ BEGIN
 		
 	END LOOP;
 	
-	RETURN TRUE;
+	-- Retorna nombre del documento.
+	RETURN v_postdoc;
 	
 END
 $$ LANGUAGE plpgsql;
