@@ -14,17 +14,7 @@ def validarFormulario(req):
     idpuestos = datos['idpuestos']
     vacancias = datos['vacancias']
     fechainicio = datos['fechainicio']
-    fechafin = datos['fechafin']
-    documento = req.files['docu_binario']
-
-    """ print(f'''
-    {idcomite}, 
-    {descripcion}, 
-    {idpuestos}, 
-    {vacancias},
-    {fechainicio},
-    {fechafin},
-    {documento.filename}''') """
+    fechafin = datos['fechafin']    
 
     # Limpiar espacios en blanco.
     idcomite = idcomite.strip()
@@ -41,7 +31,7 @@ def validarFormulario(req):
     return True
 
 
-EXTENSIONES_PERMITIDAS = {'PDF', 'EPUB'}
+EXTENSIONES_PERMITIDAS = {'pdf', 'epub'}
 
 
 def permitido_file(filename):
