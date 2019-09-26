@@ -1,10 +1,13 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+import os
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from werkzeug.utils import secure_filename
 
 # Importar funciones genericas
-from app.rutas.registrar_postulacion.helpers import validarFormulario
+from app.rutas.registrar_postulacion.helpers import validarFormulario, validarDocumento, permitido_file
 
 # Importar modelos
+from app.Models.PostulacionModel import PostulacionModel
 from app.Models.ReferencialModel import ReferencialModel
 
 postu = Blueprint('registrar_postulacion', __name__, template_folder='templates')
@@ -25,8 +28,34 @@ def frmPostulacion():
 @postu.route('/guardar_formulario', methods=['PUT'])
 def guardarFormulario():
 
-    validarFormulario(request)
+    if validarFormulario(request):
+        # Enviar al modelo.
+        # Si la persistencia fue un exito, retorna
+        # el nombre del documento.
+        postu = PostulacionModel()        
+        if validarDocumento(request):
+            
+            # Obtener binario.
+            archivo = request.files['docu_binario']
+            nombreArchivo = archivo.filename
+            
+            # validar nombre vacio.
+            if nombreArchivo == '':
+                nombreArchivo = None
 
+            # validar extension.
+            if archivo and permitido_file(archivo.filename):
+                # Valida nombre del archivo.
+                nombreArchivo = secure_filename(archivo.filename)
+            
+            # Guardar el nombre en la bd con todo el registro.
+            nuevoNombre = postu.guardarNuevaPostulacion(request.form['idcomite'], request.form['descripcion'], nombreArchivo, True, request.form['fechainicio'], request.form['fechafin'], None, request.form['idpuestos'], request.form['vacancias']
+                                                        )
+
+            if nuevoNombre or nuevoNombre is not None:
+                # Guardar el binario en el sistema.
+                archivo.save(os.path.join(app.config['DOCUMENTOS_POSTULACION'], nuevoNombre))                                           
+    flash('Se ha guardado exitosamente la postulacion')
     return jsonify({'procesado': True})
 
 
