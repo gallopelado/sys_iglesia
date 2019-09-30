@@ -1,6 +1,18 @@
 CREATE OR REPLACE FUNCTION trae_dia(date)
 RETURNS varchar AS
 $$
+/**
+* Función trae_dia.
+* 
+* Según current_date obtiene el numero del día,
+* se compara con un string para obtener el 
+* nombre del día.
+* Ej: 1 es DOMINGO, 7 es SABADO
+*
+* Autor: Juan José González Ramírez <juanftp100@gmail.com>
+* Versión: 1.0
+* Fecha: 30-09-2019
+*/
 DECLARE
 	v_dia varchar;
 BEGIN
