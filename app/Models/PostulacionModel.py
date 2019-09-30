@@ -40,3 +40,29 @@ class PostulacionModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerPostulaciones(self):
+        '''traerPostulaciones.
+
+        Obtiene todas las postulaciones activas y sin fecha de procesado.
+
+        '''
+
+        procedimiento = 'membresia.getall_postulacion'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento)
+            return cur.fetchall()
+            
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
