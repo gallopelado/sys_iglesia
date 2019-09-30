@@ -55,18 +55,31 @@ Registrar Postulación
                                         <tr>
                                             <td>{{ item[1] }}</td>
                                             <td>{{ item[2] }}</td>
+                                            <td>{{ item[3] }}</td>
                                             <td>
-                                                <div class="table-data-feature">
-                                                    <a href="{{ url_for('registrar_formulario_perfil.ver', idmiembro=item[0] ) }}"
-                                                        class="item btn btn-primary" title="Ver">
-                                                        <i class="zmdi zmdi-mail-send"></i>
-                                                    </a>
-                                                    <a href="{{ url_for('registrar_formulario_perfil.formPerfil', idmiembro=item[0] ) }}"
-                                                        class="item btn btn-warning modificar" data-toggle="tooltip"
-                                                        data-placement="top" title="Modificar">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                    </a>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Ver
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Anular
+                                                </button>
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        Elegir
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#">Agregar 1 día</a>
+                                                        <a class="dropdown-item" href="#">Agregar 1 semana</a>
+                                                        <a class="dropdown-item" href="#">Agregar 1 mes</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Personalizado</a>
+                                                    </div>
                                                 </div>
+
                                             </td>
                                         </tr>
                                         {% endfor %}
