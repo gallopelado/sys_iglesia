@@ -15,7 +15,9 @@ postu = Blueprint('registrar_postulacion', __name__, template_folder='templates'
 @postu.route('/')
 def index_postulacion():
 
-    return render_template('registrar_postulacion/index.html')
+    p = PostulacionModel()
+    lista = p.traerPostulaciones()
+    return render_template('registrar_postulacion/index.html', lista = lista)
 
 
 @postu.route('/frm_postulacion', methods=['GET'])
@@ -28,11 +30,12 @@ def frmPostulacion():
 @postu.route('/guardar_formulario', methods=['PUT'])
 def guardarFormulario():
 
+    postu = PostulacionModel()  
     if validarFormulario(request):
         # Enviar al modelo.
         # Si la persistencia fue un exito, retorna
         # el nombre del documento.
-        postu = PostulacionModel()        
+              
         if validarDocumento(request):
             
             # Obtener binario.
@@ -54,7 +57,11 @@ def guardarFormulario():
 
             if nuevoNombre or nuevoNombre is not None:
                 # Guardar el binario en el sistema.
-                archivo.save(os.path.join(app.config['DOCUMENTOS_POSTULACION'], nuevoNombre))                                           
+                archivo.save(os.path.join(app.config['DOCUMENTOS_POSTULACION'], nuevoNombre))        
+        else:            
+            nombreArchivo = None
+            postu.guardarNuevaPostulacion(request.form['idcomite'], request.form['descripcion'], nombreArchivo, True, request.form['fechainicio'], request.form['fechafin'], None, request.form['idpuestos'], request.form['vacancias'])    
+    
     flash('Se ha guardado exitosamente la postulacion')
     return jsonify({'procesado': True})
 
