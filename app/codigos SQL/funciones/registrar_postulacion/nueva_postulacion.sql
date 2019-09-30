@@ -33,7 +33,7 @@ DECLARE
 	-- El resto de variables.
 	v_minid integer := minid; 
 	v_postdes TEXT := TRIM(UPPER(postdes));
-	v_postdoc TEXT := v_autoidpostulacion::varchar ||'_'|| postdoc;
+	v_postdoc TEXT := postdoc;
 	v_postestado boolean := postestado;
 	v_postiniciopostu date := postiniciopostu;
 	v_postfinpostu date	:= postfinpostu;
@@ -55,6 +55,11 @@ BEGIN
 	-- Controlar el detalle, deben coincidir.
 	IF v_cont_idprofesion != v_cont_cantidad THEN
 		RAISE EXCEPTION 'Las cantidades de idprofesion y cantidad no coinciden !!!';		
+	END IF;
+
+	-- Si existe el nombre de imagen.
+	IF v_postdoc IS NOT NULL THEN
+		v_postdoc := v_autoidpostulacion::varchar ||'_'|| postdoc;
 	END IF;
 	
 	-- Insertar cabecera.
