@@ -195,7 +195,9 @@ export default class Postulacion {
                 });
                 const data = await res.json();
 
-                console.log(data);
+                if (data.procesado === true) {
+                    location.href = '/membresia/formulario_postulacion/';
+                }
 
             } catch (error) {
                 alert('Hubo un error en el servidor');
