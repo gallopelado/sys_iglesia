@@ -19,21 +19,20 @@ DECLARE
 
 BEGIN
 
-	IF v_fechainicio < v_fechaactual THEN
-
-		RAISE EXCEPTION 'Fechainicio desactualizada';
-
-	ELSEIF v_fechainicio >= v_fechafin THEN
+	IF v_fechainicio >= v_fechafin THEN
 	
-		RAISE EXCEPTION 'FechaInicio es mayor o igual que la fecha fin';
+		RAISE NOTICE 'FechaInicio es mayor o igual que la fecha fin';
+		RETURN FALSE;
 	
 	ELSEIF v_fechafin < v_fechaactual THEN
 	
-		RAISE EXCEPTION 'Fechafin desactualizada';
+		RAISE NOTICE 'Fechafin desactualizada';
+		RETURN FALSE;
 	
 	ELSEIF v_fechafin <= v_fechainicio THEN
 	
-		RAISE EXCEPTION 'Fechafin es menor o igual a la fecha de inicio';		
+		RAISE NOTICE 'Fechafin es menor o igual a la fecha de inicio';
+		RETURN FALSE;
 	
 	END IF;
 	
@@ -45,5 +44,3 @@ BEGIN
 END
 
 $$ LANGUAGE plpgsql;
-
---SELECT membresia.verifica_fechas_postulacion('2019-09-07', '2019-01-01');
