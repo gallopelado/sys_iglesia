@@ -4,7 +4,9 @@ RETURNS TABLE(
 	, idministerio integer
 	, ministerio varchar
 	, descripcion text
-	, documento text
+	, documento TEXT
+	, fechainicio date
+	, fechafin date
 	, detalle json[]
 ) AS
 $$
@@ -25,12 +27,14 @@ BEGIN
 		, m.min_des ministerio
 		, cab.post_des descripcion
 		, cab.post_doc documento
+		, cab.post_iniciopostu fechainicio
+		, cab.post_finpostu fechafin
 		-- Ver el detalle.
 		, ARRAY(
 			SELECT 
 				json_build_object(
 				'post_id',post_id, 'pro_des', pro_des
-				,'pro_id',pro_id)
+				,'pro_id',pro_id, 'cantidad',cantidad)
 			FROM
 				membresia.postu_detalle
 			LEFT JOIN referenciales.profesiones using (pro_id)
