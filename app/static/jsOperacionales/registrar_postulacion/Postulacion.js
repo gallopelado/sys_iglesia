@@ -182,6 +182,12 @@ export default class Postulacion {
         return false;
     }
 
+    /**
+     * Método guardar.
+     * 
+     * Mediante AJAX, enviamos toda la información para su persistencia.
+     * 
+     */
     async guardar() {
 
         const datos = this.getDatosFormulario();
@@ -206,5 +212,31 @@ export default class Postulacion {
         }
     }
 
+
+    async reprogramar(opcion, idpostu, fechainicio=null, fechafin=null) {
+
+        const datos = {
+            opcion : opcion,
+            idpostu: idpostu,
+            fechafin: fechafin
+        }
+        try {
+            
+            const res = await fetch('', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            });
+            const data = await res.json();
+
+            console.log(data);
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
 
 }
