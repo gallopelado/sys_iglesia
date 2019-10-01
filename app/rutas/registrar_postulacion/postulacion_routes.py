@@ -22,9 +22,17 @@ def index_postulacion():
 
 @postu.route('/frm_postulacion', methods=['GET'])
 def frmPostulacion():
-
+    
     return render_template('registrar_postulacion/formulario_postulacion.html')
 
+
+@postu.route('/frm_postulacion/<int:idpostulacion>', methods=['GET'])
+def mostrarFormulario(idpostulacion):
+    
+    p = PostulacionModel()
+    datos_cab = p.traerPostulacionId(idpostulacion)
+    datos_det = datos_cab[7]    
+    return render_template('registrar_postulacion/formulario_postulacion.html', datos_cab = datos_cab, datos_det = datos_det)
 
 # Rutas para AJAX
 @postu.route('/guardar_formulario', methods=['PUT'])
