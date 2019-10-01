@@ -92,3 +92,31 @@ class PostulacionModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def reprogramar(self, opcion, idpostulacion, fechainicio, fechafin):
+        '''reprogramar.
+
+        Sirve para atrasar la fecha de postulacion siempre y cuando este activa.
+
+        '''
+
+        procedimiento = 'membresia.reprogramar_postulacion'
+        parametros = (opcion, idpostulacion, fechainicio, fechafin, )
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, parametros)
+            con.commit()
+            return cur.fetchone()
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
