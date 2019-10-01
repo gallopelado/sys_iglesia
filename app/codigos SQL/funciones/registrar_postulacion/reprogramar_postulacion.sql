@@ -18,6 +18,7 @@ DECLARE
 	v_fechafin date := fechafin;
 
 	f_valido boolean := membresia.verifica_estado_postulacion(v_idpostulacion);
+	v_bandera boolean := FALSE;
 BEGIN
 	
 	-- Verificar estado del registro.
@@ -25,6 +26,18 @@ BEGIN
 		RETURN FALSE;
 	END IF;
 	
+	-- En caso de no personalizado, se recibe la opcion nada más.
+	IF v_op != 'personalizado' AND v_fechainicio IS NULL AND v_fechafin IS NULL THEN
+		
+		v_bandera := TRUE;
+		-- Obtener las fechas segun idpostulacion
+		SELECT post_iniciopostu, post_finpostu 
+		INTO v_fechainicio, v_fechafin
+		FROM membresia.cabe_postulacion WHERE post_id = v_idpostulacion;
+	
+	END IF;
+
+
 	CASE v_op
 		-- Agregar 1 dia a la fecha final.
 		WHEN 'dia' THEN
@@ -46,13 +59,24 @@ BEGIN
 			RETURN FALSE;
 	END CASE;
 
-	-- Hacer update.
-	UPDATE membresia.cabe_postulacion 
-	SET post_iniciopostu = v_fechainicio, post_finpostu = v_fechafin
-	WHERE post_id = v_idpostulacion;
 
-	RAISE info 'Se actualizo correctamente la postulacion'; 
-	RETURN TRUE;
+	IF v_bandera = TRUE THEN
+		-- Hacer update.
+		UPDATE membresia.cabe_postulacion 
+		SET post_iniciopostu = v_fechainicio, post_finpostu = v_fechafin
+		WHERE post_id = v_idpostulacion;
+			
+		RETURN TRUE;	
+	
+	ELSE
+		
+		UPDATE membresia.cabe_postulacion 
+		SET post_iniciopostu = v_fechainicio, post_finpostu = v_fechafin
+		WHERE post_id = v_idpostulacion;
+			 
+		RETURN TRUE;	
+	
+	END IF;	
 
 END
 
