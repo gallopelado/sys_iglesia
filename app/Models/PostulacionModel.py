@@ -66,3 +66,29 @@ class PostulacionModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerPostulacionId(self, idpostulacion):
+        '''traerPostulacionId.
+
+        Obtiene la postulación según id sin restricción.
+
+        '''
+        
+        procedimiento = 'membresia.get_postulacion_id'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, (idpostulacion,))
+            return cur.fetchone()
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
