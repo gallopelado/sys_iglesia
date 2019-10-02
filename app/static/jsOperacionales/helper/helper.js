@@ -180,4 +180,46 @@ function verificaInput(campo) {
 
 }
 
-export { autoCompletar, dateTimePicker4, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal, idioma_spanish };
+
+/**
+ * Función traeDia
+ * 
+ * Según el número de día, retorna
+ * el nombre del día.
+ * 
+ * @param {string} nrodia 
+ */
+function traeDia(nrodia) {
+
+    let dia = '';
+    switch(nrodia) {
+
+        case 0:
+            dia = 'DOMINGO';
+            break;
+        case 1:
+            dia = 'LUNES';
+            break;
+        case 2:
+            dia = 'MARTES';
+            break;
+        case 3:
+            dia = 'MIERCOLES';
+            break;
+        case 4:
+            dia = 'JUEVES';
+            break;
+        case 5:
+            dia = 'VIERNES';
+            break;
+        case 6:
+            dia = 'SABADO';
+            break;
+
+    }
+
+    return dia;
+
+}
+
+export { autoCompletar, dateTimePicker4, verificaInput, hacerDataTable, obtenerIdUrl, mensajeConfirmacion, mensajeNormal, idioma_spanish, traeDia };
