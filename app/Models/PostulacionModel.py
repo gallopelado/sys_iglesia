@@ -94,7 +94,7 @@ class PostulacionModel:
                 con.close()
 
 
-    def reprogramar(self, opcion, idpostulacion, fechainicio, fechafin):
+    def reprogramar(self, opcion, idpostulacion, fechainicio=None, fechafin=None):
         '''reprogramar.
 
         Sirve para atrasar la fecha de postulacion siempre y cuando este activa.
