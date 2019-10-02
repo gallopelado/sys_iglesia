@@ -1,6 +1,13 @@
 import { autoCompletar } from '../helper/helper.js';
 import Documento from '../helper/Documento.js';
 
+/**
+ * Clase Postulación.
+ * 
+ * Se definen los métodos para gestionar la vista Postulación.
+ * 
+ * @author Juan José González Ramírez <juanftp100@gmail.com>
+ */
 export default class Postulacion {
 
     constructor() {
@@ -23,6 +30,14 @@ export default class Postulacion {
 
     }
 
+
+    /**
+     * Método getMinisterios.(ASINCRÓNICO)
+     * 
+     * Se obtiene vía GET id, descripción en formato JSON
+     * para autocompletar campo.
+     * 
+     */
     async getMinisterios() {
 
         const endpoint = '/membresia/formulario_postulacion/get_ministerios';
@@ -40,6 +55,14 @@ export default class Postulacion {
 
     }
 
+
+    /**
+     * Método getProfesiones.(ASINCRÓNICO)
+     * 
+     * Se obtiene vía GET id, descripción en formato JSON
+     * para autocompletar campo.
+     * 
+     */
     async getProfesiones() {
 
         const endpoint = '/membresia/formulario_postulacion/get_profesiones';
@@ -56,6 +79,7 @@ export default class Postulacion {
         }
 
     }
+
 
     /**
      * Formatea las fechas con la libreria datetimepicker de tempus.
@@ -83,6 +107,7 @@ export default class Postulacion {
         });
 
     }
+
 
     /**
      * Método validarForm
@@ -122,6 +147,7 @@ export default class Postulacion {
         return true;
 
     }
+
 
     /**
      * Método getDatosFormulario
@@ -182,6 +208,7 @@ export default class Postulacion {
         return false;
     }
 
+
     /**
      * Método guardar.
      * 
@@ -213,12 +240,25 @@ export default class Postulacion {
     }
 
 
+    /**
+     * Método reprogramar.
+     * 
+     * Se define la manera de enviar valores al servidor según postulación,
+     * con la posibilidad de configurar nueva fecha de inicio y fin.
+     * Opciones: dia, semana, mes, personalizado.
+     * 
+     * @param {string} opcion 
+     * @param {int} idpostu 
+     * @param {date} fechainicio 
+     * @param {date} fechafin 
+     */
     async reprogramar(opcion, idpostu, fechainicio=null, fechafin=null) {
 
         const datos = {
-            opcion : opcion,
-            idpostu: idpostu,
-            fechafin: fechafin
+            opcion : opcion
+            , idpostu: parseInt(idpostu)
+            , fechainicio: fechainicio
+            , fechafin: fechafin
         }
         try {
             
@@ -239,4 +279,19 @@ export default class Postulacion {
 
     }
 
+
+    validarFechas(fechainicio, fechafin) {
+
+        const fechaHoy = new Date();
+        const v_fechainicio = new Date(fechainicio);
+        const v_fechafin = new Date(fechafin);
+
+        fechaHoy.setDate(fechaHoy.getDate() + 10)
+        console.log(fechaHoy);
+
+        if ( v_fechainicio < fechaHoy.getDate() ) {
+            console.log('La fechainicio es menor al actual');
+        }
+
+    }
 }
