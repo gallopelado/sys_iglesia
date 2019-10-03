@@ -34,6 +34,64 @@ def mostrarFormulario(idpostulacion):
     datos_det = datos_cab[7]    
     return render_template('registrar_postulacion/formulario_postulacion.html', datos_cab = datos_cab, datos_det = datos_det)
 
+
+@postu.route('/reprogramar', methods=['PUT'])
+def reprogramar():
+
+    # Recolectar datos del cliente.
+    opcion = request.json['opcion']
+    idpostu = request.json['idpostu']
+    fechainicio = request.json['fechainicio']
+    fechafin = request.json['fechafin']
+
+    # Validar en caso de opción incorrecta.
+    if not opcion:
+        return jsonify({ 'estado': False, 'error': 'La opción esta vacía!!' })
+
+    if not idpostu:
+        return jsonify({ 'estado': False, 'error': 'No se envió idpostulacion !!' })
+    
+    # Genera una instancia del modelo.
+    pos = PostulacionModel()    
+
+    if opcion == 'dia':
+        # Enviando datos al modelo.
+        res = pos.reprogramar(opcion, idpostu)
+        if res == True:
+            return jsonify({'estado': res, 'mensaje': 'Se adelantó 1 día'})
+        return jsonify({'estado': False, 'error': res})
+    
+    elif opcion == 'semana':
+        # Enviando datos al modelo.
+        res = pos.reprogramar(opcion, idpostu)
+        if res == True:
+            return jsonify({'estado': res, 'mensaje': 'Se adelantó 1 semana'})
+        return jsonify({'estado': False, 'error': res})
+    
+    elif opcion == 'mes':
+        # Enviando datos al modelo.
+        res = pos.reprogramar(opcion, idpostu)
+        if res == True:
+            return jsonify({'estado': res, 'mensaje': 'Se adelantó 1 mes'})
+        return jsonify({'estado': False, 'error': res})
+
+    elif opcion == 'personalizado':
+        # Verificando si no estan vacías las fechas.
+        if not fechainicio:
+            return jsonify({'estado': False, 'error': 'La fecha de inicio esta vacía'})
+        if not fechafin:
+            return jsonify({'estado': False, 'error': 'La fecha de finalización esta vacía'})
+
+        # Enviando datos al modelo.
+        res = pos.reprogramar(opcion, idpostu, fechainicio, fechafin)
+        if res == True:
+            return jsonify({'estado': res, 'mensaje': 'Se reprogramó correctamente'})
+        return jsonify({'estado': False, 'error': res})
+
+    else:
+        return jsonify({'estado':False, 'error': 'Ninguna opción es válida'})
+    
+
 # Rutas para AJAX
 @postu.route('/guardar_formulario', methods=['PUT'])
 def guardarFormulario():
