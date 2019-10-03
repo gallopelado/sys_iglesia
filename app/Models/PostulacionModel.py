@@ -110,12 +110,12 @@ class PostulacionModel:
             con = conexion.getConexion()
             cur = con.cursor()
             cur.callproc(procedimiento, parametros)
-            con.commit()
-            return cur.fetchone()
+            con.commit()            
+            res = cur.fetchone()
+            return res[0]
 
-        except con.Error as e:
-            print(e.pgerror)
-            return False
+        except con.Error as e:            
+            return e.pgcode
         finally:
             if con is not None:
                 cur.close()
