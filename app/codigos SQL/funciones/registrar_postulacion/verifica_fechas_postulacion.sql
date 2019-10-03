@@ -21,17 +21,17 @@ BEGIN
 
 	IF v_fechainicio >= v_fechafin THEN
 	
-		RAISE NOTICE 'FechaInicio es mayor o igual que la fecha fin';
+		RAISE EXCEPTION 'FechaInicio es mayor o igual que la fecha fin' USING ERRCODE = '20001';
 		RETURN FALSE;
 	
 	ELSEIF v_fechafin < v_fechaactual THEN
 	
-		RAISE NOTICE 'Fechafin desactualizada';
+		RAISE EXCEPTION 'Fechafin desactualizada' USING ERRCODE = '20002';
 		RETURN FALSE;
 	
 	ELSEIF v_fechafin <= v_fechainicio THEN
 	
-		RAISE NOTICE 'Fechafin es menor o igual a la fecha de inicio';
+		RAISE EXCEPTION 'Fechafin es menor o igual a la fecha de inicio' USING ERRCODE = '20003';
 		RETURN FALSE;
 	
 	END IF;
