@@ -27,10 +27,11 @@ BEGIN
 		END IF;
 	ELSIF TG_OP = 'UPDATE' THEN
 		
-		v_fecha_valida := membresia.verifica_fechas_postulacion( OLD.post_iniciopostu, NEW.post_finpostu );
+		--v_fecha_valida := membresia.verifica_fechas_postulacion( OLD.post_iniciopostu, NEW.post_finpostu );
 		v_segunda_posibilidad := membresia.verifica_fechas_postulacion( NEW.post_iniciopostu, NEW.post_finpostu );
 		
-		IF (v_fecha_valida IS TRUE) OR (v_segunda_posibilidad IS TRUE) THEN			
+		--IF (v_fecha_valida IS TRUE) OR (v_segunda_posibilidad IS TRUE) THEN
+		IF (v_segunda_posibilidad IS TRUE) THEN			
 		
 			-- Devuelve la estructura grabada NEW.
 			RETURN NEW;
