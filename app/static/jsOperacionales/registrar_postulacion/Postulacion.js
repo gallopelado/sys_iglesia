@@ -252,17 +252,17 @@ export default class Postulacion {
      * @param {date} fechainicio 
      * @param {date} fechafin 
      */
-    async reprogramar(opcion, idpostu, fechainicio=null, fechafin=null) {
+    async reprogramar(opcion, idpostu, fechainicio = null, fechafin = null) {
 
         const datos = {
-            opcion : opcion
+            opcion: opcion
             , idpostu: parseInt(idpostu)
             , fechainicio: fechainicio
             , fechafin: fechafin
         }
         try {
-            
-            const res = await fetch('', {
+
+            const res = await fetch('/membresia/formulario_postulacion/reprogramar', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -272,6 +272,7 @@ export default class Postulacion {
             const data = await res.json();
 
             console.log(data);
+            return data;
 
         } catch (error) {
             console.error(error);
@@ -280,18 +281,82 @@ export default class Postulacion {
     }
 
 
+    /**
+     * Método validarFechas.
+     * 
+     * Se define las validaciones en cuanto a lógica con 
+     * la fecha de inicio y la fecha de finalización
+     * de la postulación.
+     * 
+     * @param {Date} fechainicio 
+     * @param {Date} fechafin 
+     * @returns {boolean} estado
+     */
     validarFechas(fechainicio, fechafin) {
 
-        const fechaHoy = new Date();
-        const v_fechainicio = new Date(fechainicio);
-        const v_fechafin = new Date(fechafin);
+        if (fechainicio !== undefined && fechafin !== undefined && fechainicio.trim() !== '' && fechafin.trim() !== '') {
 
-        fechaHoy.setDate(fechaHoy.getDate() + 10)
-        console.log(fechaHoy);
+            const fechaHoy = new Date();
+            const v_fechainicio = new Date(fechainicio);
+            const v_fechafin = new Date(fechafin);
+            const diafinicio = v_fechainicio.getDay();
+            const diaffin = v_fechafin.getDay();
 
-        if ( v_fechainicio < fechaHoy.getDate() ) {
-            console.log('La fechainicio es menor al actual');
+            if (v_fechainicio.getFullYear() < fechaHoy.getFullYear()) {
+                alert('El año de la fecha de inicio esta desactualizado');
+                return false;
+            }
+
+            if (v_fechafin.getFullYear() < fechaHoy.getFullYear()) {
+                alert('El año de la fecha de finalizacion esta desactualizado');
+                return false;
+            }
+            if (v_fechainicio.getDate() < fechaHoy.getDate()) {
+
+                alert('La fechainicio es menor al actual');
+                return false;
+
+            } else if (v_fechainicio.getDate() > v_fechafin.getDate()) {
+
+                alert('La fechainicio es mayor que la fechafin');
+                return false;
+
+            } else if (diafinicio === diaffin) {
+
+                alert('La fecha de finalización no debe ser igual a la fecha de inicio');
+                return false;
+
+            } else if (v_fechafin.getDate() < fechaHoy.getDate()) {
+
+                alert('La fechafin es menor a la fecha actual');
+                return false;
+            }
+
+            return true;
+
+        } else {
+            console.error('No debe estar vacío fechainicio y fechafin');
+            return false;
         }
 
     }
+
+
+    async configurarFechas(idpostulacion, fechainicio, fechafin) {
+
+        const res = this.validarFechas(fechainicio, fechafin);
+        if (res === true) {
+            
+            try {
+                
+                const res = await this.reprogramar('personalizado', idpostulacion, fechainicio, fechafin);
+                return res;
+
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
+    } 
 }
