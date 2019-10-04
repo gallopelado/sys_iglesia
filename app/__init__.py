@@ -1,8 +1,17 @@
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
+from app.Models.PostulacionModel import PostulacionModel
 
 # Se importan las rutas de recursos.
 from app.rutas_recursos.listado_rutas import *
+
+# Trabajando con Schedule
+# https://apscheduler.readthedocs.io/en/latest/modules/triggers/interval.html#module-apscheduler.triggers.interval
+pos = PostulacionModel()
+sched = BackgroundScheduler(daemon = True)
+sched.add_job( pos.verificaVencimiento, 'interval', days = 1 )
+sched.start()
 
 # Se inicia una instancia de Flask
 app = Flask(__name__)
@@ -57,3 +66,4 @@ app.register_blueprint(rutas.registrar_postulacion.postulacion_routes.postu, url
 
 # Codigo secreto para generar la cookie.
 app.secret_key = "12345"
+
