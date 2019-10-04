@@ -120,3 +120,29 @@ class PostulacionModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def verificaVencimiento(self):
+        '''verificaVencimiento.
+
+        Verifica si la fecha de finalización coincide
+        con la fecha actual, entoces cambia el estado del registro.
+
+        '''
+        procedimiento = 'CALL membresia.verifica_vecimiento_postulacion()'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(procedimiento)
+            con.commit()
+            print(con.notices)
+
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
