@@ -100,10 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const res = await pos.configurarFechas(idpostulacion, fechainicio, fechafin);
-            console.log(res);
+            
+            if (res.estado === true) {
+                location.href = '/membresia/formulario_postulacion';
+            } else {
+                console.log(res);
+                alert('Hubo un error al actualizar fechas. Favor contacte con el Administrador');
+            }
 
         } catch (error) {
             console.error(error);
+            alert('Hubo un error al actualizar fechas. Favor contacte con el Administrador');
         }
 
     }
