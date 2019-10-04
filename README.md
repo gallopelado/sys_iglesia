@@ -1,3 +1,5 @@
-Alumno: Juan Jose Gonzalez Ramirez
-Proyecto de Cuarto año de Licenciatura en análisis de sistemas
-UTIC - 2019
+# Proyecto de Cuarto año de Licenciatura en análisis de sistemas
+## Alumno: Juan Jose Gonzalez Ramirez
+
+### Sistema de Gestión Informática para Iglesia Evangélica
+### UTIC - 2019
