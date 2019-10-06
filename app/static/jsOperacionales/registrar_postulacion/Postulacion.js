@@ -342,6 +342,17 @@ export default class Postulacion {
     }
 
 
+    /**
+     * Método configurarFechas
+     * 
+     * Se definen acciones para cuando se utilice la opción personalizado.
+     * Se envían datos de fechas al servidor.
+     * 
+     * @param {int} idpostulacion 
+     * @param {Date} fechainicio 
+     * @param {Date} fechafin 
+     * @returns {object} res
+     */
     async configurarFechas(idpostulacion, fechainicio, fechafin) {
 
         const res = this.validarFechas(fechainicio, fechafin);
@@ -359,4 +370,31 @@ export default class Postulacion {
         }
 
     } 
+
+
+    async anularPostulacion(idpostulacion) {
+
+        const id = parseInt(idpostulacion);
+
+        try {
+            
+            const res = await fetch('/membresia/formulario_postulacion/anular_postulacion', {
+                method: 'PUT'
+                , headers: {
+                    'Content-Type':'application/json'
+                }
+                , body: JSON.stringify({ idpostulacion: id })
+            });
+            const data = await res.json();
+
+            console.log(data);
+
+            return data.estado;
+
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
 }
