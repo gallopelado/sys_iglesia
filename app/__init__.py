@@ -8,9 +8,15 @@ from app.rutas_recursos.listado_rutas import *
 
 # Trabajando con Schedule
 # https://apscheduler.readthedocs.io/en/latest/modules/triggers/interval.html#module-apscheduler.triggers.interval
+# Generamos la instancia del modelo.
 pos = PostulacionModel()
+# Ejecutamos el método al iniciar el sistema.
+pos.verificaVencimiento()
+# Generamos una instancia para segundo plano con hilos independientes.
 sched = BackgroundScheduler(daemon = True)
+# Agregamos la tarea para que se espere 1 día para ejecutarse.
 sched.add_job( pos.verificaVencimiento, 'interval', days = 1 )
+# Iniciar planificador.
 sched.start()
 
 # Se inicia una instancia de Flask
