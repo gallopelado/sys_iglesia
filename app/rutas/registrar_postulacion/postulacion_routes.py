@@ -90,7 +90,26 @@ def reprogramar():
 
     else:
         return jsonify({'estado':False, 'error': 'Ninguna opción es válida'})
+
+
+@postu.route('/anular_postulacion', methods=['PUT'])
+def anularPostulacion():
+
+    # Recibir el dato.
+    idpostulacion = request.json['idpostulacion']
+
+    # Validar el dato.
+    if not idpostulacion:
+        return jsonify({'estado': False, 'error': 'El parámetro idpostulación no es válido'})
     
+    # Enviar el dato al modelo.
+    pos = PostulacionModel()
+    res = pos.anularPostulacion(idpostulacion)
+    if res == True:
+        return jsonify({'estado': res, 'mensaje': 'Se ha anulado correctamente la postulación.'})
+    else:
+        return jsonify({'estado': res, 'error': 'Algo ha ido mal con la anulación.'})
+
 
 # Rutas para AJAX
 @postu.route('/guardar_formulario', methods=['PUT'])
