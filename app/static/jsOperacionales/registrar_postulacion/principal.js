@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Validar formulario
         if (txtfechainicio.trim() === '') {
             alert('No debe dejar espacios vacíos!');
-            document.getElementById('txt_fechainicio').focus();            
+            document.getElementById('txt_fechainicio').focus();
             return;
-        } 
-        if (txtfechafin.trim() === ''){
+        }
+        if (txtfechafin.trim() === '') {
             alert('No debe dejar espacios vacíos!');
             document.getElementById('txt_fechafin').focus();
             return;
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Enviar datos
         personalizarFechas(idpostulacion, txtfechainicio, txtfechafin);
-            
+
         // Cerrar modal.
         $('#modalPersonalizar').modal('toggle');
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const res = await pos.configurarFechas(idpostulacion, fechainicio, fechafin);
-            
+
             if (res.estado === true) {
                 location.href = '/membresia/formulario_postulacion';
             } else {
@@ -111,6 +111,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error(error);
             alert('Hubo un error al actualizar fechas. Favor contacte con el Administrador');
+        }
+
+    }
+
+    window.anularPostulacion = async (idpostulacion) => {
+
+        const c = confirm('Desea anular esta postulación ?');
+        if (c === true) {
+
+            if (idpostulacion === '')
+                return;
+
+            const res = await pos.anularPostulacion(idpostulacion);
+            if (res === true) {
+                alert('Se anulado con éxito.');
+                location.href = '/membresia/formulario_postulacion';
+            } else {
+                alert('Hubo un problema, favor contacte con el administrador.')
+            }
+
         }
 
     }
