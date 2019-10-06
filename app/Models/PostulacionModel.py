@@ -146,3 +146,30 @@ class PostulacionModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def anularPostulacion(self, idpostulacion):
+        '''anularPostulacion.
+
+        Si existe la postulación, cambia el estado a FALSE y agrega fecha de procesado.
+        
+        '''
+
+        procedimiento = 'membresia.anular_postulacion'
+
+        try:
+        
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(procedimiento, (idpostulacion,))
+            con.commit()
+            return cur.fetchone()[0]
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
