@@ -19,7 +19,7 @@ BEGIN
 	END IF;
 
 	UPDATE membresia.cabe_postulacion 
-	SET post_estado = FALSE, post_fechaprocesado = now()
+	SET post_estado = FALSE
 	WHERE post_id = idpostulacion;
 	
 	RAISE NOTICE 'Se anulo correctamente la postulacion';
