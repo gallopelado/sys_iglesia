@@ -12,7 +12,7 @@ $$
 BEGIN
 
 	PERFORM post_id FROM membresia.cabe_postulacion
-	WHERE post_des = idpostulacion;
+	WHERE post_id = idpostulacion;
 	IF NOT FOUND THEN
 		RAISE NOTICE 'No existe esta postulacion';
 		RETURN FALSE;
