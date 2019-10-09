@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                       
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info btn-md dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Opciones
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#"
+                                                onclick="">Postulaciones Abiertas</a>
+                                            <a class="dropdown-item" href="#"
+                                                onclick="">Postulaciones Cerradas</a>
+                                            <a class="dropdown-item" href="#"
+                                                onclick="">Anuladas</a>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <table id="tabla_postulaciones" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th>Estado</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_postulaciones">
+                                    {% if lista %}
+                                    {% for item in lista %}
+                                    <tr>
+                                        <td>{{ item[1] }}</td>
+                                        <td>{{ item[2] }}</td>                                        
+                                        <td>
+                                            <a href=""
+                                                class="btn btn-primary btn-sm" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                Ver
+                                            </a>
+                                            <a href="#" class="btn btn-primary btn-sm"
+                                                onclick="" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                Asignar
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif%}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<!-- Controlador -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/principal.js') }}"></script>
+
+
+{% endblock %}
