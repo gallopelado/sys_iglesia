@@ -12,6 +12,7 @@ class ListaCandidatoModel:
             con = conexion.getConexion()
             cur = con.cursor()
             cur.callproc(funcion, (opcion, ))
+            return cur.fetchall()
 
         except con.Error as e:
             print(e.pgerror)
