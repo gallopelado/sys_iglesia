@@ -41,11 +41,11 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="#"
-                                                onclick="">Postulaciones Abiertas</a>
+                                                onclick="cargarTabla('ABIERTA')">Postulaciones Abiertas</a>
                                             <a class="dropdown-item" href="#"
-                                                onclick="">Postulaciones Cerradas</a>
+                                                onclick="cargarTabla('CERRADA')">Postulaciones Cerradas</a>
                                             <a class="dropdown-item" href="#"
-                                                onclick="">Anuladas</a>                                            
+                                                onclick="cargarTabla('ANULADA')">Anuladas</a>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -62,28 +62,7 @@
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_postulaciones">
-                                    {% if lista %}
-                                    {% for item in lista %}
-                                    <tr>
-                                        <td>{{ item[1] }}</td>
-                                        <td>{{ item[2] }}</td>                                        
-                                        <td>
-                                            <a href=""
-                                                class="btn btn-primary btn-sm" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                Ver
-                                            </a>
-                                            <a href="#" class="btn btn-primary btn-sm"
-                                                onclick="" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                Asignar
-                                            </a>
-
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% endif%}
+                                <tbody id="tb_postulaciones">                                   
                                 </tbody>
                             </table>
 
