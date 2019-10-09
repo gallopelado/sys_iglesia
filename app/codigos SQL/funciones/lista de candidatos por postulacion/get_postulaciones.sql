@@ -29,7 +29,7 @@ $$
 				post_fechaprocesado IS NOT NULL AND post_estado IS FALSE
 			WHEN 'ANULADA' THEN
 				post_fechaprocesado IS NULL AND post_estado IS FALSE
-			ELSE
+			WHEN 'TODAS' THEN
 				post_id IS NOT NULL
 			END;
 
