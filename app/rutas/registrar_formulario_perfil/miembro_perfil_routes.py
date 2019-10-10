@@ -87,6 +87,9 @@ def procesarPerfil():
     flash('Algo ha salido mal', 'warning')
     return redirect(url_for('registrar_formulario_perfil.formPerfil', idmiembro=idmiembro))
 
+
+# Rutas para ajax
+
     
 
     
