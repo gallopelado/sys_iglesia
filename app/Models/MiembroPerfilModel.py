@@ -56,6 +56,28 @@ class MiembroPerfilModel():
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerCandidatos(self):
+
+        funcion = 'membresia.traer_candidatos_activos_json'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion)
+            res = cur.fetchone()[0]
+            return res
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
         
     
 
