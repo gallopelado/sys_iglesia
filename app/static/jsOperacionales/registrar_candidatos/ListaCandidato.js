@@ -1,4 +1,18 @@
+import {autoCompletar} from '../helper/helper.js';
+
 export default class ListaCandidato {
+
+    constructor() {
+
+        this.idpostulacion = document.getElementById('idpostulacion');
+        this.idcandidato = document.getElementById('idcandidato');
+        this.txt_candidato = document.getElementById('txt_candidato');
+        this.tabla = document.getElementById('tabla_detalle');
+        this.tb = document.getElementById('tb_detalle');
+        this.btnGuardar = document.getElementById('btnGuardar');
+        this.btnCancelar = document.getElementById('btnCancelar');
+
+    }
 
     /**
      * Método traerPostulaciones
@@ -16,6 +30,23 @@ export default class ListaCandidato {
             const res = await fetch(`/membresia/registrar_candidatos/traer_postulaciones/${opcion}`);
             const data = await res.json();
 
+            return data;
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+
+    async traerDetalle() {
+
+        const idpostulacion = document.getElementById('idpostulacion').value;
+        try {
+            
+            const res = await fetch(`/membresia/registrar_candidatos/traer_detalle_candidatos/${idpostulacion}`);
+            const data = await res.json()
+            
             return data;
 
         } catch (error) {
@@ -97,4 +128,80 @@ export default class ListaCandidato {
 
     }
 
+
+    async cargarCandidatos() {
+
+        try {
+            
+            const res = await fetch('/membresia/registrar_candidatos/traer_candidatos');
+            const data = await res.json()
+            
+            autoCompletar(data, 'persona', 'idmiembro', 'idcandidato', 'txt_candidato');
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+
+    agregarFila() {
+
+        const tabla = this.tb;
+        const bteliminar = `
+        <div class="table-data-feature">
+        <button type="button" onclick="eliminarFila(this.parentElement.parentElement.parentElement)" class="item btn btn-warning"
+        data-toggle="tooltip" data-placement="top" title="Borrar">
+        <i class="zmdi zmdi-delete"></i>
+        </button></div>`;
+         
+        if (this.verificaRepetidos()) {
+
+            const row = tabla.insertRow();
+            const col1 = row.insertCell();
+            const col2 = row.insertCell();
+            const col3 = row.insertCell();
+            
+            row.id = this.idcandidato.value;
+            col1.innerHTML = this.txt_candidato.value;
+            col2.innerHTML = '<span class="badge badge-default">En breve</span>';
+            col3.innerHTML = bteliminar;
+
+        }
+        
+    }
+
+
+    eliminarFila(b) {
+
+        console.log(b);
+
+    }
+
+    verificaRepetidos() {
+
+        const tb = this.tb.rows;
+        let tr;
+        
+        if (tb.length > 0) {
+
+            for (let i=0; i <= tb.length-1; i++) {
+                
+                tr = tb[i];                
+                if( tr.children.length > 0) {
+                    
+                    if (tr.id == this.idcandidato.value) {
+                        alert('Repetido');
+                        return false;
+                    }
+
+                }
+
+            }
+
+        }
+
+        return true;
+
+    }
 }
