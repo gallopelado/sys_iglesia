@@ -21,3 +21,47 @@ class ListaCandidatoModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerListaCandidatos(self, idpostulacion):
+
+        funcion = 'membresia.get_listapostulantes_id'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion, (idpostulacion,))
+            res = cur.fetchone()
+            return res
+
+        except con.Error as e:
+            print(e.pgerror)
+            return True
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    
+    def traerDetalleCandidatos(self, idpostulacion):
+
+        consultaSQL = 'SELECT detalle FROM membresia.get_listapostulantes_id(%s)'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consultaSQL, (idpostulacion, ))
+            res = cur.fetchone()[0]
+            return res
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
