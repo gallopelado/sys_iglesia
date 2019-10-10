@@ -40,7 +40,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('registrar_postulacion.index_postulacion') }}"
+                            <a href="{{ url_for('registrar_candidatos.index_candidatos') }}"
                                 class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
@@ -60,107 +60,69 @@
                             <hr>
 
                             <!-- Inicio del formulario -->
-                            <form id="frm_postu" action="" method="post">
+                            <form id="frm_lista_candidatos" action="" method="post">
 
                                 <!-- Campo idpostulacion -->
-                                <input type="hidden" name="idpostulacion" id="idpostulacion">
+                                <input type="hidden" name="idpostulacion" id="idpostulacion"
+                                    value="{{ lista[0] if lista }}">
 
-                                <!-- Comites -->
-                                <div class="row form-group">
-                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
-                                        <input type="hidden" name="idministerio" id="idministerio">
-                                        <label for="txt_ministerio"
-                                            class="form-control-label form-control-sm">Comité(*)</label>
-                                        <input type="text" name="txt_ministerio" id="txt_ministerio"
-                                            class="form-control form-control-sm"
-                                            placeholder="Digite nombre del comité..." maxlength="100" min="1" required
-                                            {{ 'disabled' if datos_cab }} value={{ datos_cab[2] if datos_cab else '' }}>
-                                    </div>
-                                </div>
-                                <!---->
-
-                                <!-- Descripcion, cantidad -->
+                                <!-- Postulacion, vacantes -->
                                 <div class="form-horizontal">
-                                    <!-- Campo Descripcion -->
+
                                     <div class="row form-group">
+
                                         <!--Campo1-->
                                         <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                             <label for="txt_declaracion"
-                                                class="form-control-label form-control-sm">Descripción de la
-                                                Postulación(*)</label>
-                                            <textarea name="txt_descripcion" id="txt_descripcion" cols="30" rows="5"
-                                                class="form-control-sm form-control" required
-                                                {{ 'disabled' if datos_cab }}>{{ datos_cab[3] if datos_cab else '' }}</textarea>
+                                                class="form-control-label form-control-sm">Postulación</label>
+                                            <input name="txt_lugares" id="txt_lugares"
+                                                class="form-control form-control-sm" value="{{ lista[1] if lista }}"
+                                                disabled>
                                         </div>
 
                                         <!--Campo2-->
-                                        {% if not datos_cab %}
-                                        <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                                            <label for="txt_lugares" class="form-control-label form-control-sm">Lugares
-                                                disponibles</label>
-                                            <input name="txt_lugares" id="txt_lugares"
-                                                class="form-control form-control-sm" disabled>
+                                        <div class="col col-sm-12 col-md-1 col-lg-1 col-xl-1">
+                                            <label for="txt_vacantes"
+                                                class="form-control-label form-control-sm">Vacantes</label>
+                                            <input name="txt_vacantes" id="txt_vacantes"
+                                                class="form-control form-control-sm" value="{{ lista[3] if lista }}"
+                                                disabled>
                                         </div>
-                                        {% endif %}
+
                                     </div>
                                 </div>
                                 <!---->
 
-                                <!-- Campo previo documento cargado -->
-                                {% if datos_cab and datos_cab[4] %}
+                                <!--Campo fecha de finalización-->
                                 <div class="row form-group">
-                                    <div id="txt_nombredocumento" class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <h3>
-                                            <span class="badge badge-info">Documento almacenado: {{ datos_cab[4] }}</span>
-                                        </h3>
+                                    <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label for=txt_fechafin" class="form-control-label form-control-sm">Finaliza
+                                            el</label>
+                                        <input name="txt_fechafin" id="txt_fechafin"
+                                            class="form-control form-control-sm" maxlength="100" minlength="5"
+                                            value="{{ lista[2] if lista }}" required disabled>
                                     </div>
                                 </div>
-                                {% endif %}
                                 <!---->
 
-                                <!-- Campo documento -->
-                                {% if not datos_cab %}
-                                <div class="row form-group">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="input-group mb-3">
-                                            <div class="custom-file">
-                                                <input type="file"
-                                                    class="custom-file-input form-control form-control-sm datetimepicker-input"
-                                                    id="txt_documento" name="txt_documento">
-                                                <label class="custom-file-label form-control-sm" for="txt_documento"
-                                                    aria-describedby="txt_documento">Documento de referencia</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                <!---->
-
-                                <!--Puesto/cargo-->
-                                {% if not datos_cab %}
+                                <!--Candidato-->
                                 <div class="form-horizontal">
                                     <div class="row form-group">
-                                        <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                            <label for=txt_puesto" class="form-control-label form-control-sm">Elegir
-                                                puesto/cargo(*)</label>
-                                            <input type="hidden" name="idpuesto" id="idpuesto">
-                                            <input name="txt_puesto" id="txt_puesto"
-                                                class="form-control form-control-sm"
-                                                placeholder="Digite nombre del puesto..." maxlength="100" minlength="5"
-                                                required>
-                                        </div>
 
-                                        <!--Vacancias-->
-                                        <div class="col col-sm-12 col-md-2 col-lg-2 col-xl-2">
-                                            <label for="txt_vacancias"
-                                                class="form-control-label form-control-sm">Vacancias(*)</label>
-                                            <input name="txt_vacancias" id="txt_vacancias" type="number"
-                                                class="form-control form-control-sm" min="1" max="100" required>
+                                        <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label for=txt_candidato" class="form-control-label form-control-sm">Elegir
+                                                candidato</label>
+                                            <input type="hidden" name="idcandidato" id="idcandidato">
+                                            <input name="txt_candidato" id="txt_candidato"
+                                                class="form-control form-control-sm"
+                                                placeholder="Digite nombre del candidato..." maxlength="100"
+                                                minlength="5" required>
                                         </div>
 
                                     </div>
                                 </div>
-                                {% endif %}
+                                <!---->
+
                                 <!--Tabla-->
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
@@ -171,21 +133,30 @@
                                                         class="table table-borderless table-data3">
                                                         <thead>
                                                             <tr>
-                                                                <th>Puesto</th>
-                                                                <th>Vacancia</th>
-                                                                {% if not datos_det %}
+                                                                <th>Postulante</th>
+                                                                <th>Agregado el </th>
+
                                                                 <th class="text-right">Acciones</th>
-                                                                {% endif %}
+
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tb_detalle">
-                                                            {% if datos_det %}
-                                                            {% for item in datos_det %}
-                                                                <tr>
-                                                                    <td>{{ item['pro_des'] }}</td>
-                                                                    <td>{{ item['cantidad'] }}</td>
-                                                                </tr>
-                                                            {% endfor %}
+                                                            {% if detalle %}
+                                                            {%for item in detalle %}
+                                                            <tr id="{{ item['candi_id'] }}">
+                                                                <td>{{ item['candidato'] }}</td>
+                                                                <td>{{ item['fecha_creacion'] }}</td>
+                                                                <td>
+                                                                    <div class="table-data-feature">
+                                                                        <button type="button" onclick=""
+                                                                            class="item btn btn-danger"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            title="Borrar">
+                                                                            <i class="zmdi zmdi-delete"></i>
+                                                                        </button></div>
+                                                                </td>
+                                                            </tr>
+                                                            {%endfor%}
                                                             {% endif %}
                                                         </tbody>
                                                     </table>
@@ -197,96 +168,6 @@
                                 <!--Fin Tabla-->
 
 
-                                <!-- Campo fechas -->
-                                {% if not datos_cab %}
-                                <div class="row form-group">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label for="txt_fechainicio"
-                                                class="form-control-label form-control-sm">Inicio de
-                                                Postulación(*)</label>
-                                            <div class="form-group">
-                                                <div class="input-group date" id="picker_fechainicio"
-                                                    data-target-input="nearest">
-                                                    <input type="text"
-                                                        class="form-control form-control-sm datetimepicker-input"
-                                                        data-target="#datetimepicker4" id="txt_fechainicio"
-                                                        name="txt_fechainicio" onpaste="return false" required 
-                                                        
-                                                        {{ 'disabled' if datos_cab }} value={{ datos_cab[5] if datos_cab else '' }}
-                                                        />
-                                                    <div class="input-group-append" data-target="#picker_fechainicio"
-                                                        data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label for="txt_fechafin" class="form-control-label form-control-sm">Fin de
-                                                Postulación(*)</label>
-                                            <div class="form-group">
-                                                <div class="input-group date" id="picker_fechafin"
-                                                    data-target-input="nearest">
-                                                    <input type="text"
-                                                        class="form-control form-control-sm datetimepicker-input"
-                                                        data-target="#datetimepicker4" id="txt_fechafin"
-                                                        name="txt_fechafin" onpaste="return false" required 
-                                                        {{ 'disabled' if datos_cab }} value={{ datos_cab[6] if datos_cab else '' }}
-                                                        />
-                                                    <div class="input-group-append" data-target="#picker_fechafin"
-                                                        data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                <!---->
-
-                                <!-- Campo fechas -->
-                                {% if datos_cab %}
-                                <div class="row form-group">
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label for="txt_fechainicio"
-                                                class="form-control-label form-control-sm">Inicio de
-                                                Postulación(*)</label>
-                                            <div class="form-group">
-                                                <div class="input-group date" >
-                                                    <input type="text"
-                                                        class="form-control form-control-sm datetimepicker-input"                                                                                                                                                                        
-                                                        {{ 'disabled' if datos_cab }} value={{ datos_cab[5] if datos_cab else '' }}
-                                                        />
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
-                                        <div class="form-group">
-                                            <label for="txt_fechafin" class="form-control-label form-control-sm">Fin de
-                                                Postulación(*)</label>
-                                            <div class="form-group">                                                
-                                                    <input type="text"
-                                                        class="form-control form-control-sm datetimepicker-input"                                                        
-                                                        {{ 'disabled' if datos_cab }} value={{ datos_cab[6] if datos_cab else '' }}
-                                                        />                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                <!---->
-
-                                {% if not datos_cab %}
                                 <!-- Botones -->
                                 <div class="row form-group">
                                     <div class="col col-12">
@@ -295,8 +176,7 @@
                                                 <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
                                                     <i class="fa fa-dot-circle-o"></i> Guardar
                                                 </button>
-                                                <a href="{{ url_for('registrar_postulacion.index_postulacion') }}"
-                                                    id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <a href="#" id="btnCancelar" class="btn btn-danger btn-lg">
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
                                                 </a>
                                             </div>
@@ -304,7 +184,7 @@
 
                                     </div>
                                 </div>
-                                {% endif %}
+
                             </form>
                             <!-- fin del formulario -->
 
