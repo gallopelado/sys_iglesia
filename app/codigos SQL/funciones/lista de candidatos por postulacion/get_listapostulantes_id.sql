@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION membresia.get_listapostulantes_id(idpostulacion integ
 RETURNS TABLE(
 	idpostu integer	
 	, descripcion text		
-	, fechafin date
+	, fechafin varchar
 	, vacancias bigint
 	, detalle json[]
 ) AS
@@ -21,13 +21,14 @@ BEGIN
 		-- Muestra datos de cabecera.
 		cp.post_id
 	, cp.post_des
-	, cp.post_finpostu
+	, fecha_formatolargo(cp.post_finpostu)
 	, SUM(pd.cantidad) vacancias
 		-- Ver el detalle.
 		, ARRAY(
 			SELECT
 				JSON_BUILD_OBJECT( 
 				'post_id', cd.post_id, 
+				'candi_id', cd.mo_id,
 				'candidato', p.per_nombres||' '||p.per_apellidos , 
 				'fecha_creacion', to_char(cd.fecha_creacion, 'DD "de" TMMonth "del" YYYY'))
 			FROM
