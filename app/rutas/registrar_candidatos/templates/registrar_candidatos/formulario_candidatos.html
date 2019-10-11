@@ -50,9 +50,13 @@
                             <div class="card-title">
                                 <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{titulo}}
                                 </h3>
-                                {% if datos_cab %}
+                                {% if detalle %}
                                 <h4 class="text-center title-5">
-                                    <span class="badge badge-success">Ver registro N° {{ datos_cab[0] }}</span>
+                                    <span class="badge badge-success">Ver registro N° {{ lista[0] }}</span>
+                                </h4>
+                                {% else %}
+                                <h4 class="text-center title-5">
+                                    <span class="badge badge-warning">Ver registro N° {{ lista[0] }} - Sin detalle</span>
                                 </h4>
                                 {% endif %}
                             </div>
@@ -105,6 +109,7 @@
                                 </div>
                                 <!---->
 
+                                {% if editar %}
                                 <!--Candidato-->
                                 <div class="form-horizontal">
                                     <div class="row form-group">
@@ -135,9 +140,7 @@
                                                             <tr>
                                                                 <th>Postulante</th>
                                                                 <th>Agregado el </th>
-
                                                                 <th class="text-right">Acciones</th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tb_detalle">
@@ -148,7 +151,7 @@
                                                                 <td>{{ item['fecha_creacion'] }}</td>
                                                                 <td>
                                                                     <div class="table-data-feature">
-                                                                        <button type="button" onclick=""
+                                                                        <button type="button" onclick="eliminarRegistro({{ item['post_id'] }},{{ item['candi_id'] }})"
                                                                             class="item btn btn-danger"
                                                                             data-toggle="tooltip" data-placement="top"
                                                                             title="Borrar">
@@ -166,8 +169,55 @@
                                     </div>
                                 </div>
                                 <!--Fin Tabla-->
+                                {% endif %}
+
+                                {% if ver %}                                
+                                <!--Tabla-->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div id="divTabla" class="table-responsive m-b-40">
+                                                    <table id="tabla_detalle"
+                                                        class="table table-borderless table-data3">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Postulante</th>
+                                                                <th>Agregado el </th>
+                                                                <th class="text-right">Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tb_detalle">
+                                                            {% if detalle %}
+                                                            {%for item in detalle %}
+                                                            <tr id="{{ item['candi_id'] }}">
+                                                                <td>{{ item['candidato'] }}</td>
+                                                                <td>{{ item['fecha_creacion'] }}</td>
+                                                                <td>
+                                                                    <div class="table-data-feature">
+                                                                        <button type="button" 
+                                                                            class="item btn btn-danger"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            title="Borrar">
+                                                                            <i class="zmdi zmdi-delete"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            {%endfor%}
+                                                            {% endif %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin Tabla-->
+                                {% endif %}
 
 
+                                {% if editar %}
                                 <!-- Botones -->
                                 <div class="row form-group">
                                     <div class="col col-12">
@@ -176,7 +226,7 @@
                                                 <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
                                                     <i class="fa fa-dot-circle-o"></i> Guardar
                                                 </button>
-                                                <a href="#" id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <a href="{{ url_for('registrar_candidatos.index_candidatos') }}" id="btnCancelar" class="btn btn-danger btn-lg">
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
                                                 </a>
                                             </div>
@@ -184,6 +234,8 @@
 
                                     </div>
                                 </div>
+                                <!---->
+                                {% endif %}
 
                             </form>
                             <!-- fin del formulario -->
