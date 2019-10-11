@@ -87,7 +87,8 @@ export default class ListaCandidato {
                                 <td class="">
                                     <div class="table-data-feature">
 
-                                        <a href="" class="item btn btn-primary" data-toggle="modal" data-placement="top"
+                                        <a href="/membresia/registrar_candidatos/ver_candidatos/${data[indice][0]}" 
+                                            class="item btn btn-primary" data-toggle="modal" data-placement="top"
                                             title="Ver">
                                             <i class="zmdi zmdi-mail-send"></i>
                                         </a>
@@ -97,6 +98,26 @@ export default class ListaCandidato {
                                                 title="Asignar">
                                                 <i class="zmdi zmdi-edit"></i>
                                         </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                    
+                        `;
+                    } else if (data[indice][2] === 'CERRADA') {
+                        cadenas += `
+                    
+                            <tr id="${data[indice][0]}">
+                                <td>${data[indice][1]}</td>
+                                <td>${data[indice][2]}</td>
+                                <td>
+                                    <div class="table-data-feature">
+
+                                        <a href="/membresia/ver_candidatos/asignar_candidatos/${data[indice][0]}" 
+                                            class="item btn btn-primary" data-toggle="modal" data-placement="top"
+                                            title="Ver">
+                                            <i class="zmdi zmdi-mail-send"></i>
+                                        </a>                                        
 
                                     </div>
                                 </td>
@@ -171,12 +192,54 @@ export default class ListaCandidato {
         
     }
 
-
+    /**
+     * Método eliminarFila.
+     * 
+     * Solamente elimina la fila de la tabla según el índice html.
+     * 
+     * @param {*} b 
+     */
     eliminarFila(b) {
 
         console.log(b);
 
     }
+
+
+    /**
+     * Método eliminarCandidato.
+     * 
+     * Elimina el registro candidato de la base de datos.
+     * 
+     * @param {*} idcandidato 
+     */
+    async eliminarCandidato(idpostulacion, idcandidato) {
+
+        const datos = {
+            idpostulacion: idpostulacion,
+            idcandidato, idcandidato
+        }
+
+        try {
+            
+            const res = await fetch('/membresia/registrar_candidatos/eliminar_candidato', {
+                method: 'PUT'
+                , headers: {
+                    'Content-Type': 'application/json'
+                }
+                , body: JSON.stringify(datos)
+            });
+            const data = await res.json()
+
+            console.log(data);
+
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
+
 
     verificaRepetidos() {
 
