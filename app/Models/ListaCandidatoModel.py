@@ -65,3 +65,26 @@ class ListaCandidatoModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def eliminarCandidato(self, idpostulacion, idcandidato):
+
+        consultaSQL = 'DELETE FROM membresia.candi_detalle WHERE post_id = %s AND mo_id = %s'
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consultaSQL, (idpostulacion, idcandidato,))
+            con.commit()
+            return True
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+    
