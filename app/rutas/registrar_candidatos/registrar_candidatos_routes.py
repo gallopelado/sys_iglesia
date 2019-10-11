@@ -19,11 +19,20 @@ def index_candidatos():
 
 @candi.route('/asignar_candidatos/<int:idpostulacion>', methods=['GET'])
 def asignarCandidatos(idpostulacion):
+    editar = True
     titulo = 'Formulario lista de candidatos'
     lista = candim.traerListaCandidatos(idpostulacion)
-    detalle = lista[4]    
-    return render_template('registrar_candidatos/formulario_candidatos.html', titulo=titulo, idpostulacion=idpostulacion, lista=lista, detalle=detalle)
+    detalle = lista[4] if len(lista[4])>0 else None        
+    return render_template('registrar_candidatos/formulario_candidatos.html', titulo=titulo, idpostulacion=idpostulacion, lista=lista, detalle=detalle, editar=editar)
 
+
+@candi.route('/ver_candidatos/<int:idpostulacion>', methods=['GET'])
+def verCandidatos(idpostulacion):
+    ver = True
+    titulo = 'Ver lista de candidatos'
+    lista = candim.traerListaCandidatos(idpostulacion)
+    detalle = lista[4] if len(lista[4])>0 else None        
+    return render_template('registrar_candidatos/formulario_candidatos.html', titulo=titulo, idpostulacion=idpostulacion, lista=lista, detalle=detalle, ver=ver)
 
 # Rutas para AJAX
 @candi.route('/traer_postulaciones/<string:opcion>', methods=['GET'])
@@ -43,3 +52,10 @@ def traerCandidatos():
     perf = MiembroPerfilModel()
     lista = perf.traerCandidatos()
     return jsonify(lista)
+
+
+@candi.route('/eliminar_candidato', methods=['PUT'])
+def eliminarCandidato():
+    print(request.json)
+
+    return jsonify({'procesando':True})
