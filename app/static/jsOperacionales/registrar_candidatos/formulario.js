@@ -24,4 +24,14 @@ document.addEventListener('DOMContentLoaded', async() => {
 
     } 
 
+
+    window.eliminarRegistro = (idpostulacion, idcandidato) => {
+        const cf = confirm('Desea eliminar este registro ?');
+        if (cf) {
+
+            candi.eliminarCandidato(idpostulacion, idcandidato);
+
+        }
+    }
+
 });
