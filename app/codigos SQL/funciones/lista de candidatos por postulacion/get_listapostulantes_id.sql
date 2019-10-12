@@ -22,7 +22,7 @@ BEGIN
 		cp.post_id
 	, cp.post_des
 	, fecha_formatolargo(cp.post_finpostu)
-	, SUM(pd.cantidad) vacancias
+	, (SELECT SUM(cantidad) FROM membresia.postu_detalle WHERE post_id = cp.post_id) vacancias
 		-- Ver el detalle.
 		, ARRAY(
 			SELECT
@@ -42,7 +42,7 @@ BEGIN
 	LEFT JOIN membresia.postu_detalle AS pd USING(post_id)
 	LEFT JOIN membresia.candi_detalle AS cd USING(post_id)
 	WHERE
-		post_id = idpostulacion
+		post_id = 2
 	GROUP BY post_id, post_des, post_finpostu;
 
 	RETURN;	
