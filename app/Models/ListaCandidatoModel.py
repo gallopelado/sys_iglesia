@@ -87,4 +87,26 @@ class ListaCandidatoModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def guardarLista(self, idpostulacion, lista):
+         
+         procedimiento = 'CALL membresia.nueva_lista_candidatos(%s, %s)'
+
+         try:
+             
+             conexion = Conexion()
+             con = conexion.getConexion()
+             cur = con.cursor()
+             cur.execute(procedimiento, (idpostulacion, lista,))
+             con.commit()
+             return True
+
+         except con.Error as e:
+             print(e.pgerror)
+             return False
+         finally:
+             if con is not None:
+                 cur.close()
+                 con.close()
     
