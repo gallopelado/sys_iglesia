@@ -135,7 +135,7 @@
                                             <div class="card-body">
                                                 <div id="divTabla" class="table-responsive m-b-40">
                                                     <table id="tabla_detalle"
-                                                        class="table table-borderless table-data3">
+                                                        class="table table-stripered table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th>Postulante</th>
@@ -193,16 +193,7 @@
                                                             <tr id="{{ item['candi_id'] }}">
                                                                 <td>{{ item['candidato'] }}</td>
                                                                 <td>{{ item['fecha_creacion'] }}</td>
-                                                                <td>
-                                                                    <div class="table-data-feature">
-                                                                        <button type="button" 
-                                                                            class="item btn btn-danger"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            title="Borrar">
-                                                                            <i class="zmdi zmdi-delete"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
+                                                                <td></td>
                                                             </tr>
                                                             {%endfor%}
                                                             {% endif %}
