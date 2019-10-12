@@ -1,4 +1,4 @@
-import {autoCompletar} from '../helper/helper.js';
+import { autoCompletar } from '../helper/helper.js';
 
 export default class ListaCandidato {
 
@@ -43,10 +43,10 @@ export default class ListaCandidato {
 
         const idpostulacion = document.getElementById('idpostulacion').value;
         try {
-            
+
             const res = await fetch(`/membresia/registrar_candidatos/traer_detalle_candidatos/${idpostulacion}`);
             const data = await res.json()
-            
+
             return data;
 
         } catch (error) {
@@ -113,7 +113,7 @@ export default class ListaCandidato {
                                 <td>
                                     <div class="table-data-feature">
 
-                                        <a href="/membresia/ver_candidatos/asignar_candidatos/${data[indice][0]}" 
+                                        <a href="/membresia/registrar_candidatos/ver_candidatos/${data[indice][0]}" 
                                             class="item btn btn-primary" data-toggle="modal" data-placement="top"
                                             title="Ver">
                                             <i class="zmdi zmdi-mail-send"></i>
@@ -153,10 +153,10 @@ export default class ListaCandidato {
     async cargarCandidatos() {
 
         try {
-            
+
             const res = await fetch('/membresia/registrar_candidatos/traer_candidatos');
             const data = await res.json()
-            
+
             autoCompletar(data, 'persona', 'idmiembro', 'idcandidato', 'txt_candidato');
 
         } catch (error) {
@@ -175,21 +175,22 @@ export default class ListaCandidato {
         data-toggle="tooltip" data-placement="top" title="Borrar">
         <i class="zmdi zmdi-delete"></i>
         </button></div>`;
-         
+
         if (this.verificaRepetidos()) {
 
             const row = tabla.insertRow();
             const col1 = row.insertCell();
             const col2 = row.insertCell();
             const col3 = row.insertCell();
-            
+
             row.id = this.idcandidato.value;
+            row.style.backgroundColor = '#FFFF99';
             col1.innerHTML = this.txt_candidato.value;
             col2.innerHTML = '<span class="badge badge-default">En breve</span>';
             col3.innerHTML = bteliminar;
 
         }
-        
+
     }
 
     /**
@@ -221,7 +222,7 @@ export default class ListaCandidato {
         }
 
         try {
-            
+
             const res = await fetch('/membresia/registrar_candidatos/eliminar_candidato', {
                 method: 'PUT'
                 , headers: {
@@ -231,7 +232,7 @@ export default class ListaCandidato {
             });
             const data = await res.json()
 
-            console.log(data);
+            return data;
 
         } catch (error) {
             console.error(error);
@@ -245,14 +246,14 @@ export default class ListaCandidato {
 
         const tb = this.tb.rows;
         let tr;
-        
+
         if (tb.length > 0) {
 
-            for (let i=0; i <= tb.length-1; i++) {
-                
-                tr = tb[i];                
-                if( tr.children.length > 0) {
-                    
+            for (let i = 0; i <= tb.length - 1; i++) {
+
+                tr = tb[i];
+                if (tr.children.length > 0) {
+
                     if (tr.id == this.idcandidato.value) {
                         alert('Repetido');
                         return false;
@@ -265,6 +266,58 @@ export default class ListaCandidato {
         }
 
         return true;
+
+    }
+
+
+    async guardarLista() {
+
+        const tb = this.tb;
+        let cadena_idpostulacion = '';
+        if (tb.rows.length > 0) {
+
+            for (let i = 0; i < tb.rows.length; i++) {
+
+                if (tb.rows[i].style.backgroundColor === 'rgb(255, 255, 153)') {
+                    // Nuevos candidatos, tiene el estilo coloreado.
+                    cadena_idpostulacion += `${tb.rows[i].id},`;
+                }
+
+            }
+
+            // Si la lista esta vacía.
+            if (cadena_idpostulacion !== '') {
+                // Limpieza de la última coma.
+                cadena_idpostulacion = cadena_idpostulacion.slice(0, (cadena_idpostulacion.length - 1));
+                const datos = {
+                    idpostulacion: this.idpostulacion.value,
+                    candidatos: cadena_idpostulacion
+                }
+
+                // Enviar al servidor.
+                try {
+
+                    const res = await fetch('/membresia/registrar_candidatos/guardar_lista', {
+                        method: 'POST'
+                        , headers: {
+                            'Content-Type': 'application/json'
+                        }
+                        , body: JSON.stringify(datos)
+                    });
+                    const data = await res.json()
+                    return data;
+
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                alert('No añadió ningún candidato');
+                return { estado:false, error: 'No se añadió ningún candidato', tipo:'sin-candidato'};
+            }
+        } else {
+            alert('No es posible guardar la lista sin candidatos');
+            return { estado:false, error: 'No se añadió ningún candidato', tipo:'sin-candidato'};
+        }
 
     }
 }
