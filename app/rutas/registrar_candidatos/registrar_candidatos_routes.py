@@ -55,7 +55,27 @@ def traerCandidatos():
 
 
 @candi.route('/eliminar_candidato', methods=['PUT'])
-def eliminarCandidato():
-    print(request.json)
+def eliminarCandidato():    
 
-    return jsonify({'procesando':True})
+    idpostulacion = request.json['idpostulacion']
+    idcandidato = request.json['idcandidato']
+
+    if idpostulacion and idcandidato:
+        candim.eliminarCandidato(int(idpostulacion), int(idcandidato))        
+        return jsonify({'estado':True, 'mensaje': 'Se eliminó correctamente'})
+    else:
+        return jsonify({'estado':False, 'error': 'Se enviaron datos incorrectos de idpostulacion o idcandidato'})
+
+
+@candi.route('/guardar_lista', methods=['POST'])
+def guardarLista():
+        
+    idpostulacion = request.json['idpostulacion']
+    candidatos = request.json['candidatos']
+
+    res = candim.guardarLista(idpostulacion, candidatos)
+
+    if (res):
+        return jsonify({'estado':True, 'mensaje': 'Se guardó correctamente'})
+    else:
+        return jsonify({'estado':False, 'error': 'Hubo problemas al intentar guardar'})
