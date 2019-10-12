@@ -42,7 +42,7 @@ BEGIN
 	LEFT JOIN membresia.postu_detalle AS pd USING(post_id)
 	LEFT JOIN membresia.candi_detalle AS cd USING(post_id)
 	WHERE
-		post_id = 2
+		post_id = idpostulacion
 	GROUP BY post_id, post_des, post_finpostu;
 
 	RETURN;	
