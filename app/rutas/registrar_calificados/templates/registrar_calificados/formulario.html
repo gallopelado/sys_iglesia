@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_candidatos.index_candidatos') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{titulo}}
+                                </h3>
+                                {% if detalle %}
+                                <h4 class="text-center title-5">
+                                    <span class="badge badge-success">Ver registro N° {{ lista[0] }}</span>
+                                </h4>
+                                {% else %}
+                                <h4 class="text-center title-5">
+                                    <span class="badge badge-warning">Ver registro N° {{ lista[0] }} - Sin detalle</span>
+                                </h4>
+                                {% endif %}
+                            </div>
+
+                            <hr>
+
+                            <!-- Inicio del formulario -->
+                            <form id="frm_lista_candidatos" action="" method="post">
+
+                                <!-- Campo idpostulacion -->
+                                <input type="hidden" name="idpostulacion" id="idpostulacion"
+                                    value="{{ lista[0] if lista }}">
+
+                                <!-- Postulacion, vacantes -->
+                                <div class="form-horizontal">
+
+                                    <div class="row form-group">
+
+                                        <!--Campo1-->
+                                        <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label for="txt_declaracion"
+                                                class="form-control-label form-control-sm">Postulación</label>
+                                            <input name="txt_lugares" id="txt_lugares"
+                                                class="form-control form-control-sm" value="{{ lista[1] if lista }}"
+                                                disabled>
+                                        </div>
+
+                                        <!--Campo2-->
+                                        <div class="col col-sm-12 col-md-1 col-lg-1 col-xl-1">
+                                            <label for="txt_vacantes"
+                                                class="form-control-label form-control-sm">Vacantes</label>
+                                            <input name="txt_vacantes" id="txt_vacantes"
+                                                class="form-control form-control-sm" value="{{ lista[3] if lista }}"
+                                                disabled>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!--Campo fecha de finalización-->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                        <label for=txt_fechafin" class="form-control-label form-control-sm">Finaliza
+                                            el</label>
+                                        <input name="txt_fechafin" id="txt_fechafin"
+                                            class="form-control form-control-sm" maxlength="100" minlength="5"
+                                            value="{{ lista[2] if lista }}" required disabled>
+                                    </div>
+                                </div>
+                                <!---->                                                                
+
+                                <!-- Botón para ver la lista de admitidos -->
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <a href="#" class="btn btn-primary btn-block">Ver lista de admitidos</a>
+                                    </div>
+                                    <div class="col col-md-4"></div>
+                                    <div class="col col-md-4"></div>
+                                </div>
+                                <!---->
+
+                                <!--Tabla-->
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12 col-lg-8 col-xl-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div id="divTabla" class="table-responsive m-b-40">
+                                                    <table id="tabla_detalle"
+                                                        class="table table-stripered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Postulantes registrados</th>                                                                
+                                                                <th>Acciones</th>
+                                                                <th>Reune requisitos ?</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tb_detalle">
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Fin Tabla-->
+                                                                                            
+                                <!-- Botones -->
+                                <div class="row form-group">
+                                    <div class="col col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-dot-circle-o"></i> Guardar
+                                                </button>
+                                                <a href="{{ url_for('registrar_candidatos.index_candidatos') }}" id="btnCancelar" class="btn btn-danger btn-lg">
+                                                    <i class="fa  fa-arrow-down"></i> Cancelar
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!---->
+                               
+
+                            </form>
+                            <!-- fin del formulario -->
+
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS del formulario -->
+<!-- <script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/formulario.js') }}"></script> -->
+
+
+{%- endblock %}
