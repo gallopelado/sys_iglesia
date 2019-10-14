@@ -44,3 +44,24 @@ class ListaCalificadosModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def nroAdmitidos(self, idpostulacion):
+
+        consultaSQL = 'SELECT count(*) FROM membresia.candi_admitidos WHERE post_id = %s'
+
+        try:
+
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consultaSQL, (idpostulacion,))
+            return cur.fetchone()[0]
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
