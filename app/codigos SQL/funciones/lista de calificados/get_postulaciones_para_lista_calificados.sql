@@ -12,7 +12,7 @@ $$
 SELECT 
 	cp.post_id idpostulacion
 	, cp.post_des postulacion
-	, (CASE cp.procesado WHEN FALSE THEN 'ACTIVO' WHEN TRUE THEN 'PROCESADO' END) AS estado
+	, (CASE  WHEN cp.post_fechacalificado IS NULL THEN 'ACTIVO' WHEN cp.post_fechacalificado IS NOT NULL THEN 'PROCESADO' END) AS estado
 	, (SELECT count(*) FROM membresia.candi_detalle cd WHERE cd.post_id = cp.post_id) AS cantidad_postulantes	
 FROM
 	membresia.cabe_postulacion AS cp
