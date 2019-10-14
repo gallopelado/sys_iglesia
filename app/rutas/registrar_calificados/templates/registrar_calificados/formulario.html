@@ -56,7 +56,8 @@
                                 </h4>
                                 {% else %}
                                 <h4 class="text-center title-5">
-                                    <span class="badge badge-warning">Ver registro N° {{ lista[0] }} - Sin detalle</span>
+                                    <span class="badge badge-warning">Ver registro N° {{ lista[0] }} - Sin
+                                        detalle</span>
                                 </h4>
                                 {% endif %}
                             </div>
@@ -107,8 +108,9 @@
                                             value="{{ lista[2] if lista }}" required disabled>
                                     </div>
                                 </div>
-                                <!---->                                                                
+                                <!---->
 
+                                {% if isAdmitidos %}
                                 <!-- Botón para ver la lista de admitidos -->
                                 <div class="row form-group">
                                     <div class="col col-md-4">
@@ -118,6 +120,7 @@
                                     <div class="col col-md-4"></div>
                                 </div>
                                 <!---->
+                                {% endif %}
 
                                 <!--Tabla-->
                                 <div class="row form-group">
@@ -125,17 +128,33 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div id="divTabla" class="table-responsive m-b-40">
-                                                    <table id="tabla_detalle"
-                                                        class="table table-stripered table-hover">
+                                                    <table id="tabla_detalle" class="table table-stripered table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>Postulantes registrados</th>                                                                
+                                                                <th>Postulantes registrados</th>
                                                                 <th>Acciones</th>
                                                                 <th>Reune requisitos ?</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tb_detalle">
-                                                            
+                                                            {% if detalle %}
+                                                            {% for d in detalle %}
+                                                            <tr>
+                                                                <td>{{ d['candidato'] }}</td>
+                                                                <td>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-info">Info</button>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="switch switch-3d switch-info mr-3">
+                                                                        <input type="checkbox" class="switch-input">
+                                                                        <span class="switch-label"></span>
+                                                                        <span class="switch-handle"></span>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                            {% endif %}
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -144,7 +163,7 @@
                                     </div>
                                 </div>
                                 <!--Fin Tabla-->
-                                                                                            
+
                                 <!-- Botones -->
                                 <div class="row form-group">
                                     <div class="col col-12">
@@ -153,7 +172,8 @@
                                                 <button type="button" id="btnGuardar" class="btn btn-primary btn-lg">
                                                     <i class="fa fa-dot-circle-o"></i> Guardar
                                                 </button>
-                                                <a href="{{ url_for('registrar_candidatos.index_candidatos') }}" id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <a href="{{ url_for('registrar_candidatos.index_candidatos') }}"
+                                                    id="btnCancelar" class="btn btn-danger btn-lg">
                                                     <i class="fa  fa-arrow-down"></i> Cancelar
                                                 </a>
                                             </div>
@@ -162,7 +182,7 @@
                                     </div>
                                 </div>
                                 <!---->
-                               
+
 
                             </form>
                             <!-- fin del formulario -->
