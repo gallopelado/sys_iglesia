@@ -3,12 +3,14 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 
 # Se importa el modelo.
 from app.Models.ListaCalificadosModel import ListaCalificadosModel
+from app.Models.ListaCandidatoModel import ListaCandidatoModel
 
 # Registrar Blueprint
 cali = Blueprint('registrar_calificados', __name__, template_folder='templates')
 
 # Generar una instancia del modelo.
 calim = ListaCalificadosModel()
+candim = ListaCandidatoModel()
 
 titulo = 'Registrar Lista de Calificados'
 
@@ -21,4 +23,9 @@ def index_calificados():
 @cali.route('/formulario/<int:idpostulacion>', methods=['GET'])
 def revisar(idpostulacion):
     titulo = 'Formulario Evaluación'
-    return render_template('registrar_calificados/formulario.html', titulo=titulo, lista=None, detalle=None)
+    lista = candim.traerListaCandidatos(idpostulacion)
+    isAdmitidos = True if calim.nroAdmitidos(idpostulacion) > 0 else False
+    print(lista)
+    detalle = lista[4] if len(lista[4])>0 else None  
+    print(detalle)
+    return render_template('registrar_calificados/formulario.html', titulo=titulo, lista=lista, detalle=detalle, isAdmitidos=isAdmitidos)
