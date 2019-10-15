@@ -11,7 +11,7 @@ DECLARE
 	array_postulante TEXT[];
 	size_postulante integer;
 	v_postulantes TEXT;
-	nro_vacantes bigint := (SELECT count(*) FROM membresia.candi_detalle cd WHERE cd.post_id = idpostulacion);
+	nro_vacantes bigint := (SELECT SUM(cantidad) FROM membresia.postu_detalle WHERE post_id = idpostulacion);
 
 BEGIN
 	
