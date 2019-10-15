@@ -25,6 +25,10 @@ BEGIN
 	IF f_valido IS NOT TRUE THEN
 		RETURN FALSE;
 	END IF;
+
+	IF membresia.verifica_fechas_postulacion( v_fechainicio, v_fechafin ) IS NOT TRUE THEN
+		RETURN FALSE;
+	END IF;
 	
 	-- En caso de no personalizado, se recibe la opcion nada más.
 	IF v_op != 'personalizado' AND v_fechainicio IS NULL AND v_fechafin IS NULL THEN
