@@ -8,7 +8,7 @@ from app.Models.ListaCandidatoModel import ListaCandidatoModel
 # Registrar Blueprint
 cali = Blueprint('registrar_calificados', __name__, template_folder='templates')
 
-# Generar una instancia del modelo.
+# Generar instancias del modelo.
 calim = ListaCalificadosModel()
 candim = ListaCandidatoModel()
 
