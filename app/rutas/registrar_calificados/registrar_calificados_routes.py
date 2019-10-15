@@ -24,8 +24,30 @@ def index_calificados():
 def revisar(idpostulacion):
     titulo = 'Formulario Evaluación'
     lista = candim.traerListaCandidatos(idpostulacion)
-    isAdmitidos = True if calim.nroAdmitidos(idpostulacion) > 0 else False
-    print(lista)
-    detalle = lista[4] if len(lista[4])>0 else None  
-    print(detalle)
-    return render_template('registrar_calificados/formulario.html', titulo=titulo, lista=lista, detalle=detalle, isAdmitidos=isAdmitidos)
+    isAdmitidos = True if calim.nroAdmitidos(idpostulacion) > 0 else False    
+    detalle = lista[4] if len(lista[4])>0 else None      
+    calificados = calim.verificaCalificados(idpostulacion)
+    return render_template('registrar_calificados/formulario.html', titulo=titulo, lista=lista, detalle=detalle, isAdmitidos=isAdmitidos, calificados=calificados)
+
+
+# Rutas para AJAX
+@cali.route('/traer_perfil_id/<int:idperfil>', methods=['GET'])
+def traerPerfilId(idperfil):
+    res = calim.traerInfoPerfil(idperfil)    
+    return jsonify(res)
+
+
+@cali.route('/guardar_lista', methods=['POST'])
+def guardarLista():
+    print(request.json)
+
+    idpostulacion = request.json['idpostulacion']
+    candidatos = request.json['candidatos']
+
+    if idpostulacion and candidatos:
+        res = calim.guardarCalificados(idpostulacion, candidatos)
+        if res:
+            return jsonify({'estado':True, 'mensaje':'Se ha guardado correctamente'})
+    else:
+        return jsonify({'estado':False, 'error':'Hubo problemas al recibir los datos!'})
+    
