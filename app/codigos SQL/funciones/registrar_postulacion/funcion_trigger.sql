@@ -1,3 +1,6 @@
+SELECT mo_id
+FROM membresia.candi_admitidos
+WHERE post_id = %s AND mo_id = %s;
 CREATE OR REPLACE FUNCTION membresia.proteger_cabepostulacion()
 RETURNS TRIGGER AS
 $$
@@ -25,18 +28,17 @@ BEGIN
 			RETURN NEW;
 		
 		END IF;
-	ELSIF TG_OP = 'UPDATE' THEN
-		
-		--v_fecha_valida := membresia.verifica_fechas_postulacion( OLD.post_iniciopostu, NEW.post_finpostu );
-		v_segunda_posibilidad := membresia.verifica_fechas_postulacion( NEW.post_iniciopostu, NEW.post_finpostu );
-		
-		--IF (v_fecha_valida IS TRUE) OR (v_segunda_posibilidad IS TRUE) THEN
-		IF (v_segunda_posibilidad IS TRUE) THEN			
-		
-			-- Devuelve la estructura grabada NEW.
-			RETURN NEW;
-		
-		END IF;
+	/*ELSIF TG_OP = 'UPDATE' THEN
+							
+			v_segunda_posibilidad := membresia.verifica_fechas_postulacion( NEW.post_iniciopostu, NEW.post_finpostu );
+						
+			IF (v_segunda_posibilidad IS TRUE) THEN			
+			
+				-- Devuelve la estructura grabada NEW.
+				RETURN NEW;
+			
+			END IF;
+	*/	
 	END IF;
 
 	RETURN NULL;
@@ -46,7 +48,7 @@ END; -- Fin del procedimiento.
 $$ LANGUAGE plpgsql;
 -- el disparador.
 CREATE TRIGGER t_insert_cabe_postulacion
-BEFORE INSERT OR UPDATE ON membresia.cabe_postulacion FOR EACH ROW
+BEFORE INSERT ON membresia.cabe_postulacion FOR EACH ROW
 EXECUTE PROCEDURE membresia.proteger_cabepostulacion();
 
 
