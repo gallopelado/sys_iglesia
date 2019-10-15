@@ -142,8 +142,9 @@
                                                             <tr>
                                                                 <td>{{ d['candidato'] }}</td>
                                                                 <td>
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-info">Info</button>
+                                                                    <button type="button" class="btn btn-outline-info"
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalVer">Info</button>
                                                                 </td>
                                                                 <td>
                                                                     <label class="switch switch-3d switch-info mr-3">
@@ -197,6 +198,25 @@
         </div>
     </div>
     <!---->
+
+    <!--Modal ver-->
+    <div class="modal fade" id="modalVer" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Medium Modal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--Fin del modal ver-->
 
 </div>
 <!-- END MAIN CONTENT-->
