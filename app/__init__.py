@@ -50,6 +50,7 @@ from app.rutas.registrar_formulario_perfil.miembro_perfil_routes import perfil
 from app.rutas.registrar_postulacion.postulacion_routes import postu
 from app.rutas.registrar_candidatos.registrar_candidatos_routes import candi
 from app.rutas.registrar_calificados.registrar_calificados_routes import cali
+from app.rutas.registrar_comite.registrar_comite_routes import comi
 
 # Ordena el espaciado en la plantilla HTML
 app.jinja_env.trim_blocks = True
@@ -73,7 +74,9 @@ app.register_blueprint(rutas.registrar_formulario_perfil.miembro_perfil_routes.p
 app.register_blueprint(rutas.registrar_postulacion.postulacion_routes.postu, url_prefix='/membresia/formulario_postulacion')
 app.register_blueprint(rutas.registrar_candidatos.registrar_candidatos_routes.candi, url_prefix='/membresia/registrar_candidatos')
 app.register_blueprint(rutas.registrar_calificados.registrar_calificados_routes.cali, url_prefix='/membresia/registrar_calificados')
+app.register_blueprint(rutas.registrar_comite.registrar_comite_routes.comi, url_prefix='/membresia/registrar_comite')
 
 # Codigo secreto para generar la cookie.
-app.secret_key = "12345"
+#app.secret_key = "12345"
+app.secret_key = os.urandom(16)
 
