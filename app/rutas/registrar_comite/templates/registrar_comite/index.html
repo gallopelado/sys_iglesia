@@ -29,30 +29,46 @@
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
-
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    <a href="{{ url_for('registrar_comite.formulario') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Nueva
+                                    </a>
+                                </div>
+                                <div class="col-md-03 mb-2 ml-2">
+                                    <a href="{{ url_for('registrar_postulacion.frmPostulacion') }}"
+                                        class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                                        <i class="zmdi zmdi-minus"></i> Comités Inactivos
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
 
-                            <table id="tabla_postulaciones" class="table table-borderless table-data3">
+                            <table id="tabla_comite" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
                                         <th>Descripción</th>
-                                        <th>Cantidad de Postulantes</th>
-                                        <th>Estado</th>
+                                        <th>Líder</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_postulaciones">
+                                <tbody id="tb_comite">
                                     {% if lista %}
-                                    {%for item in lista%}
-                                    <tr>
+                                    {% for item in lista %}
+                                    <tr id="{{ item[0] }}">
                                         <td>{{ item[1] }}</td>
-                                        <td>{{ item[3] }}</td>
-                                        <td>{{ item[2]}}</td>
-                                        <td>                                            
-                                            <a class="btn btn-primary btn-sm" href="{{ url_for('registrar_calificados.revisar', idpostulacion=item[0]) }}">Revisar</a>
+                                        <td>{{ item[2] }}</td>
+                                        <td>
+                                            <button type="button" onclick="modificar({{ item[0] }})"
+                                                class="btn btn-primary">Modificar</button>
+                                            <button type="button" onclick="baja({{ item[0] }})"
+                                                class="btn btn-danger">Baja</button>
                                         </td>
                                     </tr>
-                                    {% endfor%}
+                                    {% endfor %}
                                     {% endif %}
                                 </tbody>
                             </table>
@@ -84,8 +100,7 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/principal.js') }}"></script> -->
+<script type='module' src="{{ url_for('static', filename='jsOperacionales/registrar_comite/principal.js') }}"></script>
 
 
 {% endblock %}
