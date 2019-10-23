@@ -10,5 +10,5 @@ class FormularioComite(FlaskForm):
     idsuplente =  HiddenField( id='txt_idsuplente' )
     suplente = StringField('Suplente', id='txt_suplente', validators=[Length(max=64)])
     descripcion = TextAreaField('Descripción', validators=[DataRequired()], id='txt_descripcion')
-    observación = TextAreaField('Observación', id='txt_observacion')  
+    observacion = TextAreaField('Observación', id='txt_observacion')  
      
