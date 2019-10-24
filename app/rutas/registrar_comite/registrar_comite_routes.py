@@ -40,8 +40,7 @@ def formularioModificar(idcomite):
     form.idsuplente.data = datos[4] if datos else ''
     form.suplente.data = datos[5] if datos else ''
     form.descripcion.data = datos[6] if datos else ''
-    form.observacion.data = datos[7] if datos else ''
-    print(datos)    
+    form.observacion.data = datos[7] if datos else ''        
     return render_template('registrar_comite/formulario_comite.html', titulo=tituloForm, form=form, datos=datos)
 
 
@@ -49,10 +48,33 @@ def formularioModificar(idcomite):
 def guardarForm():
     titulo = 'Formulario Comité'
     form = FormularioComite()
-    if form.validate_on_submit():
-        print(request.form)
-        next = request.args.get('next', None)
+    print(request.form)
+    if form.validate_on_submit():        
+        next = request.args.get('next', None)        
         if next:
             return redirect(next)
-        return redirect(url_for('index_comite'))
+        #Recolectar datos del formulario
+        opcion = 'modificar'
+        idministerio = form.idcomite.data
+        idlider = form.idlider.data
+        idsuplente = form.idsuplente.data if form.idsuplente.data else None
+        descripcion = form.descripcion.data        
+        observacion = form.observacion.data
+        # Por el momento el usuario es None
+        creadoporusuario = None
+        res = cm.gestionarComite(opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario)
+        if res == '20100':
+            opcion = 'registrar'
+            res = cm.gestionarComite(opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario)
+        elif res == '20101' or res == '20102':
+            # No existe persona
+            flash('Error. El miembro no esta registrado', 'danger')
+            return render_template('registrar_comite/formulario_comite.html', titulo=titulo, form=form)
+        elif res == '20103':
+            # La descripcion no puede estar vacía
+            flash('Error. La descripción no puede estar vacía', 'danger')
+            return render_template('registrar_comite/formulario_comite.html', titulo=titulo, form=form)
+        # Si no entro al next, va a la pagina principal.
+        return redirect(url_for('registrar_comite.index_comite'))
+    print(form.errors)
     return render_template('registrar_comite/formulario_comite.html', titulo=titulo, form=form)

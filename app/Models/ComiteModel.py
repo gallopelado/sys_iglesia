@@ -74,4 +74,25 @@ class ComiteModel:
                 cur.close()
                 con.close()
 
+
+    def gestionarComite(self, opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario):
+
+        procedimiento = 'CALL membresia.gestionar_comite(%s, %s, %s, %s, %s, %s, %s)'
+        datos = (opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario,)
     
+        try:
+            
+            consulta = Conexion()
+            con = consulta.getConexion()
+            cur = con.cursor()
+            cur.execute(procedimiento, datos)
+            con.commit()
+            return True
+
+        except con.Error as e:
+            print(e.pgerror)
+            return e.pgcode
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

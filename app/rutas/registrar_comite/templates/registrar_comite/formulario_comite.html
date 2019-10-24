@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+{% from 'render_elements.html' import pintar_alerta %}
 
 
 {% block title %}
@@ -36,6 +36,7 @@
 
     <!-- Contenido Principal -->
     <form action="{{ url_for('registrar_comite.guardarForm') }}" method="POST" novalidate>
+        {{ form.csrf_token }}
         <div class="section__content section__content--p30">
             <div class="container-fluid">
 
@@ -60,7 +61,7 @@
 
                                 <!-- Campo comité -->
                                 <div class="row form-group">
-                                    <div class="col col-6">                                        
+                                    <div class="col col-6">
                                         {{ form.idcomite }}
                                         {{ form.comite.label(class='form-control-label form-control-sm') }}
                                         {{ form.comite(class='form-control form-control-sm', placeholder='Escoja un comité') }}
@@ -136,6 +137,9 @@
 
                             </div>
                             <!--Fin card-body-->
+                            <div class="card-footer">
+                                {{ pintar_alerta(messages) }}
+                            </div>
                         </div>
                     </div>
                 </div>
