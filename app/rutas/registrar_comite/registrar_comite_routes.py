@@ -6,6 +6,7 @@ from app.rutas.registrar_comite.formularioComite import FormularioComite
 
 # Importar modelo
 from app.Models.ComiteModel import ComiteModel
+from app.Models.ReferencialModel import ReferencialModel
 
 # Registrar en Blueprint
 comi = Blueprint('registrar_comite', __name__, template_folder='templates')
@@ -32,8 +33,8 @@ def formularioModificar(idcomite):
     # Clase del formulario.
     form = FormularioComite()    
     datos = cm.traerPorId(idcomite)
-    # Setear campos
-    form.idcomite.data = datos[0] if datos else ''
+    # Setear campos    
+    form.idcomite.data = datos[0] if datos else ''    
     form.comite.data = datos[1] if datos else ''
     form.idlider.data = datos[2] if datos else ''
     form.lider.data = datos[3] if datos else ''
@@ -49,6 +50,7 @@ def guardarForm():
     titulo = 'Formulario Comité'
     form = FormularioComite()
     print(request.form)
+    print(form.comite.data)
     if form.validate_on_submit():        
         next = request.args.get('next', None)        
         if next:
@@ -59,13 +61,20 @@ def guardarForm():
         idlider = form.idlider.data
         idsuplente = form.idsuplente.data if form.idsuplente.data else None
         descripcion = form.descripcion.data        
-        observacion = form.observacion.data
+        observacion = form.observacion.data if form.observacion.data else None
         # Por el momento el usuario es None
         creadoporusuario = None
         res = cm.gestionarComite(opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario)
-        if res == '20100':
+        print(res)
+        if res == '20100' or res == '20099':
             opcion = 'registrar'
             res = cm.gestionarComite(opcion, idministerio, idlider, idsuplente, descripcion, observacion, creadoporusuario)
+            if res == True:
+                flash('Se registró exitosamente', 'success')
+                return redirect(url_for('registrar_comite.index_comite'))
+            else:                
+                flash('Hubo un problema al registrar, favor contacte con el Administrador del Sistema.', 'danger')
+                return redirect(url_for('registrar.comite.formulario'))
         elif res == '20101' or res == '20102':
             # No existe persona
             flash('Error. El miembro no esta registrado', 'danger')
@@ -75,6 +84,26 @@ def guardarForm():
             flash('Error. La descripción no puede estar vacía', 'danger')
             return render_template('registrar_comite/formulario_comite.html', titulo=titulo, form=form)
         # Si no entro al next, va a la pagina principal.
-        return redirect(url_for('registrar_comite.index_comite'))
+        elif res == True:
+            flash('Se modificó correctamente', 'success')
+            return redirect(url_for('registrar_comite.formularioModificar', idcomite=idministerio))
+    # Algo salió mal con la validación del formulario.
     print(form.errors)
-    return render_template('registrar_comite/formulario_comite.html', titulo=titulo, form=form)
+    flash('Hubo un problema al validar el formulario, favor contacte con el Administrador del Sistema.', 'danger')
+    return redirect(url_for('registrar_comite.index_comite'))
+
+
+#@comi.route('/modificar_formulario/<int:idcomite>', methods=['PUT'])
+
+# Rutas para AJAX
+@comi.route('/get_ministerios', methods=['GET'])
+def getMinisterios():
+    ref = ReferencialModel()
+    res = jsonify(ref.getReferencialJson('referenciales.ministerios'))
+    return res
+
+
+@comi.route('/get_miembros_perfil', methods=['GET'])
+def getMiembrosPerfil():    
+    res = jsonify(cm.traerMiembrosPerfil())
+    return res

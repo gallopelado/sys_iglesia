@@ -96,3 +96,20 @@ class ComiteModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerMiembrosPerfil(self):
+        funcion = 'membresia.get_miembros_perfil'
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion)
+            return cur.fetchone()[0]            
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

@@ -55,6 +55,15 @@
                                 <div class="card-title">
                                     <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{titulo}}
                                     </h3>
+                                    {% if not datos %}
+                                    <h4 class="text-center title-5">
+                                        <span class="badge badge-success">Nuevo comite</span>
+                                    </h4>
+                                    {% else %}
+                                    <h4 class="text-center title-5">
+                                        <span class="badge badge-warning">Editando registro N° {{ datos[0] }}</span>
+                                    </h4>
+                                    {% endif %}
                                 </div>
 
                                 <hr>
@@ -62,12 +71,21 @@
                                 <!-- Campo comité -->
                                 <div class="row form-group">
                                     <div class="col col-6">
-                                        {{ form.idcomite }}
-                                        {{ form.comite.label(class='form-control-label form-control-sm') }}
-                                        {{ form.comite(class='form-control form-control-sm', placeholder='Escoja un comité') }}
-                                        {% for error in form.comite.errors %}
-                                        <span style="color: red;">Este campo es requerido.</span>
-                                        {% endfor %}
+                                        {% if datos %}
+                                            {{ form.idcomite }}
+                                            {{ form.comite.label(class='form-control-label form-control-sm') }}
+                                            {{ form.comite(class='form-control form-control-sm', placeholder='Escoja un comité', disabled='') }}
+                                            {% for error in form.comite.errors %}
+                                            <span style="color: red;">Este campo es requerido.</span>
+                                            {% endfor %}
+                                        {% else %}
+                                            {{ form.idcomite }}
+                                            {{ form.comite.label(class='form-control-label form-control-sm') }}
+                                            {{ form.comite(class='form-control form-control-sm', placeholder='Escoja un comité') }}
+                                            {% for error in form.comite.errors %}
+                                            <span style="color: red;">Este campo es requerido.</span>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <!---->
@@ -175,8 +193,8 @@
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- JS del formulario -->
-<!-- <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/documentos_miembro/formulario_documentos.js') }}"></script> -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/registrar_comite/formulario.js') }}"></script>
 
 
 {%- endblock %}
