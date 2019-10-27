@@ -93,7 +93,22 @@ def guardarForm():
     return redirect(url_for('registrar_comite.index_comite'))
 
 
-#@comi.route('/modificar_formulario/<int:idcomite>', methods=['PUT'])
+@comi.route('/comites_inactivos')
+def comitesInactivos():
+    titulo = 'Comités Inactivos'
+    lista = cm.traerComitesInactivos()
+    return render_template('registrar_comite/comites_inactivos.html', lista=lista, titulo=titulo)
+
+
+@comi.route('/reactivar_comite/<int:idcomite>', methods=['GET'])
+def reactivarComite(idcomite):
+    res = cm.gestionarComite('reactivar', idcomite, None, None, None, None, None)
+    if res == True:
+        flash('Se ha reactivado exitosamente', 'success')
+        return redirect(url_for('registrar_comite.comitesInactivos'))
+    else:
+        flash('Hubo un problema al intentar reactivar. Favor contacte con el Administrador del sistema', 'danger')
+        return redirect(url_for('registrar_comite.comitesInactivos'))
 
 # Rutas para AJAX
 @comi.route('/get_ministerios', methods=['GET'])
@@ -107,3 +122,14 @@ def getMinisterios():
 def getMiembrosPerfil():    
     res = jsonify(cm.traerMiembrosPerfil())
     return res
+
+
+@comi.route('/dar_baja', methods=['PUT'])
+def darBaja():    
+    idcomite = request.json['id']
+    obs = request.json['obs']
+    res = cm.gestionarComite('baja', idcomite, None, None, None, obs, None)
+    if res:
+        return jsonify({'estado': True, 'mensaje':'Se ha dado de baja con exito.'})
+    else:
+        return jsonify({'estado': False, 'error':'Error al dar de baja'})
