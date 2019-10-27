@@ -113,3 +113,36 @@ class ComiteModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def traerComitesInactivos(self):
+        consultaSQL = '''
+        SELECT
+            c.min_id idcomite
+            , m.min_des descripcion
+            , p.per_nombres ||' '|| p.per_apellidos lider
+        FROM
+            membresia.comites AS c
+        LEFT JOIN 
+            referenciales.ministerios AS m ON c.min_id = m.min_id
+        LEFT JOIN 
+            referenciales.personas AS p ON c.lider_id = p.per_id
+        WHERE
+            c.com_estado IS FALSE        
+        '''
+
+        try:
+            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consultaSQL)
+            return cur.fetchall()
+
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
