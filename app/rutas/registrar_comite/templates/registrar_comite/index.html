@@ -19,7 +19,6 @@
 
     <!-- Contenido principal -->
     <div class="section__content section__content--p30">
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -38,7 +37,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-03 mb-2 ml-2">
-                                    <a href="{{ url_for('registrar_postulacion.frmPostulacion') }}"
+                                    <a href="{{ url_for('registrar_comite.comitesInactivos') }}"
                                         class="au-btn au-btn-icon au-btn--blue au-btn--small">
                                         <i class="zmdi zmdi-minus"></i> Comités Inactivos
                                     </a>
@@ -85,7 +84,54 @@
         </div>
     </div>
     <!---->
+    <!-- modal dar de baja -->
+    <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Desea dar de baja este comite ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmBaja" action="" method="post">
+                    <div class="modal-body">                                                
 
+                        <!-- Radios sobre opciones -->
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                <div class="form-group">
+                                    <label for="" class="form-control-label form-control-sm">Desea dar de baja este comité ?</label>
+                                </div>
+
+                                <hr>
+                                
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
+                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal baja -->
 </div>
 
 <!-- END MAIN CONTENT-->
