@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_obrero.formularioObrero', idcomite=idcomite) }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{titulo}}
+                                </h3>
+                            </div>
+
+                            <hr>
+
+                            <!-- Inicio -->
+                            <form action="" method="POST" novalidate>
+                                {{ form.csrf_token }}
+                                <!-- obrero, fechaingreso y entrenamiento -->
+                                <div class="form-horizontal">
+                                    <div class="row form-group">
+                                        {{ form.idpostulacion }}
+                                        <!--Campo1-->
+                                        <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            {{ form.idobrero }}
+                                            {{ form.obrero.label(class='form-control-label form-control-sm') }}
+                                            {{ form.obrero(class='form-control form-control-sm') }}
+                                            {% for error in form.obrero.errors %}
+                                            <span style="color: red;">Este campo es requerido.</span>
+                                            {% endfor %}
+                                        </div>
+                                        <!--Campo2-->
+                                        <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            {{ form.fechaingreso.label(class='form-control-label form-control-sm') }}
+                                            {{ form.fechaingreso(class='form-control form-control-sm', disabled='') }}
+                                            {% for error in form.fechaingreso.errors %}
+                                            <span style="color: red;">Este campo es requerido.</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <div class="form-group"></div>
+                                            <div class="form-group"></div>
+                                            <div class="form-group"></div>
+                                            <div class="form-check">
+                                                {{ form.entrenamiento(class='form-check-input') }}
+                                                {{ form.entrenamiento.label(class='form-check-label') }}
+                                                {% for error in form.entrenamiento.errors %}
+                                                <span style="color: red;">Este campo es requerido.</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                                            {{ form.observacion.label(class='form-control-label form-control-sm') }}
+                                            {{ form.observacion(class='form-control form-control-sm') }}
+                                        </div>
+                                    </div>
+                                    {{ form.guardar(class='btn btn-primary') }}
+                                </div>
+                                <!---->
+                            </form>
+
+                            <!-- fin  -->
+
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS del formulario -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/registrar_obrero/formulario_datos_obrero.js') }}"></script>
+
+
+{%- endblock %}
