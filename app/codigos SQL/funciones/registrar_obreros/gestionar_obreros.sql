@@ -18,7 +18,7 @@ DECLARE
 	v_motivo_reincorporacion TEXT := TRIM(UPPER(motivo_reincorporacion));
 BEGIN
 	-- Verificar si esta en candi_admitidos.
-	SELECT membresia.verifica_admitido(idpersona, idpostulacion);
+	PERFORM membresia.verifica_admitido(idpersona, idpostulacion);
 	-- Casos
 	CASE opcion
 		WHEN 'registrar' THEN						

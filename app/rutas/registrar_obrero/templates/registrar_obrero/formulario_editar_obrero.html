@@ -55,22 +55,29 @@
                             <hr>
 
                             <!-- Inicio -->
-                            <form action="{{ url_for('registrar_obrero.nuevoObrero') }}" method="POST" novalidate>
+                            <form action="{{ url_for('registrar_obrero.modificarObrero') }}" method="POST" novalidate>
                                 {{ form.csrf_token }}
                                 <!-- obrero, fechaingreso y entrenamiento -->
                                 <div class="form-horizontal">
                                     <div class="row form-group">
-                                        {{ form.idcomite }}                                        
-                                        {{ form.idpostulacion }}
+                                        {{ form.idcomite }}                                                                                
                                         <!--Campo1-->
                                         <div class="col col-sm-12 col-md-12 col-lg-4 col-xl-4">
                                             {{ form.idobrero }}
                                             {{ form.obrero.label(class='form-control-label form-control-sm') }}
-                                            {{ form.obrero(class='form-control form-control-sm') }}
+                                            {{ form.obrero(class='form-control form-control-sm', disabled='') }}
                                             {% for error in form.obrero.errors %}
                                             <span style="color: red;">Este campo es requerido.</span>
                                             {% endfor %}
-                                        </div>                                        
+                                        </div>
+                                        <!--Campo2-->
+                                        <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            {{ form.fechaingreso.label(class='form-control-label form-control-sm') }}
+                                            {{ form.fechaingreso(class='form-control form-control-sm', disabled='') }}
+                                            {% for error in form.fechaingreso.errors %}
+                                            <span style="color: red;">Este campo es requerido.</span>
+                                            {% endfor %}
+                                        </div>
                                         <div class="col col-sm-12 col-md-12 col-lg-3 col-xl-3">
                                             <div class="form-group"></div>
                                             <div class="form-group"></div>
@@ -128,7 +135,7 @@
 
 <!-- JS del formulario -->
 <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/registrar_obrero/formulario_datos_obrero.js') }}"></script>
+    src="{{ url_for('static', filename='jsOperacionales/registrar_obrero/formulario_editar_obrero.js') }}"></script>
 
 
 {%- endblock %}

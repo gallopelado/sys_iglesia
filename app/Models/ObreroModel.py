@@ -51,3 +51,56 @@ class ObreroModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    
+    def procesarObrero(self, opcion, idcomite, idpersona, idpostulacion, entrena, obs, motivo_baja, motivo_reincorporacion, idusuario):
+        procedimiento = 'CALL membresia.gestionar_obreros(%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+        parametros = (opcion, idcomite, idpersona, idpostulacion, entrena, obs, motivo_baja, motivo_reincorporacion, idusuario,)
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(procedimiento, parametros)
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
+    def traerObrerosPorComite(self, idcomite, estado):
+        funcion = 'membresia.traer_obreros_por_comite'
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion, (idcomite, estado))            
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
+    def traerObrerosPorComiteId(self, idcomite, idobrero):
+        funcion = 'membresia.traer_obreros_por_comite_id'
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion, (idcomite,idobrero,))            
+            return cur.fetchall()[0]
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

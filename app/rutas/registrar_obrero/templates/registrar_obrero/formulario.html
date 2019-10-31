@@ -94,8 +94,7 @@
                                     {% endif %}
                                     <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-3">
                                         <label for="" class="form-control-label form-control-sm"></label>
-                                        <button type="button" class="btn btn-primary form-control"
-                                            id="btnDadosBaja">OBREROS DADOS DE BAJA</button>
+                                        <a href="{{ url_for('registrar_obrero.obrerosDadosDeBaja', idcomite=form.idcomite.data, estado=false) }}" class="btn btn-primary form-control">OBREROS DADOS DE BAJA</a>
                                     </div>
                                 </div>
                             </form>
@@ -117,7 +116,26 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tb_detalle">
-
+                                                        {% if lista_obreros %}
+                                                        {% for item in lista_obreros %}
+                                                        <tr id="{{ item[1] }}">
+                                                            <td class="font-weight-bold">{{ item[2] }}</td>
+                                                            <td>{{ item[3] }}</td>
+                                                            <td>
+                                                                {% if item[4]=='SI' %}
+                                                                <span class="role admin">{{item[4]}}</span>
+                                                                {% else %}
+                                                                {{item[4]}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>{{ item[5] }}</td>
+                                                            <td>
+                                                                <button type="button" id="btnModificar" onclick="modificar('{{ item[0] }}', '{{ item[1] }}')" class="btn btn-primary">Modificar</button>                                                                  
+                                                                <button type="button" id="btnBaja" onclick="baja('{{ item[0] }}', '{{ item[1] }}')" class="btn btn-danger">Baja</button>                                                                
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -130,6 +148,9 @@
 
                         </div>
                         <!--Fin card-body-->
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +159,54 @@
         </div>
     </div>
     <!---->
+    <!-- modal dar de baja -->
+    <div class="modal fade" id="modal_baja" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediumModalLabel">Desea dar de baja este comite ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmBaja" action="" method="post">
+                    <div class="modal-body">                                                
 
+                        <!-- Radios sobre opciones -->
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                <div class="form-group">
+                                    <label for="" class="form-control-label form-control-sm">Desea dar de baja este registro ?</label>
+                                </div>
+
+                                <hr>
+                                
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+
+                            <div class="col col-12">
+
+                                {{ pintar_textarea("Observacion", '', "txtobs", "txtobs", "30", "10", '') }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btnProceder" class="btn btn-success">Proceder</button>
+                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end modal baja -->
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
@@ -155,8 +223,8 @@
 <script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
 
 <!-- JS del formulario -->
-<!-- <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/formulario.js') }}"></script> -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/registrar_obrero/formulario.js') }}"></script>
 
 
 {%- endblock %}

@@ -13,9 +13,10 @@ class FormAgregar(FlaskForm):
 
 class FormDatosObrero(FlaskForm):
     idpostulacion = HiddenField(validators=[DataRequired()])
+    idcomite =  HiddenField( validators=[DataRequired(), Length(min=1)], id='txt_idcomite' )
     idobrero = HiddenField(validators=[DataRequired(), Length(min=1)])
-    obrero = StringField('Obrero', validators=[DataRequired()])
-    fechaingreso = DateField('Fecha de ingreso', validators=[DataRequired()])
+    obrero = StringField('Obrero', validators=[DataRequired(), Length(min=1,max=100)])
+    fechaingreso = StringField('Fecha de ingreso')
     entrenamiento = BooleanField('En entrenamiento')
-    observacion = StringField('Observación')
+    observacion = StringField('Observación', validators=[Length(max=100)])
     guardar = SubmitField('Guardar')
