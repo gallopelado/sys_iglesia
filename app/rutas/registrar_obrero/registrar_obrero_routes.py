@@ -116,6 +116,22 @@ def obrerosDadosDeBaja(idcomite, estado):
         flash('Error al traer datos', 'warning')
         return render_template('registrar_obrero/obreros_baja.html')
 
+
+@ob.route('/reincorporar_obrero', methods=['PUT'])
+def reincorporarObrero():
+    idcomite = request.json['idcomite']
+    idobrero = request.json['idobrero']
+    motivo = request.json['motivo']
+    ListaAdmitidos = obm.traerPostulacionesProcesadasPorMinisterio(idcomite)[0]
+    res = obm.procesarObrero('reincorporar', idcomite, idobrero, ListaAdmitidos[0], None, None, None, motivo, None)
+    if res == True:
+        flash('Se reincorporo el registro', 'success')
+        return jsonify({'estado':True, 'mensaje':'Se reincorporo el registro con exito'})
+    else:
+        flash('Hubo un problema al reincorporar', 'danger')
+        return jsonify({'estado':False, 'error':res})
+
+
 # Rutas para ajax
 @ob.route('/traer_calificados/<int:idpostulacion>', methods=['GET'])
 def traerCalificados(idpostulacion):
