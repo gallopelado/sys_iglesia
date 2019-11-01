@@ -145,3 +145,20 @@ class MiembroOficialModel():
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def listarTodosMiembros(self):
+        funcion = 'membresia.get_miembro_admision'
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion)
+            return cur.fetchone()
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
