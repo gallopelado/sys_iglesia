@@ -262,14 +262,14 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                                 <li class="has-sub">
                                     <a href="#" class="js-arrow">Gestionar informes de Mantenimiento y Seguridad</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
+                                        <li>
+                                            <a href="{{ url_for('mantenimiento_seguridad.listarTodasPersonas') }}">Listar todas las personas</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="js-arrow">Gestionar informes de Membresía</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
-                                        <li>
-                                            <a href="#">Listar todos los miembros activos</a>
-                                        </li>
-                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#">Gestionar informes de Actividades</a>
