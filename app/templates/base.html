@@ -214,39 +214,70 @@
                                     <a href="{{ url_for('registrar_requisitos_miembro.index_miembrorequisitos') }}">Registrar
                                         requisitos para miembros</a>
                                 </li>
-                                    <li><a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}">Registrar formulario de Miembro Oficial</a>
-                                </li>                                
-                                <li>
-                                    <a href="{{ url_for('registrar_formulario_perfil.index_perfil') }}">Registrar perfil de candidatos</a>
+                                <li><a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}">Registrar
+                                        formulario de Miembro Oficial</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_postulacion.index_postulacion') }}">Registrar Postulación</a>
+                                    <a href="{{ url_for('registrar_formulario_perfil.index_perfil') }}">Registrar perfil
+                                        de candidatos</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_candidatos.index_candidatos') }}">Registrar lista de Candidatos por Postulación</a>
+                                    <a href="{{ url_for('registrar_postulacion.index_postulacion') }}">Registrar
+                                        Postulación</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_calificados.index_calificados') }}">Registrar lista de Calificados</a>
+                                    <a href="{{ url_for('registrar_candidatos.index_candidatos') }}">Registrar lista de
+                                        Candidatos por Postulación</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url_for('registrar_calificados.index_calificados') }}">Registrar lista
+                                        de Calificados</a>
                                 </li>
                                 <li>
                                     <a href="{{ url_for('registrar_comite.index_comite') }}">Registrar Comités</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_obrero.index_obrero') }}">Registrar Obreros a Comité</a>
+                                    <a href="{{ url_for('registrar_obrero.index_obrero') }}">Registrar Obreros a
+                                        Comité</a>
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <!-- Lista módulo actividades -->
                         <li>
-                            <a href="table.html">
+                            <a href="#">
                                 <i class="fas fa-table"></i>Gestionar Actividades</a>
                         </li>
-                        
+
                         <!-- Lista módulo cursos -->
                         <li>
-                            <a href="table.html">
+                            <a href="#">
                                 <i class="fas fa-table"></i>Gestionar Cursos</a>
+                        </li>
+                        <!-- Lista módulo informes -->
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Informes
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                                <li class="has-sub">
+                                    <a href="#" class="js-arrow">Gestionar informes de Mantenimiento y Seguridad</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="js-arrow">Gestionar informes de Membresía</a>
+                                    <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
+                                        <li>
+                                            <a href="#">Listar todos los miembros activos</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Gestionar informes de Actividades</a>
+                                </li>
+                                <li>
+                                    <a href="#">Gestionar informes de Cursos</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
