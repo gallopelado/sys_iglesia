@@ -13,6 +13,7 @@ ms = Blueprint('mantenimiento_seguridad', __name__, template_folder='templates')
 localtime = time.localtime(time.time())
 fecha_actual = f'{localtime.tm_mday}-{localtime.tm_mon}-{localtime.tm_year}'
 
+# Referenciales
 @ms.route('/')
 def listarTodasPersonas():
     titulo = 'Reporte:Listar todas las personas'
