@@ -54,7 +54,12 @@ from app.rutas.registrar_comite.registrar_comite_routes import comi
 from app.rutas.registrar_obrero.registrar_obrero_routes import ob
 
 # modulos de informes
+# Instancia de informes para Mantenimiento y Seguridad
 from app.rutas.gestionar_informes.mantenimiento_seguridad.mantenimiento_seguridad_routes import ms
+# Instancia de informes para Membresía
+from app.rutas.gestionar_informes.membresia.membresia_routes import minf
+# Instancia de informes para Actividades
+# Instancia de informes para Cursos
 
 # Ordena el espaciado en la plantilla HTML
 app.jinja_env.trim_blocks = True
@@ -83,6 +88,7 @@ app.register_blueprint(ob, url_prefix='/membresia/registrar_obrero')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
+app.register_blueprint(minf, url_prefix='/informes/membresia')
 
 # Codigo secreto para generar la cookie.
 #app.secret_key = "12345"
