@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="invoice.css" media="print" rel="stylesheet">
+    <title>{{titulo}}</title>
+    <meta name="description" content="Invoice demo sample">
+    <meta name="author" content="Juan">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/invoice.css') }}"/>
+  </head>
+
+  <body>
+    <h1>SYS IGLESIA</h1>
+
+    <aside>
+      <address id="from">
+        Esta en algún lugar
+        entre una calle
+        y la vereda del vecino
+        Villa Elisa
+      </address>
+
+      <address id="to">
+        {{mensaje}}
+      </address>
+    </aside>
+
+    <dl id="informations">
+      <dt>Telefono</dt>
+      <dd>12345</dd>
+      <dt>Día</dt>
+      <dd>{{fecha_actual}}</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <th>Descripcion</th>
+        <th>Tipo</th>
+        <th>Estado</th>        
+      </thead>
+      <tbody>
+        {% if items %}
+        {% for item in items %}
+        <tr>
+        <td>{{ item[2] }} {{ item[3] }}</td>
+        <td>{{ item[5] }}</td>
+        <td>{{ item[9] }}</td>
+        {% endfor %}
+        {% endif %}        
+      </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
