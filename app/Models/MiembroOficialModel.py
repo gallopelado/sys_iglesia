@@ -162,3 +162,22 @@ class MiembroOficialModel():
             if con is not None:
                 cur.close()
                 con.close()
+
+
+# Para los reportes
+    def listarMiembrosReport(self, fechadesde, fechahasta, requisito, sexo, civil, mes):
+        funcion = 'membresia.reporte_listar_miembrosoficiales'
+        parametros = (fechadesde, fechahasta, requisito, sexo, civil, mes,)
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion, parametros)
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+            return False
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

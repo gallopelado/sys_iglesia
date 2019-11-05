@@ -1,4 +1,4 @@
-import os
+import os,time
 from werkzeug.utils import secure_filename
 
 def limpiar_campo(palabra):
@@ -48,10 +48,10 @@ def guardarDocumento(peticion, clave, app, claveconfig):
 
     return False            
 
-def recuperaDocumento():
-    """Funcion recuperaDocumento.
-
-    Recupera ruta del fichero guardado.
-
-    """
-    pass
+def fechaActual():
+    '''fechaActual.
+    Retorna la fecha del sistema.
+    '''
+    localtime = time.localtime(time.time())
+    fecha_actual = f'{localtime.tm_mday}-{localtime.tm_mon}-{localtime.tm_year}'
+    return fecha_actual

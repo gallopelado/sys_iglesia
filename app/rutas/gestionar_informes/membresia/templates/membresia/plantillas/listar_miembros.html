@@ -34,17 +34,25 @@
 
     <table>
       <thead>
-        <th>Descripcion</th>
-        <th>Tipo</th>
-        <th>Estado</th>        
+        <th>Miembro</th>
+        <th>Sexo</th>
+        <th>Estado Civil</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Inicio de Membresía</th>
+        <th>Estado</th>
+        <th>Requisito Cumplido</th>        
       </thead>
       <tbody>
         {% if items %}
         {% for item in items %}
         <tr>
-        <td>{{ item[2] }} {{ item[3] }}</td>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>{{ item[4] }}</td>
         <td>{{ item[5] }}</td>
-        <td>{{ item[9] }}</td>
+        <td>{{ item[6] }}</td>
+        <td>{{ item[8] }}</td>
         {% endfor %}
         {% endif %}        
       </tr>

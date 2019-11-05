@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <strong>Generar</strong> PDF
                         </div>
-                        <form action="" method="post" class="form-horizontal">
+                        <form action="{{ url_for('membresia.listarMiembrosActivosPdf') }}" method="post" class="form-horizontal">
                             <div class="card-body card-block">
                                 {{ form.csrf_token }}
                                 <div class="row form-group">
