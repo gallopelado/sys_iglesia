@@ -29,5 +29,5 @@ class FormGenerar(FlaskForm):
     razonalta = SelectField('Razón de alta', choices=[('', 'Seleccionar'), ('BAUTISMO','BAUTISMO'), ('RECOMENDACION','RECOMENDACION'), ('TESTIMONIO','TESTIMONIO')], default='')
     ecivil = RadioField('Estado Civil', choices=[('','Ninguno'), ('SOLTERO/A','SOLTERO/A'), ('CASADO/A','CASADO/A'),('CONCUBINATO','CONCUBINATO')], default='')
     sexo = RadioField('Sexo', choices=[('', 'Ninguno'), ('MASCULINO','MASCULINO'), ('FEMENINO','FEMENINO')], default='')
-    cumplemes = SelectField('Cumple años en', choices=[('','Seleccionar'),('1','ENERO'),('2','FEBRERO'),('3','MARZO'),('4','ABRIL'),('5','MAYO'),('6','JUNIO'),('7','JULIO'),('8','AGOSTO'),('9','SEPTIEMBRE'),('10','OCTUBRE'),('11','NOVIEMBRE'),('12','DICIEMBRE')], default='')
+    cumplemes = SelectField('Cumple años en', choices=[('','Seleccionar'),('ENERO','ENERO'),('FEBRERO','FEBRERO'),('MARZO','MARZO'),('ABRIL','ABRIL'),('MAYO','MAYO'),('JUNIO','JUNIO'),('JULIO','JULIO'),('AGOSTO','AGOSTO'),('SEPTIEMBRE','SEPTIEMBRE'),('OCTUBRE','OCTUBRE'),('NOVIEMBRE','NOVIEMBRE'),('DICIEMBRE','DICIEMBRE')], default='')
     generar = SubmitField('GENERAR')
