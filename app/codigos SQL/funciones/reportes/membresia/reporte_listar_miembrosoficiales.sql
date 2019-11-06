@@ -56,7 +56,7 @@ $$
 			END
 			AND
 			CASE WHEN mes IS NOT NULL THEN
-				trae_mes(admi.adp_fechanac) = mes
+				trae_mes(admi.adp_fechanac) = UPPER(mes)
 			ELSE
 				TRUE
 			END;
