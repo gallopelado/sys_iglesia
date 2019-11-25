@@ -11,11 +11,12 @@ declare
 		LEFT JOIN referenciales.plazos USING(plaz_id)
 		LEFT JOIN referenciales.ministerios USING(min_id);
 	--v_lugar varchar := 'SALON PRINCIPAL';
-	v_lugar varchar := 'RANCHO ALEGRE';
-	v_fechainicio date := '2019-07-15';
+	--v_lugar varchar := 'RANCHO ALEGRE';
+	v_lugar varchar := 'OFICINA PASTORAL';
+	v_fechainicio date := '2019-07-22';
 	v_horainicio time := '16:00';
 	
-	v_fechafin date := '2019-07-16';
+	v_fechafin date := '2019-07-25';
 	v_horafin time := '15:00';
 begin
 	-- Recorrer conjunto de datos.
@@ -57,13 +58,14 @@ begin
 					raise exception 'Ya esta reservada una actividad en estas fechas y horas';
 				elsif v_fechainicio > item.act_fechainicio and v_fechafin > item.act_fechafin then
 					raise notice 'Registrando actividad mas_dias__01';
-				elsif v_fechainicio < item.act_fechainicio and v_fechafin < item.act_fechafin then
+				elsif v_fechainicio < item.act_fechainicio and v_fechafin < item.act_fechafin and v_fechafin < item.act_fechainicio then
 					raise notice 'Registrando actividad mas_dias__02';
 				else
 					raise exception 'Existe una reserva activa';
 				end if;
 			end if;
-			
+		else --Cuando no es el mismo lugar
+			raise notice 'Realizar insert de actividad cuando no coincide el lugar';
 		end if;--if principal
 	end loop;--fin del ciclo for	
 	
