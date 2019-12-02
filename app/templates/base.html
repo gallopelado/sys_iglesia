@@ -244,9 +244,15 @@
                         </li>
 
                         <!-- Lista módulo actividades -->
-                        <li>
-                            <a href="#">
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
                                 <i class="fas fa-table"></i>Gestionar Actividades</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                                <li>
+                                    <a href="{{ url_for('actividades_anuales.index_acti_anuales') }}">Registrar
+                                        actividades anuales de la organizacion</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <!-- Lista módulo cursos -->
@@ -264,7 +270,8 @@
                                     <a href="#" class="js-arrow">Gestionar informes de Mantenimiento y Seguridad</a>
                                     <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
                                         <li>
-                                            <a href="{{ url_for('mantenimiento_seguridad.listarTodasPersonas') }}">Listar todas las personas</a>
+                                            <a href="{{ url_for('mantenimiento_seguridad.listarTodasPersonas') }}">Listar
+                                                todas las personas</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -272,7 +279,8 @@
                                     <a href="#" class="js-arrow">Gestionar informes de Membresía</a>
                                     <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
                                         <li>
-                                            <a href="{{ url_for('membresia.listarMiembrosActivos') }}">Listar miembros oficiales</a>
+                                            <a href="{{ url_for('membresia.listarMiembrosActivos') }}">Listar miembros
+                                                oficiales</a>
                                         </li>
                                     </ul>
                                 </li>
