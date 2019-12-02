@@ -53,6 +53,9 @@ from app.rutas.registrar_calificados.registrar_calificados_routes import cali
 from app.rutas.registrar_comite.registrar_comite_routes import comi
 from app.rutas.registrar_obrero.registrar_obrero_routes import ob
 
+# Modulos de actividades
+from app.rutas.gestionar_actividades.registrar_actividades_anuales.actividades_anuales_routes import acan
+
 # modulos de informes
 # Instancia de informes para Mantenimiento y Seguridad
 from app.rutas.gestionar_informes.mantenimiento_seguridad.mantenimiento_seguridad_routes import ms
@@ -85,6 +88,10 @@ app.register_blueprint(rutas.registrar_candidatos.registrar_candidatos_routes.ca
 app.register_blueprint(rutas.registrar_calificados.registrar_calificados_routes.cali, url_prefix='/membresia/registrar_calificados')
 app.register_blueprint(rutas.registrar_comite.registrar_comite_routes.comi, url_prefix='/membresia/registrar_comite')
 app.register_blueprint(ob, url_prefix='/membresia/registrar_obrero')
+
+# Rutas del modulo actividades
+modulo2 = '/actividades'
+app.register_blueprint(acan, url_prefix=f'{modulo2}/registrar_actividades_anuales')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
