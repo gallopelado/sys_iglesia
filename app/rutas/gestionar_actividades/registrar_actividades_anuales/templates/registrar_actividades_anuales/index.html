@@ -29,40 +29,42 @@
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
-                       
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-md-03 mb-2">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-md dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Opciones
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#"
-                                                onclick="cargarTabla('ABIERTA')">Postulaciones Abiertas</a>
-                                            <a class="dropdown-item" href="#"
-                                                onclick="cargarTabla('CERRADA')">Postulaciones Cerradas</a>
-                                            <a class="dropdown-item" href="#"
-                                                onclick="cargarTabla('ANULADA')">Anuladas</a>                                            
-                                        </div>
-                                    </div>
+                            <div class="row form-group">
+                                
+                                <div class="col-12 col-md-3">
+                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">                                                                                                                                                            
+                                        {% if anhos %}
+                                        {% for a in anhos %}
+                                        {% if a[2]==True %}
+                                        <option value="{{ a[0] }}" selected>{{ a[1] }} - Activo</option>
+                                        {% else %}
+                                        <option value="{{ a[0] }}">{{ a[1] }}</option>
+                                        {%endif%}
+                                        {% endfor%}
+                                        {% endif %}
+                                </select>
                                 </div>
-                            </div>
+                                <div class="col-md-6">
+                                    <a href="" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Registrar Nueva Actividad
+                                    </a>                                    
+                                </div>
+                            </div>                            
                         </div>
 
                         <div class="card-body">
 
-                            <table id="tabla_postulaciones" class="table table-borderless table-data3">
+                            <table id="tabla_actividades" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
-                                        <th>Descripción</th>
-                                        <th>Estado</th>
+                                        <th>Actividad</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_postulaciones">                                   
+                                <tbody id="tb_actividades">
                                 </tbody>
                             </table>
 
@@ -93,8 +95,8 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
 <!-- Controlador -->
-<script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/principal.js') }}"></script>
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/principal.js') }}"></script> -->
 
 
 {% endblock %}
