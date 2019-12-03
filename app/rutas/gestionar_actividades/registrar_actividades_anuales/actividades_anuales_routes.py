@@ -12,3 +12,10 @@ actim = ActividadAnualModel()
 def index_acti_anuales():
     lista = actim.obtenerAnho()
     return render_template('registrar_actividades_anuales/index.html', titulo=titulo, anhos=lista)
+
+
+## Funciones para AJAX
+@acan.route('/get_actividades_json/<int:anho>')
+def get_actividades_json(anho): 
+    res = actim.obtenerActividadesJson(anho)       
+    return jsonify(res)
