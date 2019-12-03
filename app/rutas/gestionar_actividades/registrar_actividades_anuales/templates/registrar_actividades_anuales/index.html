@@ -30,16 +30,15 @@
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row form-group">
-                                
+                            <div class="row form-group">                                
                                 <div class="col-12 col-md-3">
-                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">                                                                                                                                                            
+                                    <select name="cbm_anho" id="cbm_anho" class="form-control-sm form-control">                                                                                                                                                            
                                         {% if anhos %}
                                         {% for a in anhos %}
                                         {% if a[2]==True %}
-                                        <option value="{{ a[0] }}" selected>{{ a[1] }} - Activo</option>
+                                        <option value="{{ a[1] }}" selected>{{ a[1] }} - Activo</option>
                                         {% else %}
-                                        <option value="{{ a[0] }}">{{ a[1] }}</option>
+                                        <option value="{{ a[1] }}">{{ a[1] }}</option>
                                         {%endif%}
                                         {% endfor%}
                                         {% endif %}
@@ -54,7 +53,6 @@
                         </div>
 
                         <div class="card-body">
-
                             <table id="tabla_actividades" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
@@ -95,8 +93,8 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/registrar_candidatos/principal.js') }}"></script> -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/actividades_anuales/index.js') }}"></script>
 
 
 {% endblock %}
