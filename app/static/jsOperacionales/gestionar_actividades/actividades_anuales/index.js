@@ -20,8 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const botonModificar = `<a href="" class="btn btn-sm btn-primary">Modificar</a>`;
         const botonEliminar = `<a href="" class="btn btn-sm btn-danger">Eliminar</a>`;
         let datos = '';
-        const lista_acti = await getActividades();
-        console.log(lista_acti);
+        const lista_acti = await getActividades();        
         for(let d of lista_acti) {
             datos += `
                 <tr>
@@ -37,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         tbody.innerHTML = datos;
+    }
+
+    window.nuevaActividad = () => {
+        const idanho = document.getElementById('cbm_anho').value;
+        location.href = `/actividades/registrar_actividades_anuales/form_actividad/${idanho}`;
     }
 
     cargarTabla();

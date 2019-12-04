@@ -2,6 +2,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 # Importar modelos
 from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
+# Clase del formulario
+from app.rutas.gestionar_actividades.registrar_actividades_anuales.formularios import FormAgregar
 # Registrar módulo
 # acan -- actividad anual
 acan = Blueprint('actividades_anuales', __name__, template_folder='templates')
@@ -12,6 +14,17 @@ actim = ActividadAnualModel()
 def index_acti_anuales():
     lista = actim.obtenerAnho()
     return render_template('registrar_actividades_anuales/index.html', titulo=titulo, anhos=lista)
+
+
+@acan.route('/form_actividad/<int:idanho>', methods=['GET'])
+def mostrarFormulario(idanho):
+    form = FormAgregar()
+    form.anho.data = idanho 
+    form.evento.choices = []
+    form.comite.choices = []
+    form.lugar.choices = []
+    #form.fechainicio
+    return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
 
 
 ## Funciones para AJAX
