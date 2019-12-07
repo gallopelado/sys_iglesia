@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 # Importar modelos
 from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
+from app.Models.ReferencialModel import ReferencialModel
 # Clase del formulario
 from app.rutas.gestionar_actividades.registrar_actividades_anuales.formularios import FormAgregar
 # Registrar módulo
@@ -19,11 +20,14 @@ def index_acti_anuales():
 @acan.route('/form_actividad/<int:idanho>', methods=['GET'])
 def mostrarFormulario(idanho):
     form = FormAgregar()
+    refm = ReferencialModel()
+    
     form.anho.data = idanho 
-    form.evento.choices = []
-    form.comite.choices = []
-    form.lugar.choices = []
-    #form.fechainicio
+    form.evento.choices = refm.getAll('referenciales.eventos')
+    form.comite.choices = refm.getAll('referenciales.ministerios')
+    form.lugar.choices = refm.getAll('referenciales.lugares')
+    form.plazo.choices = refm.getAll('referenciales.plazos')
+    
     return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
 
 
