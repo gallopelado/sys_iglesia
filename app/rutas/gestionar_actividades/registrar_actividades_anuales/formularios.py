@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField, TextAreaField, SelectField, DateField, BooleanField, TimeField 
+from wtforms import StringField, SubmitField, HiddenField, TextAreaField, SelectField, BooleanField 
+from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import DataRequired, Length
 
 class FormAgregar(FlaskForm):    
