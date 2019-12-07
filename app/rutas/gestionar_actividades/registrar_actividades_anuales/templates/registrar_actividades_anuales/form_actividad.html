@@ -43,7 +43,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}"
+                            <a href="{{ url_for('actividades_anuales.index_acti_anuales') }}"
                                 class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
@@ -74,6 +74,11 @@
                                         <span class="help-block">Error en el evento</span>
                                         {% endfor %}
                                     </div>
+                                    <div class="col col-md-3">
+                                        <button type="button" id="btAgregaEvento" class="btn btn-primary btn-sm">
+                                            <i class="fa  fa-plus-square"></i> Nuevo Evento
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
@@ -93,14 +98,90 @@
                                     <div class="col-5 col-md-5">
                                         {{ form.lugar(class='form-control form-control-sm') }}
                                         {% for error in form.lugar.errors %}
-                                        <span class="help-block">Error en el evento</span>
+                                        <span class="help-block">Error en el lugar</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-3">
+                                            <button type="button" id="btAgregaLugar" class="btn btn-primary btn-sm">
+                                                <i class="fa  fa-plus-square"></i> Nuevo Lugar
+                                            </button>
+                                        </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.fechainicio.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.fechainicio(class='form-control form-control-sm') }}
+                                        {% for error in form.fechainicio.errors %}
+                                        <span class="help-block">Error en la fecha</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        {{ form.horainicio.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        {{ form.horainicio(class='form-control form-control-sm') }}
+                                        {% for error in form.horainicio.errors %}
+                                        <span class="help-block">Error en la hora de inicio</span>
                                         {% endfor %}
                                     </div>
                                 </div>
-                                
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.fechafin.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.fechafin(class='form-control form-control-sm') }}
+                                        {% for error in form.fechafin.errors %}
+                                        <span class="help-block">Error en la fecha final</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        {{ form.horafin.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        {{ form.horafin(class='form-control form-control-sm') }}
+                                        {% for error in form.horafin.errors %}
+                                        <span class="help-block">Error en la hora final</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.plazo.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.plazo(class='form-control form-control-sm') }}
+                                        {% for error in form.plazo.errors %}
+                                        <span class="help-block">Error en el plazo</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.repite.label(class='form-control-label') }}
+                                        {{ form.repite(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.obs.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-5 col-md-5">
+                                        {{ form.obs(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         <!--Fin card-body-->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Registrar
+                            </button>
+                            <button type="reset" class="btn btn-danger btn-sm">
+                                <i class="fa fa-ban"></i> Limpiar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
