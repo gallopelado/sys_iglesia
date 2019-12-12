@@ -46,9 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.nuevaActividad = () => {
-        const idanho = document.getElementById('cbm_anho').value;
-        location.href = `/actividades/registrar_actividades_anuales/form_actividad/${idanho}`;
+    window.nuevaActividad = async() => {
+        const anho = document.getElementById('cbm_anho').value;        
+        // Si el año es el actual o adelantado, permitir al formulario. Si no, avisar.
+        const res = await verificaAnho(anho);        
+        if (res) {
+            location.href = `/actividades/registrar_actividades_anuales/form_actividad/${anho}`;
+        } else {
+            alert('Ese año no esta activo. Informe al administrador');
+        }
+    }
+
+    const verificaAnho = async(anho) => {
+        try {
+            const res = await fetch(`/actividades/registrar_actividades_anuales/verificarAnho/${anho}`)
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     cargarTabla(anho);
