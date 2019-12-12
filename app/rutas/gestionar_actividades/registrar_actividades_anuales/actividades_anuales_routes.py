@@ -36,3 +36,15 @@ def mostrarFormulario(idanho):
 def get_actividades_json(anho): 
     res = actim.obtenerActividadesJson(anho)       
     return jsonify(res)
+
+
+@acan.route('/verificarAnho/<int:anho>')
+def verificarAnho(anho):
+    res = actim.verificarAnho(anho) if True else False
+    return jsonify(res)
+
+
+@acan.route('/verificarAnhoFuturo/<int:anho>')
+def verificarAnhoFuturo(anho):
+    res = actim.verificarAnhoFuturo(anho)
+    return jsonify(res)
