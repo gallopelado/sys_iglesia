@@ -42,3 +42,41 @@
 {{value}}
 </textarea>
 {% endmacro %}
+
+{% macro modal_referencial_simple(idexterno, tituloModal, idcampo, placeholder, idboton, nombreboton, idformulario='') %}
+<!-- modal {{tituloModal}} -->
+<div class="modal fade" id="{{idexterno}}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="mediumModalLabel">Formulario {{tituloModal}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="{{idformulario}}" action="" method="post">
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group has-success">
+                            <label for="Descripción" class="control-label mb-1">Descripción</label>
+                            <input name="{{idcampo}}" id="{{idcampo}}" type="text"
+                                class="input-sm form-control-sm form-control" placeholder="Escriba {{placeholder}}..."
+                                required autofocus>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="{{idboton}}" class="btn btn-success">Guardar {{nombreboton}}</button>
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<!-- end modal {{tituloModal}} -->
+{% endmacro %}
