@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+{% from 'render_elements.html' import pintar_alerta, modal_referencial_simple, pintar_textarea %}
 
 
 {% block title %}
@@ -191,7 +191,8 @@
         </div>
     </div>
     <!---->
-
+    {{modal_referencial_simple('modalEvento', 'Nuevo Evento', 'txt_evento', 'evento', 'btnevento', 'evento')}}
+    {{modal_referencial_simple('modalLugar', 'Nuevo Lugar', 'txt_lugar', 'lugar', 'btnlugar', 'lugar')}}
 </div>
 <!-- END MAIN CONTENT-->
 <!-- END PAGE CONTAINER-->
