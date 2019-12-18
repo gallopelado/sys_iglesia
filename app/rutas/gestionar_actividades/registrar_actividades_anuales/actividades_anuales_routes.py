@@ -17,19 +17,21 @@ def index_acti_anuales():
     return render_template('registrar_actividades_anuales/index.html', titulo=titulo, anhos=lista)
 
 
-@acan.route('/form_actividad/<int:idanho>', methods=['GET'])
-def mostrarFormulario(idanho):
-    form = FormAgregar()
-    refm = ReferencialModel()
-    
-    form.anho.data = idanho 
-    form.evento.choices = refm.getAll('referenciales.eventos')
-    form.comite.choices = refm.getAll('referenciales.ministerios')
-    form.lugar.choices = refm.getAll('referenciales.lugares')
-    form.plazo.choices = refm.getAll('referenciales.plazos')
-    
-    return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
+@acan.route('/form_actividad/<int:anho>', methods=['GET'])
+def mostrarFormulario(anho):
+    if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnhoFuturo(anho):
+        form = FormAgregar()
+        refm = ReferencialModel()
+        
+        form.anho.data = anho 
+        form.evento.choices = refm.getAll('referenciales.eventos')
+        form.comite.choices = refm.getAll('referenciales.ministerios')
+        form.lugar.choices = refm.getAll('referenciales.lugares')
+        form.plazo.choices = refm.getAll('referenciales.plazos')
+        
+        return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
 
+    return render_template('registrar_actividades_anuales/error_anho.html', titulo='El año no es válido')
 
 ## Funciones para AJAX
 @acan.route('/get_actividades_json/<int:anho>')
