@@ -19,7 +19,7 @@ def index_acti_anuales():
 
 @acan.route('/form_actividad/<int:anho>', methods=['GET'])
 def mostrarFormulario(anho):
-    if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnhoFuturo(anho):
+    if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnho(anho):
         form = FormAgregar()
         refm = ReferencialModel()
         
