@@ -1,6 +1,6 @@
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask
+from flask import Flask, render_template
 from app.Models.PostulacionModel import PostulacionModel
 
 # Se importan las rutas de recursos.
@@ -21,6 +21,12 @@ sched.start()
 
 # Se inicia una instancia de Flask
 app = Flask(__name__)
+# En caso de error 404
+# En caso de que el usuario quiere manipular url no valida
+@app.errorhandler(404)
+def handle_bad_request(e):
+    #return 'Epa!..bad request!. No existe esta ruta churro.', 400
+    return render_template('errores/error404/templates/error404/index.html'), 404
 
 # Definimos rutas estaticas.
 app.config['FORM_ADICIONAL_IMAGENES'] = RUTA_IMAGENES_FORM_ADICIONALES
