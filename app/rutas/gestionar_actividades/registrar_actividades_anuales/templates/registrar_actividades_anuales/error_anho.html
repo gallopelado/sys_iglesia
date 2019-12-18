@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="alert alert-warning" role="alert">
+                                <h4 class="alert-heading">Estas intentando algo que no se puede :-(</h4>
+                                <p>Parece que el año ingresado es incorrecto, favor vuelve a la página de inicio, o consulta
+                                    con el guapo y sensual Administrador de Sistemas :-D
+                                </p>
+                                <hr>
+                                <p class="mb-0">No te preocupes, no es tu culpa</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
