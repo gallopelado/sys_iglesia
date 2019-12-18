@@ -72,3 +72,20 @@ class ActividadAnualModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def verificarAnhoActivo(self, anho):
+        try:
+            consulta = 'SELECT anho_des FROM referenciales.anho_habil WHERE is_active = TRUE AND adelantar = FALSE'
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, (anho,))  
+            resultado = cur.fetchone()[0] 
+            print(resultado)                   
+            return resultado
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
