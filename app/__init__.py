@@ -34,6 +34,7 @@ from app import rutas
 from app.rutas.inicio.routes import mod
 
 # Modulos de mantenimiento y seguridad
+from app.rutas.referencial_simple.referencial_simple_routes import refs
 from app.rutas.ciudad.routes import mod
 from app.rutas.nacionalidad.routes import nac
 from app.rutas.persona.persona_routes import permod
@@ -70,6 +71,7 @@ app.jinja_env.trim_blocks = True
 # Se registra las rutas con Blueprints
 app.register_blueprint(rutas.inicio.routes.mod)
 # Rutas del modulo mantenimiento y seguridad
+app.register_blueprint(refs, url_prefix="/referencial_simple")
 app.register_blueprint(rutas.ciudad.routes.mod, url_prefix="/ciudad")
 app.register_blueprint(rutas.nacionalidad.routes.nac, url_prefix="/nacionalidad")
 app.register_blueprint(rutas.persona.persona_routes.permod, url_prefix="/persona")

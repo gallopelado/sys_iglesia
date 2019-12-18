@@ -50,3 +50,26 @@ class ReferencialModel():
             if con is not None:
                 cur.close()
                 con.close()
+    
+    def nuevoRegistro(self, esquema, tabla, valor):
+        """Metodo nuevoRegistro
+        
+        Guarda un nuevo registro en una tabla simple.
+
+        """
+        # Obtener el segundo nombre de fila.        
+        funcion = "public.insertone_referencial"
+        parametros = (esquema, tabla, valor,)                       
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.callproc(funcion, parametros)            
+            con.commit()
+            return cur.fetchone()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()                
+                con.close()
