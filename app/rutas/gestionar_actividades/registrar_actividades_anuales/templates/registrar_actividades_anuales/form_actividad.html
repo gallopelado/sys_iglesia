@@ -48,14 +48,14 @@
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
                         <!--Inicio card-body-->
-                        <div class="card-body">
-
-                            <div class="card-title">
-                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
-                                </h3>
-                            </div>
-                            <hr>
-                            <form action="" method="post" class="form-horizontal">
+                        <form action="{{ url_for('actividades_anuales.registrar') }}" method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
+                                    </h3>
+                                </div>
+                                <hr>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
                                         {{ form.anho.label(class='form-control-label') }}
@@ -103,10 +103,10 @@
                                         {% endfor %}
                                     </div>
                                     <div class="col col-md-3">
-                                            <button type="button" id="btAgregaLugar" class="btn btn-primary btn-sm">
-                                                <i class="fa  fa-plus-square"></i> Nuevo Lugar
-                                            </button>
-                                        </div>
+                                        <button type="button" id="btAgregaLugar" class="btn btn-primary btn-sm">
+                                            <i class="fa  fa-plus-square"></i> Nuevo Lugar
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
@@ -171,18 +171,18 @@
                                         {{ form.obs(class='form-control form-control-sm') }}
                                     </div>
                                 </div>
-
-                            </form>
-                        </div>
-                        <!--Fin card-body-->
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-dot-circle-o"></i> Registrar
-                            </button>
-                            <button type="reset" class="btn btn-danger btn-sm">
-                                <i class="fa fa-ban"></i> Limpiar
-                            </button>
-                        </div>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                            <!--Fin card-body-->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Registrar
+                                </button>
+                                <button type="reset" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-ban"></i> Limpiar
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -80,8 +80,7 @@ class ActividadAnualModel:
             con = conexion.getConexion()
             cur = con.cursor()
             cur.execute(consulta, (anho,))  
-            resultado = cur.fetchone()[0] 
-            print(resultado)                   
+            resultado = cur.fetchone()[0]                                
             return resultado
         except con.Error as e:
             print(e.pgerror)
