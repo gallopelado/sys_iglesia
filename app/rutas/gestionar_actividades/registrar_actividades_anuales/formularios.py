@@ -25,3 +25,10 @@ class FormAgregar(FlaskForm):
     obs = TextAreaField('Observación')
     registrar = SubmitField('Registrar')
 
+    def __init__(self, *args, **kwargs):
+        super(FormAgregar, self).__init__(*args, **kwargs)        
+        self.evento.choices = self.refm.getAll('referenciales.eventos')
+        self.comite.choices  = self.refm.getAll('referenciales.ministerios')
+        self.lugar.choices =  self.refm.getAll('referenciales.lugares')
+        self.plazo.choices = self.refm.getAll('referenciales.plazos')
+
