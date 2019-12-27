@@ -43,22 +43,24 @@ def registrar():
             return redirect(next) 
         # Set datos
         opcion = 'registrar'
-        anho = form.anho.data
+        anhohabil = form.anho.data
         evento = form.evento.data
         comite = form.comite.data
         lugar = form.lugar.data
         fechainicio = form.fechainicio.data
         horainicio = form.horainicio.data
-        fechafin = form.fechainicio.data
-        horafin = form.horainicio.data
+        fechafin = form.fechafin.data
+        horafin = form.horafin.data
         plazo = form.plazo.data
         repite = form.repite.data
         obs = form.obs.data
         # Validar mas
-        if not fechainicio > fechafin:
+        if  fechainicio > fechafin:
             flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion')
-            return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anho))
-        return "holi"
+            return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
+        res = actim.guardarActividad(opcion, None, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
+	                            plazo, repite, obs, comite, None)
+        return 'Guardado' if res==True else 'Error al guardar'
     else:
         return "Error en el formulario"    
 
