@@ -88,3 +88,38 @@ class ActividadAnualModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    
+    def guardarActividad(self, opcion, id, anhohabil, eveid, lugid, fechaini, horaini, fechafin, horafin,
+	plazid, actrepite, actobs, minid, creadoporusuario):
+        parametros = (opcion, id, anhohabil, eveid, lugid, fechaini, horaini, fechafin, horafin,
+	                plazid, actrepite, actobs, minid, creadoporusuario,)
+        try:
+            consulta = '''CALL actividades.gestionar_actividades_anuales(
+                %s,--opcion character varying,
+                %s,--id integer,
+                %s,--anhohabil integer,
+                %s,--eveid integer,
+                %s,--lugid integer,
+                %s,--fechaini date,
+                %s,--horaini time without time zone,
+                %s,--fechafin date,
+                %s,--horafin time without time zone,
+                %s,--plazid integer,
+                %s,--actrepite boolean,
+                %s,--actobs text,
+                %s,--minid integer,
+                %s)--creadoporusuario integer)'''
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, parametros)
+            con.commit()  
+            print(con.notices)                                
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
