@@ -2,7 +2,7 @@
  * Archivo encargado de controlar el index
  * 
  */
-import { idioma_spanish } from '../../helper/helper.js';
+import { idioma_spanish, mensajeConfirmacion } from '../../helper/helper.js';
 document.addEventListener('DOMContentLoaded', () => {
 
     const comboAnho = document.getElementById('cbm_anho');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cargarTabla = async (anho) => {
         const tbody = document.getElementById('tb_actividades');
-        const botonModificar = `<a href="" class="btn btn-sm btn-primary">Modificar</a>`;
+        const botonModificar = (idactividad) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${idactividad})">Modificar</button>`;
         const botonEliminar = `<a href="" class="btn btn-sm btn-danger">Eliminar</a>`;
         let datos = '';
         const lista_acti = await getActividades(anho);                
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${d.fechafin}</td>
                         <td>
                         <div class="table-data-feature">                     
-                            ${botonModificar} ${botonEliminar}
+                            ${botonModificar(d.idactividad)} ${botonEliminar}
                         </div>
                         </td>
                     </tr>
@@ -75,4 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.innerHTML = '';        
         cargarTabla(anho);
     });
+
+    window.modificar = (idactividad) => {        
+        const anho = document.getElementById('cbm_anho').value;
+        const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
+        m.buttons.Si.action = () => {                
+            location.href = `/actividades/registrar_actividades_anuales/form_actividad/modificar/${anho}/${idactividad}`;
+        }
+        m.open();
+    }
 });
