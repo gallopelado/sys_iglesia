@@ -37,32 +37,39 @@ def mostrarFormulario(anho):
 def registrar():    
     form = FormAgregar()
     res = form.validate_on_submit()
+     # Set datos
+    opcion = 'registrar'
+    anhohabil = form.anho.data
+    evento = form.evento.data
+    comite = form.comite.data
+    lugar = form.lugar.data
+    fechainicio = form.fechainicio.data
+    horainicio = form.horainicio.data
+    fechafin = form.fechafin.data
+    horafin = form.horafin.data
+    plazo = form.plazo.data
+    repite = form.repite.data
+    obs = form.obs.data
     if res:
         next = request.args.get('next', None)
         if next:
             return redirect(next) 
-        # Set datos
-        opcion = 'registrar'
-        anhohabil = form.anho.data
-        evento = form.evento.data
-        comite = form.comite.data
-        lugar = form.lugar.data
-        fechainicio = form.fechainicio.data
-        horainicio = form.horainicio.data
-        fechafin = form.fechafin.data
-        horafin = form.horafin.data
-        plazo = form.plazo.data
-        repite = form.repite.data
-        obs = form.obs.data
+       
         # Validar mas
         if  fechainicio > fechafin:
-            flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion')
+            flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion', 'warning')
             return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
         res = actim.guardarActividad(opcion, None, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
 	                            plazo, repite, obs, comite, None)
-        return 'Guardado' if res==True else 'Error al guardar'
+        if res == True:
+            flash('Se ha registrado una actividad', 'success')
+            return redirect(url_for('actividades_anuales.index_acti_anuales'))
+        else:
+            flash(res.diag.message_primary , 'danger')
+            return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
     else:
-        return "Error en el formulario"    
+        flash('Error en al cargar en formulario', 'danger')
+        return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))    
 
 ## Funciones para AJAX
 @acan.route('/get_actividades_json/<int:anho>')
