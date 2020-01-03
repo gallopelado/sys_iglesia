@@ -71,6 +71,29 @@ def registrar():
         flash('Error en al cargar en formulario', 'danger')
         return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))    
 
+
+@acan.route('/form_actividad/modificar/<int:anho>/<int:id>', methods=['GET'])
+def modificarFormulario(anho, id):
+    if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnho(anho):
+        res = actim.obtenerActividadesId(id)
+        print(res)
+        form = FormAgregar()               
+        form.anho.data = anho                 
+        form.evento.data = res[2]
+        form.comite.data = res[3]
+        form.lugar.data = res[4]
+        form.fechainicio.data = res[5]
+        form.horafin.data = res[6]
+        form.fechafin.data = res[7]
+        form.horafin.data = res[8]
+        form.plazo.data = res[9]
+        form.repite.data = res[10]
+        form.obs.data = res[11]
+        return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
+
+    return render_template('registrar_actividades_anuales/error_anho.html', titulo='El año no es válido')
+
+
 ## Funciones para AJAX
 @acan.route('/get_actividades_json/<int:anho>')
 def get_actividades_json(anho): 
