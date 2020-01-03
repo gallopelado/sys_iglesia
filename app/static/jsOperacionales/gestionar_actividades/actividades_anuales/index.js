@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const botonModificar = `<a href="" class="btn btn-sm btn-primary">Modificar</a>`;
         const botonEliminar = `<a href="" class="btn btn-sm btn-danger">Eliminar</a>`;
         let datos = '';
-        const lista_acti = await getActividades(anho);        
+        const lista_acti = await getActividades(anho);                
         if (lista_acti != null) {
             for (let d of lista_acti) {
                 datos += `
@@ -37,12 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         </td>
                     </tr>
                 `;
-            }
-            tbody.innerHTML = datos;
-            $('#tabla_actividades').DataTable({
+            }                        
+            const tab = $('#tabla_actividades').DataTable({
                 "language": idioma_spanish,
                 "destroy": true
             });
+            tab.clear();
+            tbody.innerHTML = datos;
         }
     }
 
