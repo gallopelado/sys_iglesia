@@ -42,6 +42,41 @@ class ActividadAnualModel:
                 cur.close()
                 con.close()
 
+    
+    def obtenerActividadesId(self, id):
+        try:
+            consulta = '''            
+                select
+                    act_id idactividad,
+                    anho_des anho,
+                    eve_id,
+                    min_id,
+                    lug_id,                    
+                    act_fechainicio,
+                    act_horainicio,
+                    act_fechafin,
+                    act_horafin,
+                    plaz_id,
+                    act_repite,
+                    act_obs                    	
+                from
+                    actividades.actividades
+                lef join referenciales.anho_habil using(anho_id)
+                where act_id = %s
+            '''
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, (id,))            
+            return cur.fetchone()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
     def verificarAnho(self, anho):
         try:
             consulta = 'actividades.verificar_anho'
