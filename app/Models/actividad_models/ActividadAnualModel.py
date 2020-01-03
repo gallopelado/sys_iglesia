@@ -115,10 +115,12 @@ class ActividadAnualModel:
             cur = con.cursor()
             cur.execute(consulta, parametros)
             con.commit()  
-            print(con.notices)                                
+            print(con.notices)                                            
             return True
         except con.Error as e:
             print(e.pgerror)
+            #print(e.args[0])
+            return e
         finally:
             if con is not None:
                 cur.close()
