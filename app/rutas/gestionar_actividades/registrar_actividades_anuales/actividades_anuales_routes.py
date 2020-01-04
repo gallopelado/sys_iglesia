@@ -39,6 +39,7 @@ def registrar():
     res = form.validate_on_submit()
      # Set datos
     opcion = 'registrar'
+    idactividad = request.form['idactividad']
     anhohabil = form.anho.data
     evento = form.evento.data
     comite = form.comite.data
@@ -59,14 +60,20 @@ def registrar():
         if  fechainicio > fechafin:
             flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion', 'warning')
             return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
-        res = actim.guardarActividad(opcion, None, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
+        
+        if idactividad is None or idactividad == '':
+            res = actim.guardarActividad(opcion, None, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
 	                            plazo, repite, obs, comite, None)
+        else:
+            res = actim.guardarActividad('modificar', idactividad, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
+	                            plazo, repite, obs, comite, None)
+
         if res == True:
             flash('Se ha registrado una actividad', 'success')
             return redirect(url_for('actividades_anuales.index_acti_anuales'))
         else:
             flash(res.diag.message_primary , 'danger')
-            return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
+            return redirect(url_for('actividades_anuales.index_acti_anuales', anho=anhohabil))
     else:
         flash('Error en al cargar en formulario', 'danger')
         return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))    
@@ -76,20 +83,20 @@ def registrar():
 def modificarFormulario(anho, id):
     if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnho(anho):
         res = actim.obtenerActividadesId(id)
-        print(res)
-        form = FormAgregar()               
+        print(res[6])           
+        form = FormAgregar()                       
         form.anho.data = anho                 
         form.evento.data = res[2]
         form.comite.data = res[3]
         form.lugar.data = res[4]
         form.fechainicio.data = res[5]
-        form.horafin.data = res[6]
+        form.horainicio.data = res[6]
         form.fechafin.data = res[7]
         form.horafin.data = res[8]
         form.plazo.data = res[9]
         form.repite.data = res[10]
         form.obs.data = res[11]
-        return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form)
+        return render_template('registrar_actividades_anuales/form_actividad.html', titulo='Formulario Actividad', form=form, idactividad=id)
 
     return render_template('registrar_actividades_anuales/error_anho.html', titulo='El año no es válido')
 
