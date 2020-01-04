@@ -9,7 +9,7 @@ create or replace procedure actividades.gestionar_actividades_anuales(
  * con opciones como:
  * registrar, modificar, eliminar, repetir_por_año
  * Autor: Juan José González Ramírez <juanftp100@gmail.com>
- * versión 1.0
+ * versión 1.1
 */
 DECLARE
 	v_actobs TEXT := TRIM(UPPER(actobs));	
@@ -17,7 +17,12 @@ DECLARE
 	v_anho integer;
 	v_lugar text;
 	actividades refcursor;
-	reg record;	
+	reg record;
+	v_fechaini date;
+	v_horaini time;
+	v_fechafin date;
+	v_horafin time;
+	
 begin
 	-- Validar año habil.
 	select anho_id into v_anho from referenciales.anho_habil where anho_des = anhohabil and is_active = TRUE;
@@ -74,26 +79,52 @@ begin
 				raise exception 'Quiza existe una actividad en dichas fechas' using ERRCODE = '20600';
 			end if;
 		WHEN 'modificar' THEN
-			if actividades.verificar_actividad(v_lugar, fechaini, horaini, fechafin, horafin) is TRUE THEN
+			--Obtener dicho registro para comparar fechas
+			SELECT act_fechainicio, act_horainicio, act_fechafin, act_horafin 
+			into v_fechaini, v_horaini, v_fechafin, v_horafin
+			FROM actividades.actividades WHERE act_id = id; 
+			--raise notice 'fechaini=%, v_fechaini=%, horaini=%, v_horaini=%, fechafin=%, v_fechafin=%, horafin=%, v_horafin=%', fechaini,v_fechaini,horaini,v_horaini,fechafin,v_fechafin,horafin,v_horafin;
+			if (fechaini = v_fechaini and horaini = v_horaini) and (fechafin = v_fechafin and horafin = v_horafin) then
+				--raise notice 'FECHAS IGUALES';				
 				UPDATE actividades.actividades
-				SET 
-					anho_id = v_anho
-					, eve_id = eveid
-					, lug_id = lugid
-					, act_fechainicio = fechaini
-					, act_horainicio = horaini
-					, act_fechafin = fechafin
-					, act_horafin = horafin
-					, plaz_id = plazid
-					, act_repite = actrepite
-					, act_obs = v_actobs
-					, min_id = minid
-					, modificado_por_usuario = creadoporusuario
-					, modif_fecha = fecha_actual
-				WHERE act_id = id;
-				raise notice 'Se modifico correctamente el registro actividad';
+					SET 
+						anho_id = v_anho
+						, eve_id = eveid
+						, lug_id = lugid
+						, act_fechainicio = fechaini
+						, act_horainicio = horaini
+						, act_fechafin = fechafin
+						, act_horafin = horafin
+						, plaz_id = plazid
+						, act_repite = actrepite
+						, act_obs = v_actobs
+						, min_id = minid
+						, modificado_por_usuario = creadoporusuario
+						, modif_fecha = fecha_actual
+					WHERE act_id = id;				
 			ELSE
-				raise exception 'Quiza existe una actividad en dichas fechas' using ERRCODE = '20600';
+				--raise notice 'FECHAS NO IGUALES';
+				if actividades.verificar_actividad(v_lugar, fechaini, horaini, fechafin, horafin) is TRUE THEN
+					UPDATE actividades.actividades
+					SET 
+						anho_id = v_anho
+						, eve_id = eveid
+						, lug_id = lugid
+						, act_fechainicio = fechaini
+						, act_horainicio = horaini
+						, act_fechafin = fechafin
+						, act_horafin = horafin
+						, plaz_id = plazid
+						, act_repite = actrepite
+						, act_obs = v_actobs
+						, min_id = minid
+						, modificado_por_usuario = creadoporusuario
+						, modif_fecha = fecha_actual
+					WHERE act_id = id;
+					raise notice 'Se modifico correctamente el registro actividad';
+				ELSE
+					raise exception 'Quiza existe una actividad en dichas fechas' using ERRCODE = '20600';
+				end if;
 			end if;
 		WHEN 'eliminar' THEN
 		-- Solo puede eliminarse registros que pertenecen al año actual, no menores al él.
