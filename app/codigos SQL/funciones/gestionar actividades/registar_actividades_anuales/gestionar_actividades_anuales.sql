@@ -9,7 +9,7 @@ create or replace procedure actividades.gestionar_actividades_anuales(
  * con opciones como:
  * registrar, modificar, eliminar, repetir_por_año
  * Autor: Juan José González Ramírez <juanftp100@gmail.com>
- * versión 1.1
+ * versión 1.2
 */
 DECLARE
 	v_actobs TEXT := TRIM(UPPER(actobs));	
@@ -27,12 +27,15 @@ begin
 	-- Validar año habil.
 	select anho_id into v_anho from referenciales.anho_habil where anho_des = anhohabil and is_active = TRUE;
 	if not found THEN
-		raise exception 'Este anho no esta habilitado' using ERRCODE = '20500';
+		raise exception 'Este año no esta habilitado' using ERRCODE = '20500';
 	end if;
-	--Obtener descripcion de lugar.
-	select lug_des into v_lugar from referenciales.lugares where lug_id = lugid;
-	if not found THEN
-		raise exception 'Este lugar no parece valido' using ERRCODE = '20501';
+	
+	if opcion = 'registrar' or opcion = 'modificar' then
+		--Obtener descripcion de lugar.
+		select lug_des into v_lugar from referenciales.lugares where lug_id = lugid;
+		if not found THEN
+			raise exception 'Este lugar no parece valido' using ERRCODE = '20501';
+		end if;
 	end if;
 
 	CASE opcion
