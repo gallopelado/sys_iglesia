@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cargarTabla = async (anho) => {
         const tbody = document.getElementById('tb_actividades');
         const botonModificar = (idactividad) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${idactividad})">Modificar</button>`;
-        const botonEliminar = `<a href="" class="btn btn-sm btn-danger">Eliminar</a>`;
+        const botonEliminar = (idactividad) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${idactividad})">Eliminar</button>`;
         let datos = '';
         const lista_acti = await getActividades(anho);                
         if (lista_acti != null) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${d.fechafin}</td>
                         <td>
                         <div class="table-data-feature">                     
-                            ${botonModificar(d.idactividad)} ${botonEliminar}
+                            ${botonModificar(d.idactividad)} ${botonEliminar(d.idactividad)}
                         </div>
                         </td>
                     </tr>
@@ -81,6 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
         m.buttons.Si.action = () => {                
             location.href = `/actividades/registrar_actividades_anuales/form_actividad/modificar/${anho}/${idactividad}`;
+        }
+        m.open();
+    }
+
+    window.eliminar = (idactividad) => {        
+        const anho = document.getElementById('cbm_anho').value;
+        const m = mensajeConfirmacion('Confirmar', 'Desea eliminar?');
+        m.buttons.Si.action = () => {                
+            location.href = `/actividades/registrar_actividades_anuales/eliminar/${anho}/${idactividad}`;
         }
         m.open();
     }
