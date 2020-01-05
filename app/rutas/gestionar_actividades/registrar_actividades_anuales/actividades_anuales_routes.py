@@ -82,8 +82,7 @@ def registrar():
 @acan.route('/form_actividad/modificar/<int:anho>/<int:id>', methods=['GET'])
 def modificarFormulario(anho, id):
     if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnho(anho):
-        res = actim.obtenerActividadesId(id)
-        print(res[6])           
+        res = actim.obtenerActividadesId(id)                   
         form = FormAgregar()                       
         form.anho.data = anho                 
         form.evento.data = res[2]
@@ -100,6 +99,16 @@ def modificarFormulario(anho, id):
 
     return render_template('registrar_actividades_anuales/error_anho.html', titulo='El año no es válido')
 
+
+@acan.route('/eliminar/<int:anho>/<int:id>', methods=['GET'])
+def eliminarActividad(anho,id):
+    res = actim.guardarActividad('eliminar', id, anho, None, None, None, None, None, None,
+	                            None, None, None, None, None)
+    if res == True:
+        flash('Se ha eliminado una actividad', 'success')
+        return redirect(url_for('actividades_anuales.index_acti_anuales'))
+    flash(res.diag.message_primary, 'warning')        
+    return redirect(url_for('actividades_anuales.index_acti_anuales'))
 
 ## Funciones para AJAX
 @acan.route('/get_actividades_json/<int:anho>')
