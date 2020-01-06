@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_input, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <div class="card-body">
+
+                            <div class="card-title">
+                                <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{titulo}}
+                                </h3>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-horizontal">
+                                <div class="row form-group">
+                                    <input type="hidden" name="idpersona" id="idpersona">
+                                    <!-- Campo Persona-->
+                                    <div class="col col-3">
+                                        <div class="form-group">
+                                            <label for="txt_fecha"
+                                                class="form-control-label form-control-sm">Fecha</label>
+                                            <div class="input-group">
+                                                <input type="text" id="txt_fecha" name="txt_fecha" list="lista_personas"
+                                                    class="form-control form-control-sm" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!---->
+
+                                    <!-- Combo -->
+                                    <div class="col col-4">
+                                        <label for="cbo_evento"
+                                            class="form-control-label form-control-sm">Evento</label>
+                                        <select name="cbo_evento" id="cbo_evento"
+                                            class="custom-select form-control-sm form-control">
+                                            <option value="">Elegir...</option>
+                                            {% if lista_nac %}
+                                            {% for item in lista_nac %}
+                                            <option value="{{ item[0] }}">{{ item[1] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <!-- Campo -->
+                                <div class="col col-7">
+                                    <div class="form-group">
+                                        <label for="txt_obs"
+                                            class="form-control-label form-control-sm">Descripción</label>
+                                        <input type="text" id="txt_obs" name="txt_obs"
+                                            class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <!---->
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-12">
+                                    <!-- Tabla -->
+                                    <div class="top-campaign">
+                                        <h3 class="title-3 m-b-30">Lista</h3>
+                                        <div class="table-responsive">
+                                            <table id="tabla" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <th>Persona</th>
+                                                    <th>Asistió</th>
+                                                    <th>Puntual</th>
+                                                    <th>Tipo</th>
+                                                </thead>
+                                                <tbody id='tbody'>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-12">
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <button type="button" id="btnGuardarFormAdicional"
+                                                class="btn btn-primary btn-lg">
+                                                <i class="fa fa-dot-circle-o"></i> Guardar
+                                            </button>
+                                            <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}"
+                                                id="btnCancelar" class="btn btn-danger btn-lg">
+                                                <i class="fa  fa-arrow-down"></i> Cancelar
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Fin card-body-->
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+        </div>
+    </div>
+    <!---->
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- Js Operativo -->
+<!-- <script type="module" src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script> -->
+
+{%- endblock %}
