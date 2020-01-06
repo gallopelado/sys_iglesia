@@ -1,5 +1,6 @@
 import os,time
 from werkzeug.utils import secure_filename
+from app.Conexion.Conexion import Conexion
 
 def limpiar_campo(palabra):
     """Funcion limpiar_campo.
@@ -55,3 +56,20 @@ def fechaActual():
     localtime = time.localtime(time.time())
     fecha_actual = f'{localtime.tm_mday}-{localtime.tm_mon}-{localtime.tm_year}'
     return fecha_actual
+
+def fechaFormatoLargo(fecha):
+    '''fechaFormatoLargo.
+    Retorna la fecha en formato largo.
+    '''
+    try:
+        conexion = Conexion()
+        con = conexion.getConexion()
+        cur = con.cursor()
+        cur.callproc('public.fecha_formatolargo', (fecha,))
+        return cur.fetchone()[0]        
+    except con.Error as e:
+        print(e.pgerror)
+    finally:
+        if con is not None:
+            cur.close()
+            con.close()

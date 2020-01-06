@@ -62,7 +62,8 @@
                                                 class="form-control-label form-control-sm">Fecha</label>
                                             <div class="input-group">
                                                 <input type="text" id="txt_fecha" name="txt_fecha" list="lista_personas"
-                                                    class="form-control form-control-sm" disabled>
+                                                    class="form-control form-control-sm" value="{{ fecha if fecha }}"
+                                                    disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -75,8 +76,8 @@
                                         <select name="cbo_evento" id="cbo_evento"
                                             class="custom-select form-control-sm form-control">
                                             <option value="">Elegir...</option>
-                                            {% if lista_nac %}
-                                            {% for item in lista_nac %}
+                                            {% if evento %}
+                                            {% for item in evento %}
                                             <option value="{{ item[0] }}">{{ item[1] }}</option>
                                             {% endfor %}
                                             {% endif %}
@@ -102,21 +103,44 @@
                             <div class="row form-group">
                                 <div class="col col-12">
                                     <!-- Tabla -->
-                                    <div class="top-campaign">
-                                        <h3 class="title-3 m-b-30">Lista</h3>
-                                        <div class="table-responsive">
-                                            <table id="tabla" class="table table-bordered table-hover">
-                                                <thead>
-                                                    <th>Persona</th>
-                                                    <th>Asistió</th>
-                                                    <th>Puntual</th>
-                                                    <th>Tipo</th>
-                                                </thead>
-                                                <tbody id='tbody'>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <h3 class="title-3 m-b-30">Lista</h3>
+
+                                    <table id="tabla" class="table table-hover">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Persona</th>
+                                                <th scope="col">Asistió</th>
+                                                <th scope="col">Puntual</th>
+                                                <th scope="col">Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='tbody'>
+                                            {% if persona %}
+                                            {% for item in persona %}
+                                            <tr id={{item[0]}}>
+                                                <td scope="row">{{ item[2] }} {{ item[3] }}</td>
+                                                <td>
+                                                    <label class="switch switch-3d switch-primary mr-3">
+
+                                                        <input type="checkbox" class="switch-input">
+                                                        <span class="switch-label"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="switch switch-3d switch-success mr-3">
+
+                                                        <input type="checkbox" class="switch-input">
+                                                        <span class="switch-label"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                </td>
+                                                <td>{{ item[5] }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif%}
+                                        </tbody>
+                                    </table>
                                     <!---->
                                 </div>
                             </div>
@@ -162,6 +186,6 @@
 <script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
 
 <!-- Js Operativo -->
-<!-- <script type="module" src="{{ url_for('static', filename='jsOperacionales/formulario_adicional/formulario_adicional.js') }}"></script> -->
+<script type="module" src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/asistencia/formulario.js') }}"></script>
 
 {%- endblock %}
