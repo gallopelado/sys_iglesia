@@ -23,3 +23,9 @@ def formularioAsistencia():
     fecha = fechaFormatoLargo(fechaActual())
     persona = perm.listarPersonas()         
     return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, persona=persona)
+
+
+@asis.route('/guardar', methods=['POST'])
+def guardar():
+    print(request.json)
+    return jsonify({'procesado':True})
