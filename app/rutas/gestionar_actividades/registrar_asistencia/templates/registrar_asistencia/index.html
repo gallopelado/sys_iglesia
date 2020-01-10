@@ -54,7 +54,17 @@
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tb">                                       
+                                    <tbody id="tb">
+                                    {% if lista %}
+                                    {% for item in lista %}
+                                    <tr id="{{ item[0] }}">
+                                        <td>{{ item[2] }}</td>
+                                        <td>{{ item[3] }}</td>
+                                        <td>{{ item[5] }}</td>
+                                        <td></td>
+                                    </tr>
+                                    {% endfor%}
+                                    {% endif %}                                       
                                     </tbody>
                                 </table>
                             

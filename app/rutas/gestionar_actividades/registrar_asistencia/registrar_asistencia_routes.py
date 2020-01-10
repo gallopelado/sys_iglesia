@@ -14,8 +14,10 @@ asism = AsistenciaModel()
 titulo = 'Registrar asistencias de miembros de la iglesia'
 
 @asis.route('/')
-def index_asistencia():    
-    return render_template('registrar_asistencia/index.html', titulo=titulo)
+def index_asistencia():
+    lista = asism.obtenerAsistencias(True)    
+    print(lista)
+    return render_template('registrar_asistencia/index.html', titulo=titulo, lista=lista)
 
 
 @asis.route('/formulario_asistencia')
