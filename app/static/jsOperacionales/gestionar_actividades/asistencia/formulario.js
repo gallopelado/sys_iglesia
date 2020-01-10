@@ -65,6 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
              });
              const data = await res.json();
              console.log(data);
+             if ( data.estado == true ) {
+                 alert('Se procesó correctamente su acción');   
+                 location.href = '/actividades/registrar_asistencia/';
+             } else  {
+                 console.error(res);
+             }
          } catch (error) {
              console.error(error);
          }
