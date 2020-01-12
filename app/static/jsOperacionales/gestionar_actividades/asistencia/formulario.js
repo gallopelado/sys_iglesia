@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             , cadena_puntual:cadena_puntual
          }
          try {
-             const res = await fetch('guardar', {
+             const res = await fetch('/actividades/registrar_asistencia/guardar', {
                  method:'POST'
                  , headers:{
                      'Content-Type':'application/json'

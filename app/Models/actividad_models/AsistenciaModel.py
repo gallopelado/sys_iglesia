@@ -47,4 +47,36 @@ class AsistenciaModel:
                 cur.close()
                 con.close()
 
+
+    def obtenerAsistenciasPorId(self, id):
+        consulta = '''
+        select  
+            asis_id
+            , to_char(creacion_fecha, 'DD "de" TMMonth "del" YYYY')fecha
+            , eve_id
+            , asis_des
+            , per_id
+            , per_nombres
+            , per_apellidos            
+            , asistio
+            , puntual
+            , tipoper_des
+        from actividades.cabe_asistencia
+        left join actividades.det_asistencia using(asis_id)
+        left join referenciales.personas using(per_id)
+        left join referenciales.tipo_persona using(tipoper_id)
+        where asis_id = %s
+        '''        
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, (id,))            
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
     

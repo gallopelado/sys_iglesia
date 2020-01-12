@@ -61,7 +61,10 @@
                                         <td>{{ item[2] }}</td>
                                         <td>{{ item[3] }}</td>
                                         <td>{{ item[5] }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button type="button" id="btnModificar" class="btn btn-primary btn-sm" onclick="modificar('{{ url_for('registrar_asistencia.formularioAsistencia') }}/{{ item[0] }}')">Modificar</button>
+                                            <button type="button" id="btnEliminar" class="btn btn-danger btn-sm">Eliminar</button>
+                                        </td>
                                     </tr>
                                     {% endfor%}
                                     {% endif %}                                       
@@ -100,8 +103,8 @@
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/registrar_postulacion/principal.js') }}"></script> -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/asistencia/index.js') }}"></script>
 
 
 {% endblock %}

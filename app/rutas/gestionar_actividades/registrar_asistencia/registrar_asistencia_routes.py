@@ -28,6 +28,16 @@ def formularioAsistencia():
     return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, persona=persona)
 
 
+@asis.route('/formulario_asistencia/<int:id>')
+def formularioAsistenciaMod(id):
+    asistencia = asism.obtenerAsistenciasPorId(id)
+    print(asistencia)
+    evento = refm.getAll('referenciales.eventos')
+    fecha = fechaFormatoLargo(fechaActual())
+    idasistencia = asistencia[0][0]                
+    return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, asistencia=asistencia, idasistencia=idasistencia)
+
+
 @asis.route('/guardar', methods=['POST'])
 def guardar():
     print(request.json)

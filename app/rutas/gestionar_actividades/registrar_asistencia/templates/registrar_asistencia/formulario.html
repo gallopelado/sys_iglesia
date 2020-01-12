@@ -38,7 +38,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}"
+                            <a href="{{ url_for('registrar_asistencia.index_asistencia') }}"
                                 class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
@@ -54,16 +54,22 @@
 
                             <div class="form-horizontal">
                                 <div class="row form-group">
-                                    <input type="hidden" name="idasistencia" id="idasistencia">
+                                    <input type="hidden" name="idasistencia" id="idasistencia" value="{{ idasistencia if asistencia }}">
                                     <!-- Campo fecha-->
-                                    <div class="col col-3">
+                                    <div class="col col-4">
                                         <div class="form-group">
                                             <label for="txt_fecha"
                                                 class="form-control-label form-control-sm">Fecha</label>
                                             <div class="input-group">
+                                                {% if asistencia %}
                                                 <input type="text" id="txt_fecha" name="txt_fecha"
-                                                    class="form-control form-control-sm" value="{{ fecha if fecha }}"
+                                                    class="form-control form-control-sm" value="{{ asistencia[0][1] }}"
                                                     disabled>
+                                                {% elif fecha %}
+                                                <input type="text" id="txt_fecha" name="txt_fecha"
+                                                    class="form-control form-control-sm" value="{{ fecha }}"
+                                                    disabled>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +84,11 @@
                                             <option value="">Elegir...</option>
                                             {% if evento %}
                                             {% for item in evento %}
+                                            {% if asistencia and asistencia[0][2]==item[0] %}
+                                            <option value="{{ item[0] }}" selected>{{ item[1] }}</option>
+                                            {% else %}
                                             <option value="{{ item[0] }}">{{ item[1] }}</option>
+                                            {% endif %}
                                             {% endfor %}
                                             {% endif %}
                                         </select>
@@ -94,7 +104,7 @@
                                         <label for="txt_obs"
                                             class="form-control-label form-control-sm">Descripción</label>
                                         <input type="text" id="txt_obs" name="txt_obs"
-                                            class="form-control form-control-sm">
+                                            class="form-control form-control-sm" value="{{ asistencia[0][3] if asistencia }}">
                                     </div>
                                 </div>
                                 <!---->
@@ -138,7 +148,31 @@
                                                 <td>{{ item[5] }}</td>
                                             </tr>
                                             {% endfor %}
-                                            {% endif%}
+                                            {% endif %}
+                                            {% if asistencia %}
+                                            {% for item in asistencia %}
+                                            <tr id={{item[4]}}>
+                                                <td scope="row">{{ item[5] }} {{ item[6] }}</td>
+                                                <td>
+                                                    <label class="switch switch-3d switch-primary mr-3">
+
+                                                        <input type="checkbox" class="switch-input" {{ 'checked' if item[7]==True }}>
+                                                        <span class="switch-label"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="switch switch-3d switch-success mr-3">
+
+                                                        <input type="checkbox" class="switch-input" {{ 'checked' if item[8]==True }}>
+                                                        <span class="switch-label"></span>
+                                                        <span class="switch-handle"></span>
+                                                    </label>
+                                                </td>
+                                                <td>{{ item[9] }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
                                         </tbody>
                                     </table>
                                     <!---->
