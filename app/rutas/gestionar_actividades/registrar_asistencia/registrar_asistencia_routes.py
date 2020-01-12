@@ -30,12 +30,14 @@ def formularioAsistencia():
 
 @asis.route('/formulario_asistencia/<int:id>')
 def formularioAsistenciaMod(id):
-    asistencia = asism.obtenerAsistenciasPorId(id)
-    print(asistencia)
+    asistencia = asism.obtenerAsistenciasPorId(id)    
     evento = refm.getAll('referenciales.eventos')
-    fecha = fechaFormatoLargo(fechaActual())
-    idasistencia = asistencia[0][0]                
-    return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, asistencia=asistencia, idasistencia=idasistencia)
+    fecha = fechaFormatoLargo(fechaActual())    
+    if asistencia:                
+        idasistencia = asistencia[0][0]
+        return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, asistencia=asistencia, idasistencia=idasistencia)
+    flash('No existe dicha lista', 'danger')
+    return redirect(url_for('registrar_asistencia.index_asistencia'))
 
 
 @asis.route('/guardar', methods=['POST'])
