@@ -80,7 +80,7 @@
                                         <label for="cbo_evento"
                                             class="form-control-label form-control-sm">Evento</label>
                                         <select name="cbo_evento" id="cbo_evento"
-                                            class="custom-select form-control-sm form-control">
+                                            class="custom-select form-control-sm form-control" {{ 'disabled' if ver==true }}>
                                             <option value="">Elegir...</option>
                                             {% if evento %}
                                             {% for item in evento %}
@@ -104,7 +104,7 @@
                                         <label for="txt_obs"
                                             class="form-control-label form-control-sm">Descripción</label>
                                         <input type="text" id="txt_obs" name="txt_obs"
-                                            class="form-control form-control-sm" value="{{ asistencia[0][3] if asistencia }}">
+                                            class="form-control form-control-sm" value="{{ asistencia[0][3] if asistencia }}" {{ 'disabled' if ver==true }}>
                                     </div>
                                 </div>
                                 <!---->
@@ -154,20 +154,42 @@
                                             <tr id={{item[4]}}>
                                                 <td scope="row">{{ item[5] }} {{ item[6] }}</td>
                                                 <td>
+                                                    {% if ver != true %}
                                                     <label class="switch switch-3d switch-primary mr-3">
-
                                                         <input type="checkbox" class="switch-input" {{ 'checked' if item[7]==True }}>
                                                         <span class="switch-label"></span>
                                                         <span class="switch-handle"></span>
                                                     </label>
+                                                    {% else %}
+                                                        {% if item[7]==True %}
+                                                        <button type="button" class="btn btn-success m-l-10 m-b-10">SI
+                                                            <span class="badge badge-light"><i class="fa fa-check"></i></span>
+                                                        </button>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-danger m-l-10 m-b-10">NO
+                                                            <span class="badge badge-light"><i class="fa fa-exclamation"></i></span>
+                                                        </button>
+                                                        {% endif %}
+                                                    {% endif %}
                                                 </td>
                                                 <td>
-                                                    <label class="switch switch-3d switch-success mr-3">
-
+                                                    {% if ver != true %}
+                                                    <label class="switch switch-3d switch-primary mr-3">
                                                         <input type="checkbox" class="switch-input" {{ 'checked' if item[8]==True }}>
                                                         <span class="switch-label"></span>
                                                         <span class="switch-handle"></span>
                                                     </label>
+                                                    {% else %}
+                                                        {% if item[8]==True %}
+                                                        <button type="button" class="btn btn-success m-l-10 m-b-10">SI
+                                                            <span class="badge badge-light"><i class="fa fa-check"></i></span>
+                                                        </button>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-danger m-l-10 m-b-10">NO
+                                                            <span class="badge badge-light"><i class="fa fa-exclamation"></i></span>
+                                                        </button>
+                                                        {% endif %}
+                                                    {% endif %}
                                                 </td>
                                                 <td>{{ item[9] }}</td>
                                             </tr>
@@ -178,7 +200,7 @@
                                     <!---->
                                 </div>
                             </div>
-
+                            {% if ver != true %}
                             <div class="row form-group">
                                 <div class="col col-12">
 
@@ -187,17 +209,13 @@
                                             <button type="button" id="btnGuardar"
                                                 class="btn btn-primary btn-lg">
                                                 <i class="fa fa-dot-circle-o"></i> Guardar
-                                            </button>
-                                            <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}"
-                                                id="btnCancelar" class="btn btn-danger btn-lg">
-                                                <i class="fa  fa-arrow-down"></i> Cancelar
-                                            </a>
+                                            </button>                                            
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-
+                            {% endif %}
                         </div>
                         <!--Fin card-body-->
                     </div>

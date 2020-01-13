@@ -18,4 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         mc.open();
     }
+    window.ver = (url) => {
+        location.href = url;        
+    }
 });

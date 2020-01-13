@@ -40,6 +40,18 @@ def formularioAsistenciaMod(id):
     return redirect(url_for('registrar_asistencia.index_asistencia'))
 
 
+@asis.route('/formulario_ver/<int:id>')
+def formularioVer(id):
+    asistencia = asism.obtenerAsistenciasPorId(id)    
+    evento = refm.getAll('referenciales.eventos')
+    fecha = fechaFormatoLargo(fechaActual())    
+    if asistencia:                
+        idasistencia = asistencia[0][0]
+        return render_template('registrar_asistencia/formulario.html', titulo='Formulario Asistencia', evento=evento, fecha=fecha, asistencia=asistencia, idasistencia=idasistencia, ver=True)
+    flash('No existe dicha lista', 'danger')
+    return redirect(url_for('registrar_asistencia.index_asistencia'))
+
+
 @asis.route('/guardar', methods=['POST'])
 def guardar():
     print(request.json)
