@@ -11,4 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         mc.open();
     }
+    window.eliminar = (url) => {
+        const mc = mensajeConfirmacion('Mensaje', 'Desea eliminar');
+        mc.buttons.Si.action = () => {
+            location.href = url;
+        }
+        mc.open();
+    }
 });

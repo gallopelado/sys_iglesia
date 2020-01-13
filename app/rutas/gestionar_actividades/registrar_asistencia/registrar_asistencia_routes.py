@@ -63,3 +63,14 @@ def guardar():
         return jsonify({'estado':res, 'mensaje':'Exito al modificar'}) if res==True else jsonify({'estado':res, 'mensaje':'Hubo un error'})
     
     return jsonify({'estado':False, 'mensaje':'Los parametros no son correctos'})
+
+
+@asis.route('/eliminar/<int:id>', methods=['GET'])
+def eliminar(id):
+    res = asism.procesar('baja', id, None, None, None, None, None)
+    if res==True:
+        flash('Se ha eliminado una lista', 'warning')
+        return redirect(url_for('registrar_asistencia.index_asistencia'))
+    else:
+        flash('Hubo un problema al eliminar. Favor contacte con el administrador', 'danger')
+        return redirect(url_for('registrar_asistencia.index_asistencia'))
