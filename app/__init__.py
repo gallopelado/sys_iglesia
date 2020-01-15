@@ -63,6 +63,7 @@ from app.rutas.registrar_obrero.registrar_obrero_routes import ob
 # Modulos de actividades
 from app.rutas.gestionar_actividades.registrar_actividades_anuales.actividades_anuales_routes import acan
 from app.rutas.gestionar_actividades.registrar_asistencia.registrar_asistencia_routes import asis
+from app.rutas.gestionar_actividades.registrar_reserva.reserva_routes import res
 
 # modulos de informes
 # Instancia de informes para Mantenimiento y Seguridad
@@ -102,6 +103,7 @@ app.register_blueprint(ob, url_prefix='/membresia/registrar_obrero')
 modulo2 = '/actividades'
 app.register_blueprint(acan, url_prefix=f'{modulo2}/registrar_actividades_anuales')
 app.register_blueprint(asis, url_prefix=f'{modulo2}/registrar_asistencia')
+app.register_blueprint(res, url_prefix=f'{modulo2}/registrar_reserva')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')

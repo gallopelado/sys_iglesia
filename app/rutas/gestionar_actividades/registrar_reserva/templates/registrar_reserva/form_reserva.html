@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, modal_referencial_simple, pintar_textarea %}
+
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_reserva.index_reserva') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <form action="{{ url_for('actividades_anuales.registrar') }}" method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
+                                    </h3>
+                                </div>
+                                <hr>
+                                <input type="hidden" name="idreserva" id="idreserva" value="{{ idreserva if idreserva else '' }}">
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.anho.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        {{ form.anho(class='form-control form-control-sm', readonly=True) }}
+                                        <div id="alerta-anho"></div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.solicitante.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-5 col-md-7">
+                                        {{ form.solicitante(class='form-control form-control-sm') }}
+                                        {% for error in form.solicitante.errors %}
+                                        <span class="help-block">Error en el evento</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.evento.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-5 col-md-5">
+                                        {{ form.evento(class='form-control form-control-sm') }}
+                                        {% for error in form.evento.errors %}
+                                        <span class="help-block">Error en el evento</span>
+                                        {% endfor %}
+                                    </div>                                   
+                                </div>                                
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.lugar.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-5 col-md-5">
+                                        {{ form.lugar(class='form-control form-control-sm') }}
+                                        {% for error in form.lugar.errors %}
+                                        <span class="help-block">Error en el lugar</span>
+                                        {% endfor %}
+                                    </div>                                   
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.fechainicio.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.fechainicio(class='form-control form-control-sm') }}
+                                        {% for error in form.fechainicio.errors %}
+                                        <span class="help-block">Error en la fecha</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        {{ form.horainicio.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        {{ form.horainicio(class='form-control form-control-sm') }}
+                                        {% for error in form.horainicio.errors %}
+                                        <span class="help-block">Error en la hora de inicio</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.fechafin.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        {{ form.fechafin(class='form-control form-control-sm') }}
+                                        {% for error in form.fechafin.errors %}
+                                        <span class="help-block">Error en la fecha final</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        {{ form.horafin.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-2 col-md-2">
+                                        {{ form.horafin(class='form-control form-control-sm') }}
+                                        {% for error in form.horafin.errors %}
+                                        <span class="help-block">Error en la hora final</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>                                
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.obs.label(class='form-control-label') }}
+                                    </div>
+                                    <div class="col-5 col-md-5">
+                                        {{ form.obs(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                            <!--Fin card-body-->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Registrar
+                                </button>                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+
+<!-- JS de tempusdominus/traduccion -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/es.js') }}"></script>
+
+<!-- JS de tempusdominus -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+<!-- JS del formulario -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/registrar_reserva/formulario.js') }}"></script>
+
+
+{%- endblock %}
