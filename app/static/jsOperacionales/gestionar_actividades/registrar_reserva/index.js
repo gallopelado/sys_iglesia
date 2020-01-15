@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 `;
             }                        
-            const tab = $('#tabla_actividades').DataTable({
+            const tab = $('#tabla_reserva').DataTable({
                 "language": idioma_spanish,
                 "destroy": true
             });
