@@ -36,22 +36,26 @@ class ReservaModel:
                 cur.close()
                 con.close()
 
-    def obtenerActividadesJson(self, anho):
+    def obtenerReservasJson(self, estado):
         try:
             consulta = '''
-            SELECT array_to_json(array_agg(row_to_json(datos)))
-            FROM (
-                SELECT idactividad
-                        , anho
-                        , evento
-                        , fecha_formatolargo(fechainicio)fechainicio
-                        , fecha_formatolargo(fechafin)fechafin 
-                FROM actividades.get_actividades(%s))datos;
+            select array_to_json(array_agg(row_to_json(datos)))
+            from (
+                select
+                    res_id id,
+                    res_obs actividad,
+                    fecha_formatolargo(res_fechainicio) fechainicio,
+                    res_horainicio horainicio,		
+                    res_estado estado
+                from
+                    actividades.reservas
+                    where res_estado = %s
+            )datos
             '''
             conexion = Conexion()
             con = conexion.getConexion()
             cur = con.cursor()
-            cur.execute(consulta, (anho,))            
+            cur.execute(consulta, (estado,))            
             return cur.fetchone()[0]
         except con.Error as e:
             print(e.pgerror)
@@ -143,36 +147,21 @@ class ReservaModel:
                 con.close()
 
     
-    def guardarActividad(self, opcion, id, anhohabil, eveid, lugid, fechaini, horaini, fechafin, horafin,
-	plazid, actrepite, actobs, minid, creadoporusuario):
-        parametros = (opcion, id, anhohabil, eveid, lugid, fechaini, horaini, fechafin, horafin,
-	                plazid, actrepite, actobs, minid, creadoporusuario,)
+    def guardarReserva(self, opcion, resid, anhoid, eveid, lugid, perid, 
+    resfechainicio, reshorainicio, resfechafin, reshorafin, resobs, creadoporusuario, modificadoporusuario):
+        parametros = (opcion, resid, anhoid, eveid, lugid, perid, 
+        resfechainicio, reshorainicio, resfechafin, reshorafin, resobs, creadoporusuario, modificadoporusuario,)
         try:
-            consulta = '''CALL actividades.gestionar_actividades_anuales(
-                %s,--opcion character varying,
-                %s,--id integer,
-                %s,--anhohabil integer,
-                %s,--eveid integer,
-                %s,--lugid integer,
-                %s,--fechaini date,
-                %s,--horaini time without time zone,
-                %s,--fechafin date,
-                %s,--horafin time without time zone,
-                %s,--plazid integer,
-                %s,--actrepite boolean,
-                %s,--actobs text,
-                %s,--minid integer,
-                %s)--creadoporusuario integer)'''
+            consulta = 'actividades.gestionar_reservas'
             conexion = Conexion()
             con = conexion.getConexion()
             cur = con.cursor()
-            cur.execute(consulta, parametros)
+            cur.callproc(consulta, parametros)
             con.commit()  
             print(con.notices)                                            
             return True
         except con.Error as e:
-            print(e.pgerror)
-            #print(e.args[0])
+            print(e.pgerror)            
             return e
         finally:
             if con is not None:

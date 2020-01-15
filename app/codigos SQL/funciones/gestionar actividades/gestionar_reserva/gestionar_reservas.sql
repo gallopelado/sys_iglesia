@@ -1,4 +1,4 @@
-create or replace function actividades.gestionar_reservas(opcion varchar, resid integer, anhoid integer, eveid integer, lugid integer, perid integer, 
+create or replace function actividades.gestionar_reservas(opcion varchar, resid integer, anho varchar, eveid integer, lugid integer, perid integer, 
 resfechainicio date,reshorainicio time, resfechafin date, reshorafin time, resobs text, creadoporusuario integer, modificadoporusuario integer)
 returns boolean as
 $$
@@ -8,14 +8,16 @@ $$
  * con opciones como:
  * registrar, modificar, cancelar, confirmar
  * Autor: Juan José González Ramírez <juanftp100@gmail.com>
- * versión 1.0
+ * versión 1.1
 */
 declare
 	v_lugar varchar;
 	v_obs text := TRIM(UPPER(resobs));
 	v_fechactual timestamp := now();
+	v_idanho INTEGER;
 begin
 	if opcion in ('registrar', 'modificar') then
+		select anho_id into v_idanho from referenciales.anho_habil where anho_des = anho;
 		--Obtener descripcion de lugar.
 		select lug_des into v_lugar from referenciales.lugares where lug_id = lugid;
 		--Validar
@@ -29,7 +31,7 @@ begin
 			INSERT INTO actividades.reservas
 			(anho_id, eve_id, lug_id, per_id, res_estado, res_fechainicio, res_horainicio
 			, res_fechafin, res_horafin, res_obs, creado_por_usuario, creacion_fecha)
-			VALUES(anhoid, eveid, lugid, perid, 'NO-CONFIRMADO', resfechainicio, reshorainicio, resfechafin, reshorafin, v_obs, creadoporusuario, v_fechactual);
+			VALUES(v_idanho, eveid, lugid, perid, 'NO-CONFIRMADO', resfechainicio, reshorainicio, resfechafin, reshorafin, v_obs, creadoporusuario, v_fechactual);
 			return true;
 		when 'modificar' then
 			UPDATE actividades.reservas

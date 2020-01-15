@@ -5,11 +5,17 @@
 import { idioma_spanish, mensajeConfirmacion } from '../../helper/helper.js';
 document.addEventListener('DOMContentLoaded', () => {
 
-    const comboAnho = document.getElementById('cbm_anho');
-    const anho = comboAnho.value;
-    const getActividades = async (anho) => {
+    const comboEstado = document.getElementById('cbm_estado');    
+    let estado = comboEstado.value;
+    const getReservas = async (estado) => {
         try {
-            const res = await fetch(`/actividades/registrar_actividades_anuales/get_actividades_json/${anho}`);
+            const res = await fetch(`/actividades/registrar_reserva/get_reservas_json`, {
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({estado:estado})
+            });
             const data = await res.json();
             return data;
         } catch (error) {
@@ -17,19 +23,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const cargarTabla = async (anho) => {
-        const tbody = document.getElementById('tb_actividades');
+    const cargarTabla = async (estado) => {
+        const tbody = document.getElementById('tb_reserva');
+        const botonConfirmar = (idactividad) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${idactividad})">Confirmar</button>`;
         const botonModificar = (idactividad) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${idactividad})">Modificar</button>`;
         const botonEliminar = (idactividad) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${idactividad})">Eliminar</button>`;
         let datos = '';
-        const lista_acti = await getActividades(anho);                
-        if (lista_acti != null) {
-            for (let d of lista_acti) {
+        const lista = await getReservas(estado);                       
+        if (lista != null) {
+            for (let d of lista) {
                 datos += `
                     <tr>
-                        <td>${d.evento}</td>
+                        <td>${d.actividad}</td>
                         <td>${d.fechainicio}</td>
-                        <td>${d.fechafin}</td>
+                        <td>${d.horainicio}</td>
+                        <td>
+                            ${botonConfirmar(d.idactividad)}
+                        </td>
                         <td>
                         <div class="table-data-feature">                     
                             ${botonModificar(d.idactividad)} ${botonEliminar(d.idactividad)}
@@ -61,12 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    cargarTabla(anho);
-    comboAnho.addEventListener('change', () => {
-        const anho = comboAnho.value;
-        const tbody = document.getElementById('tb_actividades');
+    cargarTabla(estado);
+    comboEstado.addEventListener('change', () => {
+        const estado = comboEstado.value;
+        const tbody = document.getElementById('tb_reserva');
         tbody.innerHTML = '';        
-        cargarTabla(anho);
+        cargarTabla(estado);
     });
 
     window.modificar = (idactividad) => {        

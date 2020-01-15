@@ -17,65 +17,64 @@ refm = ReferencialModel()
 actim = ActividadAnualModel()
 resm = ReservaModel()
 @res.route('/')
-def index_reserva():
-    lista = actim.obtenerAnho()
-    return render_template('registrar_reserva/index.html', titulo=titulo, anhos=lista)
+def index_reserva():    
+    return render_template('registrar_reserva/index.html', titulo=titulo)
 
 
 @res.route('/form_reserva', methods=['GET'])
 def mostrarFormulario():
     form = FormAgregar()               
-    form.anho.data = resm.obtenerAnhoActivo()         
-        #form.fechafin.data = date(1991, 12, 5)
-        #x = date(1991, 12, 31).strftime('%Y/%m/%d')
-        #print(x)
+    form.anho.data = resm.obtenerAnhoActivo()            
     return render_template('registrar_reserva/form_reserva.html', titulo='Formulario Reserva', form=form)
 
 
 @res.route('/registrar', methods=['POST'])
-def registrar():    
+def registrar():
+    anho_habilitado = int(resm.obtenerAnhoActivo())        
     form = FormAgregar()
     res = form.validate_on_submit()
-     # Set datos
-    opcion = 'registrar'
-    idactividad = request.form['idactividad']
-    anhohabil = form.anho.data
-    evento = form.evento.data
-    comite = form.comite.data
+     # Set datos    
+    idreserva = request.form['idreserva']
+    anhohabil = int(form.anho.data)
+    solicitante = form.solicitante.data
+    evento = form.evento.data    
     lugar = form.lugar.data
     fechainicio = form.fechainicio.data
     horainicio = form.horainicio.data
     fechafin = form.fechafin.data
-    horafin = form.horafin.data
-    plazo = form.plazo.data
-    repite = form.repite.data
+    horafin = form.horafin.data    
     obs = form.obs.data
     if res:
         next = request.args.get('next', None)
         if next:
             return redirect(next) 
        
-        # Validar mas
+        # Validar mas!
         if  fechainicio > fechafin:
             flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion', 'warning')
-            return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))
-        
-        if idactividad is None or idactividad == '':
-            res = actim.guardarActividad(opcion, None, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
-	                            plazo, repite, obs, comite, None)
+            return redirect(url_for('actividades_anuales.mostrarFormulario'))
+        elif anho_habilitado > anhohabil:
+            flash('El año hábil no es correcto!', 'warning')
+            return redirect(url_for('actividades_anuales.mostrarFormulario'))
+
+        if idreserva is None or idreserva == '':
+            ##REGISTRAR
+            res = resm.guardarReserva('registrar', None, anhohabil, evento, lugar, solicitante, 
+            fechainicio, horainicio, fechafin, horafin, obs, None, None)
         else:
-            res = actim.guardarActividad('modificar', idactividad, anhohabil, evento, lugar, fechainicio, horainicio, fechafin, horafin,
-	                            plazo, repite, obs, comite, None)
+            ##MODIFICAR
+            res = resm.guardarReserva('modificar', idreserva, anhohabil, evento, lugar, solicitante, 
+            fechainicio, horainicio, fechafin, horafin, obs, None, None)
 
         if res == True:
-            flash('Se ha registrado una actividad', 'success')
-            return redirect(url_for('actividades_anuales.index_acti_anuales'))
+            flash('Se ha registrado una reserva', 'success')
+            return redirect(url_for('registrar_reserva.index_reserva'))
         else:
             flash(res.diag.message_primary , 'danger')
-            return redirect(url_for('actividades_anuales.index_acti_anuales', anho=anhohabil))
+            return redirect(url_for('registrar_reserva.index_reserva'))
     else:
         flash('Error en al cargar en formulario', 'danger')
-        return redirect(url_for('actividades_anuales.mostrarFormulario', anho=anhohabil))    
+        return redirect(url_for('registrar_reserva.mostrarFormulario'))    
 
 
 @res.route('/form_actividad/modificar/<int:anho>/<int:id>', methods=['GET'])
@@ -110,9 +109,10 @@ def eliminarActividad(anho,id):
     return redirect(url_for('actividades_anuales.index_acti_anuales'))
 
 ## Funciones para AJAX
-@res.route('/get_actividades_json/<int:anho>')
-def get_actividades_json(anho): 
-    res = actim.obtenerActividadesJson(anho)       
+@res.route('/get_reservas_json', methods=['POST'])
+def get_actividades_json():
+    estado = request.json['estado'] 
+    res = resm.obtenerReservasJson(estado)       
     return jsonify(res)
 
 
