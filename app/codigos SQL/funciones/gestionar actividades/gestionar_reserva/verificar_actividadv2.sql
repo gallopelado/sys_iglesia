@@ -4,7 +4,7 @@ $$
 /*
  * Funcion verificar_actividadv2
  * Se encarga de verificar segun fechas y horas ingresadas
- * donde no deben superponerse las actividades de un mismo lugar.
+ * donde no deben superponerse las actividades y reservas de un mismo lugar.
  * Autor: Juan Jose Gonzalez Ramirez <juanftp100@gmail.com>
  * Fecha: 14-01-2020
  * version: 2.0
