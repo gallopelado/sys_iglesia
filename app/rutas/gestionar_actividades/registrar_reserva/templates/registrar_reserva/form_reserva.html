@@ -150,11 +150,13 @@
                                 {{ pintar_alerta(messages) }}
                             </div>
                             <!--Fin card-body-->
+                            {% if bloqueado == false or bloqueado is none %}
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     <i class="fa fa-dot-circle-o"></i> Registrar
                                 </button>                                
                             </div>
+                            {% endif %}
                         </form>
                     </div>
                 </div>

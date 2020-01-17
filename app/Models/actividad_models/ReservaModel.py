@@ -42,7 +42,7 @@ class ReservaModel:
             select array_to_json(array_agg(row_to_json(datos)))
             from (
                 select
-                    res_id id,
+                    res_id idreserva,
                     res_obs actividad,
                     fecha_formatolargo(res_fechainicio) fechainicio,
                     res_horainicio horainicio,		
@@ -65,26 +65,25 @@ class ReservaModel:
                 con.close()
 
     
-    def obtenerActividadesId(self, id):
+    def obtenerReservaId(self, id):
         try:
             consulta = '''            
                 select
-                    act_id idactividad,
-                    anho_des anho,
-                    eve_id,
-                    min_id,
-                    lug_id,                    
-                    act_fechainicio,
-                    act_horainicio,
-                    act_fechafin,
-                    act_horafin,
-                    plaz_id,
-                    act_repite,
-                    act_obs                    	
+                    res_id idreserva,
+                    anho_des,
+                    per_id idpersona,
+                    eve_id idevento,
+                    lug_id idlugar,	
+                    res_fechainicio fechainicio,
+                    res_horainicio horainicio,
+                    res_fechafin fechafin,
+                    res_horafin horafin,
+                    res_obs obs,
+                    res_estado
                 from
-                    actividades.actividades
-                lef join referenciales.anho_habil using(anho_id)
-                where act_id = %s
+                    actividades.reservas
+                left join referenciales.anho_habil using(anho_id)
+                where res_id = %s
             '''
             conexion = Conexion()
             con = conexion.getConexion()

@@ -1,4 +1,4 @@
-create or replace function actividades.verificar_actividadv2(lugar text, fechaini date, horaini time, fechafin date, horafin time)
+create or replace function actividades.verificar_actividadv2(opcion varchar, idreserva integer, lugar text, fechaini date, horaini time, fechafin date, horafin time)
 returns boolean as
 $$
 /*
@@ -7,10 +7,10 @@ $$
  * donde no deben superponerse las actividades y reservas de un mismo lugar.
  * Autor: Juan Jose Gonzalez Ramirez <juanftp100@gmail.com>
  * Fecha: 14-01-2020
- * version: 2.0
+ * version: 2.1
 */
 declare		
-	bandera boolean := false;
+	bandera boolean := false;	
 	s_fechainicio DATE := fechaini;
 	s_horainicio  TIME := horaini;
 	-----
@@ -23,47 +23,95 @@ declare
 	v_anhohabil integer := (select anho_des from referenciales.anho_habil where is_active = true);
 	
 begin
-	--control de actividades
-	perform 
-		lug_des,
-		concat(act_fechainicio,' ',act_horainicio)::timestamp fechainicio,
-		concat(act_fechafin, ' ', act_horafin)::timestamp fechafin
-	from actividades.actividades
-	left join referenciales.lugares using(lug_id)
-	where 
-	((v_fechainicio between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)
-	or
-	(v_fechafin between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)) and
-	lug_des = lugar;
-	if not found then
-		raise notice 'Es posible registrar esta actividad';
-		bandera := true;
-	else
-		raise exception 'No es posible registrar esta actividad';
-		return bandera;
-	end if;
-
-	--control de reservas
-	if bandera is true then
+	if opcion = 'registrar' then
+		--control de actividades
 		perform 
 			lug_des,
-			concat(res_fechainicio,' ',res_horainicio)::timestamp fechainicio,
-			concat(res_fechafin, ' ', res_horafin)::timestamp fechafin
-		from actividades.reservas
+			concat(act_fechainicio,' ',act_horainicio)::timestamp fechainicio,
+			concat(act_fechafin, ' ', act_horafin)::timestamp fechafin
+		from actividades.actividades
 		left join referenciales.lugares using(lug_id)
 		where 
-		((v_fechainicio between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)
+		((v_fechainicio between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)
 		or
-		(v_fechafin between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)) and
+		(v_fechafin between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)) and
 		lug_des = lugar;
 		if not found then
-			raise notice 'Es posible registrar esta reserva';
-			return true;
+			raise notice 'Es posible registrar esta actividad';
+			bandera := true;
 		else
-			raise exception 'No es posible registrar esta reserva';
+			raise exception 'No es posible registrar esta actividad';
+			return bandera;
+		end if;
+	
+		--control de reservas
+		if bandera is true then
+			perform 
+				lug_des,
+				concat(res_fechainicio,' ',res_horainicio)::timestamp fechainicio,
+				concat(res_fechafin, ' ', res_horafin)::timestamp fechafin
+			from actividades.reservas
+			left join referenciales.lugares using(lug_id)
+			where 
+			((v_fechainicio between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)
+			or
+			(v_fechafin between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)) and
+			lug_des = lugar;
+			if not found then
+				raise notice 'Es posible registrar esta reserva';
+				return true;
+			else
+				raise exception 'No es posible registrar esta reserva';
+				return false;
+			end if;
+		end if;
+	elsif opcion = 'modificar' then
+		if idreserva is not null then
+			--control de actividades
+			perform 
+				lug_des,
+				concat(act_fechainicio,' ',act_horainicio)::timestamp fechainicio,
+				concat(act_fechafin, ' ', act_horafin)::timestamp fechafin
+			from actividades.actividades
+			left join referenciales.lugares using(lug_id)
+			where 
+			((v_fechainicio between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)
+			or
+			(v_fechafin between concat(act_fechainicio,' ',act_horainicio)::timestamp and concat(act_fechafin, ' ', act_horafin)::timestamp)) and
+			lug_des = lugar;
+			if not found then
+				raise notice 'Es posible registrar esta actividad';
+				bandera := true;
+			else
+				raise exception 'No es posible registrar esta actividad';
+				return bandera;
+			end if;
+		
+			--control de reservas
+			if bandera is true then
+				perform 
+					lug_des,
+					concat(res_fechainicio,' ',res_horainicio)::timestamp fechainicio,
+					concat(res_fechafin, ' ', res_horafin)::timestamp fechafin
+				from actividades.reservas
+				left join referenciales.lugares using(lug_id)
+				where 
+				((v_fechainicio between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)
+				or
+				(v_fechafin between concat(res_fechainicio,' ',res_horainicio)::timestamp and concat(res_fechafin, ' ', res_horafin)::timestamp)) and
+				lug_des = lugar and res_id != idreserva;
+				if not found then
+					raise notice 'Es posible registrar esta reserva';
+					return true;
+				else
+					raise exception 'No es posible registrar esta reserva';
+					return false;
+				end if;
+			end if;
+		else
+			raise exception 'El idreserva esta nulo';
 			return false;
 		end if;
-	end if;
-	
+	end if;--if general
 end
 $$ language plpgsql; 

@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${d.fechainicio}</td>
                         <td>${d.horainicio}</td>
                         <td>
-                            ${botonConfirmar(d.idactividad)}
+                            ${botonConfirmar(d.idreserva)}
                         </td>
                         <td>
                         <div class="table-data-feature">                     
-                            ${botonModificar(d.idactividad)} ${botonEliminar(d.idactividad)}
+                            ${botonModificar(d.idreserva)} ${botonEliminar(d.idreserva)}
                         </div>
                         </td>
                     </tr>
@@ -79,11 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarTabla(estado);
     });
 
-    window.modificar = (idactividad) => {        
-        const anho = document.getElementById('cbm_anho').value;
+    window.modificar = (id) => {                
         const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
         m.buttons.Si.action = () => {                
-            location.href = `/actividades/registrar_actividades_anuales/form_actividad/modificar/${anho}/${idactividad}`;
+            location.href = `/actividades/registrar_reserva/form_reserva/${id}`;
         }
         m.open();
     }

@@ -1,4 +1,4 @@
-create or replace function actividades.gestionar_reservas(opcion varchar, resid integer, anho varchar, eveid integer, lugid integer, perid integer, 
+create or replace function actividades.gestionar_reservas(opcion varchar, resid integer, anho integer, eveid integer, lugid integer, perid integer, 
 resfechainicio date,reshorainicio time, resfechafin date, reshorafin time, resobs text, creadoporusuario integer, modificadoporusuario integer)
 returns boolean as
 $$
@@ -8,7 +8,7 @@ $$
  * con opciones como:
  * registrar, modificar, cancelar, confirmar
  * Autor: Juan José González Ramírez <juanftp100@gmail.com>
- * versión 1.1
+ * versión 1.3
 */
 declare
 	v_lugar varchar;
@@ -16,13 +16,22 @@ declare
 	v_fechactual timestamp := now();
 	v_idanho INTEGER;
 begin
-	if opcion in ('registrar', 'modificar') then
+	if opcion = 'registrar' then
 		select anho_id into v_idanho from referenciales.anho_habil where anho_des = anho;
 		--Obtener descripcion de lugar.
 		select lug_des into v_lugar from referenciales.lugares where lug_id = lugid;
 		--Validar
-		select actividades.verificar_actividadv2(v_lugar, resfechainicio, reshorainicio, resfechafin, reshorafin);
-		select actividades.verifica_persona_admision(perid);
+		perform actividades.verificar_actividadv2(opcion, null, v_lugar, resfechainicio, reshorainicio, resfechafin, reshorafin);
+		perform actividades.verifica_persona_admision(perid);
+	elsif opcion = 'modificar' then
+		if (resfechainicio != resfechafin and  reshorainicio != reshorafin) or ( resfechainicio = resfechafin and  reshorainicio != reshorafin ) then
+			select anho_id into v_idanho from referenciales.anho_habil where anho_des = anho;
+			--Obtener descripcion de lugar.
+			select lug_des into v_lugar from referenciales.lugares where lug_id = lugid;
+			--Validar
+			perform actividades.verificar_actividadv2(opcion, resid, v_lugar, resfechainicio, reshorainicio, resfechafin, reshorafin);
+			perform actividades.verifica_persona_admision(perid);
+		end if;
 	end if;
 
 	--Operaciones
@@ -36,7 +45,7 @@ begin
 		when 'modificar' then
 			UPDATE actividades.reservas
 			SET eve_id=eveid, lug_id=lugid, per_id=perid, res_fechainicio=resfechainicio, res_horainicio=reshorainicio, 
-			res_fechafin=resfechafin, res_horafin=reshorafin, res_obs=resobs, modificado_por_usuario=modificadoporusuario,
+			res_fechafin=resfechafin, res_horafin=reshorafin, res_obs=v_obs, modificado_por_usuario=modificadoporusuario,
 			modif_fecha=v_fechactual
 			WHERE res_id=resid;
 			return true;
