@@ -98,53 +98,6 @@ class ReservaModel:
                 con.close()
 
 
-    def verificarAnho(self, anho):
-        try:
-            consulta = 'actividades.verificar_anho'
-            conexion = Conexion()
-            con = conexion.getConexion()
-            cur = con.cursor()
-            cur.callproc(consulta, (anho,))            
-            return cur.fetchone()[0]
-        except con.Error as e:
-            print(e.pgerror)
-        finally:
-            if con is not None:
-                cur.close()
-                con.close()
-
-    def verificarAnhoFuturo(self, anho):
-        try:
-            consulta = 'SELECT anho_id FROM referenciales.anho_habil WHERE anho_des = %s AND is_active = FALSE AND adelantar = TRUE'
-            conexion = Conexion()
-            con = conexion.getConexion()
-            cur = con.cursor()
-            cur.execute(consulta, (anho,))  
-            resultado = cur.fetchone() is not None if True else False                     
-            return resultado
-        except con.Error as e:
-            print(e.pgerror)
-        finally:
-            if con is not None:
-                cur.close()
-                con.close()
-
-    def verificarAnhoActivo(self, anho):
-        try:
-            consulta = 'SELECT anho_des FROM referenciales.anho_habil WHERE is_active = TRUE AND adelantar = FALSE'
-            conexion = Conexion()
-            con = conexion.getConexion()
-            cur = con.cursor()
-            cur.execute(consulta, (anho,))  
-            resultado = cur.fetchone()[0]                                
-            return resultado
-        except con.Error as e:
-            print(e.pgerror)
-        finally:
-            if con is not None:
-                cur.close()
-                con.close()
-
     
     def guardarReserva(self, opcion, resid, anhoid, eveid, lugid, perid, 
     resfechainicio, reshorainicio, resfechafin, reshorafin, resobs, creadoporusuario, modificadoporusuario):
