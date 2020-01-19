@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 `;
             }                        
+            tbody.innerHTML = datos;
             const tab = $('#tabla_actividades').DataTable({
                 "language": idioma_spanish,
                 "destroy": true
             });
-            tab.clear();
-            tbody.innerHTML = datos;
+            //tab.clear();            
         }
     }
 
