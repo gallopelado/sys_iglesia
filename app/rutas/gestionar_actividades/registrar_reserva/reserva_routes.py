@@ -2,19 +2,14 @@ from datetime import date, datetime
 # Se importan las librerias basicas
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 # Importar modelos
-from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
 from app.Models.actividad_models.ReservaModel import ReservaModel
-from app.Models.ReferencialModel import ReferencialModel
-from app.helps.helps import fechaActual
 # Clase del formulario
 from app.rutas.gestionar_actividades.registrar_reserva.formularios import FormAgregar
 # Registrar módulo
 # res -- registrar reserva
 res = Blueprint('registrar_reserva', __name__, template_folder='templates')
 titulo = 'Registrar reserva para eventos'
-refm = ReferencialModel()
 # Instancias
-actim = ActividadAnualModel()
 resm = ReservaModel()
 @res.route('/')
 def index_reserva():    
@@ -114,36 +109,16 @@ def registrar():
         return redirect(url_for('registrar_reserva.mostrarFormulario'))    
 
 
-@res.route('/form_actividad/modificar/<int:anho>/<int:id>', methods=['GET'])
-def modificarFormulario(anho, id):
-    if anho >= actim.verificarAnhoActivo(anho) and actim.verificarAnho(anho):
-        res = actim.obtenerActividadesId(id)                   
-        form = FormAgregar()                       
-        form.anho.data = anho                 
-        form.evento.data = res[2]
-        form.comite.data = res[3]
-        form.lugar.data = res[4]
-        form.fechainicio.data = res[5]
-        form.horainicio.data = res[6]
-        form.fechafin.data = res[7]
-        form.horafin.data = res[8]
-        form.plazo.data = res[9]
-        form.repite.data = res[10]
-        form.obs.data = res[11]
-        return render_template('registrar_reserva/form_reserva.html', titulo='Formulario Actividad', form=form, idactividad=id)
 
-    return render_template('registrar_reserva/error_anho.html', titulo='El año no es válido')
-
-
-@res.route('/eliminar/<int:anho>/<int:id>', methods=['GET'])
-def eliminarActividad(anho,id):
-    res = actim.guardarActividad('eliminar', id, anho, None, None, None, None, None, None,
-	                            None, None, None, None, None)
+@res.route('/eliminar/<int:id>', methods=['GET'])
+def eliminarReserva(id):
+    res = resm.guardarReserva('cancelar', id, None, None, None, None, 
+            None, None, None, None, None, None, None)
     if res == True:
-        flash('Se ha eliminado una actividad', 'success')
-        return redirect(url_for('actividades_anuales.index_acti_anuales'))
+        flash('Se ha cancelado una reserva', 'default')
+        return redirect(url_for('registrar_reserva.index_reserva'))
     flash(res.diag.message_primary, 'warning')        
-    return redirect(url_for('actividades_anuales.index_acti_anuales'))
+    return redirect(url_for('registrar_reserva.index_reserva'))
 
 ## Funciones para AJAX
 @res.route('/get_reservas_json', methods=['POST'])
@@ -152,14 +127,3 @@ def get_actividades_json():
     res = resm.obtenerReservasJson(estado)       
     return jsonify(res)
 
-
-@res.route('/verificarAnho/<int:anho>')
-def verificarAnho(anho):
-    res = actim.verificarAnho(anho) if True else False
-    return jsonify(res)
-
-
-@res.route('/verificarAnhoFuturo/<int:anho>')
-def verificarAnhoFuturo(anho):
-    res = actim.verificarAnhoFuturo(anho)
-    return jsonify(res)
