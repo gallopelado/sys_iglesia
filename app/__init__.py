@@ -46,6 +46,7 @@ from app.rutas.nacionalidad.routes import nac
 from app.rutas.persona.persona_routes import permod
 from app.rutas.profesion.profesion_routes import profesion
 from app.rutas.requisito.requisito_routes import reqi
+from app.rutas.contrato.contrato_routes import contr
 
 # modulos de membresia
 from app.rutas.registrar_formulario_admision.formulario_admision_routes import formadmi
@@ -86,6 +87,7 @@ app.register_blueprint(rutas.nacionalidad.routes.nac, url_prefix="/nacionalidad"
 app.register_blueprint(rutas.persona.persona_routes.permod, url_prefix="/persona")
 app.register_blueprint(rutas.profesion.profesion_routes.profesion, url_prefix="/profesion")
 app.register_blueprint(rutas.requisito.requisito_routes.reqi, url_prefix='/requisito')
+app.register_blueprint(contr, url_prefix='/contrato')
 
 # Rutas del modulo membresia
 app.register_blueprint(rutas.registrar_formulario_admision.formulario_admision_routes.formadmi, url_prefix="/formulario_admision")
