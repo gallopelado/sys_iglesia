@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cargarTabla = async (estado) => {
         const tbody = document.getElementById('tb_reserva');
-        const botonConfirmar = (idactividad) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${idactividad})">Confirmar</button>`;
-        const botonModificar = (idactividad) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${idactividad})">Modificar</button>`;
-        const botonEliminar = (idactividad) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${idactividad})">Eliminar</button>`;
+        const botonConfirmar = (id) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${id})">Confirmar</button>`;
+        const botonModificar = (id) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${id})">Modificar</button>`;
+        const botonEliminar = (id) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${id})">Cancelar</button>`;
         let datos = '';
         const lista = await getReservas(estado);                       
         if (lista != null) {
@@ -47,28 +47,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         </td>
                     </tr>
                 `;
-            }                        
+            }
+            tbody.innerHTML = datos;                        
             const tab = $('#tabla_reserva').DataTable({
                 "language": idioma_spanish,
                 "destroy": true
             });
-            tab.clear();
-            tbody.innerHTML = datos;
+            //tab.clear();
+            //tbody.innerHTML = datos;
         }
     }
 
     window.nuevaReserva = async() => {                        
         location.href = `/actividades/registrar_reserva/form_reserva/${anho}`;        
-    }
-
-    const verificaAnho = async(anho) => {
-        try {
-            const res = await fetch(`/actividades/registrar_actividades_anuales/verificarAnho/${anho}`)
-            const data = await res.json();
-            return data;
-        } catch (error) {
-            console.error(error);
-        }
     }
 
     cargarTabla(estado);
@@ -87,11 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         m.open();
     }
 
-    window.eliminar = (idactividad) => {        
-        const anho = document.getElementById('cbm_anho').value;
-        const m = mensajeConfirmacion('Confirmar', 'Desea eliminar?');
+    window.eliminar = (id) => {                
+        const m = mensajeConfirmacion('Confirmar', 'Desea cancelar?');
         m.buttons.Si.action = () => {                
-            location.href = `/actividades/registrar_actividades_anuales/eliminar/${anho}/${idactividad}`;
+            location.href = `/actividades/registrar_reserva/eliminar/${id}`;
         }
         m.open();
     }
