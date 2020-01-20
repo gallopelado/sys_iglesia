@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 ['image', 'code-block']
             ]
         },
-        scrollingContainer: '#scrolling-container',
+        //scrollingContainer: '#scrolling-container',
         placeholder: 'Compose an epic...',
         theme: 'snow'  // or 'bubble'
     });
+    console.log(quill.container.firstChild.innerHTML);
 });
