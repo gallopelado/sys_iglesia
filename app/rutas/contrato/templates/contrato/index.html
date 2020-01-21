@@ -45,11 +45,11 @@
                         </div>
                         <div class="card-body">
                             
-                                <table id="tabla_miembros" class="table table-borderless table-data3">
+                                <table id="tabla_contrato" class="table table-borderless table-data3">
                                     <thead>
                                         <tr>
                                             <th>Titulo</th>
-                                            <th>Tipo</th>                                            
+                                            <th>Tipo Contrato</th>                                            
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
@@ -58,12 +58,11 @@
                                     {% for item in lista %}
                                     <tr id="{{ item[0] }}">
                                         <td>{{ item[2] }}</td>
-                                        <td>{{ item[3] }}</td>
-                                        <td>{{ item[5] }}</td>
+                                        <td>{{ item[1] }}</td>                                        
                                         <td>
-                                            <button type="button" id="btnModificar" class="btn btn-info btn-sm" onclick="ver('{{ url_for('registrar_asistencia.formularioVer', id=item[0]) }}')">Ver</button>
-                                            <button type="button" id="btnModificar" class="btn btn-primary btn-sm" onclick="modificar('{{ url_for('registrar_asistencia.formularioAsistencia') }}/{{ item[0] }}')">Modificar</button>
-                                            <button type="button" id="btnEliminar" class="btn btn-danger btn-sm" onclick="eliminar('{{ url_for('registrar_asistencia.eliminar', id=item[0]) }}')">Eliminar</button>
+                                            <a href="{{ url_for('contrato.verContrato', id=item[0]) }}" class="btn btn-info btn-sm">Ver</a>
+                                            <button type="button" id="btnModificar" class="btn btn-primary btn-sm" onclick="modificar('{{ url_for('contrato.editarContrato', id=item[0]) }}')">Modificar</button>
+                                            <button type="button" id="btnEliminar" class="btn btn-danger btn-sm" onclick="eliminar('{{ url_for('contrato.eliminar', id=item[0]) }}')">Eliminar</button>
                                         </td>
                                     </tr>
                                     {% endfor%}
@@ -103,8 +102,8 @@
 <script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/asistencia/index.js') }}"></script> -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/contrato/index.js') }}"></script>
 
 
 {% endblock %}
