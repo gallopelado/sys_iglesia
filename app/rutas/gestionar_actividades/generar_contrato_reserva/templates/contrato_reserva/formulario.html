@@ -38,8 +38,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('contrato_reserva.index_contrato') }}"
-                                class="btn btn-secondary bt-sm">
+                            <a href="{{ url_for('contrato_reserva.index_contrato') }}" class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
                         <!--Inicio card-body-->
@@ -53,52 +52,59 @@
                             <hr>
 
                             <div class="form-horizontal">
-                                <div class="row form-group">
-                                    <input type="hidden" name="idcontrato" id="idcontrato" value="{{ idcontrato if idcontrato }}">
+                                <div class="row form-group">                                    
                                     <!-- Campo reserva-->
                                     <div class="col col-6">
                                         <div class="form-group">
-                                            <label for="txt_fecha"
+                                            <label for="cbo_reserva"
                                                 class="form-control-label form-control-sm">Reserva</label>
-                                            <div class="input-group">                                                
-                                                <input type="text" id="txt_fecha" name="txt_fecha"
-                                                    class="form-control form-control-sm" value="">                                                
-                                            </div>
+                                            <select name="cbo_reserva" id="cbo_reserva"
+                                                class="custom-select form-control-sm form-control">
+                                                <option value="">Elegir...</option>
+                                                {% if reservas %}
+                                                {% for reserva in reservas %}
+                                                <option value="{{ reserva[0] }}">{{ reserva[1] }}</option>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </select>
                                         </div>
                                     </div>
                                     <!---->
                                     <!-- Campo solicitante -->
-                                    <div class="col col-6">
+                                    <div class="col col-6">                                        
                                         <label for="cbo_evento"
                                             class="form-control-label form-control-sm">Solicitante</label>
-                                        <select name="cbo_evento" id="cbo_evento"
-                                            class="custom-select form-control-sm form-control">
-                                            <option value="">Elegir...</option>                                            
-                                        </select>
+                                        <input type="text" id="txt_solicitante" name="txt_solicitante"
+                                            class="form-control form-control-sm" value="" disabled>
                                     </div>
                                     <!---->
                                 </div>
                             </div>
 
                             <div class="form-horizontal">
-                                <div class="row form-group">                                    
+                                <div class="row form-group">
                                     <!-- Campo encargado-->
                                     <div class="col col-6">
                                         <div class="form-group">
-                                            <label for="txt_fecha"
+                                            <label for="cbo_encargado"
                                                 class="form-control-label form-control-sm">Encargado</label>
-                                            <div class="input-group">                                                
-                                                <input type="text" id="txt_fecha" name="txt_fecha"
-                                                    class="form-control form-control-sm" value="">                                                
-                                            </div>
+                                            <select name="cbo_encargado" id="cbo_encargado"
+                                                class="custom-select form-control-sm form-control">
+                                                <option value="">Elegir...</option>
+                                                {% if encargados %}
+                                                {% for encargado in encargados %}
+                                                <option value="{{ encargado[0] }}">{{ encargado[1] }} {{ encargado[2] }}
+                                                    - CI: {{ encargado[3] }}</option>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </select>
                                         </div>
                                     </div>
                                     <!---->
                                     <!-- Campo fecha -->
                                     <div class="col col-4">
-                                        <label for="cbo_evento"
-                                            class="form-control-label form-control-sm">Fecha</label>
-                                            <input type="text" id="txt_fecha" name="txt_fecha"
+                                        <label for="txt_fecha" class="form-control-label form-control-sm">Fecha</label>
+                                        <input type="text" id="txt_fecha" name="txt_fecha"
                                             class="form-control form-control-sm" value="" disabled>
                                     </div>
                                     <!---->
@@ -109,13 +115,14 @@
                                 <!-- Campo -->
                                 <div class="col col-12">
                                     <div class="form-group">
-                                        <label for="txt_obs"
-                                            class="form-control-label form-control-sm">Vista del Contrato</label>
-                                        <textarea name="" id="" class="form-control form-control-sm" cols="30" rows="10"></textarea>
+                                        <label for="txt_obs" class="form-control-label form-control-sm">Vista del
+                                            Contrato</label>
+                                        <textarea name="" id="" class="form-control form-control-sm" cols="30"
+                                            rows="10"></textarea>
                                     </div>
                                 </div>
                                 <!---->
-                            </div>                                                        
+                            </div>
                         </div>
                         <!--Fin card-body-->
                     </div>
@@ -137,7 +144,10 @@
 <!-- Js de Jquery UI -->
 <script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
 
+<!-- Js de Select2 -->
+<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+
 <!-- Js Operativo -->
-<!-- <script type="module" src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/asistencia/formulario.js') }}"></script> -->
+<script type="module" src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/contrato_reserva/formulario.js') }}"></script>
 
 {%- endblock %}
