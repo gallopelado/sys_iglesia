@@ -21,8 +21,9 @@ def formularioContrato():
     titulo = 'Formulario contrato'
     hoy = date.today()    
     reservas = crm.obtenerReservasNoConfirmadas(hoy.year)
-    encargados = crm.obtenerEncargados()    
-    return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados)
+    encargados = crm.obtenerEncargados()
+    plantillas = crm.obtenerPlantilla(None)        
+    return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados, plantillas=plantillas)
 
 
 # Rutas para AJAX
@@ -30,3 +31,15 @@ def formularioContrato():
 def obtenerReservaId(id):
     reserva = crm.obtenerDataReservaId(id)    
     return jsonify(reserva)
+
+
+@gcr.route('/obtener_plantilla_id/<int:id>')
+def obtenerPlantillaId(id):
+    plantilla = crm.obtenerPlantilla(id)    
+    return jsonify(plantilla)
+
+
+@gcr.route('/obtener_encargado_id/<int:id>')
+def obtenerEncargadoId(id):
+    encargado = crm.obtenerEncargadoId(id)    
+    return jsonify(encargado)

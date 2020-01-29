@@ -68,7 +68,8 @@ class ContratoReservaModel:
                     , ap.adp_ecivil estadocivil
                     , ap.adp_email email
                     , fecha_formatolargo(ap.adp_fechanac) fechanacimiento
-                    , adi.add_lugarnac lugarnacimiento	
+                    , adi.add_lugarnac lugarnacimiento
+                    , ap.adp_nrocasa nrocasa	
                 from actividades.reservas r
                 left join referenciales.personas p on r.per_id = p.per_id
                 left join membresia.admision_persona ap on p.per_id = ap.adp_id 
@@ -81,6 +82,68 @@ class ContratoReservaModel:
             cur = con.cursor()
             cur.execute(consulta, (id,))            
             return cur.fetchone()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
+    def obtenerPlantilla(self, id):
+        try:
+            consulta = '''                             
+            select 
+                con_id 
+                , tcon_id 
+                , tcon_des
+                , con_titulo 
+                , con_plantilla 
+            from referenciales.contrato c
+            left join referenciales.tipo_contrato using(tcon_id)
+            where con_estado is true
+            '''
+            if id:
+                consulta = consulta + ' AND con_id = %s'
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            if id:
+                cur.execute(consulta, (id,))
+                return cur.fetchone()
+            cur.execute(consulta)                        
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+
+    def obtenerEncargadoId(self, id):
+        try:
+            consulta = '''                             
+            select array_to_json(array_agg(row_to_json(datos)))
+                from (
+                    select 
+                        p.per_id id
+                        , p.per_nombres nombres
+                        , p.per_apellidos apellidos
+                        , p.per_ci cedula
+                        , adp.adp_direccion direccion
+                        , adp.adp_nrocasa nrocasa
+                    from referenciales.personas p
+                    left join membresia.admision_persona adp on p.per_id=adp.adp_id
+                    left join membresia.admision_adicionales adc on p.per_id= adc.add_id 
+                    where p.is_propietario is true and p.per_id = %s
+                )datos
+            '''            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(consulta, (id,))
+            return cur.fetchone()[0][0]            
         except con.Error as e:
             print(e.pgerror)
         finally:
