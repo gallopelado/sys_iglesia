@@ -19,4 +19,7 @@ Se usa GitHub para el versionado.
 ## Autor 
 * **Juan Jose Gonzalez Ramirez**
 
-### UTIC - 2019
+### UTIC - 2019/2020
+
+## Puedes revisar la versión ALPHA del proyecto en heroku
+* [sys-iglesia](https://sys-iglesia.herokuapp.com/) - Proyecto demo en línea
