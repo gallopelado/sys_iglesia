@@ -6,11 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const txt_solicitante = document.getElementById('txt_solicitante');
     const txt_fecha = document.getElementById('txt_fecha');
     const txt_contrato = document.getElementById('txt_contrato');
-    const btnActualizar = document.getElementById('btnActualizar');
+    const btnImprimir = document.getElementById('btnImprimir');
+    const btnGenerar = document.getElementById('btnGenerar');
     let datosReserva = {};
     let textoPlantilla = '';
     let datosEncargado = {};
     
+    //Asignar evento click al boton generar
+    btnGenerar.addEventListener('click', () => {
+        generar();
+    });
+
     //Asignar evento change a reserva   
     $('#cbo_reserva').change(function() {
         const idreserva = cboReserva.value;
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const idcontrato = cboContrato.value;
         if(idcontrato != '') {            
             llenarVistaPrevia(idcontrato);
-            btnActualizar.style.display = 'block';                        
+            btnImprimir.style.display = 'block';                        
         }
     });
     
@@ -72,10 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const formatearContrato = (datosE, datos, plantilla) => {
-        console.log(datosE);
-        console.log(datos);
-        //console.log(plantilla);
+    const formatearContrato = (datosE, datos, plantilla) => {        
         const {nombres, apellidos, cedula, nrocasa, direccion} = datos;                
         plantilla = plantilla.replace(/{COMODANTE}/g, `${nombres} ${apellidos}`);
         plantilla = plantilla.replace(/{CEDULA_CTE}/g, `${cedula}`);
@@ -86,6 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
         plantilla = plantilla.replace(/{NROCASA_CIO}/g, `${datosE.nrocasa}`);
         plantilla = plantilla.replace(/{DIRECCION_CIO}/g, `${datosE.nrocasa}`);
         return plantilla;
+    }
+
+    const generar = () => {
+        const datosParaEnviar = {
+            idreserva: cboReserva.value,
+            idencargado: cboEncargado.value,
+            plantilla: document.getElementById('txt_contrato').innerHTML,
+            plantilla_texto: document.getElementById('txt_contrato').innerText
+        }
+        console.log(datosParaEnviar);
     }
 
     
