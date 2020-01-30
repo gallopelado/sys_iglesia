@@ -150,3 +150,21 @@ class ContratoReservaModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+
+    def procesarContrato(self, resid, encargadoid, plantillacontrato, plantillatexto, creadoporusuario):
+        try:
+            consulta = 'actividades.generacion_contrato'
+            parametros = (resid, encargadoid, plantillacontrato, plantillatexto, creadoporusuario,)            
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.callproc(consulta, parametros)
+            con.commit()
+            return cur.fetchone()       
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
