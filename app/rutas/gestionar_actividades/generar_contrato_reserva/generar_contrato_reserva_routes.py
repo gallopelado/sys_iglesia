@@ -43,3 +43,18 @@ def obtenerPlantillaId(id):
 def obtenerEncargadoId(id):
     encargado = crm.obtenerEncargadoId(id)    
     return jsonify(encargado)
+
+
+@gcr.route('/generar', methods=['POST'])
+def generar():
+    resid = request.json['idreserva'] 
+    encargadoid = request.json['idencargado'] 
+    plantillacontrato = request.json['plantilla'] 
+    plantillatexto =  request.json['plantilla_texto']
+    creadoporusuario = None
+    res = crm.procesarContrato(resid, encargadoid, plantillacontrato, plantillatexto, creadoporusuario)
+    if res==True:
+        flash('Se generó con exito', 'success')
+        return jsonify({'estado': res, 'mensaje': 'Se generó con exito'})
+    flash('Error al procesar', 'success')
+    return jsonify({'estado': res, 'mensaje': 'Error al procesar'})
