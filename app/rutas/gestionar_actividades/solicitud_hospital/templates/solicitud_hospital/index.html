@@ -30,34 +30,43 @@
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row form-group">                                
+                            <div class="row form-group">                                                                
+                                
+                                    <div class="col-md-03 mb-2">
+                                        <a href=""
+                                            class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i> Nueva Visita
+                                        </a>
+                                    </div>
+                                    <div class="col-md-03 mb-2 ml-2">
+                                        <a href=""
+                                            class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i> Encargar Voluntarios
+                                        </a>
+                                    </div>
+                                
+                            </div>
+                            <div class="row">
                                 <div class="col-12 col-md-3">
                                     <select name="cbm_estado" id="cbm_estado" class="form-control-sm form-control">                                                                                                                                                            
-                                        <option value="NO-CONFIRMADO" selected>Reservas NO-CONFIRMADAS</option>
-                                        <option value="CONFIRMADO">Reservas CONFIRMADAS</option>
-                                        <option value="CANCELADO">Reservas CANCELADAS</option>
-                                </select>                                
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ url_for('registrar_reserva.mostrarFormulario') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
-                                        <i class="zmdi zmdi-plus"></i> Registrar Nueva Reserva
-                                    </a>                                    
+                                        <option value="NO-ATENDIDOS" selected>NO ATENDIDOS</option>
+                                        <option value="ATENDIDOS">ATENDIDOS</option>                                        
+                                    </select>                                
                                 </div>
                             </div>                            
                         </div>
 
                         <div class="card-body">
-                            <table id="tabla_reserva" class="table table-borderless table-data3">
+                            <table id="tabla" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
-                                        <th>Actividad</th>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
+                                        <th>Descripcion</th>
+                                        <th>Solicitante</th>                                        
                                         <th>Estado</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb_reserva">
+                                <tbody id="tb">
                                 </tbody>
                             </table>
 
@@ -88,8 +97,8 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
 <!-- Controlador -->
-<script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/registrar_reserva/index.js') }}"></script>
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/registrar_reserva/index.js') }}"></script> -->
 
 
 {% endblock %}
