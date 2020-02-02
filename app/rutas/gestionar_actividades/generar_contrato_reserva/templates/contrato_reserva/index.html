@@ -55,16 +55,14 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tb">
-                                    {% if lista %}
-                                    {% for item in lista %}
+                                    {% if contratos %}
+                                    {% for item in contratos %}
                                     <tr id="{{ item[0] }}">
-                                        <td>{{ item[2] }}</td>
-                                        <td>{{ item[3] }}</td>
-                                        <td>{{ item[5] }}</td>
+                                        <td>{{ item[1] }}</td>
+                                        <td>{{ item[3] }} {{ item[4] }}</td>
+                                        <td>{{ item[6] }} {{ item[7] }}</td>
                                         <td>
-                                            <button type="button" id="btnModificar" class="btn btn-info btn-sm" onclick="ver('{{ url_for('registrar_asistencia.formularioVer', id=item[0]) }}')">Ver</button>
-                                            <button type="button" id="btnModificar" class="btn btn-primary btn-sm" onclick="modificar('{{ url_for('registrar_asistencia.formularioAsistencia') }}/{{ item[0] }}')">Modificar</button>
-                                            <button type="button" id="btnEliminar" class="btn btn-danger btn-sm" onclick="eliminar('{{ url_for('registrar_asistencia.eliminar', id=item[0]) }}')">Eliminar</button>
+                                            <a href="{{ url_for('contrato_reserva.verContrato', id=item[0]) }}" class="btn btn-info btn-sm">Ver</button>                                            
                                         </td>
                                     </tr>
                                     {% endfor%}

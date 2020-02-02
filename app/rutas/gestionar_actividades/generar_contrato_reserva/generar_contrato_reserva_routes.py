@@ -13,7 +13,21 @@ rsm = ReservaModel()
 
 @gcr.route('/')
 def index_contrato():
-    return render_template('contrato_reserva/index.html', titulo=titulo)
+    hoy = date.today()    
+    contratos = crm.obtenerContratosGenerados(hoy.year)
+    print(contratos)
+    return render_template('contrato_reserva/index.html', titulo=titulo, contratos=contratos)
+
+
+@gcr.route('/ver_contrato/<int:id>')
+def verContrato(id):
+    titulo = 'Ver contrato'
+    hoy = date.today()    
+    reservas = crm.obtenerReservasNoConfirmadas(hoy.year)
+    encargados = crm.obtenerEncargados() 
+    datos = crm.obtenerContratoGeneradoId(id)
+    print(datos)           
+    return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados, plantillas=None, ver=True, datos=datos)
 
 
 @gcr.route('/formulario_contrato')
@@ -23,7 +37,7 @@ def formularioContrato():
     reservas = crm.obtenerReservasNoConfirmadas(hoy.year)
     encargados = crm.obtenerEncargados()
     plantillas = crm.obtenerPlantilla(None)        
-    return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados, plantillas=plantillas)
+    return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados, plantillas=plantillas, ver=False, datos=None)
 
 
 # Rutas para AJAX

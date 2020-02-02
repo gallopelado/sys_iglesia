@@ -108,10 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             console.log(data);
             if (data.estado == true) {
-                location.href = '/actividades/generar_contrato/'
+                location.href = '/actividades/generar_contrato/';
             } else {
                 alert('Hubo un error. Contacte con el administrado de sistemas');
-                location.href = '/actividades/generar_contrato/'
+                location.href = '/actividades/generar_contrato/';
             }
         } catch (error) {
             console.error(error);

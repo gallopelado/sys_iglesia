@@ -2,6 +2,75 @@ from app.Conexion.Conexion import Conexion
 
 class ContratoReservaModel:
     
+    def obtenerContratosGenerados(self, anho):
+        try:
+            consulta = '''            
+                select 
+                    cr.res_id idreserva
+                    , re.res_obs obs
+                    , re.per_id idsolicitante
+                    , soli.per_nombres solicitante_nombres
+                    , soli.per_apellidos solicitante_apellidos	
+                    , cr.encargado_id idencargado
+                    , enca.per_nombres encargado_nombres
+                    , enca.per_apellidos encargado_apellidos
+                    , an.anho_des 
+                from 
+                    actividades.contrato_reserva cr
+                left join actividades.reservas re using(res_id)
+                left join referenciales.personas soli on re.per_id = soli.per_id 
+                left join referenciales.personas enca on cr.encargado_id = enca.per_id
+                left join referenciales.anho_habil an on re.anho_id = an.anho_id 
+                where an.anho_des = %s  and re.res_estado = 'CONFIRMADO'              
+            '''
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, (anho,))            
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    
+    def obtenerContratoGeneradoId(self, id):
+        try:
+            consulta = '''            
+                select 
+                    cr.res_id idreserva
+                    , re.res_obs obs
+                    , re.per_id idsolicitante
+                    , soli.per_nombres solicitante_nombres
+                    , soli.per_apellidos solicitante_apellidos	
+                    , cr.encargado_id idencargado
+                    , enca.per_nombres encargado_nombres
+                    , enca.per_apellidos encargado_apellidos
+                    , TO_CHAR(cr.creacion_fecha,'DD "de" TMMonth "del" YYYY')fecha 
+                    , cr.plantilla_contrato contrato
+                from 
+                    actividades.contrato_reserva cr
+                left join actividades.reservas re using(res_id)
+                left join referenciales.personas soli on re.per_id = soli.per_id 
+                left join referenciales.personas enca on cr.encargado_id = enca.per_id
+                left join referenciales.anho_habil an on re.anho_id = an.anho_id
+                where cr.res_id = %s               
+            '''
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(consulta, (id,))            
+            return cur.fetchone()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+    
+    
     def obtenerReservasNoConfirmadas(self, anho):
         try:
             consulta = '''            

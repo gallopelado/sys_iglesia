@@ -59,11 +59,11 @@
                                             <label for="cbo_reserva"
                                                 class="form-control-label form-control-sm">Reserva</label>
                                             <select name="cbo_reserva" id="cbo_reserva"
-                                                class="custom-select form-control-sm form-control">
+                                                class="custom-select form-control-sm form-control" {{ 'disabled' if ver }}>
                                                 <option value="">Elegir...</option>
                                                 {% if reservas %}
                                                 {% for reserva in reservas %}
-                                                <option value="{{ reserva[0] }}">{{ reserva[1] }}</option>
+                                                <option value="{{ reserva[0] }}" {{ 'selected' if datos[2]==reserva[0] }} >{{ reserva[1] }}</option>
                                                 {% endfor %}
                                                 {% endif %}
                                             </select>
@@ -74,8 +74,13 @@
                                     <div class="col col-6">                                        
                                         <label for="cbo_evento"
                                             class="form-control-label form-control-sm">Solicitante</label>
+                                        {% if datos %}
+                                        <input type="text" id="txt_solicitante" name="txt_solicitante"
+                                            class="form-control form-control-sm" value="{{ datos[3] }} {{ datos[4] }}" disabled>
+                                        {% else %}
                                         <input type="text" id="txt_solicitante" name="txt_solicitante"
                                             class="form-control form-control-sm" value="" disabled>
+                                        {% endif %}
                                     </div>
                                     <!---->
                                 </div>
@@ -93,7 +98,7 @@
                                                 <option value="">Elegir...</option>
                                                 {% if encargados %}
                                                 {% for encargado in encargados %}
-                                                <option value="{{ encargado[0] }}">{{ encargado[1] }} {{ encargado[2] }}
+                                                <option value="{{ encargado[0] }}" {{ 'selected' if datos[5]==encargado[0] }} >{{ encargado[1] }} {{ encargado[2] }}
                                                     - CI: {{ encargado[3] }}</option>
                                                 {% endfor %}
                                                 {% endif %}
@@ -105,12 +110,13 @@
                                     <div class="col col-4">
                                         <label for="txt_fecha" class="form-control-label form-control-sm">Fecha</label>
                                         <input type="text" id="txt_fecha" name="txt_fecha"
-                                            class="form-control form-control-sm" value="" disabled>
+                                            class="form-control form-control-sm" value="{{ datos[8] if datos }}" disabled>
                                     </div>
                                     <!---->
                                 </div>
                             </div>
 
+                            {% if ver!=true %}
                             <div class="form-horizontal">
                                 <div class="row form-group">
                                     <!-- Campo plantilla-->
@@ -132,6 +138,7 @@
                                     <!---->                                    
                                 </div>
                             </div>
+                            {% endif %}
 
                             <div class="row form-horizontal">
                                 <!-- Campo -->
@@ -140,7 +147,9 @@
                                         <label for="txt_contrato" class="form-control-label form-control-sm">Vista del
                                             Contrato: <button type="button" id="btnImprimir" class="btn btn-primary btn-sm" style="display: none;">Imprimir</button></label>
                                         <hr>
-                                        <div id="txt_contrato" style="background-color: azure;"></div>
+                                        <div id="txt_contrato" style="background-color: azure;">
+                                            {{ datos[9] | safe if datos }}
+                                        </div>
                                         <hr>
                                     </div>
                                 </div>
@@ -148,11 +157,13 @@
                             </div>
                         </div>
                         <!--Fin card-body-->
+                        {% if ver!=true %}
                         <div class="card-footer">
                             <button type="button" id="btnGenerar" class="btn btn-primary btn-sm">
                                 <i class="fa fa-dot-circle-o"></i> Generar
                             </button>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -175,7 +186,9 @@
 <!-- Js de Select2 -->
 <script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
 
+{% if ver!=true %}
 <!-- Js Operativo -->
 <script type="module" src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/contrato_reserva/formulario.js') }}"></script>
+{% endif %}
 
 {%- endblock %}
