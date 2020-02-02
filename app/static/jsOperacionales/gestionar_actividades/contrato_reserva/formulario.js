@@ -91,14 +91,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return plantilla;
     }
 
-    const generar = () => {
+    const generar = async() => {
         const datosParaEnviar = {
             idreserva: cboReserva.value,
             idencargado: cboEncargado.value,
             plantilla: document.getElementById('txt_contrato').innerHTML,
             plantilla_texto: document.getElementById('txt_contrato').innerText
         }
-        console.log(datosParaEnviar);
+        try {
+            const res = await fetch('/actividades/generar_contrato/generar', {
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                }, body: JSON.stringify(datosParaEnviar)
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.estado == true) {
+                location.href = '/actividades/generar_contrato/'
+            } else {
+                alert('Hubo un error. Contacte con el administrado de sistemas');
+                location.href = '/actividades/generar_contrato/'
+            }
+        } catch (error) {
+            console.error(error);
+        }        
     }
 
     

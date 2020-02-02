@@ -161,7 +161,7 @@ class ContratoReservaModel:
             cur = con.cursor()            
             cur.callproc(consulta, parametros)
             con.commit()
-            return cur.fetchone()       
+            return cur.fetchone()[0]       
         except con.Error as e:
             print(e.pgerror)
         finally:

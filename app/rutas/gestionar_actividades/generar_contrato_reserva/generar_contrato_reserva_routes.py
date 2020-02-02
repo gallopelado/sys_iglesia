@@ -52,9 +52,12 @@ def generar():
     plantillacontrato = request.json['plantilla'] 
     plantillatexto =  request.json['plantilla_texto']
     creadoporusuario = None
+    if resid == '' and encargadoid == '' and plantillacontrato == '' and plantillatexto == '':
+        flash('Error al procesar', 'warning')
+        return jsonify({'estado': False, 'mensaje': 'Parametros vacios'})    
     res = crm.procesarContrato(resid, encargadoid, plantillacontrato, plantillatexto, creadoporusuario)
     if res==True:
         flash('Se generó con exito', 'success')
         return jsonify({'estado': res, 'mensaje': 'Se generó con exito'})
-    flash('Error al procesar', 'success')
+    flash('Error al procesar', 'warning')
     return jsonify({'estado': res, 'mensaje': 'Error al procesar'})
