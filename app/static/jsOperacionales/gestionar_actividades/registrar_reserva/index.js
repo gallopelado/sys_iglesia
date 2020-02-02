@@ -24,10 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const cargarTabla = async (estado) => {
-        const tbody = document.getElementById('tb_reserva');
-        const botonConfirmar = (id) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${id})">Confirmar</button>`;
-        const botonModificar = (id) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${id})">Modificar</button>`;
-        const botonEliminar = (id) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${id})">Cancelar</button>`;
+        const tbody = document.getElementById('tb_reserva');        
+        let botonConfirmar = (id) => '<button type="button" class="btn btn-success btn-sm m-l-10 m-b-10">Procesado</button>';
+        let botonModificar = (id) => '';
+        let botonEliminar  = (id) => '';
+        if (estado == 'NO-CONFIRMADO') {
+            botonConfirmar = (id) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${id})">Confirmar</button>`;
+            botonModificar = (id) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${id})">Modificar</button>`;
+            botonEliminar = (id) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${id})">Cancelar</button>`;
+        }
         let datos = '';
         const lista = await getReservas(estado);                       
         if (lista != null) {
@@ -48,13 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 `;
             }
+            tbody.innerHTML = "";
             tbody.innerHTML = datos;                        
-            const tab = $('#tabla_reserva').DataTable({
+            /*let tab = $('#tabla_reserva').DataTable({
                 "language": idioma_spanish,
                 "destroy": true
-            });
+            });*/
             //tab.clear();
-            //tbody.innerHTML = datos;
+            //tbody.innerHTML = datos; 
+            //$('#tabla_reserva').DataTable();           
         }
     }
 

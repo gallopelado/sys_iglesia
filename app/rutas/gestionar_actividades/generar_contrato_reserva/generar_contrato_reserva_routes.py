@@ -14,8 +14,7 @@ rsm = ReservaModel()
 @gcr.route('/')
 def index_contrato():
     hoy = date.today()    
-    contratos = crm.obtenerContratosGenerados(hoy.year)
-    print(contratos)
+    contratos = crm.obtenerContratosGenerados(hoy.year)    
     return render_template('contrato_reserva/index.html', titulo=titulo, contratos=contratos)
 
 
@@ -25,8 +24,7 @@ def verContrato(id):
     hoy = date.today()    
     reservas = crm.obtenerReservasNoConfirmadas(hoy.year)
     encargados = crm.obtenerEncargados() 
-    datos = crm.obtenerContratoGeneradoId(id)
-    print(datos)           
+    datos = crm.obtenerContratoGeneradoId(id)               
     return render_template('contrato_reserva/formulario.html', titulo=titulo, reservas=reservas, encargados=encargados, plantillas=None, ver=True, datos=datos)
 
 

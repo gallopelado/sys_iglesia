@@ -23,7 +23,7 @@ class FormAgregar(FlaskForm):
     horainicio = TimeField('Hora inicio', validators=[DataRequired()], format='%H:%M', default=datetime.now())
     fechafin = DateField('Fecha fin', validators=[DataRequired()], format='%Y-%m-%d', default=date.today)
     horafin = TimeField('Hora fin', validators=[DataRequired()], format='%H:%M',default=datetime.now())        
-    obs = TextAreaField('Observación')
+    obs = TextAreaField('Observación', validators=[DataRequired()])
     registrar = SubmitField('Registrar')
 
     def __init__(self, *args, **kwargs):
