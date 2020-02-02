@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row form-group">                                
+                                <div class="col-12 col-md-3">
+                                    <select name="cbm_estado" id="cbm_estado" class="form-control-sm form-control">                                                                                                                                                            
+                                        <option value="NO-CONFIRMADO" selected>Reservas NO-CONFIRMADAS</option>
+                                        <option value="CONFIRMADO">Reservas CONFIRMADAS</option>
+                                        <option value="CANCELADO">Reservas CANCELADAS</option>
+                                </select>                                
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ url_for('registrar_reserva.mostrarFormulario') }}" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Registrar Nueva Reserva
+                                    </a>                                    
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="card-body">
+                            <table id="tabla_reserva" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Actividad</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Estado</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb_reserva">
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<!-- Controlador -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/registrar_reserva/index.js') }}"></script>
+
+
+{% endblock %}
