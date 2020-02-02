@@ -30,30 +30,26 @@
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row form-group">                                                                
-                                
-                                    <div class="col-md-03 mb-2">
-                                        <a href=""
-                                            class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i> Nueva Visita
-                                        </a>
-                                    </div>
-                                    <div class="col-md-03 mb-2 ml-2">
-                                        <a href=""
-                                            class="au-btn au-btn-icon au-btn--blue au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i> Encargar Voluntarios
-                                        </a>
-                                    </div>
-                                
+                            <div class="row form-group">
+                                <div class="col-md-03 mb-2">
+                                    <a href="{{ url_for('solicitud_hospital.formularioVisita') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Nueva Visita
+                                    </a>
+                                </div>
+                                <div class="col-md-03 mb-2 ml-2">
+                                    <a href="" class="au-btn au-btn-icon au-btn--blue au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i> Encargar Voluntarios
+                                    </a>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-3">
-                                    <select name="cbm_estado" id="cbm_estado" class="form-control-sm form-control">                                                                                                                                                            
+                                    <select name="cbm_estado" id="cbm_estado" class="form-control-sm form-control">
                                         <option value="NO-ATENDIDOS" selected>NO ATENDIDOS</option>
-                                        <option value="ATENDIDOS">ATENDIDOS</option>                                        
-                                    </select>                                
+                                        <option value="ATENDIDOS">ATENDIDOS</option>
+                                    </select>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
 
                         <div class="card-body">
@@ -61,7 +57,7 @@
                                 <thead>
                                     <tr>
                                         <th>Descripcion</th>
-                                        <th>Solicitante</th>                                        
+                                        <th>Solicitante</th>
                                         <th>Estado</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>

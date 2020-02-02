@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, modal_referencial_simple, pintar_textarea %}
+
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('registrar_reserva.index_reserva') }}" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <form action="" method="post" class="form-horizontal">
+                            {{ form.csrf_token }}
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
+                                    </h3>
+                                </div>
+                                <hr>
+                                <input type="hidden" name="idsolicitud" id="idsolicitud" value="">
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.solicitante.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-8">
+                                        {{ form.solicitante(class='custom-select custom-select-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.descripcion.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-8">
+                                        {{ form.descripcion(class='form-control form-control-sm') }}
+                                        {% for error in form.descripcion.errors %}
+                                        <span class="help-block">Error en la descripcion</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.paciente.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-6">
+                                        {{ form.paciente(class='custom-select custom-select-sm') }}
+                                        {% for error in form.paciente.errors %}
+                                        <span class="help-block">Error en el paciente</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        <a href="">Agregar?</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.esmiembro(class='custom-control-input') }}
+                                                    {{ form.esmiembro.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.estaenterado(class='custom-control-input') }}
+                                                    {{ form.estaenterado.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.requiere(class='custom-control-input') }}
+                                                    {{ form.requiere.label(class='custom-control-label') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row form-group">
+                                                    <div class="col col-md-3">
+                                                        {{ form.idioma.label(class='form-control-label form-control-sm') }}
+                                                    </div>
+                                                    <div class="col col-md-8">
+                                                        {{ form.idioma(class='custom-select custom-select-sm') }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-3">
+                                        {{ form.hospital.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-6">
+                                        {{ form.hospital(class='form-control form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-2">
+                                        {{ form.nrocuarto.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-1">
+                                        {{ form.nrocuarto(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-3">
+                                        {{ form.telefcuarto.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-3">
+                                        {{ form.telefcuarto(class='form-control form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-3">
+                                        {{ form.fechaadmision.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-3">
+                                        {{ form.fechaadmision(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col col-md-3">
+                                        {{ form.diagnostico.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-9">
+                                        {{ form.diagnostico(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>                                
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.direccionhospi.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-5">
+                                        {{ form.direccionhospi(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        {{ form.horariovisita.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-5">
+                                        {{ form.horariovisita(class='form-control form-control-sm') }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-11">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>Días de visita</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.lunes(class='custom-control-input') }}
+                                                    {{ form.lunes.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.martes(class='custom-control-input') }}
+                                                    {{ form.martes.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.miercoles(class='custom-control-input') }}
+                                                    {{ form.miercoles.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.jueves(class='custom-control-input') }}
+                                                    {{ form.jueves.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.viernes(class='custom-control-input') }}
+                                                    {{ form.viernes.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.sabado(class='custom-control-input') }}
+                                                    {{ form.sabado.label(class='custom-control-label') }}
+                                                </div>
+                                                <div
+                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                    {{ form.domingo(class='custom-control-input') }}
+                                                    {{ form.domingo.label(class='custom-control-label') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                            <!--Fin card-body-->
+                            {% if bloqueado == false or bloqueado is none %}
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Registrar
+                                </button>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+
+<!-- Js de Jquery UI -->
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+
+<!-- JS de EasyAutoComplete -->
+<script src="{{ url_for('static', filename='vendor/easyautocomplete/js/jquery.easy-autocomplete.min.js') }}"></script>
+
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+
+<!-- JS de tempusdominus/traduccion -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/es.js') }}"></script>
+
+<!-- JS de tempusdominus -->
+<script src="{{ url_for('static', filename='vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+<!-- JS del formulario -->
+<!-- <script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/registrar_reserva/formulario.js') }}"></script> -->
+
+
+{%- endblock %}

@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 # Importar modelos
 from app.Models.actividad_models.ReservaModel import ReservaModel
 # Clase del formulario
-from app.rutas.gestionar_actividades.registrar_reserva.formularios import FormAgregar
+from app.rutas.gestionar_actividades.solicitud_hospital.formularios import FormularioVisita
 # Registrar módulo
 # soh -- solicitud hospital
 soh = Blueprint('solicitud_hospital', __name__, template_folder='templates')
@@ -16,11 +16,10 @@ def index():
     return render_template('solicitud_hospital/index.html', titulo=titulo)
 
 
-@soh.route('/form_reserva', methods=['GET'])
-def mostrarFormulario():
-    form = FormAgregar()               
-    form.anho.data = resm.obtenerAnhoActivo()            
-    return render_template('solicitud_hospital/form_reserva.html', titulo='Formulario Reserva', form=form, bloqueado=False)
+@soh.route('/form_visita', methods=['GET'])
+def formularioVisita():
+    form = FormularioVisita()                           
+    return render_template('solicitud_hospital/form_visita.html', titulo='Formulario visita a hospital', form=form, bloqueado=False)
 
 
 @soh.route('/form_reserva/<int:id>', methods=['GET'])
