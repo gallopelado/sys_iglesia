@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let botonModificar = (id) => '';
         let botonEliminar  = (id) => '';
         if (estado == 'NO-CONFIRMADO') {
-            botonConfirmar = (id) => `<button type="button" class="btn btn-sm btn-success" onclick="modificar(${id})">Confirmar</button>`;
+            botonConfirmar = (id) => `<button type="button" class="btn btn-sm btn-success" onclick="confirmar(${id})">Confirmar</button>`;
             botonModificar = (id) => `<button type="button" class="btn btn-sm btn-primary" onclick="modificar(${id})">Modificar</button>`;
             botonEliminar = (id) => `<button type="button" class="btn btn-sm btn-danger" onclick="eliminar(${id})">Cancelar</button>`;
         }
@@ -89,6 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const m = mensajeConfirmacion('Confirmar', 'Desea cancelar?');
         m.buttons.Si.action = () => {                
             location.href = `/actividades/registrar_reserva/eliminar/${id}`;
+        }
+        m.open();
+    }
+
+    window.confirmar = (id) => {                
+        const m = mensajeConfirmacion('Confirmar', 'Desea confirmar reserva ?');
+        m.buttons.Si.action = () => {                
+            location.href = `/actividades/generar_contrato/formulario_contrato`;
         }
         m.open();
     }
