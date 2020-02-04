@@ -4,26 +4,29 @@ from wtforms import StringField, SubmitField, HiddenField, TextAreaField, Select
 from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import DataRequired, Length
 from app.Models.ReferencialModel import ReferencialModel
-from app.Models.actividad_models.ReservaModel import ReservaModel
+from app.Models.actividad_models.SolicitudHospital import SolicitudHospital
 
-class FormularioVisita(FlaskForm):    
-    refm = ReferencialModel()    
-    #lista_idiomas = refm.getAll('referenciales.idioma')           
-    #idioma = SelectField('Idioma', validators=[DataRequired()], choices=[(item[0], item[1]) for item in lista_eventos], coerce=int)
-    idioma = SelectField('Idioma', validators=[DataRequired()], choices=[("1", "ES")])
-    solicitante = SelectField('Solicitante', choices=[('1', 'Juan')])
+class FormularioVisita(FlaskForm):
+    # Fuentes de datos    
+    soli = SolicitudHospital()    
+    lista_idiomas = soli.obtenerIdiomas()
+    lista_solicitantes = soli.obtenerSolicitantes()
+    lista_personas = soli.obtenerPacientes()        
+    # Se cargan los objetos
+    idioma = SelectField('Idioma', validators=[DataRequired()], choices=[(item[0], f"{item[1]}") for item in lista_idiomas], coerce=int)
+    solicitante = SelectField('Solicitante', validators=[DataRequired()], choices=[(item[0], f"{item[1]} {item[2]}") for item in lista_solicitantes], coerce=int)
     descripcion = TextAreaField('Descripcion', validators=[DataRequired()])     
-    paciente = SelectField('Nombre del paciente', choices=[('1', 'Juan')])
+    paciente = SelectField('Nombre del paciente', validators=[DataRequired()],choices=[(item[0], f"{item[1]} {item[2]}") for item in lista_personas], coerce=int)
     esmiembro = BooleanField('Es miembro de la Iglesia ?')
     estaenterado = BooleanField('Esta enterado de esta solicitud ?')
     requiere = BooleanField('Requiere el paciente que se haga la visita en español ?')
-    hospital = StringField('Nombre del Hospital')
-    nrocuarto = DecimalField('N. de cuarto')
+    hospital = StringField('Nombre del Hospital', validators=[DataRequired()])
+    nrocuarto = DecimalField('N. de cuarto', validators=[DataRequired()])
     telefcuarto = StringField('N. telefono en el cuarto')
-    fechaadmision = DateField('Fecha de admisión', validators=[DataRequired()], format='%Y-%m-%d', default=date.today)
+    fechaadmision = DateField('Fecha de admisión', format='%Y-%m-%d', default=date.today)
     diagnostico = TextAreaField('Diagnóstico')
-    direccionhospi = StringField('Dirección del hospital')
-    horariovisita = StringField('Horarios de visita')
+    direccionhospi = StringField('Dirección del hospital',validators=[DataRequired()])
+    horariovisita = StringField('Horarios de visita', validators=[DataRequired()])
     # Checks de los dias de visita
     lunes = BooleanField('Lunes')
     martes = BooleanField('Martes')
@@ -34,8 +37,9 @@ class FormularioVisita(FlaskForm):
     domingo = BooleanField('Domingo')   
     registrar = SubmitField('Registrar')
 
+    # Constructor
     def __init__(self, *args, **kwargs):
-        super(FormularioVisita, self).__init__(*args, **kwargs)        
-        #self.evento.choices = self.refm.getAll('referenciales.eventos')        
+        super(FormularioVisita, self).__init__(*args, **kwargs)                
+        self.paciente.choices = [(item[0], f"{item[1]} {item[2]}") for item in self.lista_personas]       
         
 
