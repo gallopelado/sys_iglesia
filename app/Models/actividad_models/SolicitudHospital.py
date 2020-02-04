@@ -35,13 +35,27 @@ class SolicitudHospital:
                 cur.close()
                 con.close()
 
-    def obtenerIdiomas(self):
-        querySQL = '''SELECT idi_id ididioma, idi_des idioma FROM referenciales.idiomas'''
+    def obtenerIdiomas(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
+        ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
+        vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
+        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado):
+        insertSQL = '''
+        INSERT INTO actividades.visi_hospi
+        (solicitante_id, vh_des, paciente_id, vh_esmiembro, vh_estaenterado, vh_visitaespanhol, 
+        id_idi, vh_nombrehospi, vh_nrocuarto, vh_nrotelcuarto, vh_fechaadmi, vh_diagnostico, 
+        vh_direhospi, vh_horavisi, vh_lunes, vh_martes, vh_miercoles, vh_jueves, vh_viernes, 
+        vh_sabado, vh_domingo, creado_por_usuario, creacion_fecha, vh_estado)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, '', true);
+        '''
+        parametros = (solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
+        ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
+        vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
+        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado)
         try:
             conexion = Conexion()
             con = conexion.getConexion()
             cur = con.cursor()
-            cur.execute(querySQL)
+            cur.execute(insertSQL)
             return cur.fetchall()
         except con.Error as e:
             print(e.pgerror)
@@ -49,3 +63,6 @@ class SolicitudHospital:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def insertSolicitudHospital(self, ):
+        pass

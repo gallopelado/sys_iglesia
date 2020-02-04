@@ -54,58 +54,52 @@ def registrar():
     hoy = date.today()
     hoy = datetime(hoy.year, hoy.month, hoy.day)    
     anho_habilitado = int(resm.obtenerAnhoActivo())        
-    form = FormAgregar()
+    form = FormularioVisita()
     res = form.validate_on_submit()
      # Set datos    
-    idreserva = request.form['idreserva']
-    anhohabil = int(form.anho.data)
+    idsolicitud = request.form['idsolicitud']
     solicitante = form.solicitante.data
-    evento = form.evento.data    
-    lugar = form.lugar.data
-    fechainicio = form.fechainicio.data
-    v_fechainicio = datetime(fechainicio.year, fechainicio.month, fechainicio.day)
-    horainicio = form.horainicio.data
-    fechafin = form.fechafin.data
-    v_fechafin = datetime(fechafin.year, fechafin.month, fechafin.day)
-    horafin = form.horafin.data    
-    obs = form.obs.data
+    descripcion = form.descripcion.data
+    paciente = form.paciente.data    
+    esmiembro = form.esmiembro.data
+    estaenterado = form.estaenterado.data
+    requiere = form.requiere.data
+    hospital = form.hospital.data
+    nrocuarto = form.nrocuarto.data
+    telefcuarto = form.telefcuarto.data
+    fechaadmision = form.fechaadmision.data
+    v_fechaadmision = datetime(fechaadmision.year, fechaadmision.month, fechaadmision.day)    
+    diagnostico = form.diagnostico.data    
+    direccionhospi = form.direccionhospi.data
+    horariovisita = form.horariovisita.data
+    lunes = form.lunes.data
+    martes = form.martes.data
+    miercoles = form.miercoles.data
+    jueves = form.jueves.data
+    viernes = form.viernes.data
+    sabado = form.sabado.data
+    domingo = form.domingo.data
     if res:
         next = request.args.get('next', None)
         if next:
-            return redirect(next) 
-       
-        # Validar mas!
-        if  fechainicio > fechafin:
-            flash('La fecha de inicio no puede ser mayor a la fecha de finalizacion', 'warning')
-            return redirect(url_for('registrar_reserva.index_reserva'))                
-        elif anho_habilitado > anhohabil:
-            flash('El año hábil no es correcto!', 'warning')
-            return redirect(url_for('registrar_reserva.index_reserva'))
+            return redirect(next)                
 
-        if idreserva is None or idreserva == '':
+        if idsolicitud is None or idsolicitud == '':
             ##REGISTRAR
-            if v_fechainicio < hoy:
-                flash('La fecha de inicio es menor a la actual', 'warning')
-                return redirect(url_for('registrar_reserva.index_reserva'))
-            elif v_fechafin < hoy:
-                flash('La fecha de fin es menor a la actual', 'warning')
-                return redirect(url_for('registrar_reserva.index_reserva')) 
-            res = resm.guardarReserva('registrar', None, anhohabil, evento, lugar, solicitante, 
-            fechainicio, horainicio, fechafin, horafin, obs, None, None)
+            pass
         else:
             ##MODIFICAR
-            res = resm.guardarReserva('modificar', idreserva, anhohabil, evento, lugar, solicitante, 
-            fechainicio, horainicio, fechafin, horafin, obs, None, None)
+            pass
 
         if res == True:
             flash('Se ha realizado la operacion con exito', 'success')
-            return redirect(url_for('registrar_reserva.index_reserva'))
+            return redirect(url_for('solicitud_hospital.index'))
         else:
             flash(res.diag.message_primary , 'danger')
-            return redirect(url_for('registrar_reserva.index_reserva'))
+            return redirect(url_for('solicitud_hospital.index'))
     else:
         flash('Error en al cargar en formulario', 'danger')
-        return redirect(url_for('registrar_reserva.mostrarFormulario'))    
+        return redirect(url_for('solicitud_hospital.index'))    
 
 
 
