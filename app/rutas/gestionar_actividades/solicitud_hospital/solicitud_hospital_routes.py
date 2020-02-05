@@ -3,6 +3,7 @@ from datetime import date, datetime
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 # Importar modelos
 from app.Models.actividad_models.ReservaModel import ReservaModel
+from app.Models.actividad_models.SolicitudHospitalModel import SolicitudHospitalModel
 # Clase del formulario
 from app.rutas.gestionar_actividades.solicitud_hospital.formularios import FormularioVisita
 # Registrar módulo
@@ -11,6 +12,7 @@ soh = Blueprint('solicitud_hospital', __name__, template_folder='templates')
 titulo = 'Registrar solicitud para visital a Hospital'
 # Instancias
 resm = ReservaModel()
+soli = SolicitudHospitalModel()
 @soh.route('/')
 def index():    
     return render_template('solicitud_hospital/index.html', titulo=titulo)
@@ -50,35 +52,33 @@ def editarFormulario(id):
 
 
 @soh.route('/registrar', methods=['POST'])
-def registrar():  
-    hoy = date.today()
-    hoy = datetime(hoy.year, hoy.month, hoy.day)    
-    anho_habilitado = int(resm.obtenerAnhoActivo())        
+def registrar():         
     form = FormularioVisita()
     res = form.validate_on_submit()
      # Set datos    
     idsolicitud = request.form['idsolicitud']
-    solicitante = form.solicitante.data
-    descripcion = form.descripcion.data
-    paciente = form.paciente.data    
-    esmiembro = form.esmiembro.data
-    estaenterado = form.estaenterado.data
-    requiere = form.requiere.data
-    hospital = form.hospital.data
-    nrocuarto = form.nrocuarto.data
-    telefcuarto = form.telefcuarto.data
+    solicitanteid = form.solicitante.data
+    vhdes = form.descripcion.data
+    pacienteid = form.paciente.data    
+    vhesmiembro = form.esmiembro.data
+    vhestaenterado = form.estaenterado.data  
+    idioma = form.idioma.data  
+    vhnombrehospi = form.hospital.data
+    vhnrocuarto = form.nrocuarto.data
+    vhnrotelcuarto = form.telefcuarto.data
     fechaadmision = form.fechaadmision.data
-    v_fechaadmision = datetime(fechaadmision.year, fechaadmision.month, fechaadmision.day)    
-    diagnostico = form.diagnostico.data    
-    direccionhospi = form.direccionhospi.data
-    horariovisita = form.horariovisita.data
-    lunes = form.lunes.data
-    martes = form.martes.data
-    miercoles = form.miercoles.data
-    jueves = form.jueves.data
-    viernes = form.viernes.data
-    sabado = form.sabado.data
-    domingo = form.domingo.data
+    vhfechaadmi = datetime(fechaadmision.year, fechaadmision.month, fechaadmision.day)    
+    vhdiagnostico = form.diagnostico.data    
+    vhdirehospi = form.direccionhospi.data
+    vhhoravisi = form.horariovisita.data
+    vhlunes = form.lunes.data
+    vhmartes = form.martes.data
+    vhmiercoles = form.miercoles.data
+    vhjueves = form.jueves.data
+    vhviernes = form.viernes.data
+    vhsabado = form.sabado.data
+    vhdomingo = form.domingo.data
+    vhestado = True
     if res:
         next = request.args.get('next', None)
         if next:
@@ -86,7 +86,10 @@ def registrar():
 
         if idsolicitud is None or idsolicitud == '':
             ##REGISTRAR
-            pass
+            soli.insertSolicitudHospital(solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
+            idioma, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
+            vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
+            vhsabado, vhdomingo, None, vhestado)
         else:
             ##MODIFICAR
             pass

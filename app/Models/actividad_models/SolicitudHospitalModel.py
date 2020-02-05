@@ -50,22 +50,25 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()            
 
-    def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
+    def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado):
+        vhsabado, vhdomingo, creadoporusuario, vhestado):
         insertSQL = '''
         INSERT INTO actividades.visi_hospi
-        (solicitante_id, vh_des, paciente_id, vh_esmiembro, vh_estaenterado, vh_visitaespanhol, 
-        id_idi, vh_nombrehospi, vh_nrocuarto, vh_nrotelcuarto, vh_fechaadmi, vh_diagnostico, 
+        (solicitante_id, vh_des, paciente_id, vh_esmiembro, vh_estaenterado, 
+        idi_id, vh_nombrehospi, vh_nrocuarto, vh_nrotelcuarto, vh_fechaadmi, vh_diagnostico, 
         vh_direhospi, vh_horavisi, vh_lunes, vh_martes, vh_miercoles, vh_jueves, vh_viernes, 
         vh_sabado, vh_domingo, creado_por_usuario, creacion_fecha, vh_estado)
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+        VALUES(%s, %s, %s, %s, %s, 
+        %s, %s, %s, %s, %s, %s, 
+        %s, %s, %s, %s, %s, %s, %s, 
+        %s, %s, %s, now(), %s);
         '''
-        parametros = (solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
+        parametros = (solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado,)
+        vhsabado, vhdomingo, creadoporusuario, vhestado,)
         try:
             conexion = Conexion()
             con = conexion.getConexion()
