@@ -1,6 +1,6 @@
 from app.Conexion.Conexion import Conexion
 
-class SolicitudHospital:
+class SolicitudHospitalModel:
     def obtenerSolicitantes(self):
         querySQL = '''SELECT ap.adp_id idsolicitante, p.per_nombres nombres, p.per_apellidos apellidos
         FROM membresia.admision_persona ap 
@@ -35,7 +35,22 @@ class SolicitudHospital:
                 cur.close()
                 con.close()
 
-    def obtenerIdiomas(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
+    def obtenerIdiomas(self):
+        querySQL = 'SELECT * FROM referenciales.idiomas'
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL)
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()            
+
+    def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
         vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado):
@@ -45,24 +60,22 @@ class SolicitudHospital:
         id_idi, vh_nombrehospi, vh_nrocuarto, vh_nrotelcuarto, vh_fechaadmi, vh_diagnostico, 
         vh_direhospi, vh_horavisi, vh_lunes, vh_martes, vh_miercoles, vh_jueves, vh_viernes, 
         vh_sabado, vh_domingo, creado_por_usuario, creacion_fecha, vh_estado)
-        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 0, '', true);
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
         '''
         parametros = (solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, vhvisitaespanhol, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado)
+        vhsabado, vhdomingo, creadoporusuario, creacionfecha, vhestado,)
         try:
             conexion = Conexion()
             con = conexion.getConexion()
             cur = con.cursor()
-            cur.execute(insertSQL)
-            return cur.fetchall()
+            cur.execute(insertSQL, parametros)
+            con.commit()
+            return cur.fetchone()
         except con.Error as e:
             print(e.pgerror)
         finally:
             if con is not None:
                 cur.close()
-                con.close()
-
-    def insertSolicitudHospital(self, ):
-        pass
+                con.close()    

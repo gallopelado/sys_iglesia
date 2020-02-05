@@ -4,11 +4,11 @@ from wtforms import StringField, SubmitField, HiddenField, TextAreaField, Select
 from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import DataRequired, Length
 from app.Models.ReferencialModel import ReferencialModel
-from app.Models.actividad_models.SolicitudHospital import SolicitudHospital
+from app.Models.actividad_models.SolicitudHospitalModel import SolicitudHospitalModel
 
 class FormularioVisita(FlaskForm):
     # Fuentes de datos    
-    soli = SolicitudHospital()    
+    soli = SolicitudHospitalModel()    
     lista_idiomas = soli.obtenerIdiomas()
     lista_solicitantes = soli.obtenerSolicitantes()
     lista_personas = soli.obtenerPacientes()        
