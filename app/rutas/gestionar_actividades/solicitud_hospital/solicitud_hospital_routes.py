@@ -24,31 +24,33 @@ def formularioVisita():
     return render_template('solicitud_hospital/form_visita.html', titulo='Formulario visita a hospital', form=form, bloqueado=False)
 
 
-@soh.route('/form_reserva/<int:id>', methods=['GET'])
-def editarFormulario(id):
-    hoy = date.today()
-    hoy = datetime(hoy.year, hoy.month, hoy.day)
-    bloqueado = False
-    form = FormAgregar()               
-    form.anho.data = resm.obtenerAnhoActivo()     
-    lista = resm.obtenerReservaId(id)
+@soh.route('/form_visita/<int:id>', methods=['GET'])
+def editarFormulario(id):        
+    form = FormularioVisita()                    
+    lista = soli.obtenerSolicitudId(id)    
     if lista:
-        idreserva = lista[0]
-        form.anho.data = lista[1]
-        form.solicitante.data = lista[2]
-        form.evento.data = lista[3]
-        form.lugar.data = lista[4]
-        form.fechainicio.data = lista[5]
-        v_fechainicio = datetime(lista[5].year, lista[5].month, lista[5].day)
-        form.horainicio.data = lista[6]
-        form.fechafin.data = lista[7]
-        form.horafin.data = lista[8]
-        form.obs.data = lista[9] 
-        if v_fechainicio < hoy:
-            bloqueado = True            
-        return render_template('solicitud_hospital/form_reserva.html', titulo='Formulario Reserva', form=form, idreserva=idreserva, bloqueado=bloqueado)
-    flash('No existe esta reserva!', 'warning')
-    return redirect(url_for('registrar_reserva.index_reserva'))
+        idsolicitud = lista[0]
+        form.solicitante.data = lista[1]
+        form.descripcion.data = lista[2]
+        form.paciente.data = lista[3]
+        form.esmiembro.data = lista[5]
+        form.estaenterado.data = lista[6]
+        form.idioma.data = lista[7]
+        form.hospital.data = lista[8]
+        form.nrocuarto.data = lista[9]
+        form.telefcuarto.data = lista[10]
+        form.fechaadmision.data = lista[11]
+        form.diagnostico.data = lista[12]
+        form.direccionhospi.data = lista[13]
+        form.horariovisita.data = lista[14]       
+        form.lunes.data = lista[15]
+        form.martes.data = lista[16]               
+        form.miercoles.data = lista[17]
+        form.jueves.data = lista[18]
+        form.viernes.data = lista[19]
+        form.sabado.data = lista[20]
+        form.domingo.data = lista[21]    
+    return render_template('solicitud_hospital/form_visita.html', titulo='Editar visita a hospital', form=form, idsolicitud=idsolicitud, bloqueado=False)
 
 
 @soh.route('/registrar', methods=['POST'])
@@ -92,7 +94,11 @@ def registrar():
             vhsabado, vhdomingo, None, vhestado)
         else:
             ##MODIFICAR
-            pass
+            soli.updateSolicitudHospital(solicitanteid, pacienteid, idioma, vhdes.upper(), vhesmiembro, 
+            vhestaenterado, vhnombrehospi.upper(), vhnrocuarto, vhnrotelcuarto, 
+            vhfechaadmi, vhdiagnostico.upper(), vhdirehospi.upper(), vhhoravisi, vhlunes, 
+            vhmartes, vhmiercoles, vhjueves, vhviernes, vhsabado, 
+            vhdomingo, None, idsolicitud)
 
         if res == True:
             flash('Se ha realizado la operacion con exito', 'success')

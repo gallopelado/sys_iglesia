@@ -55,7 +55,7 @@
                                     </h3>
                                 </div>
                                 <hr>
-                                <input type="hidden" name="idsolicitud" id="idsolicitud" value="">
+                                <input type="hidden" name="idsolicitud" id="idsolicitud" value="{{ idsolicitud if idsolicitud }}">
                                 <div class="row form-group">
                                     <div class="col col-md-3">
                                         {{ form.solicitante.label(class='form-control-label form-control-sm') }}

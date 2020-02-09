@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const botonVer = (idsolicitud) => `<button type="button" class="btn btn-secondary btn-sm" onclick="ver(${idsolicitud})">Ver</button>`;
             const botonModificar = (idsolicitud) => `<button type="button" class="btn btn-primary btn-sm" onclick="modificar(${idsolicitud})">Modificar</button>`;
             const botonEliminar = (idsolicitud) => `<button type="button" class="btn btn-danger btn-sm" onclick="eliminar(${idsolicitud})">Eliminar</button>`;
-            const data = await res.json();
-            console.log(data);            
+            const data = await res.json();                        
             let cadena = '';
             if (data != null || data != undefined) {
                 for (let item of data) {
@@ -41,11 +40,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
     //Inicio
     cargaTabla();
-    
+
     window.modificar = (id) => {                
         const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
         m.buttons.Si.action = () => {                
-            location.href = `/actividades/registrar_reserva/form_reserva/${id}`;
+            location.href = `/actividades/solicitud_hospital/form_visita/${id}`;
         }
         m.open();
     }

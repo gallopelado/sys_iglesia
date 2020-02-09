@@ -81,6 +81,49 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()
 
+    def obtenerSolicitudId(self, id):
+        querySQL = ''' 
+        select 
+            vh.vh_id idsolicitud	
+            , vh.solicitante_id idsolicitante
+            , vh.vh_des descripcion
+            , vh.paciente_id idpaciente
+            , vh.vh_estado estado
+            , vh.vh_esmiembro esmiembro
+            , vh.vh_estaenterado estaenterado 
+            , vh.idi_id ididioma
+            , vh.vh_nombrehospi nombrehospi 
+            , vh.vh_nrocuarto nrocuarto
+            , vh.vh_nrotelcuarto nrotelcuarto	
+            , vh.vh_fechaadmi fechaadmi
+            , vh.vh_diagnostico diagnostico
+            , vh.vh_direhospi direhospi
+            , vh.vh_horavisi horavisi
+            , vh.vh_lunes lunes
+            , vh.vh_martes martes
+            , vh.vh_miercoles miercoles
+            , vh.vh_jueves jueves
+            , vh.vh_viernes viernes
+            , vh.vh_sabado sabado
+            , vh.vh_domingo domingo
+        from actividades.visi_hospi vh 
+        left join membresia.admision_persona ap on vh.solicitante_id = ap.adp_id
+        left join referenciales.personas p on ap.adp_id = p.per_id 
+        where vh.vh_id = %s
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(querySQL, (id,))
+            return cur.fetchall()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
@@ -107,6 +150,39 @@ class SolicitudHospitalModel:
             cur.execute(insertSQL, parametros)
             con.commit()
             return cur.fetchone()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def updateSolicitudHospital(self, solicitanteid, pacienteid, idiid, des, esmiembro, 
+        estaenterado, nombrehospi, nrocuarto, nrotelcuarto, 
+        fechaadmi, diagnostico, direhospi, horavisi, lunes, 
+        martes, miercoles, jueves, viernes, sabado, 
+        domingo, modificadoporusuario, idsolicitud):
+        updateSQL = '''
+        UPDATE actividades.visi_hospi
+        SET solicitante_id=%s, paciente_id=%s, idi_id=%s, vh_des=%s, vh_esmiembro=%s, 
+        vh_estaenterado=%s, vh_nombrehospi=%s, vh_nrocuarto=%s, vh_nrotelcuarto=%s, 
+        vh_fechaadmi=%s, vh_diagnostico=%s, vh_direhospi=%s, vh_horavisi=%s, vh_lunes=%s, 
+        vh_martes=%s, vh_miercoles=%s, vh_jueves=%s, vh_viernes=%s, vh_sabado=%s, 
+        vh_domingo=%s, modificado_por_usuario=%s, modif_fecha=now()
+        WHERE vh_id = %s;
+        '''
+        parametros = (solicitanteid, pacienteid, idiid, des, esmiembro, 
+        estaenterado, nombrehospi, nrocuarto, nrotelcuarto, 
+        fechaadmi, diagnostico, direhospi, horavisi, lunes, 
+        martes, miercoles, jueves, viernes, sabado, 
+        domingo, modificadoporusuario, idsolicitud,)
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(updateSQL, parametros)
+            con.commit()
+            return True
         except con.Error as e:
             print(e.pgerror)
         finally:
