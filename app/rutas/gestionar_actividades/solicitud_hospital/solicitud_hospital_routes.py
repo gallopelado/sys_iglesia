@@ -53,6 +53,35 @@ def editarFormulario(id):
     return render_template('solicitud_hospital/form_visita.html', titulo='Editar visita a hospital', form=form, idsolicitud=idsolicitud, bloqueado=False)
 
 
+@soh.route('/ver_formulario/<int:id>', methods=['GET'])
+def verFormulario(id):        
+    form = FormularioVisita()                    
+    lista = soli.obtenerSolicitudId(id)    
+    if lista:        
+        idsolicitud = lista[0]
+        form.solicitante.data = lista[1]
+        form.descripcion.data = lista[2]
+        form.paciente.data = lista[3]        
+        form.esmiembro.data = lista[5]
+        form.estaenterado.data = lista[6]
+        form.idioma.data = lista[7]
+        form.hospital.data = lista[8]
+        form.nrocuarto.data = lista[9]
+        form.telefcuarto.data = lista[10]
+        form.fechaadmision.data = lista[11]
+        form.diagnostico.data = lista[12]
+        form.direccionhospi.data = lista[13]
+        form.horariovisita.data = lista[14]       
+        form.lunes.data = lista[15]
+        form.martes.data = lista[16]               
+        form.miercoles.data = lista[17]
+        form.jueves.data = lista[18]
+        form.viernes.data = lista[19]
+        form.sabado.data = lista[20]
+        form.domingo.data = lista[21]    
+    return render_template('solicitud_hospital/form_visita.html', titulo='Ver visita a hospital', form=form, idsolicitud=idsolicitud, bloqueado=True)
+
+
 @soh.route('/registrar', methods=['POST'])
 def registrar():         
     form = FormularioVisita()

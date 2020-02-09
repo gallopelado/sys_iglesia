@@ -56,4 +56,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
         m.open();
     }
+
+    window.ver = (id) => {                    
+        location.href = `/actividades/solicitud_hospital/ver_formulario/${id}`;
+    }
 });

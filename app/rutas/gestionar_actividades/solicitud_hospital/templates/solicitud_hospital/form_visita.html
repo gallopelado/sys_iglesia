@@ -61,7 +61,7 @@
                                         {{ form.solicitante.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-8">
-                                        {{ form.solicitante(class='custom-select custom-select-sm') }}
+                                        {{ form.solicitante(class='custom-select custom-select-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -69,7 +69,7 @@
                                         {{ form.descripcion.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-8">
-                                        {{ form.descripcion(class='form-control form-control-sm') }}
+                                        {{ form.descripcion(class='form-control form-control-sm', disabled=bloqueado) }}
                                         {% for error in form.descripcion.errors %}
                                         <span class="help-block">Error en la descripcion</span>
                                         {% endfor %}
@@ -80,7 +80,7 @@
                                         {{ form.paciente.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-6">
-                                        {{ form.paciente(class='custom-select custom-select-sm') }}
+                                        {{ form.paciente(class='custom-select custom-select-sm', disabled=bloqueado) }}
                                         {% for error in form.paciente.errors %}
                                         <span class="help-block">Error en el paciente</span>
                                         {% endfor %}
@@ -95,12 +95,12 @@
                                             <div class="card-body">
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.esmiembro(class='custom-control-input') }}
+                                                    {{ form.esmiembro(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.esmiembro.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.estaenterado(class='custom-control-input') }}
+                                                    {{ form.estaenterado(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.estaenterado.label(class='custom-control-label') }}
                                                 </div>                                                
                                             </div>
@@ -114,7 +114,7 @@
                                                         {{ form.idioma.label(class='form-control-label form-control-sm') }}
                                                     </div>
                                                     <div class="col col-md-8">
-                                                        {{ form.idioma(class='custom-select custom-select-sm') }}
+                                                        {{ form.idioma(class='custom-select custom-select-sm', disabled=bloqueado) }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,13 +126,13 @@
                                         {{ form.hospital.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-6">
-                                        {{ form.hospital(class='form-control form-control-sm') }}
+                                        {{ form.hospital(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                     <div class="col col-md-2">
                                         {{ form.nrocuarto.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-1">
-                                        {{ form.nrocuarto(class='form-control form-control-sm') }}
+                                        {{ form.nrocuarto(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -140,13 +140,13 @@
                                         {{ form.telefcuarto.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-3">
-                                        {{ form.telefcuarto(class='form-control form-control-sm') }}
+                                        {{ form.telefcuarto(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                     <div class="col col-md-3">
                                         {{ form.fechaadmision.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-3">
-                                        {{ form.fechaadmision(class='form-control form-control-sm') }}
+                                        {{ form.fechaadmision(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -154,7 +154,7 @@
                                         {{ form.diagnostico.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-9">
-                                        {{ form.diagnostico(class='form-control form-control-sm') }}
+                                        {{ form.diagnostico(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>                                
                                 <div class="row form-group">
@@ -162,7 +162,7 @@
                                         {{ form.direccionhospi.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-5">
-                                        {{ form.direccionhospi(class='form-control form-control-sm') }}
+                                        {{ form.direccionhospi(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -170,7 +170,7 @@
                                         {{ form.horariovisita.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-5">
-                                        {{ form.horariovisita(class='form-control form-control-sm') }}
+                                        {{ form.horariovisita(class='form-control form-control-sm', disabled=bloqueado) }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -182,37 +182,37 @@
                                             <div class="card-body">
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.lunes(class='custom-control-input') }}
+                                                    {{ form.lunes(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.lunes.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.martes(class='custom-control-input') }}
+                                                    {{ form.martes(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.martes.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.miercoles(class='custom-control-input') }}
+                                                    {{ form.miercoles(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.miercoles.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.jueves(class='custom-control-input') }}
+                                                    {{ form.jueves(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.jueves.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.viernes(class='custom-control-input') }}
+                                                    {{ form.viernes(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.viernes.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.sabado(class='custom-control-input') }}
+                                                    {{ form.sabado(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.sabado.label(class='custom-control-label') }}
                                                 </div>
                                                 <div
                                                     class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.domingo(class='custom-control-input') }}
+                                                    {{ form.domingo(class='custom-control-input', disabled=bloqueado) }}
                                                     {{ form.domingo.label(class='custom-control-label') }}
                                                 </div>
                                             </div>
