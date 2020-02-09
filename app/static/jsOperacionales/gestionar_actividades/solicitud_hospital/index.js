@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     window.eliminar = (id) => {                
         const m = mensajeConfirmacion('Confirmar', 'Desea cancelar?');
         m.buttons.Si.action = () => {                
-            location.href = `/actividades/registrar_reserva/eliminar/${id}`;
+            location.href = `/actividades/solicitud_hospital/cancelar/${id}`;
         }
         m.open();
     }

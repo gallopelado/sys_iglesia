@@ -112,15 +112,14 @@ def registrar():
 
 
 
-@soh.route('/eliminar/<int:id>', methods=['GET'])
-def eliminarReserva(id):
-    res = resm.guardarReserva('cancelar', id, None, None, None, None, 
-            None, None, None, None, None, None, None)
+@soh.route('/cancelar/<int:id>', methods=['GET'])
+def cancelaSolicitud(id):
+    res = soli.cancelaSolicitudHospital(id)
     if res == True:
-        flash('Se ha cancelado una reserva', 'default')
-        return redirect(url_for('registrar_reserva.index_reserva'))
-    flash(res.diag.message_primary, 'warning')        
-    return redirect(url_for('registrar_reserva.index_reserva'))
+        flash('Se ha cancelado una solicitud', 'danger')
+        return redirect(url_for('solicitud_hospital.index'))
+    flash('Existe un error al cancelar. Solicite ayuda al administrador', 'warning')        
+    return redirect(url_for('solicitud_hospital.index'))
 
 ## Funciones para AJAX
 @soh.route('/get_solicitudes_json/<string:estado>')

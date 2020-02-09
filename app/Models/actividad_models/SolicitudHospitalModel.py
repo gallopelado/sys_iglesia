@@ -188,4 +188,24 @@ class SolicitudHospitalModel:
         finally:
             if con is not None:
                 cur.close()
-                con.close()    
+                con.close() 
+
+    def cancelaSolicitudHospital(self, idsolicitud):
+        updateSQL = '''
+        UPDATE actividades.visi_hospi
+        SET vh_estado = 'CANCELADO', modificado_por_usuario = null, modif_fecha = now()
+        WHERE vh_id = %s;
+        '''        
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(updateSQL, (idsolicitud,))
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()     
