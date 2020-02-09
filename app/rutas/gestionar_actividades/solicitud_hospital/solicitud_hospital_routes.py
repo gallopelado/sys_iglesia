@@ -86,9 +86,9 @@ def registrar():
 
         if idsolicitud is None or idsolicitud == '':
             ##REGISTRAR
-            soli.insertSolicitudHospital(solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
-            idioma, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
-            vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
+            soli.insertSolicitudHospital(solicitanteid, vhdes.upper(), pacienteid, vhesmiembro, vhestaenterado, 
+            idioma, vhnombrehospi.upper(), vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico.upper(), 
+            vhdirehospi.upper(), vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
             vhsabado, vhdomingo, None, vhestado)
         else:
             ##MODIFICAR
@@ -117,9 +117,10 @@ def eliminarReserva(id):
     return redirect(url_for('registrar_reserva.index_reserva'))
 
 ## Funciones para AJAX
-@soh.route('/get_reservas_json', methods=['POST'])
-def get_actividades_json():
-    estado = request.json['estado'] 
-    res = resm.obtenerReservasJson(estado)       
-    return jsonify(res)
+@soh.route('/get_solicitudes_json/<string:estado>')
+def getSolicitudes(estado):    
+    if estado in ('ATENDIDO', 'NO-ATENDIDO', 'CANCELADO'):
+        res = soli.obtenerSolicitudes(estado)
+        return jsonify(res)
+    return jsonify({'estado':False, 'mensaje':'El parametro no es correcto'})
 

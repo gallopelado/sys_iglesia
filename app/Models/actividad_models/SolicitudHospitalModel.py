@@ -50,6 +50,37 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()            
 
+    def obtenerSolicitudes(self, estado='NO-ATENDIDO'):
+        querySQL = ''' 
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select 
+            vh.vh_id idsolicitud
+            , vh.vh_des descripcion
+            , vh.solicitante_id idsolicitante
+            , p.per_nombres nombres
+            , p.per_apellidos apellidos
+            , vh.vh_estado estado
+        from actividades.visi_hospi vh 
+        left join membresia.admision_persona ap on vh.solicitante_id = ap.adp_id
+        left join referenciales.personas p on ap.adp_id = p.per_id
+        where vh.vh_estado = %s ) datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            if (estado is not None or estado !='') and estado !='NO-ATENDIDO':
+                cur.execute(querySQL, (estado,))
+                return cur.fetchall()[0][0]
+            cur.execute(querySQL, (estado,))
+            return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 

@@ -12,3 +12,4 @@ CREATE TYPE estado_membresia AS ENUM(
 'EN OBSERVACION'
 );
 create type estado_reserva as enum('CONFIRMADO', 'NO-CONFIRMADO', 'CANCELADO', 'DESACTIVADO');
+create type estado_solicitud_hospital as enum('ATENDIDO', 'NO-ATENDIDO', 'CANCELADO');

@@ -34,3 +34,7 @@ alter table actividades.visi_hospi add column creacion_fecha timestamp not null;
 alter table actividades.visi_hospi add column modificado_por_usuario integer;
 alter table actividades.visi_hospi add column modif_fecha timestamp;
 alter table actividades.visi_hospi add column vh_estado boolean not null default true;
+
+alter table actividades.visi_hospi drop column vh_estado;
+alter table actividades.visi_hospi add column vh_estado estado_solicitud_hospital;
+update actividades.visi_hospi set vh_estado = 'NO-ATENDIDO' where vh_id=1
