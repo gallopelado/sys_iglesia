@@ -9,7 +9,7 @@ from app.rutas.gestionar_actividades.solicitud_hospital.formularios import Formu
 # Registrar módulo
 # soh -- solicitud hospital
 soh = Blueprint('solicitud_hospital', __name__, template_folder='templates')
-titulo = 'Registrar solicitud para visital a Hospital'
+titulo = 'Registrar solicitud para visita a Hospital'
 # Instancias
 resm = ReservaModel()
 soli = SolicitudHospitalModel()
