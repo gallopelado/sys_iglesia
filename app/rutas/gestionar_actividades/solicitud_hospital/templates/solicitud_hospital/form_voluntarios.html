@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, modal_referencial_simple, pintar_textarea %}
+
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('solicitud_hospital.index') }}" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <form action="{{ url_for('solicitud_hospital.registrar') }}" method="post"
+                            class="form-horizontal">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
+                                    </h3>
+                                </div>
+                                <hr>
+                                <input type="hidden" name="idsolicitud" id="idsolicitud"
+                                    value="{{ idsolicitud if idsolicitud }}">
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="idsolicitud" class='form-control-label form-control-sm'>Elegir
+                                            Solicitud</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input type="text" class='custom-select custom-select-sm' id="idsolicitud">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="dias" class='form-control-label form-control-sm'>Dias
+                                            disponibles</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input type="text" class='form-control form-control-sm' id="dias">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="horario" class='form-control-label form-control-sm'>Horario de
+                                            visita</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input type="text" class='form-control form-control-sm' id="horario">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="fechavisita" class='form-control-label form-control-sm'>Fecha de
+                                            visita</label>
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <input type="date" class='form-control form-control-sm' id="fechavisita">
+                                    </div>
+                                    <div class="col col-md-3">
+                                        <label for="horavisita" class='form-control-label form-control-sm'>Horario de
+                                            visita</label>
+                                    </div>
+                                    <div class="col col-md-2">
+                                        <input type="time" class='form-control form-control-sm' id="horavisita">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="idcomite" class='form-control-label form-control-sm'>Elegir
+                                            Comite</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input type="text" class='custom-select custom-select-sm' id="idcomite">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                        <label for="idvoluntario" class='form-control-label form-control-sm'>Elegir
+                                            Voluntario</label>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <input type="text" class='custom-select custom-select-sm' id="idvoluntario">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"></div>
+                                    <div class="col col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">Lista de Voluntarios</div>
+                                            <div class="card-body">
+                                                <table id="tabla" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>Voluntario</td>
+                                                            <td>Accion</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tb"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-3"></div>
+                                </div>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                            <!--Fin card-body-->
+                            {% if bloqueado == false or bloqueado is none %}
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Registrar
+                                </button>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<!-- JS del formulario -->
+<!-- <script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/formulario.js') }}"></script> -->
+{%- endblock %}

@@ -158,3 +158,11 @@ def getSolicitudes(estado):
         return jsonify(res)
     return jsonify({'estado':False, 'mensaje':'El parametro no es correcto'})
 
+## Rutas para formulario de voluntarios
+@soh.route('/voluntarios')
+def indexVoluntario():
+    return render_template('solicitud_hospital/index_voluntarios.html', titulo='Voluntarios')
+
+@soh.route('/form_voluntarios')
+def formVoluntarios():
+    return render_template('solicitud_hospital/form_voluntarios.html', titulo='Formulario encargar voluntarios', bloqueado=False)
