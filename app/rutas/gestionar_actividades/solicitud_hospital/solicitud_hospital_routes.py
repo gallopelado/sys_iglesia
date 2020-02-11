@@ -109,7 +109,7 @@ def registrar():
     vhviernes = form.viernes.data
     vhsabado = form.sabado.data
     vhdomingo = form.domingo.data
-    vhestado = True
+    vhestado = 'NO-ATENDIDO'
     if res:
         next = request.args.get('next', None)
         if next:

@@ -149,7 +149,7 @@ class SolicitudHospitalModel:
             cur = con.cursor()
             cur.execute(insertSQL, parametros)
             con.commit()
-            return cur.fetchone()
+            return True
         except con.Error as e:
             print(e.pgerror)
         finally:
