@@ -2,7 +2,6 @@ from datetime import date, datetime
 # Se importan las librerias basicas
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 # Importar modelos
-from app.Models.actividad_models.ReservaModel import ReservaModel
 from app.Models.actividad_models.SolicitudHospitalModel import SolicitudHospitalModel
 # Clase del formulario
 from app.rutas.gestionar_actividades.solicitud_hospital.formularios import FormularioVisita
@@ -11,7 +10,6 @@ from app.rutas.gestionar_actividades.solicitud_hospital.formularios import Formu
 soh = Blueprint('solicitud_hospital', __name__, template_folder='templates')
 titulo = 'Registrar solicitud para visita a Hospital'
 # Instancias
-resm = ReservaModel()
 soli = SolicitudHospitalModel()
 @soh.route('/')
 def index():    
@@ -165,4 +163,7 @@ def indexVoluntario():
 
 @soh.route('/form_voluntarios')
 def formVoluntarios():
-    return render_template('solicitud_hospital/form_voluntarios.html', titulo='Formulario encargar voluntarios', bloqueado=False)
+    solicitudes = soli.obtenerSolicitudesVoluntario()    
+    comites = soli.obtenerComitesActivos()    
+    return render_template('solicitud_hospital/form_voluntarios.html', 
+    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites)

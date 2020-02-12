@@ -63,7 +63,14 @@
                                             Solicitud</label>
                                     </div>
                                     <div class="col col-md-8">
-                                        <input type="text" class='custom-select custom-select-sm' id="idsolicitud">
+                                        <select class='custom-select custom-select-sm' id="idsolicitud">
+                                            <option value="">...</option>
+                                            {% if solicitudes %}
+                                            {% for solicitud in solicitudes %}
+                                            <option value="{{ solicitud[0] }}">{{ solicitud[1] }} - Estado: {{ solicitud[2] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -72,7 +79,7 @@
                                             disponibles</label>
                                     </div>
                                     <div class="col col-md-8">
-                                        <input type="text" class='form-control form-control-sm' id="dias">
+                                        <input type="text" class='form-control form-control-sm' id="dias" disabled>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -80,8 +87,8 @@
                                         <label for="horario" class='form-control-label form-control-sm'>Horario de
                                             visita</label>
                                     </div>
-                                    <div class="col col-md-8">
-                                        <input type="text" class='form-control form-control-sm' id="horario">
+                                    <div class="col col-md-2">
+                                        <input type="text" class='form-control form-control-sm' id="horario" disabled>
                                     </div>
                                 </div>
                                 <hr>
@@ -108,7 +115,14 @@
                                             Comite</label>
                                     </div>
                                     <div class="col col-md-8">
-                                        <input type="text" class='custom-select custom-select-sm' id="idcomite">
+                                        <select class='custom-select custom-select-sm' id="idcomite">
+                                            <option value="">...</option>
+                                            {% if comites %}
+                                            {% for comite in comites %}
+                                            <option value="{{ comite[0] }}">{{ comite[1] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -167,6 +181,6 @@
 
 {% block mi_script -%}
 <!-- JS del formulario -->
-<!-- <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/formulario.js') }}"></script> -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/form_voluntarios.js') }}"></script>
 {%- endblock %}

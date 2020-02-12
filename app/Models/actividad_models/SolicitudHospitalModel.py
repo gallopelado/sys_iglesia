@@ -48,7 +48,48 @@ class SolicitudHospitalModel:
         finally:
             if con is not None:
                 cur.close()
-                con.close()            
+                con.close()
+
+    def obtenerSolicitudesVoluntario(self):
+        querySQL = '''select 
+        vh.vh_id idsolicitud, vh.vh_des descripcion, vh.vh_estado from actividades.visi_hospi vh 
+        where vh.vh_estado != 'CANCELADO'
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL)
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()  
+
+    def obtenerComitesActivos(self):
+        querySQL = '''
+        select 
+            min_id idcomite
+            , min_des
+        from 
+            membresia.comites c
+        left join referenciales.ministerios using(min_id) 
+        where com_estado is true
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL)
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()           
 
     def obtenerSolicitudes(self, estado='NO-ATENDIDO'):
         querySQL = ''' 
