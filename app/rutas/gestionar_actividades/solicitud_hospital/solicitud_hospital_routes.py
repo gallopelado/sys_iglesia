@@ -156,6 +156,12 @@ def getSolicitudes(estado):
         return jsonify(res)
     return jsonify({'estado':False, 'mensaje':'El parametro no es correcto'})
 
+@soh.route('/get_solicitudes_json_id/<int:id>')
+def getSolicitudesIdJSON(id):    
+    res = soli.obtenerSolicitudIdJSON(id)
+    return jsonify(res)
+    
+
 ## Rutas para formulario de voluntarios
 @soh.route('/voluntarios')
 def indexVoluntario():

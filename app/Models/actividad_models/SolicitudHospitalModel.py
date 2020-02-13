@@ -165,6 +165,50 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()
 
+    def obtenerSolicitudIdJSON(self, id):
+        querySQL = ''' 
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select 
+            vh.vh_id idsolicitud	
+            , vh.solicitante_id idsolicitante
+            , vh.vh_des descripcion
+            , vh.paciente_id idpaciente
+            , vh.vh_estado estado
+            , vh.vh_esmiembro esmiembro
+            , vh.vh_estaenterado estaenterado 
+            , vh.idi_id ididioma
+            , vh.vh_nombrehospi nombrehospi 
+            , vh.vh_nrocuarto nrocuarto
+            , vh.vh_nrotelcuarto nrotelcuarto	
+            , vh.vh_fechaadmi fechaadmi
+            , vh.vh_diagnostico diagnostico
+            , vh.vh_direhospi direhospi
+            , vh.vh_horavisi horavisi
+            , vh.vh_lunes lunes
+            , vh.vh_martes martes
+            , vh.vh_miercoles miercoles
+            , vh.vh_jueves jueves
+            , vh.vh_viernes viernes
+            , vh.vh_sabado sabado
+            , vh.vh_domingo domingo
+        from actividades.visi_hospi vh 
+        left join membresia.admision_persona ap on vh.solicitante_id = ap.adp_id
+        left join referenciales.personas p on ap.adp_id = p.per_id 
+        where vh.vh_id = %s)datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(querySQL, (id,))
+            return cur.fetchall()[0][0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
