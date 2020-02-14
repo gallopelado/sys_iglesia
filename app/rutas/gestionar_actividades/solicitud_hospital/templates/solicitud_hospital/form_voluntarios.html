@@ -131,7 +131,8 @@
                                             Voluntario</label>
                                     </div>
                                     <div class="col col-md-8">
-                                        <input type="text" class='custom-select custom-select-sm' id="idvoluntario">
+                                        <select type="text" class='custom-select custom-select-sm' id="idvoluntario">                                            
+                                        </select>
                                     </div>
                                 </div>
                                 <hr>
@@ -160,7 +161,7 @@
                             <!--Fin card-body-->
                             {% if bloqueado == false or bloqueado is none %}
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary btn-sm">
+                                <button type="submit" class="btn btn-primary btn-sm" id="registrar">
                                     <i class="fa fa-dot-circle-o"></i> Registrar
                                 </button>
                             </div>

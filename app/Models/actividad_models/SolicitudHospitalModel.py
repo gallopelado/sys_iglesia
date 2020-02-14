@@ -91,6 +91,36 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()           
 
+    def obtenerIntegrantesComite(self, id):
+        querySQL = '''
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select
+            min_id idcomite ,
+            min_des comite,
+            per_id idpersona,
+            per_nombres nombres,
+            per_apellidos apellidos
+        from
+            membresia.comites c
+        inner join membresia.comite_obreros using(min_id)
+        left join referenciales.ministerios using(min_id)
+        left join referenciales.personas using(per_id)
+        where
+            com_estado is true and min_id = %s)datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL, (id, ))
+            return cur.fetchone()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def obtenerSolicitudes(self, estado='NO-ATENDIDO'):
         querySQL = ''' 
         select array_to_json(array_agg(row_to_json(datos))) from (

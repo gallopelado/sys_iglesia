@@ -160,6 +160,11 @@ def getSolicitudes(estado):
 def getSolicitudesIdJSON(id):    
     res = soli.obtenerSolicitudIdJSON(id)
     return jsonify(res)
+
+@soh.route('/get_integrantes_comite/<int:id>')
+def getIntegrantesComiteJSON(id):    
+    res = soli.obtenerIntegrantesComite(id)
+    return jsonify(res)
     
 
 ## Rutas para formulario de voluntarios
