@@ -323,4 +323,53 @@ class SolicitudHospitalModel:
         finally:
             if con is not None:
                 cur.close()
-                con.close()     
+                con.close()   
+
+    def registrarListaSolicitudVoluntarios(self, id, fechavisita, horavisita, minid, 
+    obs, creadoporusuario, voluntarios):
+        insertSQL_cabecera = '''
+        INSERT INTO actividades.lista_voluntario
+        (vh_id, lvo_fechavisita, lvo_horavisita, min_id, lvo_obs, 
+        creado_por_usuario, creacion_fecha)
+        VALUES(%s, %s, %s, %s, %s, %s, now()) RETURNING lvo_id;
+        '''
+        insertSQL_detalle = '''
+        INSERT INTO actividades.solicitud_lista_voluntario
+        (lvo_id, per_id, estado)
+        VALUES(%s, %s, %s);
+        '''
+        updateSQL_cabecera = '''
+        UPDATE actividades.visi_hospi SET vh_estado = 'ATENDIDO', modificado_por_usuario = null, modif_fecha = NOW() WHERE vh_id = %s
+        '''
+
+        argumentos_cabecera = (id, fechavisita, horavisita, minid, 
+        obs.upper(), creadoporusuario,)
+
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            conexion.autocommit = False
+            cur = con.cursor()
+            ## Insertar cabecera
+            cur.execute(insertSQL_cabecera, argumentos_cabecera)
+            idlista = cur.fetchone()[0]
+            if not idlista:
+                print('No se inserto la cabecera')
+                con.rollback()
+                return False
+
+            # Insertar detalle    
+            for volun in voluntarios:
+                cur.execute(insertSQL_detalle, (idlista, volun['value'], True))
+
+            # Actualizar solicitud a ATENDIDO
+            cur.execute(updateSQL_cabecera, (id,))
+
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()   

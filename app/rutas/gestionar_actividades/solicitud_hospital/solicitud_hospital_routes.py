@@ -178,3 +178,23 @@ def formVoluntarios():
     comites = soli.obtenerComitesActivos()    
     return render_template('solicitud_hospital/form_voluntarios.html', 
     titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites)
+
+## Ajax para voluntarios
+@soh.route('/registar_lista', methods=['POST'])
+def registraVoluntarios():
+    idcomite = request.json['idcomite']    
+    fechavisita = request.json['fechavisita']
+    horavisita = request.json['horavisita']
+    idsolicitud = request.json['idsolicitud']
+    obs = request.json['obs']
+    voluntarios = request.json['voluntarios'] 
+    
+    try:
+        res = soli.registrarListaSolicitudVoluntarios(idsolicitud, fechavisita, horavisita, idcomite, 
+        obs, None, voluntarios)
+        if res:
+            return jsonify({'estado':res, 'mensaje':'Insercion exitosa'})
+        return jsonify({'estado':False, 'mensaje':'Error al intentar insertar lista de voluntarios'})
+    except Exception:
+        print('Error al intentar insertar lista de voluntarios')
+        return jsonify({'estado':False, 'mensaje':'Error al intentar insertar lista de voluntarios'})

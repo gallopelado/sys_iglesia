@@ -54,6 +54,7 @@ var app = new Vue({
         , solicitudes: ''
         , fechavisita: ''
         , horavisita: ''
+        , obs: ''
     }
     , methods: {
         obtenerVoluntarios: async function () {            
@@ -125,7 +126,7 @@ var app = new Vue({
                 $('#idcomite').prop('disabled', false);
             }
         }
-        , enviarDatos: function () {
+        , enviarDatos: async function () {
             if (this.solicitudes == '') {
                 alert('Debe escoger una solicitud');
                 $('#solicitudes').focus();
@@ -149,11 +150,25 @@ var app = new Vue({
             alert('Formulario correcto, enviando datos');
             const datos = {
                 idsolicitud: this.solicitudes
+                , idcomite: this.idcomite
                 , fechavisita: this.fechavisita
                 , horavisita: this.horavisita
+                , obs: this.obs
                 , voluntarios: this.lista
+            }            
+            try {
+                const res  = await fetch('/actividades/solicitud_hospital/registar_lista', {
+                    method:'POST'
+                    , headers:{
+                        'Content-Type':'application/json'
+                    }
+                    , body:JSON.stringify(datos)
+                });
+                const data = await res.json();
+                console.log(data);
+            } catch (error) {
+                console.error(error);
             }
-            console.log(datos);
         }
     }
     , beforeMount() {
