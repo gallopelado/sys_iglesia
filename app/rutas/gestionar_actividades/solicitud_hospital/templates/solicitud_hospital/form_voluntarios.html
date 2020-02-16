@@ -40,8 +40,8 @@
 
             <!--Inicio primer row-->
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div id="app" class="card">
                         <div class="card-header">
                             <a href="{{ url_for('solicitud_hospital.indexVoluntario') }}" class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
@@ -58,12 +58,12 @@
                                 <input type="hidden" name="idsolicitud" id="idsolicitud"
                                     value="{{ idsolicitud if idsolicitud }}">
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="solicitudes" class='form-control-label form-control-sm'>Elegir
                                             Solicitud</label>
                                     </div>
-                                    <div class="col col-md-8">
-                                        <select class='custom-select custom-select-sm' id="solicitudes">
+                                    <div class="col col-sm-12 col-md-8">
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes">
                                             <option value="">...</option>
                                             {% if solicitudes %}
                                             {% for solicitud in solicitudes %}
@@ -74,7 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="dias" class='form-control-label form-control-sm'>Dias
                                             disponibles</label>
                                     </div>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="horario" class='form-control-label form-control-sm'>Horario de
                                             visita</label>
                                     </div>
@@ -93,52 +93,63 @@
                                 </div>
                                 <hr>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="fechavisita" class='form-control-label form-control-sm'>Fecha de
                                             visita</label>
                                     </div>
-                                    <div class="col col-md-3">
-                                        <input type="date" class='form-control form-control-sm' id="fechavisita">
+                                    <div class="col col-sm-12 col-md-3">
+                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita">
                                     </div>
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="horavisita" class='form-control-label form-control-sm'>Horario de
                                             visita</label>
                                     </div>
-                                    <div class="col col-md-2">
-                                        <input type="time" class='form-control form-control-sm' id="horavisita">
+                                    <div class="col col-sm-12 col-md-2">
+                                        <input type="time" class='form-control form-control-sm' id="horavisita" v-model="horavisita">
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="idcomite" class='form-control-label form-control-sm'>Elegir
                                             Comite</label>
                                     </div>
-                                    <div class="col col-md-8">
-                                        <select class='custom-select custom-select-sm' id="idcomite">
+                                    <div class="col col-sm-12 col-md-8">
+                                        <select class='custom-select custom-select-sm' id="idcomite" v-model="idcomite" v-select="idcomite" v-on:change="obtenerVoluntarios">
                                             <option value="">...</option>
                                             {% if comites %}
                                             {% for comite in comites %}
-                                            <option value="{{ comite[0] }}">{{ comite[1] }}</option>
+                                            <option value="{{ comite[0] }}" :data-id="{{ comite[0] }}">{{ comite[1] }}</option>
                                             {% endfor %}
                                             {% endif %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3">
+                                    <div class="col col-sm-12 col-md-3">
                                         <label for="idvoluntario" class='form-control-label form-control-sm'>Elegir
                                             Voluntario</label>
                                     </div>
-                                    <div class="col col-md-8">
-                                        <select type="text" class='custom-select custom-select-sm' id="idvoluntario">                                            
-                                        </select>
+                                    <div class="col col-sm-12 col-md-8">
+                                        <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario" :disabled="lista_voluntarios.length <= 0 ? true : false">
+                                            <option value="">...</option>
+                                            <option v-for="item in lista_voluntarios" v-bind:value="{texto:item.text, id:item.value}">
+                                                [[ item.text ]]
+                                            </option>                                            
+                                        </select>                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-sm-12 col-md-3">
+                                        <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntario" disabled>
+                                            Agregar Voluntario
+                                        </button>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"></div>
-                                    <div class="col col-md-6">
+                                    <div class="col col-sm-12 col-md-3"></div>
+                                    <div class="col col-sm-12 col-md-12">
                                         <div class="card">
                                             <div class="card-header">Lista de Voluntarios</div>
                                             <div class="card-body">
@@ -149,7 +160,14 @@
                                                             <td>Accion</td>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tb"></tbody>
+                                                    <tbody id="tb">
+                                                        <tr v-for="item in lista" :id="item.value">
+                                                            <td v-text="item.text"></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarVoluntario([[item.value]], [[item.text]])">Eliminar</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -161,9 +179,13 @@
                             <!--Fin card-body-->
                             {% if bloqueado == false or bloqueado is none %}
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary btn-sm" id="registrar">
-                                    <i class="fa fa-dot-circle-o"></i> Registrar
-                                </button>
+                                <div class="row">
+                                    <div class="col col-sm-4 col-md-4">
+                                        <button type="button" class="btn btn-primary btn-sm" id="registrar" v-on:click="enviarDatos">
+                                            <i class="fa fa-dot-circle-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                </div>                                
                             </div>
                             {% endif %}
                         </form>
@@ -181,6 +203,8 @@
 {% endblock %}
 
 {% block mi_script -%}
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- JS del formulario -->
 <script type="module"
     src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/form_voluntarios.js') }}"></script>
