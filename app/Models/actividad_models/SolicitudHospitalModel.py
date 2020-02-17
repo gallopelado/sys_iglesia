@@ -373,3 +373,27 @@ class SolicitudHospitalModel:
             if con is not None:
                 cur.close()
                 con.close()   
+
+    def obtenerListasVoluntario(self):
+        querySQL = ''' 
+        select array_to_json(array_agg(row_to_json(datos))) from ( 
+            SELECT 
+                vh_id idsolicitud
+                , vh_des descripcion
+                , fecha_formatolargo(lvo_fechavisita) fechavisita
+                , vh_estado estado
+            FROM actividades.lista_voluntario lv 
+            left join actividades.visi_hospi using(vh_id))datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(querySQL)
+            return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

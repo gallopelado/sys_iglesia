@@ -26,7 +26,7 @@
                     <h3 class="title-3 m-b-30">{{titulo}}</h3>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="app">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
@@ -50,6 +50,11 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
+                                    <tr v-for="item in lista">
+                                        <td v-text="item.descripcion"></td>
+                                        <td v-text="item.fechavisita"></td>
+                                        <td v-text="item.estado"></td>
+                                    </tr>
                                 </tbody>
                             </table>
 
@@ -79,9 +84,10 @@
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 
-<!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/index.js') }}"></script> -->
-
-
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+<!-- JS del formulario -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/index_voluntarios.js') }}"></script>
 {% endblock %}

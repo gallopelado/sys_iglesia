@@ -166,6 +166,9 @@ var app = new Vue({
                 });
                 const data = await res.json();
                 console.log(data);
+                if (data.estado == true) {
+                    location.href = '/actividades/solicitud_hospital/voluntarios';
+                }
             } catch (error) {
                 console.error(error);
             }

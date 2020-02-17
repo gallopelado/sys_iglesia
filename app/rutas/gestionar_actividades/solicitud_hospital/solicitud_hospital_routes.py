@@ -193,8 +193,16 @@ def registraVoluntarios():
         res = soli.registrarListaSolicitudVoluntarios(idsolicitud, fechavisita, horavisita, idcomite, 
         obs, None, voluntarios)
         if res:
+            flash('Se ha procesado con exito', 'success')
             return jsonify({'estado':res, 'mensaje':'Insercion exitosa'})
+        flash('Error al procesar. Favor contacte con el Administrado', 'danger')            
         return jsonify({'estado':False, 'mensaje':'Error al intentar insertar lista de voluntarios'})
     except Exception:
         print('Error al intentar insertar lista de voluntarios')
+        flash('Error al procesar. Favor contacte con el Administrado', 'danger')            
         return jsonify({'estado':False, 'mensaje':'Error al intentar insertar lista de voluntarios'})
+
+@soh.route('/obtener_lista_voluntarios', methods=['GET'])
+def listaVoluntarios():
+    lista = soli.obtenerListasVoluntario()
+    return jsonify(lista)
