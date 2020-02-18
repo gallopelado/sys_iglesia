@@ -187,7 +187,7 @@ class SolicitudHospitalModel:
             con = conexion.getConexion()
             cur = con.cursor()            
             cur.execute(querySQL, (id,))
-            return cur.fetchall()[0]
+            return cur.fetchone()
         except con.Error as e:
             print(e.pgerror)
         finally:
@@ -378,7 +378,7 @@ class SolicitudHospitalModel:
         querySQL = ''' 
         select array_to_json(array_agg(row_to_json(datos))) from ( 
             SELECT 
-                vh_id idsolicitud
+                lvo_id idsolicitud
                 , vh_des descripcion
                 , fecha_formatolargo(lvo_fechavisita) fechavisita
                 , vh_estado estado
@@ -391,6 +391,32 @@ class SolicitudHospitalModel:
             cur = con.cursor()            
             cur.execute(querySQL)
             return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def obtenerListaVoluntarioId(self, id):
+        querySQL = ''' 
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select 
+            lvo_id idlista
+            , vh_id idsolicitud
+            , lvo_fechavisita fechavisita
+            , lvo_horavisita horavisita
+            , lvo_obs obs
+            , min_id idcomite
+        from actividades.lista_voluntario lv 
+        where lvo_id = %s)datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(querySQL, (id,))
+            return cur.fetchone()[0][0]
         except con.Error as e:
             print(e.pgerror)
         finally:
