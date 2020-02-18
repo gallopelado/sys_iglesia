@@ -54,6 +54,9 @@
                                         <td v-text="item.descripcion"></td>
                                         <td v-text="item.fechavisita"></td>
                                         <td v-text="item.estado"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" v-on:click="modificar(item.idsolicitud)">Modificar</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
