@@ -54,9 +54,11 @@
                                     <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
                                     </h3>
                                 </div>
-                                <hr>
-                                <input type="hidden" name="idsolicitud" id="idsolicitud"
-                                    value="{{ idsolicitud if idsolicitud }}">
+                                <hr>                                
+                                    <script type="application/javascript">
+                                        var idlista = "{{ solicitud['idlista'] if solicitud }}";
+                                        localStorage.setItem('idlista', idlista);
+                                    </script>
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
                                         <label for="solicitudes" class='form-control-label form-control-sm'>Elegir
@@ -66,8 +68,8 @@
                                         <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes">
                                             <option value="">...</option>
                                             {% if solicitudes %}
-                                            {% for solicitud in solicitudes %}
-                                            <option value="{{ solicitud[0] }}">{{ solicitud[1] }} - Estado: {{ solicitud[2] }}</option>
+                                            {% for soli in solicitudes %}
+                                            <option value="{{ soli[0] }}">{{ soli[1] }} - Estado: {{ soli[2] }}</option>
                                             {% endfor %}
                                             {% endif %}
                                         </select>
@@ -105,8 +107,8 @@
                                         <label for="fechavisita" class='form-control-label form-control-sm'>Fecha de
                                             visita</label>
                                     </div>
-                                    <div class="col col-sm-12 col-md-3">
-                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita">
+                                    <div class="col col-sm-12 col-md-3">                                       
+                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita">                                        
                                     </div>
                                     <div class="col col-sm-12 col-md-3">
                                         <label for="horavisita" class='form-control-label form-control-sm'>Horario de
@@ -169,12 +171,23 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tb">
+                                                        {% if not voluntarios %}
                                                         <tr v-for="item in lista" :id="item.value">
                                                             <td v-text="item.text"></td>
                                                             <td>
                                                                 <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarVoluntario([[item.value]], [[item.text]])">Eliminar</button>
                                                             </td>
                                                         </tr>
+                                                        {% else %}
+                                                        {% for vol in voluntarios %}
+                                                        <tr>
+                                                            <td>{{ vol['nombres'] }} {{ vol['apellidos'] }}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarBDVoluntario([[item.value]], [[item.text]])">Eliminar</button>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -211,6 +224,7 @@
 {% endblock %}
 
 {% block mi_script -%}
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
 <!-- Vue Js -->
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- JS del formulario -->
