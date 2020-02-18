@@ -47,6 +47,7 @@ var app = new Vue({
     , data: {
         lista: []
         , lista_voluntarios: []
+        , lista_editar:[]
         , idcomite: ''
         , comite:''
         , idvoluntario: ''
@@ -173,9 +174,26 @@ var app = new Vue({
                 console.error(error);
             }
         }
+        , cargarFormulario: async function () {
+            const idlista = localStorage.getItem('idlista');
+            try {
+                const res = await axios.get(`/actividades/solicitud_hospital/obtener_lista_voluntarios/${idlista}`);
+                const {idsolicitud, horavisita, fechavisita, obs} = await res.data;
+                console.log(res);
+                this.lista_editar = await res.data;
+                this.fechavisita = fechavisita;
+                this.horavisita = horavisita;
+                this.obs = obs;
+                this.solicitudes = idsolicitud;
+                $('#solicitudes').val(idsolicitud);
+                $('#solicitudes').trigger('change');
+            } catch (error) {
+                console.error(error);
+            }
+        }
     }
     , beforeMount() {
-        //this.obtenerVoluntarios();
+        this.cargarFormulario();
     }
     , computed: {   
     }, delimiters: ['[[',']]']
