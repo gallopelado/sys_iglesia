@@ -1,3 +1,4 @@
+import { idioma_spanish, mensajeConfirmacion } from '../../helper/helper.js';
 var app =  new Vue({
     el:'#app'
     , data: {
@@ -16,6 +17,13 @@ var app =  new Vue({
             } catch (error) {
                 console.error(error);
             }
+        }
+        , modificar: function (id) {
+            const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
+            m.buttons.Si.action = () => {                
+                location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${id}`;                
+            }
+            m.open();
         }
     }
     , beforeMount() {
