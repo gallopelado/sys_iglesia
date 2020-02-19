@@ -177,19 +177,18 @@ def formVoluntarios():
     solicitudes = soli.obtenerSolicitudesVoluntario()    
     comites = soli.obtenerComitesActivos()    
     return render_template('solicitud_hospital/form_voluntarios.html', 
-    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, solicitud=None, voluntarios=None)
+    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, solicitud=None, voluntarios=None, editar=None)
 
 @soh.route('/modificar_voluntarios/<int:id>', methods=["GET"])
-def verFormVoluntarios(id):    
+def modificarFormVoluntarioVoluntario(id):    
     solicitudes = soli.obtenerSolicitudesVoluntario()
-    solicitud = soli.obtenerListaVoluntarioId(id)  
-    print(solicitud)  
+    solicitud = soli.obtenerListaVoluntarioId(id)    
     comites = soli.obtenerComitesActivos() 
     voluntarios = soli.obtenerIntegrantesComite(solicitud['idcomite']) 
-    print(voluntarios) 
-    #voluntarios = None 
+    voluntariosRegistrados = soli.obtenerVoluntariosRegistrados(id)
     return render_template('solicitud_hospital/form_voluntarios.html', 
-    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, solicitud=solicitud, voluntarios=voluntarios)
+    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, 
+    solicitud=solicitud, voluntarios=voluntarios, editar=True, voluntariosRegistrados=voluntariosRegistrados)
 
 ## Ajax para voluntarios
 @soh.route('/registar_lista', methods=['POST'])
@@ -224,3 +223,21 @@ def obtenerDatosFormularioVoluntario(id):
     solicitud = soli.obtenerListaVoluntarioId(id)  
     print(solicitud)  
     return jsonify(solicitud)
+
+@soh.route('/eliminar_voluntario/<int:idlista>/<int:idvoluntario>', methods=['GET'])
+def eliminarVoluntario(idlista, idvoluntario):
+    res = soli.eliminarVoluntario(idlista, idvoluntario)
+    if res==True:
+        flash('Voluntario eliminado con exito', 'success')  
+        return jsonify({'estado':res, 'mensaje':'Voluntario eliminado con exito'})
+    flash('Problemas al eliminar voluntario', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Problemas al eliminar voluntario'})
+
+@soh.route('/agregar_voluntario/<int:idlista>/<int:idvoluntario>', methods=['GET'])
+def agregarVoluntario(idlista, idvoluntario):
+    res = soli.agregarVoluntario(idlista, idvoluntario)
+    if res==True:
+        flash('Voluntario agregado con exito', 'success')  
+        return jsonify({'estado':res, 'mensaje':'Voluntario agregado con exito'})
+    flash('Problemas al agregar voluntario', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Problemas al agregar voluntario'})

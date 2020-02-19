@@ -115,6 +115,40 @@ var app = new Vue({
                 alert('Favor elige un voluntario');
             }
         }
+        , agregarVoluntarioE: async function () {
+            //Enviar datos a la BD
+            const conf = confirm('Desea agregar ?');
+            if (conf) {  
+                const datos = {
+                    idlista: localStorage.getItem('idlista')
+                    , idvoluntario: this.voluntario.id
+                }                                            
+                try {
+                    const res = await axios(`/actividades/solicitud_hospital/agregar_voluntario/${datos.idlista}/${datos.idvoluntario}`);
+                    console.log(res);
+                    if(res.data.estado==true){
+                        location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${idlista}`;
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+        , eliminarBDVoluntario: async function (idlista, idvoluntario) {
+            //Enviar datos a la BD
+            const conf = confirm('Desea eliminar ?');
+            if (conf) {                               
+                try {
+                    const res = await axios(`/actividades/solicitud_hospital/eliminar_voluntario/${idlista}/${idvoluntario}`);
+                    console.log(res);
+                    if(res.data.estado==true){
+                        location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${idlista}`;
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
         , eliminarVoluntario: function (id, texto) {            
             const conf = confirm(`Desea eliminar a ${texto}`);
             if (conf) {

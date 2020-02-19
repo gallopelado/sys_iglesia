@@ -151,9 +151,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col col-sm-12 col-md-3">
+                                        {% if not editar %}
                                         <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntario" disabled>
                                             Agregar Voluntario
                                         </button>
+                                        {% else %}
+                                        <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntarioE" disabled>
+                                            Agregar Voluntario
+                                        </button>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <hr>
@@ -171,7 +177,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tb">
-                                                        {% if not voluntarios %}
+                                                        {% if not editar %}
                                                         <tr v-for="item in lista" :id="item.value">
                                                             <td v-text="item.text"></td>
                                                             <td>
@@ -179,11 +185,11 @@
                                                             </td>
                                                         </tr>
                                                         {% else %}
-                                                        {% for vol in voluntarios %}
-                                                        <tr>
+                                                        {% for vol in voluntariosRegistrados %}
+                                                        <tr style="background-color: #b5e7a0;">
                                                             <td>{{ vol['nombres'] }} {{ vol['apellidos'] }}</td>
                                                             <td>
-                                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarBDVoluntario([[item.value]], [[item.text]])">Eliminar</button>
+                                                                <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarBDVoluntario({{vol['idlista']}}, {{ vol['idvoluntario'] }})">Eliminar</button>
                                                             </td>
                                                         </tr>
                                                         {% endfor %}

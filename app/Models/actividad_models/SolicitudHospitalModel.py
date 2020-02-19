@@ -423,3 +423,67 @@ class SolicitudHospitalModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def eliminarVoluntario(self, idlista, idvoluntario):
+        deleteSQL = ''' 
+        DELETE FROM actividades.solicitud_lista_voluntario 
+        WHERE lvo_id = %s AND per_id = %s
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(deleteSQL, (idlista, idvoluntario,))
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def agregarVoluntario(self, idlista, idvoluntario):
+        insertSQL = ''' 
+        INSERT INTO actividades.solicitud_lista_voluntario(lvo_id, per_id, estado) 
+        VALUES (%s, %s, true)
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(insertSQL, (idlista, idvoluntario,))
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def obtenerVoluntariosRegistrados(self, id):
+        querySQL = '''
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select 
+            lvo_id idlista
+            , per_id idvoluntario
+            , per_nombres nombres
+            , per_apellidos apellidos
+        from actividades.solicitud_lista_voluntario slv
+        left join referenciales.personas using(per_id)
+        where lvo_id = %s
+        )datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL, (id, ))
+            return cur.fetchone()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
