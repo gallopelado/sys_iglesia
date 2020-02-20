@@ -25,6 +25,9 @@ var app =  new Vue({
             }
             m.open();
         }
+        , ver: function (id) {               
+            location.href = `/actividades/solicitud_hospital/ver_voluntarios/${id}`;                
+        }
     }
     , beforeMount() {
         this.obtenerLista();

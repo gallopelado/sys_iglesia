@@ -190,6 +190,17 @@ def modificarFormVoluntarioVoluntario(id):
     titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, 
     solicitud=solicitud, voluntarios=voluntarios, editar=True, voluntariosRegistrados=voluntariosRegistrados)
 
+@soh.route('/ver_voluntarios/<int:id>', methods=["GET"])
+def verFormVoluntarioVoluntario(id):    
+    solicitudes = soli.obtenerSolicitudesVoluntario()
+    solicitud = soli.obtenerListaVoluntarioId(id)    
+    comites = soli.obtenerComitesActivos() 
+    voluntarios = soli.obtenerIntegrantesComite(solicitud['idcomite']) 
+    voluntariosRegistrados = soli.obtenerVoluntariosRegistrados(id)
+    return render_template('solicitud_hospital/form_voluntarios.html', 
+    titulo='Formulario encargar voluntarios', bloqueado=True, solicitudes=solicitudes, comites=comites, 
+    solicitud=solicitud, voluntarios=voluntarios, editar=True, voluntariosRegistrados=voluntariosRegistrados)
+
 ## Ajax para voluntarios
 @soh.route('/registar_lista', methods=['POST'])
 def registraVoluntarios():

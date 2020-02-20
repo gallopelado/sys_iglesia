@@ -65,6 +65,7 @@
                                             Solicitud</label>
                                     </div>
                                     <div class="col col-sm-12 col-md-8">
+                                        {% if not bloqueado %}
                                         <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes">
                                             <option value="">...</option>
                                             {% if solicitudes %}
@@ -73,6 +74,16 @@
                                             {% endfor %}
                                             {% endif %}
                                         </select>
+                                        {% else %}
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" :disabled="true">
+                                            <option value="">...</option>
+                                            {% if solicitudes %}
+                                            {% for soli in solicitudes %}
+                                            <option value="{{ soli[0] }}">{{ soli[1] }} - Estado: {{ soli[2] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -98,7 +109,11 @@
                                         <label for="horario" class='form-control-label form-control-sm'>Observación</label>
                                     </div>
                                     <div class="col col-md-12">
+                                        {% if not bloqueado %}
                                         <textarea id="obs" v-model="obs" cols="10" rows="5" class="form-control"></textarea>
+                                        {% else %}
+                                        <textarea id="obs" v-model="obs" cols="10" rows="5" class="form-control" :disabled="true"></textarea>
+                                        {% endif %} 
                                     </div>
                                 </div>
                                 <hr>
@@ -107,15 +122,23 @@
                                         <label for="fechavisita" class='form-control-label form-control-sm'>Fecha de
                                             visita</label>
                                     </div>
-                                    <div class="col col-sm-12 col-md-3">                                       
-                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita">                                        
+                                    <div class="col col-sm-12 col-md-3"> 
+                                        {% if not bloqueado %}                                      
+                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita">  
+                                        {% else %}
+                                        <input type="date" class='form-control form-control-sm' id="fechavisita" v-model="fechavisita" :disabled="true">
+                                        {% endif %}                                      
                                     </div>
                                     <div class="col col-sm-12 col-md-3">
                                         <label for="horavisita" class='form-control-label form-control-sm'>Horario de
                                             visita</label>
                                     </div>
                                     <div class="col col-sm-12 col-md-2">
-                                        <input type="time" class='form-control form-control-sm' id="horavisita" v-model="horavisita">
+                                        {% if not bloqueado %}
+                                        <input type="time" class='form-control form-control-sm' id="horavisita" v-model="horavisita" >
+                                        {% else %}
+                                        <input type="time" class='form-control form-control-sm' id="horavisita" v-model="horavisita" :disabled="true" >
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <hr>
@@ -135,11 +158,12 @@
                                         </select>
                                     </div>
                                 </div>
+                                {% if not bloqueado %}
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
                                         <label for="idvoluntario" class='form-control-label form-control-sm'>Elegir
                                             Voluntario</label>
-                                    </div>
+                                    </div>                                    
                                     <div class="col col-sm-12 col-md-8">
                                         <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario" :disabled="lista_voluntarios.length <= 0 ? true : false">
                                             <option value="">...</option>
@@ -147,18 +171,21 @@
                                                 [[ item.text ]]
                                             </option>                                            
                                         </select>                                        
-                                    </div>
+                                    </div>                                    
                                 </div>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col col-sm-12 col-md-3">
-                                        {% if not editar %}
-                                        <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntario" disabled>
-                                            Agregar Voluntario
-                                        </button>
-                                        {% else %}
-                                        <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntarioE" disabled>
-                                            Agregar Voluntario
-                                        </button>
+                                        {% if not bloqueado %}
+                                            {% if not editar %}
+                                            <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntario" disabled>
+                                                Agregar Voluntario
+                                            </button>
+                                            {% else %}
+                                            <button type="button" id="agregar" class="btn btn-success btn-sm" v-on:click="agregarVoluntarioE" disabled>
+                                                Agregar Voluntario
+                                            </button>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -173,24 +200,28 @@
                                                     <thead>
                                                         <tr>
                                                             <td>Voluntario</td>
+                                                            {% if not bloqueado %}
                                                             <td>Accion</td>
+                                                            {% endif %}
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tb">
                                                         {% if not editar %}
                                                         <tr v-for="item in lista" :id="item.value">
-                                                            <td v-text="item.text"></td>
+                                                            <td v-text="item.text"></td>                                                        
                                                             <td>
                                                                 <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarVoluntario([[item.value]], [[item.text]])">Eliminar</button>
-                                                            </td>
+                                                            </td>                                                            
                                                         </tr>
                                                         {% else %}
                                                         {% for vol in voluntariosRegistrados %}
                                                         <tr style="background-color: #b5e7a0;">
                                                             <td>{{ vol['nombres'] }} {{ vol['apellidos'] }}</td>
+                                                            {% if not bloqueado %}
                                                             <td>
                                                                 <button type="button" class="btn btn-danger btn-sm" v-on:click="eliminarBDVoluntario({{vol['idlista']}}, {{ vol['idvoluntario'] }})">Eliminar</button>
                                                             </td>
+                                                            {% endif %}
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -204,26 +235,28 @@
                                 {{ pintar_alerta(messages) }}
                             </div>
                             <!--Fin card-body-->
-                            {% if not editar %}
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col col-sm-4 col-md-4">
-                                        <button type="button" class="btn btn-primary btn-sm" id="registrar" v-on:click="enviarDatos">
-                                            <i class="fa fa-dot-circle-o"></i> Registrar
-                                        </button>
-                                    </div>
-                                </div>                                
-                            </div>
-                            {% else %}
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col col-sm-4 col-md-4">
-                                        <button type="button" class="btn btn-primary btn-sm" id="actualizar" v-on:click="actualizarDatos">
-                                            <i class="fa fa-dot-circle-o"></i> Actualizar
-                                        </button>
-                                    </div>
-                                </div>                                
-                            </div>
+                            {% if not bloqueado %}
+                                {% if not editar %}
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col col-sm-4 col-md-4">
+                                            <button type="button" class="btn btn-primary btn-sm" id="registrar" v-on:click="enviarDatos">
+                                                <i class="fa fa-dot-circle-o"></i> Registrar
+                                            </button>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                {% else %}
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col col-sm-4 col-md-4">
+                                            <button type="button" class="btn btn-primary btn-sm" id="actualizar" v-on:click="actualizarDatos">
+                                                <i class="fa fa-dot-circle-o"></i> Actualizar
+                                            </button>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                {% endif %}
                             {% endif %}
                         </form>
                     </div>
