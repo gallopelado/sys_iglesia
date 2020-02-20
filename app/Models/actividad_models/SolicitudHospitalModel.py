@@ -462,6 +462,32 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()
 
+    def actualizarListaVoluntario(self, vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario):
+        updateSQL = ''' 
+        UPDATE actividades.lista_voluntario SET vh_id = %s,
+        lvo_fechavisita = %s, lvo_horavisita = %s,
+        lvo_obs = %s, modificado_por_usuario = %s,
+        modif_fecha = NOW()
+        '''
+        updateSQL_visihospi = '''
+        UPDATE actividades.visi_hospi SET vh_estado = 'ATENDIDO', modificado_por_usuario = null, modif_fecha = NOW() WHERE vh_id = %s
+        '''
+        parametros = (vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario,)
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()            
+            cur.execute(updateSQL, parametros)
+            cur.execute(updateSQL_visihospi, (vhid,))
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
     def obtenerVoluntariosRegistrados(self, id):
         querySQL = '''
         select array_to_json(array_agg(row_to_json(datos))) from (

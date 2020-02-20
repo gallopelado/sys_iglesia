@@ -241,3 +241,16 @@ def agregarVoluntario(idlista, idvoluntario):
         return jsonify({'estado':res, 'mensaje':'Voluntario agregado con exito'})
     flash('Problemas al agregar voluntario', 'danger')
     return jsonify({'estado':False, 'mensaje':'Problemas al agregar voluntario'})
+
+@soh.route('/actualizar_lista_voluntario', methods=['PUT'])
+def actualizarListaVoluntario():
+    idsolicitud = request.json['idsolicitud']
+    fechavisita = request.json['fechavisita']
+    horavisita = request.json['horavisita']
+    obs = request.json['obs']
+    res = soli.actualizarListaVoluntario(idsolicitud, fechavisita, horavisita, obs, None)
+    if res==True:
+        flash('Se ha procesado con exito', 'success')  
+        return jsonify({'estado':res, 'mensaje':'Se ha procesado con exito'})
+    flash('Problemas al procesar', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Problemas al procesar'})

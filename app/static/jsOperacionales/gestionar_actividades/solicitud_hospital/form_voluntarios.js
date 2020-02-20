@@ -56,6 +56,7 @@ var app = new Vue({
         , fechavisita: ''
         , horavisita: ''
         , obs: ''
+        , editar: false
     }
     , methods: {
         obtenerVoluntarios: async function () {            
@@ -208,19 +209,56 @@ var app = new Vue({
                 console.error(error);
             }
         }
+        , actualizarDatos: async function () {
+            if (this.solicitudes == '') {
+                alert('Debe escoger una solicitud');
+                $('#solicitudes').focus();
+                return;
+            }
+            if (this.fechavisita == '') {
+                alert('Debe escoger una fecha');
+                $('#fechavisita').focus();
+                return;
+            }
+            if (this.horavisita == '') {
+                alert('Debe escoger una hora');
+                $('#horavisita').focus();
+                return;
+            }
+            alert('Formulario correcto, enviando datos');
+            const datos = {
+                idsolicitud: this.solicitudes
+                , fechavisita: this.fechavisita
+                , horavisita: this.horavisita
+                , obs: this.obs
+            }  
+            try {
+                const res = await axios.put('/actividades/solicitud_hospital/actualizar_lista_voluntario', datos);
+                console.log(res);
+                if(res.data.estado==true) {
+                    location.href = '/actividades/solicitud_hospital/voluntarios';
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
         , cargarFormulario: async function () {
             const idlista = localStorage.getItem('idlista');
             try {
                 const res = await axios.get(`/actividades/solicitud_hospital/obtener_lista_voluntarios/${idlista}`);
-                const {idsolicitud, horavisita, fechavisita, obs} = await res.data;
-                console.log(res);
+                const {idsolicitud, horavisita, fechavisita, obs, idcomite} = await res.data;                
                 this.lista_editar = await res.data;
                 this.fechavisita = fechavisita;
                 this.horavisita = horavisita;
                 this.obs = obs;
                 this.solicitudes = idsolicitud;
+                this.idcomite = idcomite;
+                this.obtenerVoluntarios();
+                this.editar = true;
                 $('#solicitudes').val(idsolicitud);
                 $('#solicitudes').trigger('change');
+                $('#idcomite').val(idcomite);
+                $('#idcomite').trigger('change');
             } catch (error) {
                 console.error(error);
             }

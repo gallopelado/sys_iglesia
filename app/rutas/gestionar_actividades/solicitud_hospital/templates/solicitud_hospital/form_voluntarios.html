@@ -125,7 +125,7 @@
                                             Comite</label>
                                     </div>
                                     <div class="col col-sm-12 col-md-8">
-                                        <select class='custom-select custom-select-sm' id="idcomite" v-model="idcomite" v-select="idcomite" v-on:change="obtenerVoluntarios">
+                                        <select class='custom-select custom-select-sm' id="idcomite" v-model="idcomite" v-select="idcomite" v-on:change="obtenerVoluntarios" :disabled="editar">
                                             <option value="">...</option>
                                             {% if comites %}
                                             {% for comite in comites %}
@@ -204,12 +204,22 @@
                                 {{ pintar_alerta(messages) }}
                             </div>
                             <!--Fin card-body-->
-                            {% if bloqueado == false or bloqueado is none %}
+                            {% if not editar %}
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col col-sm-4 col-md-4">
                                         <button type="button" class="btn btn-primary btn-sm" id="registrar" v-on:click="enviarDatos">
                                             <i class="fa fa-dot-circle-o"></i> Registrar
+                                        </button>
+                                    </div>
+                                </div>                                
+                            </div>
+                            {% else %}
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col col-sm-4 col-md-4">
+                                        <button type="button" class="btn btn-primary btn-sm" id="actualizar" v-on:click="actualizarDatos">
+                                            <i class="fa fa-dot-circle-o"></i> Actualizar
                                         </button>
                                     </div>
                                 </div>                                
