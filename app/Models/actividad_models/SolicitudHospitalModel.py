@@ -383,7 +383,8 @@ class SolicitudHospitalModel:
                 , fecha_formatolargo(lvo_fechavisita) fechavisita
                 , vh_estado estado
             FROM actividades.lista_voluntario lv 
-            left join actividades.visi_hospi using(vh_id))datos
+            left join actividades.visi_hospi using(vh_id)
+            WHERE lvo_estado is not FALSE)datos
         '''
         try:
             conexion = Conexion()
@@ -507,6 +508,26 @@ class SolicitudHospitalModel:
             cur = con.cursor()
             cur.execute(querySQL, (id, ))
             return cur.fetchone()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def eliminarListaVoluntario(self, id):
+        updateSQL = '''
+        UPDATE actividades.lista_voluntario
+        SET lvo_estado = FALSE, modif_fecha = NOW()
+        WHERE lvo_id = %s
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(updateSQL, (id,))
+            con.commit()
+            return True
         except con.Error as e:
             print(e.pgerror)
         finally:

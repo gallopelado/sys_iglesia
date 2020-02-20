@@ -265,3 +265,13 @@ def actualizarListaVoluntario():
         return jsonify({'estado':res, 'mensaje':'Se ha procesado con exito'})
     flash('Problemas al procesar', 'danger')
     return jsonify({'estado':False, 'mensaje':'Problemas al procesar'})
+
+@soh.route('/baja_lista_voluntario', methods=['PUT'])
+def bajaListaVoluntario():
+    idsolicitud = request.json['idsolicitud']
+    res = soli.eliminarListaVoluntario(idsolicitud)
+    if res==True:
+        flash('Se ha procesado con exito', 'success')  
+        return jsonify({'estado':res, 'mensaje':'Se ha procesado con exito'})
+    flash('Problemas al procesar', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Problemas al procesar'})

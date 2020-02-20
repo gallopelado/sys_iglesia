@@ -234,7 +234,6 @@ var app = new Vue({
             }  
             try {
                 const res = await axios.put('/actividades/solicitud_hospital/actualizar_lista_voluntario', datos);
-                console.log(res);
                 if(res.data.estado==true) {
                     location.href = '/actividades/solicitud_hospital/voluntarios';
                 }
