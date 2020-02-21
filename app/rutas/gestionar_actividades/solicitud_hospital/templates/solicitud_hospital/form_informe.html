@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, modal_referencial_simple, pintar_textarea %}
+
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block mi_css -%}
+
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css') }}">
+<!-- CSS de Jquery UI -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<!-- CSS de EasyAutoComplete -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/easyautocomplete/css/easy-autocomplete.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+<style>
+    /* Convertir a Mayúscula en esos dos elementos todo lo que escriba el usuario */
+    input,
+    textarea {
+
+        text-transform: uppercase;
+
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+
+    <!-- Contenido Principal -->
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <!--Inicio primer row-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div id="app" class="card">
+                        <div class="card-header">
+                            <a href="{{ url_for('solicitud_hospital.indexVoluntario') }}" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver</a>
+                        </div>
+                        <!--Inicio card-body-->
+                        <form action="{{ url_for('solicitud_hospital.registrar') }}" method="post"
+                            class="form-horizontal">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
+                                    </h3>
+                                </div>
+                                <hr>                                
+                                    <script type="application/javascript">
+                                        var idlista = "{{ solicitud['idlista'] if solicitud }}";
+                                        localStorage.setItem('idlista', idlista);
+                                    </script>
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-3">
+                                        <label for="solicitudes" class='form-control-label form-control-sm'>Elegir
+                                            Solicitud</label>
+                                    </div>
+                                    <div class="col col-sm-12 col-md-8">
+                                        {% if not bloqueado %}
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" v-on:change="obtenerVoluntarios">
+                                            <option value="">...</option>
+                                            {% if solicitudes %}
+                                            {% for soli in solicitudes %}
+                                            <option value="{{ soli[0] }}">{{ soli[2] }} - Estado: {{ soli[3] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                        {% else %}
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" :disabled="true">
+                                            <option value="">...</option>
+                                            {% if solicitudes %}
+                                            {% for soli in solicitudes %}
+                                            <option value="{{ soli[0] }}">{{ soli[1] }} - Estado: {{ soli[2] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                        {% endif %}
+                                    </div>
+                                </div>   
+                                {% if not bloqueado %}
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-3">
+                                        <label for="idvoluntario" class='form-control-label form-control-sm'>Elegir
+                                            Voluntario</label>
+                                    </div>                                    
+                                    <div class="col col-sm-12 col-md-8">
+                                        <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario">
+                                            <option value="">...</option>
+                                            <option v-for="item in lista_voluntarios" v-bind:value="{texto:item.text, id:item.value}">
+                                                [[ item.text ]]
+                                            </option>                                            
+                                        </select>                                        
+                                    </div>                                    
+                                </div>
+                                {% endif %}                                                             
+                                <div class="row form-group">
+                                    <div class="col col-sm-12 col-md-12">
+                                        <label for="descripcion" class='form-control-label form-control-sm'>Describa la visita</label>
+                                    </div>
+                                    <div class="col col-md-12">                                        
+                                        <textarea id="descripcion" v-model="descripcion" cols="10" rows="5" class="form-control"></textarea>                                       
+                                    </div>
+                                </div>
+                                <hr>                                                                                               
+                                                                                                                               
+                                {{ pintar_alerta(messages) }}
+                            </div>                            
+                            {% if not bloqueado %}
+                                {% if not editar %}
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col col-sm-4 col-md-4">
+                                            <button type="button" class="btn btn-primary btn-sm" id="registrar" v-on:click="enviarDatos">
+                                                <i class="fa fa-dot-circle-o"></i> Registrar
+                                            </button>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                {% else %}
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col col-sm-4 col-md-4">
+                                            <button type="button" class="btn btn-primary btn-sm" id="actualizar" v-on:click="actualizarDatos">
+                                                <i class="fa fa-dot-circle-o"></i> Actualizar
+                                            </button>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                {% endif %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Fin primer row-->
+
+        </div>
+    </div>
+    <!---->
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script -%}
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+<!-- JS del formulario-->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/form_informe.js') }}"></script>
+{%- endblock %}

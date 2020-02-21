@@ -534,3 +534,52 @@ class SolicitudHospitalModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def obtenerSolicitudesEstado(self, estado = 'ATENDIDO'):
+        querySQL = '''
+        select 
+            lvo_id idlista
+            , vh_id idsolicitud
+            , vh_des observacion
+            , vh_estado estado
+        from actividades.lista_voluntario
+        left join actividades.visi_hospi using(vh_id)
+        where vh_estado = %s
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL,(estado,))
+            return cur.fetchall()
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close() 
+
+    def obtenerVoluntariosPorLista(self, id):
+        querySQL = '''
+        select array_to_json(array_agg(row_to_json(datos))) from (
+        select 
+            lvo_id idlista
+            , per_id idvoluntario
+            , per_nombres nombres
+            , per_apellidos apellidos
+        from actividades.solicitud_lista_voluntario slv 
+        left join referenciales.personas using(per_id)
+        where lvo_id = %s)datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL,(id,))
+            return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

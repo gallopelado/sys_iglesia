@@ -275,3 +275,21 @@ def bajaListaVoluntario():
         return jsonify({'estado':res, 'mensaje':'Se ha procesado con exito'})
     flash('Problemas al procesar', 'danger')
     return jsonify({'estado':False, 'mensaje':'Problemas al procesar'})
+
+## Rutas para formulario registro de informes
+@soh.route('/informevisitas')
+def indexInformeVisitas():
+    return render_template('solicitud_hospital/index_informes.html', titulo='Informes de visitas')
+
+@soh.route('/form_informe')
+def formInformes():
+    solicitudes = soli.obtenerSolicitudesEstado()    
+    print(solicitudes)    
+    return render_template('solicitud_hospital/form_informe.html', 
+    titulo='Formulario informe-visita', bloqueado=False, solicitudes=solicitudes, solicitud=None, voluntarios=None, editar=None)
+
+## AJAX para informes
+@soh.route('/get_voluntarios_por_lista/<int:id>')
+def getVoluntariosPorLista(id):
+    solicitudes = soli.obtenerVoluntariosPorLista(id)
+    return jsonify(solicitudes) 
