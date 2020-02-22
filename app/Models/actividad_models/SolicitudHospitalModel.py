@@ -542,8 +542,11 @@ class SolicitudHospitalModel:
             , vh_id idsolicitud
             , vh_des observacion
             , vh_estado estado
+            , min_id idcomite
+            , com_des comite
         from actividades.lista_voluntario
         left join actividades.visi_hospi using(vh_id)
+        left join membresia.comites using(min_id)
         where vh_estado = %s
         '''
         try:
@@ -577,6 +580,46 @@ class SolicitudHospitalModel:
             cur = con.cursor()
             cur.execute(querySQL,(id,))
             return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def insertInformeVisita(self, idlista, idvoluntario, descripcion, usuario):
+        insertSQL = '''
+        INSERT INTO actividades.informe_visi(lvo_id, per_id, descripcion,
+        creado_por_usuario, creacion_fecha) VALUES (%s, %s, %s, %s, NOW())
+        '''
+        parametros = (idlista, idvoluntario, descripcion, usuario,)
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(insertSQL, parametros)
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def updateInformeVisita(self, idlista, idvoluntario, descripcion, usuario):
+        updateSQL = '''
+        UPDATE actividades.informe_visi SET per_id = %s, descripcion = %s
+        , modificado_por_usuario = %s, modif_fecha = NOW() WHERE lvo_id = %s
+        '''
+        parametros = (idvoluntario, descripcion, usuario, idlista,) 
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(updateSQL, parametros)
+            con.commit()
+            return True
         except con.Error as e:
             print(e.pgerror)
         finally:

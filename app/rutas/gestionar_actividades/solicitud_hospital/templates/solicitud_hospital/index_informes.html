@@ -48,7 +48,7 @@
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tb">
+                                <tbody id="tb">                                                                        
                                     <tr v-for="item in lista">
                                         <td v-text="item.descripcion"></td>
                                         <td v-text="item.fechavisita"></td>                                        
@@ -91,6 +91,6 @@
 <!-- Vue Js -->
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- JS del formulario -->
-<!-- <script type="module"
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/index_voluntarios.js') }}"></script> -->
+<script type="module"
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/solicitud_hospital/index_informe.js') }}"></script>
 {% endblock %}

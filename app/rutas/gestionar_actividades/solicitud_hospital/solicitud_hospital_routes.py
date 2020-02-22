@@ -293,3 +293,27 @@ def formInformes():
 def getVoluntariosPorLista(id):
     solicitudes = soli.obtenerVoluntariosPorLista(id)
     return jsonify(solicitudes) 
+
+@soh.route('/nuevo_informe', methods=['POST'])
+def nuevoInforme():
+    descripcion = request.json['descripcion']
+    idlista = request.json['idsolicitud']
+    idvoluntario = request.json['voluntarios']
+    nuevo = soli.insertInformeVisita(idlista, idvoluntario, descripcion, None)
+    if nuevo==True:
+        flash('Se ha procesado con exito', 'success')
+        return jsonify({'estado':True, 'mensaje':'Se ha procesado con exito'})
+    flash('Error al procesar', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Error al procesar'})
+
+@soh.route('/modificar_informe', methods=['PUT'])
+def modificarInforme():
+    descripcion = request.json['descripcion']
+    idlista = request.json['idsolicitud']
+    idvoluntario = request.json['voluntarios']
+    modificar = soli.updateInformeVisita(idlista, idvoluntario, descripcion, None)
+    if modificar==True:
+        flash('Se ha procesado con exito', 'success')
+        return jsonify({'estado':True, 'mensaje':'Se ha procesado con exito'})
+    flash('Error al procesar', 'danger')
+    return jsonify({'estado':False, 'mensaje':'Error al procesar'})

@@ -43,7 +43,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div id="app" class="card">
                         <div class="card-header">
-                            <a href="{{ url_for('solicitud_hospital.indexVoluntario') }}" class="btn btn-secondary bt-sm">
+                            <a href="{{ url_for('solicitud_hospital.indexInformeVisitas') }}" class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
                         <!--Inicio card-body-->
@@ -70,7 +70,8 @@
                                             <option value="">...</option>
                                             {% if solicitudes %}
                                             {% for soli in solicitudes %}
-                                            <option value="{{ soli[0] }}">{{ soli[2] }} - Estado: {{ soli[3] }}</option>
+                                            {# idlista - idlista - observacion - estado - comite_descripcion #}
+                                            <option value="{{ soli[0] }}">Lista Nro.{{ soli[0] }}  {{ soli[2] }} - Estado: {{ soli[3] }} - {{ soli[5] }}</option>
                                             {% endfor %}
                                             {% endif %}
                                         </select>
