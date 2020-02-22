@@ -294,6 +294,12 @@ def editarInforme(id):
     return render_template('solicitud_hospital/form_informe.html', 
     titulo='Formulario informe-visita', bloqueado=False, solicitudes=solicitudes, idsolicitud=id, voluntarios=None, editar=True)
 
+@soh.route('/ver_informe/<int:id>')
+def verInforme(id):
+    solicitudes = soli.obtenerSolicitudesEstado()      
+    return render_template('solicitud_hospital/form_informe.html', 
+    titulo='Formulario informe-visita', bloqueado=True, solicitudes=solicitudes, idsolicitud=id, voluntarios=None, editar=True)
+
 ## AJAX para informes
 @soh.route('/get_informes')
 def getInformes():

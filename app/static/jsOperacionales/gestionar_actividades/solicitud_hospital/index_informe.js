@@ -25,21 +25,7 @@ var app =  new Vue({
             m.open();
         }
         , ver: function (id) {               
-            location.href = `/actividades/solicitud_hospital/ver_voluntarios/${id}`;                
-        }
-        , eliminar: async function(id) {
-            const m = confirm('Desea eliminar?');
-            if(m) {
-                try {
-                    const datos = {idsolicitud: id};
-                    const res = await axios.put('/actividades/solicitud_hospital/baja_lista_voluntario', datos);
-                    if(res.data.estado==true) {
-                        location.href = '/actividades/solicitud_hospital/voluntarios';
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            }              
+            location.href = `/actividades/solicitud_hospital/ver_informe/${id}`;                
         }
     }
     , beforeMount() {

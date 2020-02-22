@@ -23,6 +23,7 @@ var app = new Vue({
         , voluntario: ''
         , descripcion: ''
         , editar: false
+        , bloqueado: false
     }
     , methods: {
         obtenerVoluntarios: async function () { 
@@ -132,6 +133,7 @@ var app = new Vue({
     }
     , beforeMount() {
         this.cargarFormulario();
+        this.bloqueado = bloqueado;
     }
     , computed: {   
     }, delimiters: ['[[',']]']

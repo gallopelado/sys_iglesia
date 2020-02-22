@@ -57,7 +57,9 @@
                                 <hr>                                
                                     <script type="application/javascript">
                                         var idlista = "{{ idsolicitud if idsolicitud }}";
+                                        var bloqueado = {{ 'true' if bloqueado else 'false' }};
                                         localStorage.setItem('idlista', idlista);
+                                        localStorage.setItem('bloqueado', bloqueado);
                                     </script>
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
@@ -75,29 +77,27 @@
                                                 {% endif %}                                            
                                         </select>                                        
                                     </div>
-                                </div>   
-                                {% if not bloqueado %}
+                                </div>                                   
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
                                         <label for="voluntario" class='form-control-label form-control-sm'>Elegir
                                             Voluntario</label>
                                     </div>                                    
                                     <div class="col col-sm-12 col-md-8">
-                                        <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario">
+                                        <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario" :disabled="bloqueado">
                                             <option value="">...</option>
                                             <option v-for="item in lista_voluntarios" v-bind:value="item.value">
                                                 [[ item.text ]]
                                             </option>                                            
                                         </select>                                        
                                     </div>                                    
-                                </div>
-                                {% endif %}                                                             
+                                </div>                                                                                             
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-12">
                                         <label for="descripcion" class='form-control-label form-control-sm'>Describa la visita</label>
                                     </div>
                                     <div class="col col-md-12">                                        
-                                        <textarea id="descripcion" v-model="descripcion" cols="10" rows="5" class="form-control"></textarea>                                       
+                                        <textarea id="descripcion" v-model="descripcion" cols="10" rows="5" class="form-control" :disabled="bloqueado"></textarea>                                       
                                     </div>
                                 </div>
                                 <hr>                                                                                               
