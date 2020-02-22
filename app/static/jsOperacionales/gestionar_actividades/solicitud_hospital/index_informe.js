@@ -10,18 +10,17 @@ var app =  new Vue({
     }
     , methods: {
         obtenerLista: async function() {
-            /*try {
-                const res = await axios.get('/actividades/solicitud_hospital/obtener_lista_voluntarios');                
+            try {
+                const res = await axios.get('/actividades/solicitud_hospital/get_informes');                
                 this.lista = await res.data;                    
             } catch (error) {
                 console.error(error);
-            }*/
-            this.lista = 0;
+            }            
         }
         , modificar: function (id) {
             const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
             m.buttons.Si.action = () => {                
-                location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${id}`;                
+                location.href = `/actividades/solicitud_hospital/editar_informe/${id}`;                
             }
             m.open();
         }

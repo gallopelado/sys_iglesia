@@ -626,3 +626,61 @@ class SolicitudHospitalModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def obtenerInformes(self):
+        querySQL = '''
+        SELECT array_to_json(array_agg(row_to_json(datos))) FROM (
+        select 
+            lvo_id idlista
+            , vh_des solicitud
+            , per_id idvoluntario
+            , per_nombres nombres
+            , per_apellidos apellidos
+        from actividades.informe_visi 
+        left join actividades.lista_voluntario using(lvo_id)
+        left join actividades.visi_hospi using(vh_id)
+        left join referenciales.personas using(per_id))datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL)
+            return cur.fetchall()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def obtenerInformeId(self, id):
+        querySQL = '''
+        SELECT array_to_json(array_agg(row_to_json(datos))) FROM (
+        select 
+            lvo_id idlista
+            , vh_des solicitud
+            , per_id idvoluntario
+            , per_nombres nombres
+            , per_apellidos apellidos
+            , descripcion 
+            , vh_estado
+            , com_des
+        from actividades.informe_visi 
+        left join actividades.lista_voluntario using(lvo_id)
+        left join actividades.visi_hospi using(vh_id)
+        left join membresia.comites using(min_id)
+        left join referenciales.personas using(per_id) WHERE lvo_id = %s)datos
+        '''
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL, (id,))
+            return cur.fetchone()[0][0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()

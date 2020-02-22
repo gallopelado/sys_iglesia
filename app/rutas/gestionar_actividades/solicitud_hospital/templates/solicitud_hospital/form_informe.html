@@ -56,7 +56,7 @@
                                 </div>
                                 <hr>                                
                                     <script type="application/javascript">
-                                        var idlista = "{{ solicitud['idlista'] if solicitud }}";
+                                        var idlista = "{{ idsolicitud if idsolicitud }}";
                                         localStorage.setItem('idlista', idlista);
                                     </script>
                                 <div class="row form-group">
@@ -64,39 +64,28 @@
                                         <label for="solicitudes" class='form-control-label form-control-sm'>Elegir
                                             Solicitud</label>
                                     </div>
-                                    <div class="col col-sm-12 col-md-8">
-                                        {% if not bloqueado %}
-                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" v-on:change="obtenerVoluntarios">
-                                            <option value="">...</option>
-                                            {% if solicitudes %}
-                                            {% for soli in solicitudes %}
-                                            {# idlista - idlista - observacion - estado - comite_descripcion #}
-                                            <option value="{{ soli[0] }}">Lista Nro.{{ soli[0] }}  {{ soli[2] }} - Estado: {{ soli[3] }} - {{ soli[5] }}</option>
-                                            {% endfor %}
-                                            {% endif %}
-                                        </select>
-                                        {% else %}
-                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" :disabled="true">
-                                            <option value="">...</option>
-                                            {% if solicitudes %}
-                                            {% for soli in solicitudes %}
-                                            <option value="{{ soli[0] }}">{{ soli[1] }} - Estado: {{ soli[2] }}</option>
-                                            {% endfor %}
-                                            {% endif %}
-                                        </select>
-                                        {% endif %}
+                                    <div class="col col-sm-12 col-md-8">                                        
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" v-on:change="obtenerVoluntarios" :disabled="editar">
+                                            <option value="" selected>...</option>                                            
+                                                {% if solicitudes %}
+                                                    {% for soli in solicitudes %}
+                                                    {# idlista - idlista - observacion - estado - comite_descripcion #}
+                                                    <option value="{{ soli[0] }}">Lista Nro.{{ soli[0] }}  {{ soli[2] }} - Estado: {{ soli[3] }} - {{ soli[5] }}</option>
+                                                    {% endfor %}
+                                                {% endif %}                                            
+                                        </select>                                        
                                     </div>
                                 </div>   
                                 {% if not bloqueado %}
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
-                                        <label for="idvoluntario" class='form-control-label form-control-sm'>Elegir
+                                        <label for="voluntario" class='form-control-label form-control-sm'>Elegir
                                             Voluntario</label>
                                     </div>                                    
                                     <div class="col col-sm-12 col-md-8">
                                         <select type="text" class='custom-select custom-select-sm' id="voluntario" v-select="voluntario" v-model="voluntario">
                                             <option value="">...</option>
-                                            <option v-for="item in lista_voluntarios" v-bind:value="{texto:item.text, id:item.value}">
+                                            <option v-for="item in lista_voluntarios" v-bind:value="item.value">
                                                 [[ item.text ]]
                                             </option>                                            
                                         </select>                                        

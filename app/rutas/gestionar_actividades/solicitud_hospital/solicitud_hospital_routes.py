@@ -286,9 +286,25 @@ def formInformes():
     solicitudes = soli.obtenerSolicitudesEstado()    
     print(solicitudes)    
     return render_template('solicitud_hospital/form_informe.html', 
-    titulo='Formulario informe-visita', bloqueado=False, solicitudes=solicitudes, solicitud=None, voluntarios=None, editar=None)
+    titulo='Formulario informe-visita', bloqueado=False, solicitudes=solicitudes, idsolicitud=None, voluntarios=None, editar=None)
+
+@soh.route('/editar_informe/<int:id>')
+def editarInforme(id):
+    solicitudes = soli.obtenerSolicitudesEstado()      
+    return render_template('solicitud_hospital/form_informe.html', 
+    titulo='Formulario informe-visita', bloqueado=False, solicitudes=solicitudes, idsolicitud=id, voluntarios=None, editar=True)
 
 ## AJAX para informes
+@soh.route('/get_informes')
+def getInformes():
+    informes = soli.obtenerInformes()
+    return jsonify(informes)
+
+@soh.route('/get_informes/<int:id>')
+def getInformesId(id):
+    informes = soli.obtenerInformeId(id)
+    return jsonify(informes)  
+
 @soh.route('/get_voluntarios_por_lista/<int:id>')
 def getVoluntariosPorLista(id):
     solicitudes = soli.obtenerVoluntariosPorLista(id)

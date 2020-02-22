@@ -32,8 +32,7 @@ var app = new Vue({
                     const res = await fetch(`/actividades/solicitud_hospital/get_integrantes_comite/${this.solicitudes}`);
                     const data = await res.json();            
                     const datos = data;           
-                    if (datos != null || datos != undefined) {
-                        $('#agregar').prop('disabled', false);
+                    if (datos != null || datos != undefined) {                       
                         for(let voluntario of datos) {
                             const { idcomite, comite, idpersona, nombres, apellidos } = voluntario;
                             this.lista_voluntarios.push({
@@ -41,12 +40,10 @@ var app = new Vue({
                             });
                         }
                     } else {
-                        this.lista_voluntarios = [];
-                        $('#agregar').prop('disabled', true);
+                        this.lista_voluntarios = [];                        
                     }
                 } else {
-                    this.lista_voluntarios = [];
-                    $('#agregar').prop('disabled', true);
+                    this.lista_voluntarios = [];                    
                 }
             } catch (error) {
                 console.log(error);
@@ -70,12 +67,11 @@ var app = new Vue({
             }
             this.dataEnvio = {
                 idsolicitud: this.solicitudes
-                , voluntarios: this.voluntario.id
+                , voluntarios: this.voluntario
                 , descripcion: this.descripcion.toUpperCase()
             }            
             try {
-                const res  = await axios.post('/actividades/solicitud_hospital/nuevo_informe', this.dataEnvio);                
-                console.log(res);
+                const res  = await axios.post('/actividades/solicitud_hospital/nuevo_informe', this.dataEnvio);                                
                 if(res.data.estado==true) {
                     location.href = '/actividades/solicitud_hospital/informevisitas';
                 }
@@ -89,56 +85,51 @@ var app = new Vue({
                 $('#solicitudes').focus();
                 return;
             }
-            if (this.fechavisita == '') {
-                alert('Debe escoger una fecha');
-                $('#fechavisita').focus();
+            if (this.voluntario == '') {
+                alert('Debe escoger una voluntario');
+                $('#voluntario').focus();
                 return;
             }
-            if (this.horavisita == '') {
-                alert('Debe escoger una hora');
-                $('#horavisita').focus();
+            if (this.descripcion == '') {
+                alert('Falta escribir descripcion');
+                $('#descripcion').focus();
                 return;
             }
-            alert('Formulario correcto, enviando datos');
-            const datos = {
+            this.dataEnvio = {
                 idsolicitud: this.solicitudes
-                , fechavisita: this.fechavisita
-                , horavisita: this.horavisita
-                , obs: this.obs
-            }  
+                , voluntarios: this.voluntario
+                , descripcion: this.descripcion.toUpperCase()
+            }            
             try {
-                const res = await axios.put('/actividades/solicitud_hospital/actualizar_lista_voluntario', datos);
+                const res  = await axios.put('/actividades/solicitud_hospital/modificar_informe', this.dataEnvio);                                
                 if(res.data.estado==true) {
-                    location.href = '/actividades/solicitud_hospital/voluntarios';
+                    location.href = '/actividades/solicitud_hospital/informevisitas';
                 }
             } catch (error) {
                 console.error(error);
             }
         }
         , cargarFormulario: async function () {
+            this.editar = true;
             const idlista = localStorage.getItem('idlista');
             try {
-                const res = await axios.get(`/actividades/solicitud_hospital/obtener_lista_voluntarios/${idlista}`);
-                const {idsolicitud, horavisita, fechavisita, obs, idcomite} = await res.data;                
-                this.lista_editar = await res.data;
-                this.fechavisita = fechavisita;
-                this.horavisita = horavisita;
-                this.obs = obs;
-                this.solicitudes = idsolicitud;
-                this.idcomite = idcomite;
-                this.obtenerVoluntarios();
-                this.editar = true;
-                $('#solicitudes').val(idsolicitud);
+                const res = await axios.get(`/actividades/solicitud_hospital/get_informes/${idlista}`);               
+                const data = await res.data;                                                 
+                this.solicitudes = data.idlista;
+                $('#solicitudes').val(data.idlista);
                 $('#solicitudes').trigger('change');
-                $('#idcomite').val(idcomite);
-                $('#idcomite').trigger('change');
+                this.obtenerVoluntarios();   
+                this.voluntario = data.idvoluntario;               
+                $('#voluntario').val(data.idvoluntario);  
+                $('#voluntario').trigger('change'); 
+                this.descripcion = data.descripcion;                           
             } catch (error) {
                 console.error(error);
             }
         }
     }
     , beforeMount() {
-        //this.cargarFormulario();
+        this.cargarFormulario();
     }
     , computed: {   
     }, delimiters: ['[[',']]']
