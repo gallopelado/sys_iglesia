@@ -109,22 +109,24 @@ var app = new Vue({
                 console.error(error);
             }
         }
-        , cargarFormulario: async function () {
-            this.editar = true;
+        , cargarFormulario: async function () {            
             const idlista = localStorage.getItem('idlista');
-            try {
-                const res = await axios.get(`/actividades/solicitud_hospital/get_informes/${idlista}`);               
-                const data = await res.data;                                                 
-                this.solicitudes = data.idlista;
-                $('#solicitudes').val(data.idlista);
-                $('#solicitudes').trigger('change');
-                this.obtenerVoluntarios();   
-                this.voluntario = data.idvoluntario;               
-                $('#voluntario').val(data.idvoluntario);  
-                $('#voluntario').trigger('change'); 
-                this.descripcion = data.descripcion;                           
-            } catch (error) {
-                console.error(error);
+            if(idlista != '') {
+                this.editar = true;
+                try {
+                    const res = await axios.get(`/actividades/solicitud_hospital/get_informes/${idlista}`);               
+                    const data = await res.data;                                                 
+                    this.solicitudes = data.idlista;
+                    $('#solicitudes').val(data.idlista);
+                    $('#solicitudes').trigger('change');
+                    this.obtenerVoluntarios();   
+                    this.voluntario = data.idvoluntario;               
+                    $('#voluntario').val(data.idvoluntario);  
+                    $('#voluntario').trigger('change'); 
+                    this.descripcion = data.descripcion;                           
+                } catch (error) {
+                    console.error(error);
+                }
             }
         }
     }
