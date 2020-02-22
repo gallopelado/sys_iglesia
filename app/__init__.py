@@ -67,6 +67,7 @@ from app.rutas.gestionar_actividades.registrar_asistencia.registrar_asistencia_r
 from app.rutas.gestionar_actividades.registrar_reserva.reserva_routes import res
 from app.rutas.gestionar_actividades.generar_contrato_reserva.generar_contrato_reserva_routes import gcr
 from app.rutas.gestionar_actividades.solicitud_hospital.solicitud_hospital_routes import soh
+from app.rutas.gestionar_actividades.consejeria.consejeria_routes import cmi
 
 # modulos de informes
 # Instancia de informes para Mantenimiento y Seguridad
@@ -110,6 +111,7 @@ app.register_blueprint(asis, url_prefix=f'{modulo2}/registrar_asistencia')
 app.register_blueprint(res, url_prefix=f'{modulo2}/registrar_reserva')
 app.register_blueprint(gcr, url_prefix=f'{modulo2}/generar_contrato')
 app.register_blueprint(soh, url_prefix=f'{modulo2}/solicitud_hospital')
+app.register_blueprint(cmi, url_prefix=f'{modulo2}/consejeria')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
