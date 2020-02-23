@@ -57,6 +57,7 @@ class Formulario(FlaskForm):
     descri_matriant = TextAreaField('Dar una breve descripcion acerca de los matrimonios anteriores')
     descri_hijos = TextAreaField('Tiene hijos, indicar nombre y edad')
     grupo_asiste = SelectField('Grupo de crecimiento al que asiste', validators=[DataRequired()], choices=[('01', 'Villa Elisa')])
+    consultagrupo = BooleanField('Ha consultado con ellos acerca de su preocupación?')
     descri_recibio = TextAreaField('Ha recibido a Jesucristo como su Salvador personal? Explique brevemente')
     descri_asesoria = TextAreaField('Ha recibido asesoría para este problema en particular antes? Si es así, quién le aconsejó, cuándo y cuál fue el resultado?')
     consejero = SelectField('Elegir consejero', validators=[DataRequired()], choices=[('01', 'Maria de los Pollos')])

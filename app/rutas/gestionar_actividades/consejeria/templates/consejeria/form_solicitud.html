@@ -57,213 +57,169 @@
                                 <hr>
                                 <input type="hidden" name="idsolicitud" id="idsolicitud" value="{# idsolicitud if idsolicitud #}">
                                 <div class="row form-group">
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.miembro.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-5">
+                                    <div class="col col-sm-12 col-md-5">
                                         {{ form.miembro(class='custom-select custom-select-sm') }}
                                         {% for error in form.miembro.errors %}
                                         <span class="help-block">Cargar este campo</span>
                                         {% endfor %}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.edad.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.edad(class='form-control form-control-sm', disabled=True) }}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.ecivil.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-2">
+                                    <div class="col col-sm-12 col-md-2">
                                         {{ form.ecivil(class='custom-select custom-select-sm', disabled=True) }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.conyuge.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-5">
+                                    <div class="col col-sm-12 col-md-5">
                                         {{ form.conyuge(class='custom-select custom-select-sm', disabled=True) }}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.edadconyuge.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.edadconyuge(class='form-control form-control-sm', disabled=True) }}
                                     </div>
-                                    <div class="col col-md-1">
+                                    <div class="col col-sm-12 col-md-1">
                                         {{ form.tiempocasado.label(class='form-control-label form-control-sm') }}
                                     </div>
-                                    <div class="col col-md-2">
+                                    <div class="col col-sm-12 col-md-2">
                                         {{ form.tiempocasado(class='form-control form-control-sm', disabled=True) }}
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row form-group">
-                                    <div class="col col-md-1">
-                                        {{ form.religion.label(class='form-control-label form-control-sm') }}
-                                    </div>
-                                    <div class="col col-md-3">
-                                        {{ form.religion(class='form-control form-control-sm') }}
-                                        {% for error in form.religion.errors %}
-                                        <span class="help-block">Error en la descripcion</span>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="col col-md-8">
-                                        <div class="card pl-5">
-                                            <div class="card-body">
-                                                <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {{ form.asiste_regular(class='custom-control-input') }}
-                                                    {{ form.asiste_regular.label(class='custom-control-label') }}
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                        <div class="row">
+                                            <div class="col col-sm-12 col-md-2">
+                                                {{ form.religion.label(class='form-control-label form-control-sm') }}
+                                            </div>
+                                            <div class="col col-sm-12 col-md-8">
+                                                {{ form.religion(class='form-control form-control-sm') }}
+                                                {% for error in form.religion.errors %}
+                                                <span class="help-block">Error en la descripcion</span>
+                                                {% endfor %}                                        
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-md-12">
+                                                <div class="form-group">
+                                                    {{ form.descri_matriant.label(class='form-control-label form-control-sm') }}
+                                                    {{ form.descri_matriant(class='form-control form-control-sm') }}
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col col-md-12">
+                                                <div class="form-group">
+                                                    {{ form.descri_hijos.label(class='form-control-label form-control-sm') }}
+                                                    {{ form.descri_hijos(class='form-control form-control-sm') }}
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <div class="row">
+                                            <div class="col col-sm-12 col-md-12">
+                                                <div class="custom-control custom-checkbox custom-control-inline form-control-sm d-block">
+                                                    {{ form.asiste_regular(class='custom-control-input') }}
+                                                    {{ form.asiste_regular.label(class='custom-control-label') }}                                            
+                                                </div>                                                                               
                                                 <div class="card">
                                                     <h5 class="card-header">
                                                         Servicios a los que asiste
                                                     </h5>
                                                     <div class="card-body">
-                                                        <div class="col col-md-8">                                                            
+                                                        <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.asiste_regular(class='custom-control-input') }}
-                                                                {{ form.asiste_regular.label(class='custom-control-label') }}
+                                                                {{ form.servicio_central(class='custom-control-input', disabled=True) }}
+                                                                {{ form.servicio_central.label(class='custom-control-label') }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-md-12">                                                            
+                                                            <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                                {{ form.grupo_creci(class='custom-control-input', disabled=True) }}
+                                                                {{ form.grupo_creci.label(class='custom-control-label') }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-md-12">                                                            
+                                                            <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
+                                                                {{ form.servicio_semanal(class='custom-control-input', disabled=True) }}
+                                                                {{ form.servicio_semanal.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                                              
+                                                </div>                                                                                      
                                             </div>
                                         </div>
-                                    </div>
-                                </div>                               
+                                    </div>                                                                                                            
+                                </div> 
                                 <div class="row">
-                                    <div class="col col-md-8">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.esmiembro(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.esmiembro.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.estaenterado(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.estaenterado.label(class='custom-control-label') #}
-                                                </div>                                                
-                                            </div>
+                                    <div class="col col-md-5">
+                                        <div class="form-group">
+                                            {{ form.grupo_asiste.label(class='form-control-label form-control-sm') }}
+                                            {{ form.grupo_asiste(class='form-control form-control-sm') }}
                                         </div>
                                     </div>
-                                    <div class="col col-md-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row form-group">
-                                                    <div class="col col-md-3">
-                                                        {# form.idioma.label(class='form-control-label form-control-sm') #}
-                                                    </div>
-                                                    <div class="col col-md-8">
-                                                        {# form.idioma(class='custom-select custom-select-sm', disabled=bloqueado) #}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col col-md-5">
+                                        <div class="custom-control custom-checkbox custom-control-inline form-control-sm mt-4">
+                                            {{ form.consultagrupo(class='custom-control-input', disabled=True) }}
+                                            {{ form.consultagrupo.label(class='custom-control-label') }}
                                         </div>
+                                    </div>
+                                </div>  
+                                <div class="row form-group">
+                                    <div class="col col-md-5">
+                                        {{ form.descri_recibio.label(class='form-control-label form-control-sm') }}
+                                        {{ form.descri_recibio(class='form-control form-control-sm') }}
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col col-md-3">
-                                        {# form.hospital.label(class='form-control-label form-control-sm') #}
+                                <div class="row form-group">
+                                    <div class="col col-md-5">
+                                        {{ form.descri_asesoria.label(class='form-control-label form-control-sm') }}
+                                        {{ form.descri_asesoria(class='form-control form-control-sm') }}
+                                    </div>
+                                </div> 
+                                <div class="row form-group">
+                                    <div class="col col-md-5">
+                                        <div class="row">
+                                            <div class="col col-sm-12 col-md-3">
+                                                {{ form.consejero.label(class='form-control-label form-control-sm') }}
+                                            </div>
+                                            <div class="col col-sm-12 col-md-9">
+                                                {{ form.consejero(class='custom-select custom-select-sm') }}
+                                                {% for error in form.consejero.errors %}
+                                                <span class="help-block">Cargar este campo</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col col-md-6">
-                                        {# form.hospital(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                    <div class="col col-md-2">
-                                        {# form.nrocuarto.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-1">
-                                        {# form.nrocuarto(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col col-md-3">
-                                        {# form.telefcuarto.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-3">
-                                        {# form.telefcuarto(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                    <div class="col col-md-3">
-                                        {# form.fechaadmision.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-3">
-                                        {# form.fechaadmision(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col col-md-3">
-                                        {# form.diagnostico.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-9">
-                                        {# form.diagnostico(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                </div>                                
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        {# form.direccionhospi.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-5">
-                                        {# form.direccionhospi(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        {# form.horariovisita.label(class='form-control-label form-control-sm') #}
-                                    </div>
-                                    <div class="col col-md-5">
-                                        {# form.horariovisita(class='form-control form-control-sm', disabled=bloqueado) #}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col col-md-11">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Días de visita</h4>
+                                        <div class="row">
+                                            <div class="col col-sm-12 col-md-3">
+                                                {{ form.fecha.label(class='form-control-label form-control-sm') }}
                                             </div>
-                                            <div class="card-body">
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.lunes(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.lunes.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.martes(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.martes.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.miercoles(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.miercoles.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.jueves(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.jueves.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.viernes(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.viernes.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.sabado(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.sabado.label(class='custom-control-label') #}
-                                                </div>
-                                                <div
-                                                    class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                    {# form.domingo(class='custom-control-input', disabled=bloqueado) #}
-                                                    {# form.domingo.label(class='custom-control-label') #}
-                                                </div>
+                                            <div class="col col-sm-12 col-md-5">
+                                                {{ form.fecha(class='form-control form-control-sm') }}
+                                                {% for error in form.fecha.errors %}
+                                                <span class="help-block">Cargar este campo</span>
+                                                {% endfor %}
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>                                    
+                                </div>                                                                                                                                                                                         
                                 {# pintar_alerta(messages) #}
                             </div>
                             <!--Fin card-body-->
