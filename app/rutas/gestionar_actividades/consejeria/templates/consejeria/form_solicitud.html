@@ -39,15 +39,15 @@
         <div class="container-fluid">
 
             <!--Inicio primer row-->
-            <div class="row">
+            <div class="row" id="app">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{# url_for('consejeria.index') #}" class="btn btn-secondary bt-sm">
+                            <a href="{{ url_for('consejeria.index') }}" class="btn btn-secondary bt-sm">
                                 <i class="fa fa-angle-left"></i> Volver</a>
                         </div>
                         <!--Inicio card-body-->
-                        <form action="{# url_for('solicitud_hospital.registrar') #}" method="post" class="form-horizontal">
+                        <form action="{{ url_for('consejeria.registrar') }}" method="post" class="form-horizontal" id="form" novalidate="true">
                             {{ form.csrf_token }}
                             <div class="card-body">
                                 <div class="card-title">
@@ -61,7 +61,7 @@
                                         {{ form.miembro.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-5">
-                                        {{ form.miembro(class='custom-select custom-select-sm') }}
+                                        {{ form.miembro(class='custom-select custom-select-sm', id="miembro", **{'v-model':'miembro', 'v-select':'miembro', 'v-on:change':'cargaDatosMiembro'}) }}
                                         {% for error in form.miembro.errors %}
                                         <span class="help-block">Cargar este campo</span>
                                         {% endfor %}
@@ -70,13 +70,13 @@
                                         {{ form.edad.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
-                                        {{ form.edad(class='form-control form-control-sm', disabled=True) }}
+                                        {{ form.edad(class='form-control form-control-sm', id="edad", disabled=True, **{'v-model':'edad'}) }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.ecivil.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-2">
-                                        {{ form.ecivil(class='form-control form-control-sm', disabled=True) }}
+                                        {{ form.ecivil(class='form-control form-control-sm', id="ecivil",disabled=True, **{'v-model':'ecivil'}) }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -84,19 +84,19 @@
                                         {{ form.conyuge.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-5">
-                                        {{ form.conyuge(class='form-control form-control-sm', disabled=True) }}
+                                        {{ form.conyuge(class='form-control form-control-sm', id="conyuge", disabled=True, **{'v-model':'conyuge'}) }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.edadconyuge.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
-                                        {{ form.edadconyuge(class='form-control form-control-sm', disabled=True) }}
+                                        {{ form.edadconyuge(class='form-control form-control-sm', id="edadconyuge", disabled=True, **{'v-model':'edadconyuge'}) }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.tiempocasado.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-2">
-                                        {{ form.tiempocasado(class='form-control form-control-sm', disabled=True) }}
+                                        {{ form.tiempocasado(class='form-control form-control-sm', id="tiempocasado",disabled=True, **{'v-model':'tiempocasado'}) }}
                                     </div>
                                 </div>
                                 <hr>
@@ -107,9 +107,9 @@
                                                 {{ form.religion.label(class='form-control-label form-control-sm') }}
                                             </div>
                                             <div class="col col-sm-12 col-md-8">
-                                                {{ form.religion(class='form-control form-control-sm') }}
+                                                {{ form.religion(class='form-control form-control-sm', id="religion", **{'v-model':'religion', 'v-select':'religion'}) }}
                                                 {% for error in form.religion.errors %}
-                                                <span class="help-block">Error en la descripcion</span>
+                                                <span class="help-block">Verificar este campo</span>
                                                 {% endfor %}                                        
                                             </div>
                                         </div>
@@ -117,7 +117,7 @@
                                             <div class="col col-md-12">
                                                 <div class="form-group">
                                                     {{ form.descri_matriant.label(class='form-control-label form-control-sm') }}
-                                                    {{ form.descri_matriant(class='form-control form-control-sm') }}
+                                                    {{ form.descri_matriant(class='form-control form-control-sm', id="descri_matriant", **{'v-model':'descrimatri'}) }}
                                                 </div> 
                                             </div>
                                         </div>
@@ -125,7 +125,7 @@
                                             <div class="col col-md-12">
                                                 <div class="form-group">
                                                     {{ form.descri_hijos.label(class='form-control-label form-control-sm') }}
-                                                    {{ form.descri_hijos(class='form-control form-control-sm') }}
+                                                    {{ form.descri_hijos(class='form-control form-control-sm', id="descri_hijos", **{'v-model':'descrihijos'}) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@
                                         <div class="row">
                                             <div class="col col-sm-12 col-md-12">
                                                 <div class="custom-control custom-checkbox custom-control-inline form-control-sm d-block">
-                                                    {{ form.asiste_regular(class='custom-control-input') }}
+                                                    {{ form.asiste_regular(class='custom-control-input', id="asiste_regular", **{'v-model':'asisteregular', 'v-on:change':'habilitaChecksGroup1'}) }}
                                                     {{ form.asiste_regular.label(class='custom-control-label') }}                                            
                                                 </div>                                                                               
                                                 <div class="card">
@@ -144,19 +144,19 @@
                                                     <div class="card-body">
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.servicio_central(class='custom-control-input', disabled=True) }}
+                                                                {{ form.servicio_central(class='custom-control-input', id="servicio_central", **{'v-model':'servicioncentral', ':disabled':'estadoChecksgroup1'}) }}
                                                                 {{ form.servicio_central.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.grupo_creci(class='custom-control-input', disabled=True) }}
+                                                                {{ form.grupo_creci(class='custom-control-input', id="grupo_creci", **{'v-model':'grupo', ':disabled':'estadoChecksgroup1'}) }}
                                                                 {{ form.grupo_creci.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.servicio_semanal(class='custom-control-input', disabled=True) }}
+                                                                {{ form.servicio_semanal(class='custom-control-input', id="servicio_semanal", **{'v-model':'serviciosemanal', ':disabled':'estadoChecksgroup1'}) }}
                                                                 {{ form.servicio_semanal.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
@@ -170,12 +170,12 @@
                                     <div class="col col-md-5">
                                         <div class="form-group">
                                             {{ form.grupo_asiste.label(class='form-control-label form-control-sm') }}
-                                            {{ form.grupo_asiste(class='form-control form-control-sm') }}
+                                            {{ form.grupo_asiste(class='form-control form-control-sm', id="grupo_asiste", **{'v-model':'asistegrupo', 'v-select':'asistegrupo'}) }}
                                         </div>
                                     </div>
                                     <div class="col col-md-5">
                                         <div class="custom-control custom-checkbox custom-control-inline form-control-sm mt-4">
-                                            {{ form.consultagrupo(class='custom-control-input') }}
+                                            {{ form.consultagrupo(class='custom-control-input', id="consultagrupo", **{'v-model':'consultagrupo'}) }}
                                             {{ form.consultagrupo.label(class='custom-control-label') }}
                                         </div>
                                     </div>
@@ -183,13 +183,19 @@
                                 <div class="row form-group">
                                     <div class="col col-md-8">
                                         {{ form.descri_recibio.label(class='form-control-label form-control-sm') }}
-                                        {{ form.descri_recibio(class='form-control form-control-sm') }}
+                                        {{ form.descri_recibio(class='form-control form-control-sm', id="descri_recibio", **{'v-model':'descrirecibio'}) }}
+                                        {% for error in form.descri_recibio.errors %}
+                                            <span class="help-block">Cargar este campo</span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-8">
                                         {{ form.descri_asesoria.label(class='form-control-label form-control-sm') }}
-                                        {{ form.descri_asesoria(class='form-control form-control-sm') }}
+                                        {{ form.descri_asesoria(class='form-control form-control-sm', id="descri_asesoria", **{'v-model':'descriasesoria'}) }}
+                                        {% for error in form.descri_asesoria.errors %}
+                                            <span class="help-block">Cargar este campo</span>
+                                        {% endfor %}
                                     </div>
                                 </div> 
                                 <div class="row form-group">
@@ -199,34 +205,22 @@
                                                 {{ form.consejero.label(class='form-control-label form-control-sm') }}
                                             </div>
                                             <div class="col col-sm-12 col-md-9">
-                                                {{ form.consejero(class='custom-select custom-select-sm') }}
+                                                {{ form.consejero(class='custom-select custom-select-sm', id="consejero", **{'v-model':'consejero', 'v-select':'consejero'}) }}
                                                 {% for error in form.consejero.errors %}
                                                 <span class="help-block">Cargar este campo</span>
                                                 {% endfor %}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col col-md-6">
-                                        <div class="row">
-                                            <div class="col col-sm-12 col-md-3">
-                                                {{ form.fecha.label(class='form-control-label form-control-sm') }}
-                                            </div>
-                                            <div class="col col-sm-12 col-md-5">
-                                                {{ form.fecha(class='form-control form-control-sm') }}                                                
-                                            </div>
-                                        </div>
-                                    </div>                                    
+                                    </div>                                                                        
                                 </div>                                                                                                                                                                                         
                                 {{ pintar_alerta(messages) }}
                             </div>
-                            <!--Fin card-body-->
-                            {% if bloqueado == false or bloqueado is none %}
+                            <!--Fin card-body-->                           
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary btn-sm">
+                                <button type="button" class="btn btn-primary btn-sm" @click="validaFormulario">
                                     <i class="fa fa-dot-circle-o"></i> Registrar
                                 </button>
-                            </div>
-                            {% endif %}
+                            </div>                            
                         </form>
                     </div>
                 </div>
@@ -242,7 +236,10 @@
 {% endblock %}
 
 {% block mi_script -%}
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- JS del formulario -->
 <script type="module"
-    src="{# url_for('static', filename='jsOperacionales/gestionar_actividades/consejeria/formulario.js') #}"></script>
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_actividades/consejeria/formulario.js') }}"></script>
 {%- endblock %}

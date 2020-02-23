@@ -22,3 +22,55 @@ def formulario():
     miembros = cm.getMiembros()
     #print(miembros)
     return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form)
+
+@cmi.route('/registrar', methods=['POST'])
+def registrar():
+    print(request.form)
+    form = Formulario()
+    res = form.validate_on_submit()
+    idsolicitud = request.form['idsolicitud']
+    idmiembro = int(form.miembro.data)
+    idreligion =  int(form.religion.data)
+    asisteregular = form.asiste_regular.data
+    serviciocentral = form.servicio_central.data
+    grupo_creci = form.grupo_creci.data
+    serviciosemanal = form.servicio_semanal.data
+    descri_matriant = form.descri_matriant.data.upper()
+    descri_hijos = form.descri_hijos.data.upper()
+    grupo_asiste = int(form.grupo_asiste.data)
+    consultagrupo = form.grupo_creci.data
+    descri_recibio = form.descri_recibio.data.upper()
+    descri_asesoria = form.descri_asesoria.data.upper()
+    consejero = int(form.consejero.data)
+
+    if res:
+        next = request.args.get('next', None)
+        if next:
+            return redirect(next)
+
+        if idsolicitud is None or idsolicitud == '':
+            ##REGISTRAR
+            cm.insertSolicitud(idmiembro, idreligion, consejero, grupo_asiste, serviciocentral, grupo_creci, serviciosemanal, 
+            descri_matriant, descri_hijos, consultagrupo, descri_recibio, descri_asesoria, 
+            'ATENDIDO', None, None)
+        else:
+            ##MODIFICAR
+            pass
+        
+        if res == True:
+            flash('Se ha realizado la operacion con exito', 'success')
+            return redirect(url_for('consejeria.index'))
+        else:
+            flash('Problemas al validar formulario' , 'danger')
+            return redirect(url_for('consejeria.index'))
+
+    else:
+        flash('Error en al cargar en formulario', 'danger')
+        return redirect(url_for('consejeria.index'))
+
+
+## Ajax
+@cmi.route('/get_miembros/<int:id>')
+def getMiembros(id):    
+    miembros = cm.getMiembroId(id)
+    return jsonify(miembros)
