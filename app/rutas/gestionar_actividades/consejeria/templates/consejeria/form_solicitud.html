@@ -76,7 +76,7 @@
                                         {{ form.ecivil.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-2">
-                                        {{ form.ecivil(class='custom-select custom-select-sm', disabled=True) }}
+                                        {{ form.ecivil(class='form-control form-control-sm', disabled=True) }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -84,7 +84,7 @@
                                         {{ form.conyuge.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-5">
-                                        {{ form.conyuge(class='custom-select custom-select-sm', disabled=True) }}
+                                        {{ form.conyuge(class='form-control form-control-sm', disabled=True) }}
                                     </div>
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.edadconyuge.label(class='form-control-label form-control-sm') }}
@@ -175,19 +175,19 @@
                                     </div>
                                     <div class="col col-md-5">
                                         <div class="custom-control custom-checkbox custom-control-inline form-control-sm mt-4">
-                                            {{ form.consultagrupo(class='custom-control-input', disabled=True) }}
+                                            {{ form.consultagrupo(class='custom-control-input') }}
                                             {{ form.consultagrupo.label(class='custom-control-label') }}
                                         </div>
                                     </div>
                                 </div>  
                                 <div class="row form-group">
-                                    <div class="col col-md-5">
+                                    <div class="col col-md-8">
                                         {{ form.descri_recibio.label(class='form-control-label form-control-sm') }}
                                         {{ form.descri_recibio(class='form-control form-control-sm') }}
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-5">
+                                    <div class="col col-md-8">
                                         {{ form.descri_asesoria.label(class='form-control-label form-control-sm') }}
                                         {{ form.descri_asesoria(class='form-control form-control-sm') }}
                                     </div>
@@ -212,24 +212,21 @@
                                                 {{ form.fecha.label(class='form-control-label form-control-sm') }}
                                             </div>
                                             <div class="col col-sm-12 col-md-5">
-                                                {{ form.fecha(class='form-control form-control-sm') }}
-                                                {% for error in form.fecha.errors %}
-                                                <span class="help-block">Cargar este campo</span>
-                                                {% endfor %}
+                                                {{ form.fecha(class='form-control form-control-sm') }}                                                
                                             </div>
                                         </div>
                                     </div>                                    
                                 </div>                                                                                                                                                                                         
-                                {# pintar_alerta(messages) #}
+                                {{ pintar_alerta(messages) }}
                             </div>
                             <!--Fin card-body-->
-                            {# if bloqueado == false or bloqueado is none #}
+                            {% if bloqueado == false or bloqueado is none %}
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     <i class="fa fa-dot-circle-o"></i> Registrar
                                 </button>
                             </div>
-                            {# endif #}
+                            {% endif %}
                         </form>
                     </div>
                 </div>
