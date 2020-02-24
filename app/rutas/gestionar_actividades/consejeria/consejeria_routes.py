@@ -76,6 +76,14 @@ def registrar():
         flash('Error en al cargar en formulario', 'danger')
         return redirect(url_for('consejeria.index'))
 
+@cmi.route('/cancela_solicitud/<int:id>')
+def cancelaSolicitud(id):    
+    res = cm.cancelaSolicitud(id)
+    if res == True:
+        flash('Se cancelo dicha solicitud', 'warning')
+        return redirect(url_for('consejeria.index'))
+    flash('Error al cancelar dicha solicitud', 'danger')
+    return redirect(url_for('consejeria.index'))
 
 ## Ajax
 @cmi.route('/get_miembros/<int:id>')

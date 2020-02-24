@@ -77,6 +77,7 @@ class ConsejeriaModel:
                 , cons_estado estado
             from actividades.solicitud_consejeria sc
             left join referenciales.personas using(per_id)
+            where cons_estado != 'CANCELADO'
             order by per_nombres
             )datos
         '''
@@ -212,6 +213,26 @@ class ConsejeriaModel:
             con = conexion.getConexion()
             cur = con.cursor()
             cur.execute(updateSQL, parametros)
+            con.commit()
+            return True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def cancelaSolicitud(self, idsolicitud):
+        updateSQL = '''
+        UPDATE actividades.solicitud_consejeria
+        SET cons_estado = 'CANCELADO', modificado_por_usuario=null, modif_fecha=now()
+        WHERE cons_id=%s;
+        '''        
+        try:
+            conexion = Conexion()
+            con = conexion.getConexion()
+            cur = con.cursor()
+            cur.execute(updateSQL, (idsolicitud,))
             con.commit()
             return True
         except con.Error as e:

@@ -87,7 +87,11 @@ var app = new Vue({
             location.href = `/actividades/consejeria/ver_solicitud/${id}`;
         }
         , cancelar: function (id) {
-
+            const m = mensajeConfirmacion('Confirmar', 'Desea cancelar?');
+            m.buttons.Si.action = () => {                
+                location.href = `/actividades/consejeria/cancela_solicitud/${id}`;
+            }
+            m.open();
         }
     }
     , beforeMount() {
