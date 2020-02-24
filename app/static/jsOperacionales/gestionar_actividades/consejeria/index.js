@@ -5,7 +5,7 @@
 import { idioma_spanish, mensajeConfirmacion } from '../../helper/helper.js';
 document.addEventListener('DOMContentLoaded', ()=>{ 
     //traer combo, tbody
-    const cb = document.getElementById('cbm_estado');
+    /* const cb = document.getElementById('cbm_estado');
     const tb = document.getElementById('tb');   
     const cargaTabla = async(estado='NO-ATENDIDO') => {
         try {
@@ -59,5 +59,36 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     window.ver = (id) => {                    
         location.href = `/actividades/solicitud_hospital/ver_formulario/${id}`;
-    }
+    } */
 });
+
+var app = new Vue({
+    el:'#app'
+    , data: {
+        solicitudes:[]
+    }
+    , methods: {
+        obtenerSolicitudes: async function () {
+            try {
+                const res = await axios.get('/actividades/consejeria/get_solicitudes');
+                this.solicitudes = await res.data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        , modificar: function (id) {
+            const m = mensajeConfirmacion('Confirmar', 'Desea modificar?');
+            m.buttons.Si.action = () => {                
+                location.href = `/actividades/consejeria/editar_solicitud/${id}`;
+            }
+            m.open();
+        }
+        , cancelar: function (id) {
+
+        }
+    }
+    , beforeMount() {
+        this.obtenerSolicitudes();
+    }
+    , delimiters: ['[[',']]']
+})

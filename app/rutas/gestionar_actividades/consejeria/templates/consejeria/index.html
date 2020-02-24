@@ -20,7 +20,7 @@
     <!-- Contenido principal -->
     <div class="section__content section__content--p30">
 
-        <div class="container-fluid">
+        <div class="container-fluid" id="app">
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="title-3 m-b-30">{{titulo}}</h3>
@@ -50,6 +50,16 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
+                                    <tr v-for="solicitud in solicitudes">
+                                        <td v-text="solicitud.solicitante"></td>
+                                        <td v-text="solicitud.fecha"></td>
+                                        <td v-text="solicitud.estado"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-secondary btn-sm" v-on:click="ver(solicitud.idsolicitud)">Ver</button>
+                                            <button type="button" class="btn btn-primary btn-sm" v-on:click="modificar(solicitud.idsolicitud)">Modificar</button> 
+                                            <button type="button" class="btn btn-danger btn-sm" v-on:click="cancelar(solicitud.idsolicitud)">Cancelar</button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 
@@ -78,6 +88,10 @@
 <script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 
 <!-- Controlador -->
 <script type='module'

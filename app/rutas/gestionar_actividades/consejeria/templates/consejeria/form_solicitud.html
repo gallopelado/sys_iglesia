@@ -55,7 +55,11 @@
                                     </h3>
                                 </div>
                                 <hr>
-                                <input type="hidden" name="idsolicitud" id="idsolicitud" value="{# idsolicitud if idsolicitud #}">
+                                <input type="hidden" name="idsolicitud" id="idsolicitud" value="{{ idsolicitud if idsolicitud }}">
+                                <script type="application/javascript">
+                                    var idsolicitud = {{ idsolicitud if idsolicitud }};
+                                    localStorage.setItem('idsolicitud', idsolicitud);
+                                </script>
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.miembro.label(class='form-control-label form-control-sm') }}
@@ -218,7 +222,7 @@
                             <!--Fin card-body-->                           
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary btn-sm" @click="validaFormulario">
-                                    <i class="fa fa-dot-circle-o"></i> Registrar
+                                    <i class="fa fa-dot-circle-o"></i> {{ 'Registrar' if not editar else 'Modificar' }}
                                 </button>
                             </div>                            
                         </form>

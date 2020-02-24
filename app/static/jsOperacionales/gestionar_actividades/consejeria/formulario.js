@@ -33,6 +33,7 @@ var app = new Vue({
         , consejero:''
         , descrimatri:''
         , datosMiembro:{}
+        , datosEditar:{}
         , estadoChecksgroup1:true
     }
     , methods: {
@@ -99,7 +100,47 @@ var app = new Vue({
             }
            
             $('#form').submit();            
+        }
+        , cargarFormulario: async function () {
+            if(localStorage.getItem('idsolicitud')) {
+                this.estadoChecksgroup1 = false;
+                try {                
+                    const res = await axios.get(`/actividades/consejeria/get_solicitud_id/${localStorage.getItem('idsolicitud')}`);
+                    this.datosEditar = await res.data;
+                    const d = this.datosEditar;
+                    this.miembro = d.idsolicitante;
+                    $('#miembro').val(d.idsolicitante);
+                    $('#miembro').trigger('change');
+                    this.edad = d.edad;
+                    this.ecivil = d.ecivil;
+                    this.conyuge = d.conyuge;
+                    this.edadconyuge = d.edadconyuge;
+                    this.tiempocasado = d.tiempocasado;
+                    this.religion = d.idreligion;
+                    $('#religion').val(d.idreligion);
+                    $('#religion').trigger('change');
+                    this.servicioncentral = d.servcentral;
+                    this.grupo = d.gruposcrecimiento;
+                    this.serviciosemanal = d.servsemana;
+                    this.descrimatri = d.descrmatriant;
+                    this.descrihijos = d.descr_hijos;
+                    this.asistegrupo = d.idgrupo;
+                    $('#grupo_asiste').val(d.idgrupo);
+                    $('#grupo_asiste').trigger('change');
+                    this.consultagrupo = d.consultogrupo;
+                    this.descrirecibio = d.convertido;
+                    this.descriasesoria = d.asesoria;
+                    this.consejero = d.idconsejero;
+                    $('#consejero').val(d.idconsejero);
+                    $('#consejero').trigger('change');
+                } catch (error) {
+                    console.error(error);
+                }
+            }
         }           
+    }
+    , beforeMount() {
+        this.cargarFormulario();   
     }
     , delimiters: ['[[',']]']
 });

@@ -18,10 +18,14 @@ def index():
 
 @cmi.route('/formulario_solicitud')
 def formulario():
+    form = Formulario()    
+    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, editar=False)
+
+@cmi.route('/editar_solicitud/<int:id>')
+def editarFormulario(id):
     form = Formulario()
-    miembros = cm.getMiembros()
-    #print(miembros)
-    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form)
+    solicitud = cm.getSolicitudId(id)
+    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, idsolicitud=id, editar=True)
 
 @cmi.route('/registrar', methods=['POST'])
 def registrar():
@@ -51,11 +55,11 @@ def registrar():
         if idsolicitud is None or idsolicitud == '':
             ##REGISTRAR
             cm.insertSolicitud(idmiembro, idreligion, consejero, grupo_asiste, serviciocentral, grupo_creci, serviciosemanal, 
-            descri_matriant, descri_hijos, consultagrupo, descri_recibio, descri_asesoria, 
-            'ATENDIDO', None, None)
+            descri_matriant, descri_hijos, consultagrupo, descri_recibio, descri_asesoria,'ATENDIDO', None, None)
         else:
             ##MODIFICAR
-            pass
+            cm.updateSolicitud(idsolicitud, idmiembro, idreligion, consejero, grupo_asiste, serviciocentral, grupo_creci, serviciosemanal, 
+            descri_matriant, descri_hijos, consultagrupo, descri_recibio, descri_asesoria, None, None, None)
         
         if res == True:
             flash('Se ha realizado la operacion con exito', 'success')
@@ -74,3 +78,13 @@ def registrar():
 def getMiembros(id):    
     miembros = cm.getMiembroId(id)
     return jsonify(miembros)
+
+@cmi.route('/get_solicitudes')
+def getSolicitudes():    
+    solicitudes = cm.getSolicitudes()
+    return jsonify(solicitudes)
+
+@cmi.route('/get_solicitud_id/<int:id>')
+def getSolicitudId(id):    
+    solicitud = cm.getSolicitudId(id)
+    return jsonify(solicitud)
