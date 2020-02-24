@@ -35,6 +35,7 @@ var app = new Vue({
         , datosMiembro:{}
         , datosEditar:{}
         , estadoChecksgroup1:true
+        , bloqueado: false
     }
     , methods: {
         cargaDatosMiembro: async function (){
@@ -140,7 +141,8 @@ var app = new Vue({
         }           
     }
     , beforeMount() {
-        this.cargarFormulario();   
+        this.cargarFormulario();
+        this.bloqueado = bloqueado;   
     }
     , delimiters: ['[[',']]']
 });

@@ -19,13 +19,17 @@ def index():
 @cmi.route('/formulario_solicitud')
 def formulario():
     form = Formulario()    
-    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, editar=False)
+    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, editar=False, bloqueado=False)
 
 @cmi.route('/editar_solicitud/<int:id>')
 def editarFormulario(id):
     form = Formulario()
-    solicitud = cm.getSolicitudId(id)
-    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, idsolicitud=id, editar=True)
+    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, idsolicitud=id, editar=True, bloqueado=False)
+
+@cmi.route('/ver_solicitud/<int:id>')
+def verFormulario(id):
+    form = Formulario()
+    return render_template('consejeria/form_solicitud.html', titulo=titulo, form=form, idsolicitud=id, editar=False, bloqueado=True)
 
 @cmi.route('/registrar', methods=['POST'])
 def registrar():

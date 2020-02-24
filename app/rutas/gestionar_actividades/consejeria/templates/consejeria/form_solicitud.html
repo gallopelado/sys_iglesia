@@ -58,14 +58,16 @@
                                 <input type="hidden" name="idsolicitud" id="idsolicitud" value="{{ idsolicitud if idsolicitud }}">
                                 <script type="application/javascript">
                                     var idsolicitud = {{ idsolicitud if idsolicitud }};
+                                    var bloqueado = {{ 'true' if bloqueado else 'false' }};
                                     localStorage.setItem('idsolicitud', idsolicitud);
+                                    localStorage.setItem('bloqueado', bloqueado);
                                 </script>
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-1">
                                         {{ form.miembro.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-sm-12 col-md-5">
-                                        {{ form.miembro(class='custom-select custom-select-sm', id="miembro", **{'v-model':'miembro', 'v-select':'miembro', 'v-on:change':'cargaDatosMiembro'}) }}
+                                        {{ form.miembro(class='custom-select custom-select-sm', id="miembro", **{'v-model':'miembro', 'v-select':'miembro', 'v-on:change':'cargaDatosMiembro', ':disabled':'bloqueado'}) }}
                                         {% for error in form.miembro.errors %}
                                         <span class="help-block">Cargar este campo</span>
                                         {% endfor %}
@@ -111,7 +113,7 @@
                                                 {{ form.religion.label(class='form-control-label form-control-sm') }}
                                             </div>
                                             <div class="col col-sm-12 col-md-8">
-                                                {{ form.religion(class='form-control form-control-sm', id="religion", **{'v-model':'religion', 'v-select':'religion'}) }}
+                                                {{ form.religion(class='form-control form-control-sm', id="religion", **{'v-model':'religion', 'v-select':'religion', ':disabled':'bloqueado'}) }}
                                                 {% for error in form.religion.errors %}
                                                 <span class="help-block">Verificar este campo</span>
                                                 {% endfor %}                                        
@@ -121,7 +123,7 @@
                                             <div class="col col-md-12">
                                                 <div class="form-group">
                                                     {{ form.descri_matriant.label(class='form-control-label form-control-sm') }}
-                                                    {{ form.descri_matriant(class='form-control form-control-sm', id="descri_matriant", **{'v-model':'descrimatri'}) }}
+                                                    {{ form.descri_matriant(class='form-control form-control-sm', id="descri_matriant", **{'v-model':'descrimatri', ':disabled':'bloqueado'}) }}
                                                 </div> 
                                             </div>
                                         </div>
@@ -129,7 +131,7 @@
                                             <div class="col col-md-12">
                                                 <div class="form-group">
                                                     {{ form.descri_hijos.label(class='form-control-label form-control-sm') }}
-                                                    {{ form.descri_hijos(class='form-control form-control-sm', id="descri_hijos", **{'v-model':'descrihijos'}) }}
+                                                    {{ form.descri_hijos(class='form-control form-control-sm', id="descri_hijos", **{'v-model':'descrihijos', ':disabled':'bloqueado'}) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -138,7 +140,7 @@
                                         <div class="row">
                                             <div class="col col-sm-12 col-md-12">
                                                 <div class="custom-control custom-checkbox custom-control-inline form-control-sm d-block">
-                                                    {{ form.asiste_regular(class='custom-control-input', id="asiste_regular", **{'v-model':'asisteregular', 'v-on:change':'habilitaChecksGroup1'}) }}
+                                                    {{ form.asiste_regular(class='custom-control-input', id="asiste_regular", **{'v-model':'asisteregular', 'v-on:change':'habilitaChecksGroup1', ':disabled':'bloqueado'}) }}
                                                     {{ form.asiste_regular.label(class='custom-control-label') }}                                            
                                                 </div>                                                                               
                                                 <div class="card">
@@ -148,19 +150,19 @@
                                                     <div class="card-body">
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.servicio_central(class='custom-control-input', id="servicio_central", **{'v-model':'servicioncentral', ':disabled':'estadoChecksgroup1'}) }}
+                                                                {{ form.servicio_central(class='custom-control-input', id="servicio_central", **{'v-model':'servicioncentral', ':disabled':'estadoChecksgroup1', ':disabled':'bloqueado'}) }}
                                                                 {{ form.servicio_central.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.grupo_creci(class='custom-control-input', id="grupo_creci", **{'v-model':'grupo', ':disabled':'estadoChecksgroup1'}) }}
+                                                                {{ form.grupo_creci(class='custom-control-input', id="grupo_creci", **{'v-model':'grupo', ':disabled':'estadoChecksgroup1', ':disabled':'bloqueado'}) }}
                                                                 {{ form.grupo_creci.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
                                                         <div class="col col-md-12">                                                            
                                                             <div class="custom-control custom-checkbox custom-control-inline form-control-sm">
-                                                                {{ form.servicio_semanal(class='custom-control-input', id="servicio_semanal", **{'v-model':'serviciosemanal', ':disabled':'estadoChecksgroup1'}) }}
+                                                                {{ form.servicio_semanal(class='custom-control-input', id="servicio_semanal", **{'v-model':'serviciosemanal', ':disabled':'estadoChecksgroup1', ':disabled':'bloqueado'}) }}
                                                                 {{ form.servicio_semanal.label(class='custom-control-label') }}
                                                             </div>
                                                         </div>
@@ -174,12 +176,12 @@
                                     <div class="col col-md-5">
                                         <div class="form-group">
                                             {{ form.grupo_asiste.label(class='form-control-label form-control-sm') }}
-                                            {{ form.grupo_asiste(class='form-control form-control-sm', id="grupo_asiste", **{'v-model':'asistegrupo', 'v-select':'asistegrupo'}) }}
+                                            {{ form.grupo_asiste(class='form-control form-control-sm', id="grupo_asiste", **{'v-model':'asistegrupo', 'v-select':'asistegrupo', ':disabled':'bloqueado'}) }}
                                         </div>
                                     </div>
                                     <div class="col col-md-5">
                                         <div class="custom-control custom-checkbox custom-control-inline form-control-sm mt-4">
-                                            {{ form.consultagrupo(class='custom-control-input', id="consultagrupo", **{'v-model':'consultagrupo'}) }}
+                                            {{ form.consultagrupo(class='custom-control-input', id="consultagrupo", **{'v-model':'consultagrupo', ':disabled':'bloqueado'}) }}
                                             {{ form.consultagrupo.label(class='custom-control-label') }}
                                         </div>
                                     </div>
@@ -187,7 +189,7 @@
                                 <div class="row form-group">
                                     <div class="col col-md-8">
                                         {{ form.descri_recibio.label(class='form-control-label form-control-sm') }}
-                                        {{ form.descri_recibio(class='form-control form-control-sm', id="descri_recibio", **{'v-model':'descrirecibio'}) }}
+                                        {{ form.descri_recibio(class='form-control form-control-sm', id="descri_recibio", **{'v-model':'descrirecibio', ':disabled':'bloqueado'}) }}
                                         {% for error in form.descri_recibio.errors %}
                                             <span class="help-block">Cargar este campo</span>
                                         {% endfor %}
@@ -196,7 +198,7 @@
                                 <div class="row form-group">
                                     <div class="col col-md-8">
                                         {{ form.descri_asesoria.label(class='form-control-label form-control-sm') }}
-                                        {{ form.descri_asesoria(class='form-control form-control-sm', id="descri_asesoria", **{'v-model':'descriasesoria'}) }}
+                                        {{ form.descri_asesoria(class='form-control form-control-sm', id="descri_asesoria", **{'v-model':'descriasesoria', ':disabled':'bloqueado'}) }}
                                         {% for error in form.descri_asesoria.errors %}
                                             <span class="help-block">Cargar este campo</span>
                                         {% endfor %}
@@ -209,7 +211,7 @@
                                                 {{ form.consejero.label(class='form-control-label form-control-sm') }}
                                             </div>
                                             <div class="col col-sm-12 col-md-9">
-                                                {{ form.consejero(class='custom-select custom-select-sm', id="consejero", **{'v-model':'consejero', 'v-select':'consejero'}) }}
+                                                {{ form.consejero(class='custom-select custom-select-sm', id="consejero", **{'v-model':'consejero', 'v-select':'consejero', ':disabled':'bloqueado'}) }}
                                                 {% for error in form.consejero.errors %}
                                                 <span class="help-block">Cargar este campo</span>
                                                 {% endfor %}
@@ -219,12 +221,14 @@
                                 </div>                                                                                                                                                                                         
                                 {{ pintar_alerta(messages) }}
                             </div>
-                            <!--Fin card-body-->                           
+                            <!--Fin card-body--> 
+                            {% if not bloqueado %}                          
                             <div class="card-footer">
                                 <button type="button" class="btn btn-primary btn-sm" @click="validaFormulario">
                                     <i class="fa fa-dot-circle-o"></i> {{ 'Registrar' if not editar else 'Modificar' }}
                                 </button>
-                            </div>                            
+                            </div>              
+                            {% endif %}              
                         </form>
                     </div>
                 </div>

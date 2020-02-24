@@ -83,6 +83,9 @@ var app = new Vue({
             }
             m.open();
         }
+        , ver: function (id) {            
+            location.href = `/actividades/consejeria/ver_solicitud/${id}`;
+        }
         , cancelar: function (id) {
 
         }
