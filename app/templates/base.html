@@ -280,10 +280,19 @@
                         </li>
 
                         <!-- Lista módulo cursos -->
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-table"></i>Gestionar Cursos</a>
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Cursos
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                                <li>
+                                    <a href="{{ url_for('malla_curricular.index') }}">Registrar
+                                        malla curricular
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         <!-- Lista módulo informes -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
