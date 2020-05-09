@@ -21,5 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         , "language": idioma_spanish
     });
 
+     //Asignar un evento a botoncito editar. y mostrar el json asociado.
+     $('#tabla_malla_curricular tbody').on('click', '.editar', async function () {
+        var data = table.row($(this).parents('tr')).data();
+        //Esto muestra todo el objeto json traido de AJAX.
+        sessionStorage.setItem('anio_des', data.anho_des)
+        location.href = `/cursos/malla_curricular/form_malla_curricular/${data.idmalla}`;
+     });
 
 });
