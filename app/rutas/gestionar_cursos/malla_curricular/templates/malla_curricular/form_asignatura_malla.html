@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header"></div>
+                        <script type="application/javascript">
+                            var idmalla = "{{idmalla}}";
+                            var cur_id = "{{idcurso}}";
+                            sessionStorage.setItem('idmalla', idmalla);
+                            sessionStorage.setItem('cur_id', cur_id);
+                        </script>
+                        <!--Inicio card body-->
+                        <div class="card-body">
+                            <form>
+
+                                <!--Curso, asignatura-->
+                                <div class="form-group row">
+                                    <label for="curso" class="col-sm-1 col-form-label">Curso</label>
+                                    <div class="col-4">
+                                        <div class="col-sm-10">
+                                        <input type="text" id="curso" name="curso" class="form-control form-control-sm" v-model="curso" disabled>
+                                        </div>                                    
+                                    </div>
+
+                                    <label for="cbo_asignatura" class="col-sm-2 col-form-label">Asignatura</label>
+                                    <div class="col-5">
+                                        <div class="col-sm-10">
+                                            <select name="cbo_asignatura" id="cbo_asignatura" ref="cbo_asignatura" v-model="cbo_asignatura" class="form-control form-control-sm">
+                                                <option value="">...</option>
+                                                <option v-for="item in lista_asignaturas" :value="item" v-text="`${item.asi_des} ${item.num_des}`"></option>
+                                            </select>
+                                        </div>                                    
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="h_catedra" class="col-sm-2 col-form-label offset-md-5">Horas cátedra</label>
+                                    <div class="col-5">
+                                        <div class="col-sm-5">
+                                        <input type="number" class="form-control form-control-sm" id="h_catedra" ref="h_catedra" name="h_catedra" v-model="h_catedra" @keyup.enter="guardarAsignatura">
+                                        </div>                                    
+                                    </div>
+                                </div>
+                                <!---->
+                    
+                            </form>
+                        </div>
+
+                    </div>
+                    <!--Fin card body-->
+
+                    <!--Card para la tabla-->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    Lista de asignaturas
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla_asignaturas_registrados" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Asignatura</th>
+                                        <th>Cantidad de horas</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb">
+                                    <tr v-for="item in lista_tabla_asignaturas">
+                                        <td v-text="`${item.asi_des} ${item.num_des}`"></td>
+                                        <td v-text="item.cant_horas" style="text-align: center;"></td>
+                                        <td><button type="button" class="btn btn-primary btn-sm" @click="detalleCurso(item.malla_id, item.cur_id)">Modificar</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)">Anular</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                    </div>
+                    <!--Fin card tabla-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/malla_curricular/form_asignatura_malla.js') }}"></script>
+
+
+{% endblock %}

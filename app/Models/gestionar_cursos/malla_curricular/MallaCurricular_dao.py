@@ -74,6 +74,26 @@ class MallaCurricular_dao(Conexion):
                 con.close()
         return bandera
 
+    def agregarNuevaAsignaturaCurso(self, malla_id, cur_id, asi_id, num_id, cant_horas):
+        bandera = False
+        insertSQL_det = '''INSERT INTO cursos.curso_asignaturas
+        (malla_id, cur_id, asi_id, num_id, estado, cant_horas)
+        VALUES(%s, %s, %s, %s, true, %s);
+        '''
+        try:
+            con = self.getConexion()
+            cur = con.cursor()
+            cur.execute(insertSQL_det, (malla_id, cur_id, asi_id, num_id, cant_horas))
+            con.commit()
+            bandera = True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+        return bandera
+
     def obtenerAreas(self):
         lista_areas = []
         querySQL = 'SELECT are_id, are_des from referenciales.areas'
@@ -264,3 +284,70 @@ class MallaCurricular_dao(Conexion):
                 con.close()
 
         return data_anho
+
+    def obtenerAsignaturasCurso(self, malla_id, cur_id):
+        lista = []
+        querySQL = '''SELECT 
+            ca.malla_id
+            , cu.cur_id, cu.cur_des 
+            , asi.asi_id, asi.asi_des 
+            , num.num_id, num.num_des, ca.cant_horas 
+        FROM cursos.curso_asignaturas ca 
+        LEFT JOIN referenciales.cursos cu ON cu.cur_id = ca.cur_id 
+        LEFT JOIN referenciales.asignaturas  asi ON asi.asi_id = ca.asi_id
+        LEFT JOIN referenciales.numero_asignatura num ON num.num_id = ca.num_id 
+        WHERE ca.malla_id = %s AND cu.cur_id = %s'''
+
+        try:
+            con = self.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL, (malla_id, cur_id,))
+            data = cur.fetchall()
+            for rs in data:
+                objeto = {}
+                objeto['malla_id'] = rs[0]
+                objeto['cur_id'] = rs[1]
+                objeto['cur_des'] = rs[2]
+                objeto['asi_id'] = rs[3]
+                objeto['asi_des'] = rs[4]
+                objeto['num_id'] = rs[5]
+                objeto['num_des'] = rs[6]
+                objeto['cant_horas'] = rs[7]
+                lista.append(objeto)
+        except con.Error as e:
+            print(e)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+        return lista
+
+    def obtenerTodasAsignaturas(self):
+        lista = []
+        querySQL = '''SELECT 
+            ast.asi_id , asi.asi_des , ast.num_id, num.num_des 
+        FROM referenciales.asignatura_tomo ast 
+        LEFT JOIN referenciales.asignaturas asi on asi.asi_id = ast.asi_id 
+        LEFT JOIN referenciales.numero_asignatura num on num.num_id = ast.num_id '''
+
+        try:
+            con = self.getConexion()
+            cur = con.cursor()
+            cur.execute(querySQL)
+            data = cur.fetchall()
+            for rs in data:
+                objeto = {}
+                objeto['asi_id'] = rs[0]
+                objeto['asi_des'] = rs[1]
+                objeto['num_id'] = rs[2]
+                objeto['num_des'] = rs[3]
+                lista.append(objeto)
+        except con.Error as e:
+            print(e)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+        return lista

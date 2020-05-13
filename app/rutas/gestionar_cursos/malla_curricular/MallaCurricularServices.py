@@ -48,3 +48,15 @@ class MallaCurricularServices:
     def anularCursoMalla(self, malla_id, cur_id, estado):
         malla_dao = MallaCurricular_dao()
         return malla_dao.anularCursoMalla(malla_id, cur_id, estado)
+
+    def obtenerAsignaturasCurso(self, malla_id, cur_id):
+        malla_dao = MallaCurricular_dao()
+        return malla_dao.obtenerAsignaturasCurso(malla_id, cur_id)
+
+    def obtenerTodasAsignaturas(self):
+        malla_dao = MallaCurricular_dao()
+        return malla_dao.obtenerTodasAsignaturas()
+
+    def agregarNuevaAsignaturaCurso(self, malla_id, cur_id, asi_id, num_id, cant_horas):
+        malla_dao = MallaCurricular_dao()
+        return malla_dao.agregarNuevaAsignaturaCurso(malla_id, cur_id, asi_id, num_id, cant_horas)

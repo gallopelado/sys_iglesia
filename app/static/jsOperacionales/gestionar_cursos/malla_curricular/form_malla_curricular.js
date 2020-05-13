@@ -18,6 +18,7 @@ var app = new Vue({
         , anho:''
         , anho_id:''
         , anio_des: parseInt(sessionStorage.getItem('anio_des'))
+        , anho_etiqueta_tabla : parseInt(sessionStorage.getItem('anio_des'))
     }
     , methods: {
         habilitaArea: function () {
@@ -143,6 +144,10 @@ var app = new Vue({
                     console.error(error);
                 });
             }
+        }
+        , detalleCurso: function (idmalla, cur_id, cur_des) {
+            sessionStorage.setItem('cur_des', cur_des);
+            location.href = `/cursos/malla_curricular/form_asignatura_malla_curricular/${idmalla}/${cur_id}`;
         }
     }
     , mounted() {

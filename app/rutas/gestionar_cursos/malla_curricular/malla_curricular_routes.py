@@ -28,6 +28,10 @@ def formMallaCurricular():
 def formMallaCurricular_editar(idmalla):
     return render_template('malla_curricular/form_malla_curricular.html', titulo='Formulario Malla Curricular', idmalla=idmalla)
 
+@mc.route('/form_asignatura_malla_curricular/<int:idmalla>/<int:idcurso>')
+def formAsignaturaMallaCurricular_editar(idmalla, idcurso):
+    return render_template('malla_curricular/form_asignatura_malla.html', titulo='Asignaturas de Malla Curricular', idmalla=idmalla, idcurso=idcurso)
+
 # Ajax
 @mc.route('/mallas')
 def mallasCurriculares():
@@ -90,6 +94,29 @@ def anularCursoMalla():
     ms = MallaCurricularServices()
     res = ms.anularCursoMalla(malla_id, cur_id, estado)
     return jsonify({"estado":res})
+
+@mc.route('/agregar_nuevos_asignatura', methods=['POST'])
+def agregarNuevaAsignaturaCurso():
+    malla_id = request.json['malla_id']
+    cur_id = request.json['cur_id']
+    asi_id = request.json['asi_id']
+    num_id = request.json['num_id']
+    cant_horas = request.json['cant_horas']
+    ms = MallaCurricularServices()
+    res = ms.agregarNuevaAsignaturaCurso(malla_id, cur_id, asi_id, num_id, cant_horas)
+    return jsonify({"estado":res})
+
+@mc.route('/get_asignaturascurso/<int:idmalla>/<int:cur_id>')
+def getAsignaturasCurso(idmalla, cur_id):
+    ms = MallaCurricularServices()
+    lista = ms.obtenerAsignaturasCurso(idmalla, cur_id)
+    return jsonify(lista)
+
+@mc.route('/get_todas_asignaturas')
+def getTodasAsignaturas():
+    ms = MallaCurricularServices()
+    lista = ms.obtenerTodasAsignaturas()
+    return jsonify(lista)
 
 
 
