@@ -19,6 +19,7 @@ var app = new Vue({
         , anho_id:''
         , anio_des: parseInt(sessionStorage.getItem('anio_des'))
         , anho_etiqueta_tabla : parseInt(sessionStorage.getItem('anio_des'))
+        , editar: sessionStorage.getItem('editar')
     }
     , methods: {
         habilitaArea: function () {

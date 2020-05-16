@@ -1,6 +1,8 @@
 import { idioma_spanish } from '../../helper/helper.js';
 document.addEventListener('DOMContentLoaded', () => {
 
+    sessionStorage.setItem('editar', false);
+
     //Cargar tabla
     var table = $('#tabla_malla_curricular').DataTable({
         "ajax": {
@@ -26,6 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
         var data = table.row($(this).parents('tr')).data();
         //Esto muestra todo el objeto json traido de AJAX.
         sessionStorage.setItem('anio_des', data.anho_des)
+        sessionStorage.setItem('editar', true);
+        location.href = `/cursos/malla_curricular/form_malla_curricular/${data.idmalla}`;
+     });
+
+     //Asignar un evento a botoncito ver. y mostrar el json asociado.
+     $('#tabla_malla_curricular tbody').on('click', '.ver', function () {
+        var data = table.row($(this).parents('tr')).data();
+        //Esto muestra todo el objeto json traido de AJAX.
+        sessionStorage.setItem('anio_des', data.anho_des)
+        sessionStorage.setItem('editar', false);
         location.href = `/cursos/malla_curricular/form_malla_curricular/${data.idmalla}`;
      });
 

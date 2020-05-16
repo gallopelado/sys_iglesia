@@ -10,6 +10,7 @@ var data = {
     , m_asignatura: null
     , m_id_asignatura: null
     , m_num_id: null
+    , editar: sessionStorage.getItem('editar')
 }
 
 Vue.component('modal-editar_horas-catedra', {
