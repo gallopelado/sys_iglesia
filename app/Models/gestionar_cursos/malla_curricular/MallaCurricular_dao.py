@@ -78,7 +78,8 @@ class MallaCurricular_dao(Conexion):
         bandera = False
         insertSQL_det = '''INSERT INTO cursos.curso_asignaturas
         (malla_id, cur_id, asi_id, num_id, estado, cant_horas)
-        VALUES(%s, %s, %s, %s, true, %s);
+        VALUES(%s, %s, %s, %s, true, %s) ON CONFLICT (malla_id, cur_id, asi_id, num_id) DO
+        UPDATE SET cant_horas = EXCLUDED.cant_horas
         '''
         try:
             con = self.getConexion()

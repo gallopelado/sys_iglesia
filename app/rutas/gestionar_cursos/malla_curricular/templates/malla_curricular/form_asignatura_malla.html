@@ -89,6 +89,7 @@
                             </div>
                         </div>
                         <div class="card-body">
+
                             <table id="tabla_asignaturas_registrados" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
@@ -101,19 +102,15 @@
                                     <tr v-for="item in lista_tabla_asignaturas">
                                         <td v-text="`${item.asi_des} ${item.num_des}`"></td>
                                         <td v-text="item.cant_horas" style="text-align: center;"></td>
-                                        <td><button type="button" class="btn btn-primary btn-sm" @click="detalleCurso(item.malla_id, item.cur_id)">Modificar</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)">Anular</button></td>
+                                        <td><button type="button" class="btn btn-primary btn-sm" @click="editarAsignatura(item)">Modificar</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)">Anular</button></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table>                            
+
                         </div>
                         <div class="card-footer">
                             {{ pintar_alerta(messages) }}
-                        </div>
-
-                        <!--Modal para modificar horas catedra-->
-                        
-                        <!--Fin modal horas catedra-->
-
+                        </div>                       
                     </div>
                     <!--Fin card tabla-->
 
@@ -122,6 +119,10 @@
         </div>
     </div>
     <!---->
+
+    <!--Modal para modificar horas catedra-->
+    <modal-editar_horas-catedra><modal-editar_horas-catedra/>
+    <!--Fin modal horas catedra-->
 </div>
 
 <!-- END MAIN CONTENT-->
