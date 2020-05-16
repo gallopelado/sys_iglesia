@@ -106,6 +106,17 @@ def agregarNuevaAsignaturaCurso():
     res = ms.agregarNuevaAsignaturaCurso(malla_id, cur_id, asi_id, num_id, cant_horas)
     return jsonify({"estado":res})
 
+@mc.route('/anular_asignatura', methods=['PUT'])
+def anularAsignaturaCurso():
+    malla_id = request.json['malla_id']
+    cur_id = request.json['cur_id']
+    asi_id = request.json['asi_id']
+    num_id = request.json['num_id']
+    #cant_horas = request.json['cant_horas']
+    ms = MallaCurricularServices()
+    res = ms.anularAsignaturaCurso(malla_id, cur_id, asi_id, num_id)
+    return jsonify({"estado":res})
+
 @mc.route('/get_asignaturascurso/<int:idmalla>/<int:cur_id>')
 def getAsignaturasCurso(idmalla, cur_id):
     ms = MallaCurricularServices()

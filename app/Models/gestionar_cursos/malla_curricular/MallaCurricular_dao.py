@@ -95,6 +95,24 @@ class MallaCurricular_dao(Conexion):
                 con.close()
         return bandera
 
+    def anularAsignaturaCurso(self, malla_id, cur_id, asi_id, num_id):
+        bandera = False
+        insertSQL_det = '''UPDATE cursos.curso_asignaturas SET
+        estado = FALSE WHERE malla_id = %s AND cur_id = %s AND asi_id = %s AND num_id = %s'''
+        try:
+            con = self.getConexion()
+            cur = con.cursor()
+            cur.execute(insertSQL_det, (malla_id, cur_id, asi_id, num_id,))
+            con.commit()
+            bandera = True
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+        return bandera
+
     def obtenerAreas(self):
         lista_areas = []
         querySQL = 'SELECT are_id, are_des from referenciales.areas'
@@ -297,7 +315,7 @@ class MallaCurricular_dao(Conexion):
         LEFT JOIN referenciales.cursos cu ON cu.cur_id = ca.cur_id 
         LEFT JOIN referenciales.asignaturas  asi ON asi.asi_id = ca.asi_id
         LEFT JOIN referenciales.numero_asignatura num ON num.num_id = ca.num_id 
-        WHERE ca.malla_id = %s AND cu.cur_id = %s'''
+        WHERE ca.malla_id = %s AND cu.cur_id = %s AND ca.estado IS TRUE'''
 
         try:
             con = self.getConexion()

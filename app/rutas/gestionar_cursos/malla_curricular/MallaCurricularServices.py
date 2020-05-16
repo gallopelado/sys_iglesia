@@ -75,3 +75,7 @@ class MallaCurricularServices:
     def agregarNuevaAsignaturaCurso(self, malla_id, cur_id, asi_id, num_id, cant_horas):
         malla_dao = MallaCurricular_dao()
         return malla_dao.agregarNuevaAsignaturaCurso(malla_id, cur_id, asi_id, num_id, cant_horas)
+
+    def anularAsignaturaCurso(self, malla_id, cur_id, asi_id, num_id):
+        malla_dao = MallaCurricular_dao()
+        return malla_dao.anularAsignaturaCurso(malla_id, cur_id, asi_id, num_id)
