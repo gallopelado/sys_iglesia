@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
             , dataSrc: ''
         }, "columnDefs": [{
             "targets": -1,
-            "data": null,
-            "defaultContent": '<button type="button" class="btn btn-primary btn-sm ver"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Ver</button> <button type="button" class="btn btn-success btn-sm editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modificar</button>'
+            "data": null/*,
+            "defaultContent": '<button type="button" class="btn btn-primary btn-sm ver"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Ver</button> <button type="button" class="btn btn-success btn-sm editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modificar</button>'*/
         }]
         , "columns": [
             { "data": "fecharegistro" }
             , { "data": "estado" }
-            , { "data": "" }
+            , { "data": "botones" }
 
         ]
         , "destroy": true
