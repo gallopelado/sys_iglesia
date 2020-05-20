@@ -1,4 +1,4 @@
-from app.Models.gestionar_cursos.MallaCurricular import MallaCurricular
+from app.Models.gestionar_cursos.malla_curricular.MallaCurricular import MallaCurricular
 from app.Models.CursoModel import CursoModel
 
 class DetalleMallaCurricular:

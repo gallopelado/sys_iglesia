@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header"></div>
+                        <div class="card-body">
+                            
+                            <form>
+
+                                <div class="form-group row">
+                                    <label for="cbo_curso" class="col-sm-12 col-md-2 col-form-label">Fecha Malla</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" disabled>
+                                    </div>
+
+                                    <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                    <div class="col-sm-10 col-md-4">
+                                        <select name="cbo_area" id="cbo_area" v-model="cbo_area" class="form-control form-control-sm" :disabled="valido == 0" @change="obtenerAreaCursos"> 
+                                            <option value="">...</option>                                           
+                                            <option v-for="item in lista_areas" :value="item" v-text="item.area_des"></option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </form>
+
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="btn_agregar" ref="btn_agregar" class="btn btn-success btn-sm" @click="guardar" :style="anio_des < anho ? 'visibility: hidden' : '' ">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card" :style="editar == 'false' ? 'display:none' : ''">
+                        <div class="card-header"></div>
+                        <script type="application/javascript">
+                            var idmalla = "{{idmalla}}";
+                            sessionStorage.setItem('idmalla', idmalla);
+                        </script>
+                        <!--Inicio card body-->
+                        <div class="card-body">
+                            <form>
+                                <!--fecha de malla y combo cursos-->
+                                <div class="form-group row">
+                                    
+                                    <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                    <div class="col-sm-10 col-md-4">
+                                        <select name="cbo_area" id="cbo_area" v-model="cbo_area" class="form-control form-control-sm" :disabled="valido == 0" @change="obtenerAreaCursos"> 
+                                            <option value="">...</option>                                           
+                                            <option v-for="item in lista_areas" :value="item" v-text="item.area_des"></option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <!---->
+
+                                <!--fecha de malla y combo cursos-->
+                                <div class="form-group row">
+                                    
+                                    <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                    <div class="col-sm-10 col-md-4">
+                                        <select name="cbo_area" id="cbo_area" v-model="cbo_area" class="form-control form-control-sm" :disabled="valido == 0" @change="obtenerAreaCursos"> 
+                                            <option value="">...</option>                                           
+                                            <option v-for="item in lista_areas" :value="item" v-text="item.area_des"></option>
+                                        </select>
+                                    </div>
+
+                                    <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                    <div class="col-sm-10 col-md-4">
+                                        <select name="cbo_area" id="cbo_area" v-model="cbo_area" class="form-control form-control-sm" :disabled="valido == 0" @change="obtenerAreaCursos"> 
+                                            <option value="">...</option>                                           
+                                            <option v-for="item in lista_areas" :value="item" v-text="item.area_des"></option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <!---->
+
+                                <!--fecha de malla y combo cursos-->
+                                <div class="form-group row">
+                                    
+                                    <label for="cbo_curso" class="col-sm-12 col-md-2 col-form-label">Fecha Malla</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                    
+                                    <label for="cbo_curso" class="col-sm-12 col-md-2 col-form-label">Fecha Malla</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+
+                                </div>
+                                <!---->
+
+                                
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="btn_agregar" ref="btn_agregar" class="btn btn-success btn-sm" @click="guardar" :style="anio_des < anho ? 'visibility: hidden' : '' ">Agregar</button>
+                        </div>
+
+                    </div>
+                    <!--Fin card body-->
+
+                    <!--Card para la tabla-->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                   Detalle Asignaturas
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla_cursos_registrados" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>Asignatura</th>
+                                        <th>Turno</th>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha fin</th>
+                                        <th>Maestro</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb">
+                                    <tr v-for="item in lista_tabla">
+                                        <td v-text="item.cur_des"></td>
+                                        <td v-text="item.are_des"></td>
+                                        <td><button type="button" class="btn btn-info btn-sm" @click="detalleCurso(item.malla_id, item.cur_id, item.cur_des)">Detalle</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)" :style="editar == 'false' ? 'display:none' : ''">Anular</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                    </div>
+                    <!--Fin card tabla-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/malla_curricular/form_malla_curricular.js') }}"></script> -->
+
+
+{% endblock %}

@@ -13,3 +13,5 @@ CREATE TYPE estado_membresia AS ENUM(
 );
 create type estado_reserva as enum('CONFIRMADO', 'NO-CONFIRMADO', 'CANCELADO', 'DESACTIVADO');
 create type estado_solicitud_hospital as enum('ATENDIDO', 'NO-ATENDIDO', 'CANCELADO');
+create type turno as enum('MAÑANA', 'TARDE', 'NOCHE');
+create type public.dia as enum('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO');
