@@ -27,9 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
      $('#tabla_planificacion_curso tbody').on('click', '.editar', async function () {
         var data = table.row($(this).parents('tr')).data();
         //Esto muestra todo el objeto json traido de AJAX.
+        //console.log(data);
         sessionStorage.setItem('anio_des', data.anho_des)
         sessionStorage.setItem('editar', true);
-        location.href = `/cursos/malla_curricular/form_malla_curricular/${data.idmalla}`;
+        sessionStorage.setItem('fecharegistro', data.fecharegistro);
+        location.href = `/cursos/planificacion_cursos/form_planificacion/${data.idmalla}`;
      });
 
      //Asignar un evento a botoncito ver. y mostrar el json asociado.
