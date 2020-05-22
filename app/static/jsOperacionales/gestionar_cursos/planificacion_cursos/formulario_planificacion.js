@@ -23,7 +23,24 @@ var app = new Vue({
         , det_asignaturas: []
     }
     , methods: {
-        
+        getDetalleAsignaturas() {
+            const idplan = this.idmalla;
+            const idcurso = this.cbo_curso.cur_id;
+            if(idcurso) {
+                //Obtener detalle del backend
+                axios
+                .get(`/cursos/planificacion_cursos/get_detalle_asignaturas/${idplan}/${idcurso}`)
+                .then(res => {
+                    console.log(res);
+                    this.det_asignaturas = res.data
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            } else {
+                this.det_asignaturas = [];
+            }
+        }
     },
     mounted() {
         //Carga de combo cursos

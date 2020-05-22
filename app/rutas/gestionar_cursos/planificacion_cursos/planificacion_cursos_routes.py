@@ -17,3 +17,8 @@ def formPlanificacion(idmalla):
 def getMaestros():
     plans = PlanificacionCursoServices()
     return jsonify(plans.getMaestros())
+
+@pcr.route('/get_detalle_asignaturas/<int:idplan>/<int:idcurso>')
+def getDetalleAsignaturas(idplan, idcurso):
+    plans = PlanificacionCursoServices()
+    return jsonify(plans.getDetalleAsignaturas(idplan, idcurso)) 
