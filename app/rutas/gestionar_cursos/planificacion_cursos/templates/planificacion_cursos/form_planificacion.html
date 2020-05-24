@@ -58,7 +58,8 @@
 
                         </div>
                         <div class="card-footer">
-                            <button type="button" id="btn_registrar_curso" ref="btn_registrar_curso" class="btn btn-success btn-sm">Agregar</button>
+                            <button type="button" id="btn_registrar_curso" ref="btn_registrar_curso" class="btn btn-success btn-sm" @click="agregarCurso" 
+                            :change="cbo_curso ? desactivar_boton_asignatura=false : desactivar_boton_asignatura=true">Agregar</button>
                         </div>
                     </div>
                 </div>
@@ -116,12 +117,12 @@
                                     
                                     <label for="fecha_inicio" class="col-sm-12 col-md-2 col-form-label">Fecha de inicio</label>
                                     <div class="col-sm-10 col-md-3">
-                                        <input type="date" class="form-control form-control-sm" name="fecha_inicio" id="fecha_inicio" v-model="fecha_inicio">
+                                        <input type="date" class="form-control form-control-sm" name="fecha_inicio" id="fecha_inicio" v-model="fecha_inicio" :min="fecha_actual" :max="fecha_max">
                                     </div>
                                     
                                     <label for="fecha_fin" class="col-sm-12 col-md-2 col-form-label">Fecha final</label>
                                     <div class="col-sm-10 col-md-3">
-                                        <input type="date" class="form-control form-control-sm" name="fecha_fin" id="fecha_fin" v-model="fecha_fin">
+                                        <input type="date" class="form-control form-control-sm" name="fecha_fin" id="fecha_fin" v-model="fecha_fin" :min="fecha_inicio" :max="fecha_max">
                                     </div>
 
                                 </div>
@@ -130,7 +131,7 @@
                             </form>
                         </div>
                         <div class="card-footer">
-                            <button type="button" id="btn_registrar_asignatura" ref="btn_registrar_asignatura" class="btn btn-success btn-sm">Agregar</button>
+                            <button type="button" id="btn_registrar_asignatura" ref="btn_registrar_asignatura" class="btn btn-success btn-sm" @click="agregarAsignatura" :disabled="desactivar_boton_asignatura">Agregar</button>
                         </div>
 
                     </div>
@@ -159,11 +160,11 @@
                                 </thead>
                                 <tbody id="tb">
                                     <tr v-for="item in det_asignaturas">
-                                        <td v-text="item.asi_des"></td>
-                                        <td v-text="item.turno"></td>
-                                        <th v-text="item.fechainicio"></th>
-                                        <th v-text="item.fechafin"></th>
-                                        <th v-text="`${item.per_nombres} ${item.per_apellidos}`"></th>
+                                        <th v-text="`${item.asi_des} ${item.num_des}`" style="text-align: center;"></th>
+                                        <td v-text="item.turno" style="text-align: center;"></td>
+                                        <td v-text="item.fechainicio" style="text-align: center;"></td>
+                                        <td v-text="item.fechafin" style="text-align: center;"></td>
+                                        <td v-text="`${item.per_nombres} ${item.per_apellidos}`"></td>
                                         <td><button type="button" class="btn btn-info btn-sm" @click="detalleCurso(item.malla_id, item.cur_id, item.cur_des)">Detalle</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)" :style="editar == 'false' ? 'display:none' : ''">Anular</button></td>
                                     </tr>
                                 </tbody>

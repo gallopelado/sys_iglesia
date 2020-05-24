@@ -81,3 +81,46 @@ class PlanificacionCurso_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista_detalle
+
+    def registrarCurso(self, malla_id, cur_id):
+        res = {}
+        insertSQL = '''INSERT INTO cursos.planificacion_aca
+        (malla_id, estado, cur_id, creacion_fecha, creacion_usuario, modificacion_fecha, modificacion_usuario)
+        VALUES(%s, true, %s, now(), null, null, null);
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (malla_id, cur_id,))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def registrarDetallePlan(self, malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno):
+        res = {}
+        insertSQL = '''
+        INSERT INTO cursos.detalle_planificacion
+        (malla_id, asi_id, num_id, per_id, fechainicio, fechafin, estado, turno, cur_id)
+        VALUES(%s, %s, %s, %s, %s, %s, true, %s, %s);
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (malla_id, asi_id, num_id, per_id, fechainicio, fechafin, turno, cur_id))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
