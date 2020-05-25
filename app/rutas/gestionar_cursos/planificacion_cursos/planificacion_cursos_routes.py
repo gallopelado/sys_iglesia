@@ -13,6 +13,10 @@ def index():
 def formPlanificacion(idmalla):
     return render_template('/planificacion_cursos/form_planificacion.html', titulo='Formulario planificación', idmalla=idmalla)
 
+@pcr.route('/form_frecuencia_asignatura')
+def formFrecuenciaAsignatura():
+    return render_template('/planificacion_cursos/form_frecuencia_asignatura.html', titulo='Formulario frecuencia de asignatura')
+
 # AJAX
 @pcr.route('/get_maestros')
 def getMaestros():
@@ -51,3 +55,31 @@ def agregarAsignatura():
 def getFechaActual():
     fecha = datetime.datetime.now().strftime('%Y-%m-%d')
     return jsonify({'fecha_actual':fecha})
+
+@pcr.route('/get_detalle_frecuencia/<int:malla_id>/<int:asi_id>/<int:num_id>/<int:per_id>/<int:cur_id>/<string:turno>')
+def getDetalleFrecuencia(malla_id, asi_id, num_id, per_id, cur_id, turno):
+    plans = PlanificacionCursoServices()
+    lista = plans.getDetalleFrecuencia(malla_id, asi_id, num_id, per_id, cur_id, turno)
+    return jsonify(lista)
+
+@pcr.route('/agregar_horario_asignatura', methods=['POST'])
+def agregarHorarioAsignatura():
+    malla_id = request.json['malla_id']
+    asi_id = request.json['asi_id']
+    cur_id = request.json['cur_id']
+    num_id = request.json['num_id']
+    per_id = request.json['per_id']
+    horainicio = request.json['hora_inicio']
+    horafin = request.json['hora_fin']
+    dia = request.json['dia']
+    turno = request.json['turno']
+    plans = PlanificacionCursoServices()
+    res = plans.registrarDetalleFrecuencia(malla_id, asi_id, num_id, turno, per_id, dia, cur_id, horainicio, horafin)
+    return jsonify(res)
+
+@pcr.route('/eliminar_horario_asignatura', methods=['POST'])
+def eliminarHorarioAsignatura():
+    id = request.json['id']
+    plans = PlanificacionCursoServices()
+    res = plans.eliminarAsignaturaFrecuencia(id)
+    return jsonify(res)

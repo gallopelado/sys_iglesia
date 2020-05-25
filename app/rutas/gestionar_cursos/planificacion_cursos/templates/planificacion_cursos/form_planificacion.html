@@ -165,7 +165,7 @@
                                         <td v-text="item.fechainicio" style="text-align: center;"></td>
                                         <td v-text="item.fechafin" style="text-align: center;"></td>
                                         <td v-text="`${item.per_nombres} ${item.per_apellidos}`"></td>
-                                        <td><button type="button" class="btn btn-info btn-sm" @click="detalleCurso(item.malla_id, item.cur_id, item.cur_des)">Detalle</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)" :style="editar == 'false' ? 'display:none' : ''">Anular</button></td>
+                                        <td><button type="button" class="btn btn-info btn-sm" @click="detalleAsignatura(item)">Detalle</button> <button type="button" class="btn btn-danger btn-sm" @click="anularCursoMalla(item.cur_id)" :style="editar == 'false' ? 'display:none' : ''">Anular</button></td>
                                     </tr>
                                 </tbody>
                             </table>

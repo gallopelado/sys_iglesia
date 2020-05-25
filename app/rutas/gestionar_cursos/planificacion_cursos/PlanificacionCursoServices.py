@@ -35,3 +35,30 @@ class PlanificacionCursoServices:
 
     def registrarDetallePlan(self, malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno):
         return self.__plan_dao.registrarDetallePlan(malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno)
+
+    def getDetalleFrecuencia(self, malla_id, asi_id, num_id, per_id, cur_id, turno):
+        lista_detalle = []
+        data = self.__plan_dao.getDetalleFrecuencia(malla_id, asi_id, num_id, per_id, cur_id, turno)        
+        for item in data:
+            objeto = {}
+            objeto['frma_id'] = item['frma_id']
+            objeto['malla_id'] = item['malla_id']
+            objeto['asi_id'] = item['asi_id']
+            objeto['asi_des'] = item['asi_des']
+            objeto['num_id'] = item['num_id']
+            objeto['num_des'] = item['num_des']
+            objeto['turno'] = item['turno']
+            objeto['per_id'] = item['per_id']
+            objeto['frma_dia'] = item['frma_dia']
+            objeto['frma_estado'] = item['frma_estado']
+            objeto['cur_id'] = item['cur_id']
+            objeto['frma_horainicio'] = item['frma_horainicio'].strftime("%H:%M")
+            objeto['frma_horafin'] = item['frma_horafin'].strftime("%H:%M")
+            lista_detalle.append(objeto)
+        return lista_detalle
+
+    def registrarDetalleFrecuencia(self, malla_id, asi_id, num_id, turno, per_id, dia, cur_id, horainicio, horafin):
+        return self.__plan_dao.registrarDetalleFrecuencia(malla_id, asi_id, num_id, turno, per_id, dia, cur_id, horainicio, horafin)
+
+    def eliminarAsignaturaFrecuencia(self, id):
+        return self.__plan_dao.eliminarAsignaturaFrecuencia(id)

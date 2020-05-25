@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{titulo}}</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">Datos de Asignatura</div>
+                        <div class="card-body">
+
+                            <form>
+                                <!--Curso, Maestro-->
+                                <div class="form-group row">
+                                    <label for="cur_des" class="col-sm-12 col-md-2 col-form-label">Curso</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" v-model="cur_des"
+                                            id="cur_des" name="cur_des" disabled>
+                                    </div>
+                                    <label for="per_des" class="col-sm-12 col-md-2 col-form-label">Maestro</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" v-model="per_des"
+                                            id="per_des" name="per_des" disabled>
+                                    </div>
+                                </div>
+                                <!---->
+
+                                <!--Asignatura, Turno-->
+                                <div class="form-group row">
+                                    <label for="asi_des" class="col-sm-12 col-md-2 col-form-label">Asignatura</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" v-model="asi_des"
+                                            id="asi_des" name="asi_des" disabled>
+                                    </div>
+                                    <label for="turno" class="col-sm-12 col-md-2 col-form-label">Turno</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" v-model="turno"
+                                            id="turno" name="turno" disabled>
+                                    </div>
+                                </div>
+                                <!--Fin Fecha de malla y combo cursos-->
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header"></div>
+                        <script type="application/javascript">
+                            var idmalla = "{{idmalla}}";
+                            sessionStorage.setItem('idmalla', idmalla);
+                        </script>
+                        <!--Inicio card body-->
+                        <div class="card-body">
+                            <form>
+                                <!--Combo Dias-->
+                                <div class="form-group row">
+
+                                    <label for="cbo_dia" class="col-sm-12 col-md-2 col-form-label">Dia</label>
+                                    <div class="col-sm-10 col-md-4">
+                                        <select name="cbo_dia" id="cbo_dia" v-model="cbo_dia" ref="cbo_dia"
+                                            class="form-control form-control-sm">
+                                            <option value="">...</option>
+                                            <option v-for="item in lista_dias" :value="item" v-text="item">
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <!---->
+
+                                <!--hora de inicio y fin-->
+                                <div class="form-group row">
+
+                                    <label for="hora_inicio" class="col-sm-12 col-md-2 col-form-label">Hora de
+                                        inicio</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="time" class="form-control form-control-sm" name="hora_inicio"
+                                            id="hora_inicio" v-model="hora_inicio" :min="hora_min" :max="hora_max">
+                                    </div>
+
+                                    <label for="hora_fin" class="col-sm-12 col-md-2 col-form-label">Hora fin</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="time" class="form-control form-control-sm" name="hora_fin"
+                                            id="hora_fin" v-model="hora_fin" :min="hora_inicio" :max="hora_max">
+                                    </div>
+
+                                </div>
+                                <!---->
+
+                            </form>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" id="btn_registrar_horario" ref="btn_registrar_horario"
+                                class="btn btn-success btn-sm" @click="agregarHorario">Agregar</button>
+                        </div>
+
+                    </div>
+                    <!--Fin card body-->
+
+                    <!--Card para la tabla-->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-03 mb-2">
+                                    Detalle Asignaturas
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla_detalle_asignaturas" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Dia</th>
+                                        <th style="text-align: center;">Hora inicio</th>
+                                        <th style="text-align: center;">Hora fin</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb">
+                                    <tr v-for="item in det_asignaturas">
+                                        <th v-text="item.frma_dia" style="text-align: center;"></th>
+                                        <td v-text="item.frma_horainicio" style="text-align: center;"></td>
+                                        <td v-text="item.frma_horafin" style="text-align: center;"></td>
+                                        <td><button type="button" class="btn btn-danger btn-sm"
+                                                @click="eliminarHorario(item)">Eliminar</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                    </div>
+                    <!--Fin card tabla-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/planificacion_cursos/formulario_frecuencia.js') }}"></script>
+
+
+{% endblock %}

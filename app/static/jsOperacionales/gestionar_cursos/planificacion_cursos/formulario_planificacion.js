@@ -35,7 +35,6 @@ var app = new Vue({
                 axios
                 .get(`/cursos/planificacion_cursos/get_detalle_asignaturas/${idplan}/${idcurso}`)
                 .then(res => {
-                    //console.log(res);
                     this.det_asignaturas = res.data
                 })
                 .catch(error => {
@@ -81,7 +80,6 @@ var app = new Vue({
                     , fecha_inicio: this.fecha_inicio
                     , fecha_fin: this.fecha_fin
                 }
-                console.log(data);
                 axios
                     .post(`/cursos/planificacion_cursos/agregar_asignatura`, data)
                     .then(res => {                
@@ -115,6 +113,11 @@ var app = new Vue({
                 $.alert('Por favor verifique alguna de las opciones, no deben quedar vacias');
                 return false;
             }
+        }
+        , detalleAsignatura(item) {
+            console.log(item);
+            sessionStorage.setItem('asignatura_data', JSON.stringify(item));
+            location.href = `/cursos/planificacion_cursos/form_frecuencia_asignatura`;
         }
     },
     mounted() {
