@@ -7,7 +7,7 @@
 var app = new Vue({
     el: '#app'
     , data: {
-        editar: sessionStorage.getItem('editar')
+        editar: sessionStorage.getItem('editar')=='false'?false:true
         , idmalla: sessionStorage.getItem('idmalla')
         , anio_des: parseInt(sessionStorage.getItem('anio_des'))
         , fecha_actual: null

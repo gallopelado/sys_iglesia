@@ -1,7 +1,8 @@
 var app = new Vue({
     el:'#app'
     , data: {
-        data_asignatura:JSON.parse(sessionStorage.getItem('asignatura_data'))
+        editar: sessionStorage.getItem('editar')=='false'?false:true
+        , data_asignatura:JSON.parse(sessionStorage.getItem('asignatura_data'))
         , idmalla:null
         , cur_des:null
         , per_des:null

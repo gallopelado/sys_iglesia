@@ -76,7 +76,7 @@
 
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
-                    <div class="card">
+                    <div class="card" :style="editar == false ? 'display:none' : ''">
                         <div class="card-header"></div>
                         <script type="application/javascript">
                             var idmalla = "{{idmalla}}";
@@ -155,7 +155,7 @@
                                         <td v-text="item.frma_horainicio" style="text-align: center;"></td>
                                         <td v-text="item.frma_horafin" style="text-align: center;"></td>
                                         <td><button type="button" class="btn btn-danger btn-sm"
-                                                @click="eliminarHorario(item)">Eliminar</button></td>
+                                                @click="eliminarHorario(item)" :style="editar == false ? 'display:none' : ''">Eliminar</button></td>
                                     </tr>
                                 </tbody>
                             </table>

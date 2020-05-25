@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         //Esto muestra todo el objeto json traido de AJAX.
         sessionStorage.setItem('anio_des', data.anho_des)
         sessionStorage.setItem('editar', false);
-        //location.href = `/cursos/malla_curricular/form_malla_curricular/${data.idmalla}`;
+        sessionStorage.setItem('fecharegistro', data.fecharegistro);
+        location.href = `/cursos/planificacion_cursos/form_planificacion/${data.idmalla}`;
      });
 
 });
