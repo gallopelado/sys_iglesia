@@ -53,7 +53,7 @@ var app = new Vue({
                     .post(`/cursos/planificacion_cursos/agregar_curso`, data)
                     .then(res => {                
                         if(res.data.codigo == '23505') {
-                            $.alert('Este curso ya esta registrado!');
+                            $.alert('Este curso ya esta registrado o desactivado!');
                         } else if(res.data.nrofilas > 0) {
                             $.alert('Esta operacion fue exitosa!');
                         }
@@ -84,7 +84,7 @@ var app = new Vue({
                     .post(`/cursos/planificacion_cursos/agregar_asignatura`, data)
                     .then(res => {                
                         if(res.data.codigo == '23505') {
-                            $.alert('Este curso ya esta registrado!');
+                            $.alert('Esta asignatura ya esta registrado o desactivado!');
                         } else if(res.data.nrofilas > 0) {
                             $.alert('Esta operacion fue exitosa!');
                             this.getDetalleAsignaturas();
@@ -95,6 +95,31 @@ var app = new Vue({
                     });
             }
         }
+
+        , anularAsignatura(item) {
+            const op = confirm('Dese anular este curso ?');
+            if(op) {
+                const data = {
+                    //malla_id, asi_id, num_id, per_id, turno, cur_id
+                    malla_id: item.malla_id, asi_id: item.asi_id, num_id: item.num_id
+                    , per_id: item.idmaestro, turno: item.turno, cur_id: item.cur_id
+                }
+                axios
+                .put(`/cursos/planificacion_cursos/anular_asignatura`, data)
+                .then(res => {                
+                    if(res.data.codigo == '23505') {
+                        $.alert('Esta asignatura ya esta registrado o desactivado!');
+                    } else if(res.data.nrofilas > 0) {
+                        $.alert('Esta operacion fue exitosa!');
+                        this.getDetalleAsignaturas();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
+        }
+
         , validarFechas() {
             const anio_des = this.anio_des;
             const fecha_inicio = new Date(this.fecha_inicio);

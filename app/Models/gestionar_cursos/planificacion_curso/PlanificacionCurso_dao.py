@@ -48,7 +48,7 @@ class PlanificacionCurso_dao(Conexion):
         LEFT JOIN referenciales.asignatura_tomo asit ON asit.asi_id = asi.asi_id AND asit.num_id = dt.num_id 
         LEFT JOIN referenciales.numero_asignatura nas ON nas.num_id = asit.num_id 
         LEFT JOIN referenciales.personas pe ON pe.per_id = dt.per_id
-        WHERE dt.malla_id = %s AND dt.cur_id = %s
+        WHERE dt.malla_id = %s AND dt.cur_id = %s AND dt.estado is TRUE
         ORDER BY nas.num_des
         '''
         try:
@@ -146,6 +146,26 @@ class PlanificacionCurso_dao(Conexion):
             conn = self.getConexion()
             cur = conn.cursor()
             cur.execute(insertSQL, (malla_id, cur_id,))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+    
+    def anularAsignaturaMaestro(self, malla_id, asi_id, num_id, per_id, turno, cur_id):
+        res = {}
+        updateSQL = '''UPDATE cursos.detalle_planificacion
+        SET estado=false
+        WHERE malla_id=%s AND asi_id=%s AND num_id=%s AND per_id=%s AND turno=%s AND cur_id=%s'''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(updateSQL, (malla_id, asi_id, num_id, per_id, turno, cur_id,))
             conn.commit()
             return {'nrofilas':cur.rowcount}
         except conn.Error as e:

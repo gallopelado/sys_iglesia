@@ -33,6 +33,9 @@ class PlanificacionCursoServices:
     def registrarCurso(self, malla_id, cur_id):
         return self.__plan_dao.registrarCurso(malla_id, cur_id)
 
+    def anularAsignaturaMaestro(self, malla_id, asi_id, num_id, per_id, turno, cur_id):
+        return self.__plan_dao.anularAsignaturaMaestro(malla_id, asi_id, num_id, per_id, turno, cur_id)
+
     def registrarDetallePlan(self, malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno):
         return self.__plan_dao.registrarDetallePlan(malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno)
 

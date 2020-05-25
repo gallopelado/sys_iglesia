@@ -50,6 +50,17 @@ def agregarAsignatura():
     res = plans.registrarDetallePlan(malla_id, asi_id, num_id, per_id, cur_id, fechainicio, fechafin, turno)
     return jsonify(res)
 
+@pcr.route('/anular_asignatura', methods=['PUT'])
+def anularAsignaturaMaestro():
+    malla_id = request.json['malla_id'] 
+    asi_id = request.json['asi_id']
+    num_id = request.json['num_id']
+    per_id = request.json['per_id']
+    turno = request.json['turno']
+    cur_id = request.json['cur_id']
+    plans = PlanificacionCursoServices()
+    res = plans.anularAsignaturaMaestro(malla_id, asi_id, num_id, per_id, turno, cur_id)
+    return jsonify(res)
 
 @pcr.route('/get_fecha_actual')
 def getFechaActual():
