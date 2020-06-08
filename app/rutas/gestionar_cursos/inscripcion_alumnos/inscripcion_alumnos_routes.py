@@ -28,3 +28,12 @@ def getListaAlumnosRegistrados(malla_id, curso_id):
     ins = InscripcionAlumnoServices()
     data = ins.getListaAlumnosRegistrados(malla_id, curso_id)
     return jsonify(data)
+
+@insa.route('/inscribir_alumno', methods=['POST'])
+def inscribirAlumno():
+    alumno = {
+        'malla_id': request.json['malla_id'], 'curso_id': request.json['curso_id'], 'per_id': request.json['per_id']
+    }
+    ins = InscripcionAlumnoServices()
+    data = ins.inscribirAlumnoCurso(alumno)
+    return jsonify(data)

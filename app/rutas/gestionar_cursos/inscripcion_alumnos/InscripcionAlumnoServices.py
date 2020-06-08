@@ -24,4 +24,7 @@ class InscripcionAlumnoServices:
         return self.__ins_dao.getPersonas()
 
     def getListaAlumnosRegistrados(self, malla_id, curso_id):
-        return self.__ins_dao.getListaAlumnosRegistrados(malla_id, curso_id)
+        return self.__ins_dao.getListaAlumnosRegistradosInscripcion(malla_id, curso_id)
+
+    def inscribirAlumnoCurso(self, alumno):
+       return self.__ins_dao.insertarAlumno(alumno) 

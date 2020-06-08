@@ -70,6 +70,41 @@ class InscripcionAlumno_dao(Conexion):
             if conn is not None:
                 cur.close()
                 conn.close()
+        return lista
+
+    def getListaAlumnosRegistradosInscripcion(self, malla_id, curso_id):
+        res = {}
+        lista = []
+        querySQL = '''
+        SELECT malla_id, cur_id, per_id, per_nombres, per_apellidos, estado
+        FROM cursos.inscripcion_curso 
+        LEFT JOIN referenciales.personas using(per_id)
+        WHERE malla_id = %s AND cur_id = %s
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(querySQL, (malla_id, curso_id,))
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['malla_id'] = rs[0]                    
+                    obj['cur_id'] = rs[1]
+                    obj['per_id'] = rs[2] 
+                    obj['per_nombres'] = rs[3]  
+                    obj['per_apellidos'] = rs[4] 
+                    obj['estado'] = rs[5]                  
+                    lista.append(obj)                    
+            
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
         return lista           
 
     def getListaAlumnosRegistrados(self, malla_id, curso_id):
@@ -121,3 +156,25 @@ class InscripcionAlumno_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista
+
+    def insertarAlumno(self, alumno):
+        res = {}
+        insertSQL = '''
+        INSERT INTO cursos.inscripcion_curso
+        (malla_id, cur_id, per_id, estado, creacion_fecha, creacion_usuario)
+        VALUES(%s, %s, %s, true, now(), NULL);
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (alumno['malla_id'], alumno['curso_id'], alumno['per_id'],))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
