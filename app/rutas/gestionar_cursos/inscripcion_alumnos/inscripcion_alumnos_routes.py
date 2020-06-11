@@ -10,6 +10,10 @@ def index():
 def formInscripcion():
     return render_template('inscripcion_alumnos/form_inscripcion.html', titulo='Formulario inscripción')
 
+@insa.route('/form_asignatura')
+def formAsignatura():
+    return render_template('inscripcion_alumnos/form_asignatura.html', titulo='Formulario asignatura')
+
 # AJAX
 @insa.route('/get_cursos_planificados')
 def getCursosPlanificados():

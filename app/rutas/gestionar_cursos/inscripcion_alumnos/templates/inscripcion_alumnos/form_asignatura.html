@@ -37,23 +37,49 @@
                         <div class="card-body">
                             
                             <form>
-                                <!--Nombre curso y combo alumno-->
+                                <!-- nombre del alumno, nombre del curso, combo de turnos -->
                                 <div class="form-group row">
-                                    <label for="curso" class="col-sm-12 col-md-2 col-form-label">Curso</label>
+                                    
+                                    <!--nombre del alumno-->
+                                    <label for="curso" class="col-sm-12 col-md-1 col-form-label">Alumno</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <input type="text" class="form-control form-control-sm" v-model="alumno" id="alumno" name="alumno" disabled>
+                                    </div>
+
+                                    <!--nombre del curso-->
+                                    <label for="curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
                                     <div class="col-sm-10 col-md-3">
                                         <input type="text" class="form-control form-control-sm" v-model="curso" id="curso" name="curso" disabled>
                                     </div>
 
-                                    <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Alumno</label>
-                                    <div class="col-sm-10 col-md-4">
-                                        <select name="cbo_alumno" id="cbo_alumno" v-model="cbo_alumno" class="form-control form-control-sm" @change="cbo_alumno ? btn_agregar_estado=true : btn_agregar_estado=false"> 
+                                    <!--combo de turnos-->
+                                    <label for="cbo_turno" class="col-sm-12 col-md-1 col-form-label">Turno</label>
+                                    <div class="col-sm-10 col-md-2">
+                                        <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm"> 
                                             <option value="">...</option>                                           
-                                            <option v-for="item in lista_alumnos" :value="item" v-text="`${item.per_nombres} ${item.per_apellidos} - CI: ${item.per_ci}`"></option>
+                                            <option value="MAÑANA">MAÑANA</option>
+                                            <option value="TARDE">TARDE</option>
+                                            <option value="NOCHE">NOCHE</option>
                                         </select>
-                                    </div>                                    
+                                    </div>    
+                                                                    
                                 </div>
-                                <!--Fin Nombre curso y combo alumno-->
+                                <!---->
                                 
+                                <!-- combo de asignaturas, boton para agregar -->
+                                <div class="form-group row">
+
+                                    <!--combo de asignaturas-->
+                                    <label for="cbo_asignatura" class="col-sm-12 col-md-2 col-form-label">Elegir asignatura</label>
+                                    <div class="col-sm-10 col-md-3">
+                                        <select name="cbo_asignatura" id="cbo_asignatura" v-model="cbo_asignatura" class="form-control form-control-sm"> 
+                                            <option value="">...</option>                                                                                       
+                                        </select>
+                                    </div>  
+                                    
+                                </div>
+                                <!---->
+
                             </form>
 
                         </div>
@@ -67,7 +93,6 @@
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     
-
                     <!--Card para la tabla-->
                     <div class="card">
                         <div class="card-header">
@@ -81,16 +106,17 @@
                             <table id="tabla_alumnos_registrados" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center;">Alumno</th>                                       
+                                        <th style="text-align: center;">Asignaturas</th>
+                                        <th style="text-align: center;">Turno</th>                                       
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
                                     <tr v-for="item in det_alumnos">
-                                        <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>                                        
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm" @click="editarAsignaturas(item)">Asignaturas</button> 
-                                            <button type="button" class="btn btn-danger btn-sm" @click="actualizarEstadoInscripcionAlumno(item.per_id)">Anular</button>
+                                        <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>    
+                                        <th></th>                                    
+                                        <td>                                            
+                                            <button type="button" class="btn btn-danger btn-sm" @click="">Anular</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -126,8 +152,8 @@
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 
 <!-- Controlador -->
-<script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/inscripcion_alumnos/formulario_inscripcion.js') }}"></script>
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/inscripcion_alumnos/formulario_inscripcion.js') }}"></script> -->
 
 
 {% endblock %}

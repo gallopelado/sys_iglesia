@@ -76,6 +76,10 @@ var app = new Vue({
                     console.error(error);
                 });
         }
+        , editarAsignaturas(alumno) {
+            sessionStorage.setItem('alumno_data', JSON.stringify(alumno));
+            location.href = '/cursos/inscripcion_alumnos/form_asignatura';
+        }
     }
     , mounted() {
         this.curso = this.pre_data.curso;
