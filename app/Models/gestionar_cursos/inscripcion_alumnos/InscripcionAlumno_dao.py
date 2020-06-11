@@ -79,7 +79,7 @@ class InscripcionAlumno_dao(Conexion):
         SELECT malla_id, cur_id, per_id, per_nombres, per_apellidos, estado
         FROM cursos.inscripcion_curso 
         LEFT JOIN referenciales.personas using(per_id)
-        WHERE malla_id = %s AND cur_id = %s
+        WHERE malla_id = %s AND cur_id = %s AND estado IS TRUE
         '''
         try:
             conn = self.getConexion()
@@ -163,6 +163,27 @@ class InscripcionAlumno_dao(Conexion):
         INSERT INTO cursos.inscripcion_curso
         (malla_id, cur_id, per_id, estado, creacion_fecha, creacion_usuario)
         VALUES(%s, %s, %s, true, now(), NULL);
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (alumno['malla_id'], alumno['curso_id'], alumno['per_id'],))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def actualizarEstadoInscripcionAlumno(self, alumno):
+        res = {}
+        insertSQL = '''
+        UPDATE cursos.inscripcion_curso SET estado=FALSE, modificacion_fecha=NOW() 
+        WHERE malla_id=%s AND cur_id=%s AND per_id=%s 
         '''
         try:
             conn = self.getConexion()

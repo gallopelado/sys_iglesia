@@ -37,3 +37,12 @@ def inscribirAlumno():
     ins = InscripcionAlumnoServices()
     data = ins.inscribirAlumnoCurso(alumno)
     return jsonify(data)
+
+@insa.route('/actualizar_estado_inscripcion_alumno', methods=['PUT'])
+def actualizarEstadoInscripcionAlumno():
+    alumno = {
+        'malla_id': request.json['malla_id'], 'curso_id': request.json['curso_id'], 'per_id': request.json['per_id']
+    }
+    ins = InscripcionAlumnoServices()
+    data = ins.actualizarEstadoInscripcionAlumno(alumno)
+    return jsonify(data)

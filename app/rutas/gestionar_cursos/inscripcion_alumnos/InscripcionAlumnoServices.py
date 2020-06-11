@@ -28,3 +28,6 @@ class InscripcionAlumnoServices:
 
     def inscribirAlumnoCurso(self, alumno):
        return self.__ins_dao.insertarAlumno(alumno) 
+
+    def actualizarEstadoInscripcionAlumno(self, alumno):
+       return self.__ins_dao.actualizarEstadoInscripcionAlumno(alumno) 

@@ -88,7 +88,10 @@
                                 <tbody id="tb">
                                     <tr v-for="item in det_alumnos">
                                         <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>                                        
-                                        <td><button type="button" class="btn btn-primary btn-sm">Asignaturas</button> <button type="button" class="btn btn-danger btn-sm">Anular</button></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm">Asignaturas</button> 
+                                            <button type="button" class="btn btn-danger btn-sm" @click="actualizarEstadoInscripcionAlumno(item.per_id)">Anular</button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

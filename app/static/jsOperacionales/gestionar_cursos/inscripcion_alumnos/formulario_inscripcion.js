@@ -59,6 +59,23 @@ var app = new Vue({
                 alert('Debe escoger un alumno');
             }            
         }
+        , actualizarEstadoInscripcionAlumno(id) {
+            const alumno = {
+                malla_id: this.malla_id, curso_id: this.cur_id, per_id: id
+            }
+            axios.put(`/cursos/inscripcion_alumnos/actualizar_estado_inscripcion_alumno`, alumno)
+                .then(res => {
+                    if (res.data.codigo == '23505') {
+                        $.alert('Esta persona ya esta registrada o desactivada!');
+                    } else if (res.data.nrofilas > 0) {
+                        $.alert('Esta operacion fue exitosa!');
+                        this.getDetalleAlumnos();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
     }
     , mounted() {
         this.curso = this.pre_data.curso;
