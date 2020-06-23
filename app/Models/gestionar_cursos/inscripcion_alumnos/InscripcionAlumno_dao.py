@@ -199,3 +199,49 @@ class InscripcionAlumno_dao(Conexion):
             if conn is not None:
                 cur.close()
                 conn.close()
+
+    ### Metodos para el formulario de asignatura
+    def obtenerAsignaturas(self, malla_id, curso_id):
+        res = {}
+        lista = []
+        querySQL = '''
+        SELECT 
+            cs.malla_id
+            , cs.cur_id, c.cur_des 
+            , cs.asi_id, asi.asi_des 
+            , cs.num_id, na.num_des 
+            , cs.estado, cs.cant_horas
+        FROM cursos.curso_asignaturas cs
+        LEFT JOIN referenciales.cursos c ON c.cur_id = cs.cur_id 
+        LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = cs.asi_id 
+        LEFT JOIN referenciales.numero_asignatura na ON na.num_id = cs.num_id 
+        WHERE cs.malla_id = %s AND cs.cur_id = %s
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(querySQL, (malla_id, curso_id))
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['malla_id'] = rs[0]                    
+                    obj['cur_id'] = rs[1]
+                    obj['cur_des'] = rs[2] 
+                    obj['asi_id'] = rs[3]  
+                    obj['asi_des'] = rs[4]
+                    obj['num_id'] = rs[5] 
+                    obj['num_des'] = rs[6] 
+                    obj['estado'] = rs[7]
+                    obj['cant_horas'] = rs[8]                  
+                    lista.append(obj)                    
+            
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista

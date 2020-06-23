@@ -31,3 +31,6 @@ class InscripcionAlumnoServices:
 
     def actualizarEstadoInscripcionAlumno(self, alumno):
        return self.__ins_dao.actualizarEstadoInscripcionAlumno(alumno) 
+
+    def obtenerAsignaturas(self, malla_id, curso_id):
+        return self.__ins_dao.obtenerAsignaturas(malla_id, curso_id)

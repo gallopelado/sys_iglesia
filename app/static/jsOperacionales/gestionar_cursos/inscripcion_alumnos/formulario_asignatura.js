@@ -7,17 +7,32 @@
 var app = new Vue({
     el:'#app'
     , data: {
-        pre_data: JSON.parse(sessionStorage.getItem('pre_data'))
+        pre_data: JSON.parse(sessionStorage.getItem('alumno_data'))
+        , alumno: null
+        , cbo_turno: null
         , malla_id: null
         , cur_id: null
         , curso: null
-        , cbo_alumno: null
+        , cbo_asignatura: null
+        , lista_asignaturas: null
         , lista_alumnos: []
         , det_alumnos: []
         , btn_agregar_estado: false 
     }
     , methods: {
-        listaPersonas() {
+        listaAsignaturas() {
+            const malla_id = this.pre_data.malla_id;
+            const curso_id = this.pre_data.cur_id;
+            axios
+            .get(`/cursos/inscripcion_alumnos/get_asignaturas/${malla_id}/${curso_id}`)
+            .then(res => {
+                this.lista_asignaturas = res.data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+        , listaPersonas() {
             axios
             .get(`/cursos/inscripcion_alumnos/get_personas`)
             .then(res => {
@@ -77,17 +92,14 @@ var app = new Vue({
                 });
         }
         , editarAsignaturas(alumno) {
-            alumno['nombre_curso'] = this.pre_data.curso;
             sessionStorage.setItem('alumno_data', JSON.stringify(alumno));
             location.href = '/cursos/inscripcion_alumnos/form_asignatura';
         }
     }
     , mounted() {
-        this.curso = this.pre_data.curso;
-        this.malla_id = this.pre_data.malla_id;
-        this.cur_id = this.pre_data.cur_id;
-        this.listaPersonas();
-        this.getDetalleAlumnos();
+        this.alumno = `${this.pre_data.per_nombres} ${this.pre_data.per_apellidos}`;
+        this.curso = this.pre_data.nombre_curso;
+        this.listaAsignaturas();
     }
     , delimiters: ['[[', ']]']
 }) 

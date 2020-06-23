@@ -55,7 +55,8 @@
                                     <!--combo de turnos-->
                                     <label for="cbo_turno" class="col-sm-12 col-md-1 col-form-label">Turno</label>
                                     <div class="col-sm-10 col-md-2">
-                                        <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm"> 
+                                        <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm"
+                                        @change=" (cbo_asignatura && cbo_turno) ? btn_agregar_estado=true : btn_agregar_estado=false"> 
                                             <option value="">...</option>                                           
                                             <option value="MAÑANA">MAÑANA</option>
                                             <option value="TARDE">TARDE</option>
@@ -72,8 +73,10 @@
                                     <!--combo de asignaturas-->
                                     <label for="cbo_asignatura" class="col-sm-12 col-md-2 col-form-label">Elegir asignatura</label>
                                     <div class="col-sm-10 col-md-3">
-                                        <select name="cbo_asignatura" id="cbo_asignatura" v-model="cbo_asignatura" class="form-control form-control-sm"> 
-                                            <option value="">...</option>                                                                                       
+                                        <select name="cbo_asignatura" id="cbo_asignatura" v-model="cbo_asignatura" class="form-control form-control-sm" 
+                                        @change=" (cbo_asignatura && cbo_turno) ? btn_agregar_estado=true : btn_agregar_estado=false"> 
+                                            <option value="">...</option>    
+                                            <option v-for="item in lista_asignaturas" :value="item" v-text="`${item.asi_des} ${item.num_des}`"></option>                                                                                   
                                         </select>
                                     </div>  
                                     
@@ -84,7 +87,7 @@
 
                         </div>
                         <div class="card-footer">
-                            <button type="button" id="btn_registrar_curso" ref="btn_registrar_curso" class="btn btn-success btn-sm" :disabled="!btn_agregar_estado" @click="inscribirAlumnoCurso()">Agregar</button>
+                            <button type="button" id="btn_registrar_curso" ref="btn_registrar_curso" class="btn btn-success btn-sm" :disabled="!btn_agregar_estado" @click="">Agregar</button>
                         </div>
                     </div>
                 </div>
@@ -152,8 +155,8 @@
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/inscripcion_alumnos/formulario_inscripcion.js') }}"></script> -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/inscripcion_alumnos/formulario_asignatura.js') }}"></script>
 
 
 {% endblock %}

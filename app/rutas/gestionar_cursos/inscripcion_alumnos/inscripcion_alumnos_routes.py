@@ -50,3 +50,10 @@ def actualizarEstadoInscripcionAlumno():
     ins = InscripcionAlumnoServices()
     data = ins.actualizarEstadoInscripcionAlumno(alumno)
     return jsonify(data)
+
+##Endpoints para el formulario asignatura
+@insa.route('/get_asignaturas/<int:malla_id>/<int:curso_id>')
+def getAsignaturas(malla_id, curso_id):
+    ins = InscripcionAlumnoServices()
+    data = ins.obtenerAsignaturas(malla_id, curso_id)
+    return jsonify(data)
