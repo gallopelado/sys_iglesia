@@ -57,3 +57,9 @@ def getAsignaturas(malla_id, curso_id):
     ins = InscripcionAlumnoServices()
     data = ins.obtenerAsignaturas(malla_id, curso_id)
     return jsonify(data)
+
+@insa.route('/get_asignaturas_alumno/<int:malla_id>/<int:curso_id>/<int:per_id>')
+def getAsignaturasAlumno(malla_id, curso_id, per_id):
+    ins = InscripcionAlumnoServices()
+    data = ins.obtenerAsignaturasAlumno(malla_id, curso_id, per_id)
+    return jsonify(data)

@@ -115,9 +115,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
-                                    <tr v-for="item in det_alumnos">
-                                        <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>    
-                                        <th></th>                                    
+                                    <tr v-for="item in lista_asignatura_alumno">
+                                        <th v-text="`${item.asi_des} ${item.num_des}`" style="text-align: center;"></th>    
+                                        <th v-text="item.turno" style="text-align: center;"></th>                                    
                                         <td>                                            
                                             <button type="button" class="btn btn-danger btn-sm" @click="">Anular</button>
                                         </td>

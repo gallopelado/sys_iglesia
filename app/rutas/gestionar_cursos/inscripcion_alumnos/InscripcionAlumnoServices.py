@@ -34,3 +34,6 @@ class InscripcionAlumnoServices:
 
     def obtenerAsignaturas(self, malla_id, curso_id):
         return self.__ins_dao.obtenerAsignaturas(malla_id, curso_id)
+
+    def obtenerAsignaturasAlumno(self, malla_id, curso_id, per_id):
+        return self.__ins_dao.obtenerAsignaturasAlumno(malla_id, curso_id, per_id)

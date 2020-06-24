@@ -15,6 +15,7 @@ var app = new Vue({
         , curso: null
         , cbo_asignatura: null
         , lista_asignaturas: null
+        , lista_asignatura_alumno: null
         , lista_alumnos: []
         , det_alumnos: []
         , btn_agregar_estado: false 
@@ -27,6 +28,20 @@ var app = new Vue({
             .get(`/cursos/inscripcion_alumnos/get_asignaturas/${malla_id}/${curso_id}`)
             .then(res => {
                 this.lista_asignaturas = res.data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+        , listaAsignaturasAlumno() {
+            const malla_id = this.pre_data.malla_id;
+            const curso_id = this.pre_data.cur_id;
+            const per_id = this.pre_data.per_id;
+            
+            axios
+            .get(`/cursos/inscripcion_alumnos/get_asignaturas_alumno/${malla_id}/${curso_id}/${per_id}`)
+            .then(res => {                
+                this.lista_asignatura_alumno = res.data;
             })
             .catch(error => {
                 console.error(error);
@@ -100,6 +115,7 @@ var app = new Vue({
         this.alumno = `${this.pre_data.per_nombres} ${this.pre_data.per_apellidos}`;
         this.curso = this.pre_data.nombre_curso;
         this.listaAsignaturas();
+        this.listaAsignaturasAlumno();
     }
     , delimiters: ['[[', ']]']
 }) 

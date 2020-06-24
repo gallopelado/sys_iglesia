@@ -245,3 +245,46 @@ class InscripcionAlumno_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista
+
+    def obtenerAsignaturasAlumno(self, malla_id, curso_id, per_id):
+        res = {}
+        lista = []
+        querySQL = '''
+        SELECT 
+            di.malla_id, di.cur_id, di.per_id
+            , di.asi_id, asi.asi_des 
+            , di.num_id, na.num_des 
+            , di.turno
+        FROM cursos.detalle_inscripcion di 
+        LEFT JOIN referenciales.asignatura_tomo ati ON ati.asi_id = di.asi_id AND ati.num_id = di.num_id 
+        LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = di.asi_id 
+        LEFT JOIN referenciales.numero_asignatura na ON na.num_id = di.num_id 
+        WHERE di.malla_id = %s AND di.cur_id = %s AND di.per_id = %s
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(querySQL, (malla_id, curso_id, per_id))
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['malla_id'] = rs[0]                    
+                    obj['cur_id'] = rs[1]
+                    obj['per_id'] = rs[2] 
+                    obj['asi_id'] = rs[3]  
+                    obj['asi_des'] = rs[4]
+                    obj['num_id'] = rs[5] 
+                    obj['num_des'] = rs[6] 
+                    obj['turno'] = rs[7]                
+                    lista.append(obj)                    
+            
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista
