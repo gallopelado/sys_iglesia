@@ -47,64 +47,40 @@ var app = new Vue({
                 console.error(error);
             });
         }
-        , listaPersonas() {
-            axios
-            .get(`/cursos/inscripcion_alumnos/get_personas`)
-            .then(res => {
-                this.lista_alumnos = res.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
-        , getDetalleAlumnos() {            
-            axios
-            .get(`/cursos/inscripcion_alumnos/get_lista_alumnos_registrados/${this.malla_id}/${this.cur_id}`)
-            .then(res => {
-                this.det_alumnos = res.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
-        , inscribirAlumnoCurso() {
-            //alumno['malla_id'], alumno['curso_id'], alumno['per_id']
-            if(this.cbo_alumno) {
-                const alumno = {
-                    malla_id: this.malla_id, curso_id: this.cur_id, per_id: this.cbo_alumno.per_id
-                }
-                axios.post(`/cursos/inscripcion_alumnos/inscribir_alumno`, alumno)
-                .then(res => {
-                    if(res.data.codigo == '23505') {
-                        $.alert('Esta persona ya esta registrada o desactivada!');
-                    } else if(res.data.nrofilas > 0) {
-                        $.alert('Esta operacion fue exitosa!');
-                        this.getDetalleAlumnos();
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-            } else {
-                alert('Debe escoger un alumno');
-            }            
-        }
-        , actualizarEstadoInscripcionAlumno(id) {
-            const alumno = {
-                malla_id: this.malla_id, curso_id: this.cur_id, per_id: id
+        
+        , agregarAsignaturaAlumno() {
+            //asignatura['malla_id'], asignatura['curso_id'], asignatura['per_id'], asignatura['asi_id'], asignatura['num_id'], asignatura['turno']
+            const asignatura = {
+                malla_id: this.pre_data.malla_id, curso_id: this.pre_data.cur_id, per_id: this.pre_data.per_id
+                , turno: this.cbo_turno, asi_id: this.cbo_asignatura.asi_id, num_id: this.cbo_asignatura.num_id
             }
-            axios.put(`/cursos/inscripcion_alumnos/actualizar_estado_inscripcion_alumno`, alumno)
+            axios.post(`/cursos/inscripcion_alumnos/guardar_asignatura_alumno`, asignatura)
                 .then(res => {
                     if (res.data.codigo == '23505') {
-                        $.alert('Esta persona ya esta registrada o desactivada!');
+                        $.alert('Esta asignatura ya esta registrada !');
                     } else if (res.data.nrofilas > 0) {
                         $.alert('Esta operacion fue exitosa!');
-                        this.getDetalleAlumnos();
+                        this.listaAsignaturasAlumno();
                     }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        }
+        , anularAsignaturaAlumno(item) {
+            const asignatura = {
+                malla_id: item.malla_id, curso_id: item.cur_id, per_id: item.per_id
+                , turno: item.turno, asi_id: item.asi_id, num_id: item.num_id
+            }
+            axios.put(`/cursos/inscripcion_alumnos/anular_asignatura_alumno`, asignatura)
+            .then(res => {
+                if (res.data.codigo == '23505') {
+                    $.alert('Esta asignatura ya esta registrada !');
+                } else if (res.data.nrofilas > 0) {
+                    $.alert('Esta operacion fue exitosa!');
+                    this.listaAsignaturasAlumno();
+                }
+            })
         }
         , editarAsignaturas(alumno) {
             sessionStorage.setItem('alumno_data', JSON.stringify(alumno));

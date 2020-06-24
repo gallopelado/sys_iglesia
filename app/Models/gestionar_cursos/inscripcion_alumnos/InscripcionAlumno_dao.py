@@ -259,7 +259,7 @@ class InscripcionAlumno_dao(Conexion):
         LEFT JOIN referenciales.asignatura_tomo ati ON ati.asi_id = di.asi_id AND ati.num_id = di.num_id 
         LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = di.asi_id 
         LEFT JOIN referenciales.numero_asignatura na ON na.num_id = di.num_id 
-        WHERE di.malla_id = %s AND di.cur_id = %s AND di.per_id = %s
+        WHERE di.malla_id = %s AND di.cur_id = %s AND di.per_id = %s AND di.estado != 'ANULADO'
         '''
         try:
             conn = self.getConexion()
@@ -288,3 +288,47 @@ class InscripcionAlumno_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista
+
+    def guardarAsignaturaAlumno(self, asignatura):
+        res = {}
+        insertSQL = '''
+        INSERT INTO cursos.detalle_inscripcion
+        (malla_id, cur_id, per_id, asi_id, num_id, turno, estado, creacion_fecha, creacion_usuario)
+        VALUES(%s, %s, %s, %s, %s, %s, 'INSCRIPTO', now(), NULL);
+
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (asignatura['malla_id'], asignatura['curso_id'], asignatura['per_id'], asignatura['asi_id'], asignatura['num_id'], asignatura['turno']))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def anularAsignaturaAlumno(self, asignatura):
+        res = {}
+        insertSQL = '''
+        UPDATE cursos.detalle_inscripcion SET estado='ANULADO'
+        WHERE malla_id=%s AND cur_id=%s AND per_id=%s AND asi_id=%s AND num_id=%s AND turno=%s
+        '''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(insertSQL, (asignatura['malla_id'], asignatura['curso_id'], asignatura['per_id'], asignatura['asi_id'], asignatura['num_id'], asignatura['turno']))
+            conn.commit()
+            return {'nrofilas':cur.rowcount}
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()

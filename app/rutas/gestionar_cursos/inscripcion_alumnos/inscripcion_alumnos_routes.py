@@ -63,3 +63,30 @@ def getAsignaturasAlumno(malla_id, curso_id, per_id):
     ins = InscripcionAlumnoServices()
     data = ins.obtenerAsignaturasAlumno(malla_id, curso_id, per_id)
     return jsonify(data)
+
+@insa.route('/guardar_asignatura_alumno', methods=['POST'])
+def guardarAsignaturaAlumno():
+    ins = InscripcionAlumnoServices()
+    res = {}
+    #asignatura['malla_id'], asignatura['curso_id'], asignatura['per_id'], asignatura['asi_id'], asignatura['num_id'], asignatura['turno']
+    res['malla_id'] = request.json['malla_id']
+    res['curso_id'] = request.json['curso_id']
+    res['per_id'] = request.json['per_id']
+    res['asi_id'] = request.json['asi_id']
+    res['num_id'] = request.json['num_id']
+    res['turno'] = request.json['turno']
+    data = ins.guardarAsignaturaAlumno(res)
+    return jsonify(data)
+
+@insa.route('/anular_asignatura_alumno', methods=['PUT'])
+def anularAsignaturaAlumno():
+    ins = InscripcionAlumnoServices()
+    res = {}
+    res['malla_id'] = request.json['malla_id']
+    res['curso_id'] = request.json['curso_id']
+    res['per_id'] = request.json['per_id']
+    res['asi_id'] = request.json['asi_id']
+    res['num_id'] = request.json['num_id']
+    res['turno'] = request.json['turno']
+    data = ins.anularAsignaturaAlumno(res)
+    return jsonify(data)

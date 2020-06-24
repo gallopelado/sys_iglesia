@@ -1,6 +1,5 @@
 from app.Models.gestionar_cursos.inscripcion_alumnos.InscripcionAlumno_dao import InscripcionAlumno_dao
 
-
 class InscripcionAlumnoServices:
 
     def __init__(self):
@@ -37,3 +36,9 @@ class InscripcionAlumnoServices:
 
     def obtenerAsignaturasAlumno(self, malla_id, curso_id, per_id):
         return self.__ins_dao.obtenerAsignaturasAlumno(malla_id, curso_id, per_id)
+
+    def guardarAsignaturaAlumno(self, res):
+        return self.__ins_dao.guardarAsignaturaAlumno(res)
+
+    def anularAsignaturaAlumno(self, res):
+        return self.__ins_dao.anularAsignaturaAlumno(res)
