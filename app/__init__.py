@@ -73,6 +73,7 @@ from app.rutas.gestionar_actividades.consejeria.consejeria_routes import cmi
 from app.rutas.gestionar_cursos.malla_curricular.malla_curricular_routes import mc
 from app.rutas.gestionar_cursos.planificacion_cursos.planificacion_cursos_routes import pcr
 from app.rutas.gestionar_cursos.inscripcion_alumnos.inscripcion_alumnos_routes import insa
+from app.rutas.gestionar_cursos.asistencia_alumnos.asistencia_alumnos_routes import asial
 
 # modulos de informes
 # Instancia de informes para Mantenimiento y Seguridad
@@ -123,6 +124,7 @@ modulo3 = '/cursos'
 app.register_blueprint(mc, url_prefix=f'{modulo3}/malla_curricular')
 app.register_blueprint(pcr, url_prefix=f'{modulo3}/planificacion_cursos')
 app.register_blueprint(insa, url_prefix=f'{modulo3}/inscripcion_alumnos')
+app.register_blueprint(asial, url_prefix=f'{modulo3}/asistencia_alumnos')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
