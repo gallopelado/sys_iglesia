@@ -22,6 +22,13 @@ var app = new Vue({
                 console.error(error);
             })
         }
+        , cargarAsistencia(item) {
+            if(item) {
+                item.turno = this.turno;
+                sessionStorage.setItem('asistencia_data', JSON.stringify(item));
+                location.href = `/cursos/asistencia_alumnos/form_asistencia`;
+            }
+        }
         , formatearTabla() {
             $('#tabla_curso').DataTable({
                 "language": idioma_spanish

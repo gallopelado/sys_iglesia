@@ -6,6 +6,10 @@ asial = Blueprint('asistencia_alumnos', __name__, template_folder='templates')
 def index():
     return render_template('asistencia_alumnos/index.html', titulo="Registrar asistencia de alumnos")
 
+@asial.route('/form_asistencia')
+def formAsistencia():
+    return render_template('asistencia_alumnos/form_asistencia.html', titulo="Formulario asistencia")
+
 # AJAX
 @asial.route('/lista_profesor_cursos_asignatura/<int:idmalla>/<string:turno>/<int:idprofesor>')
 def getListaProfesorCursosAsignatura(idmalla, turno, idprofesor):
