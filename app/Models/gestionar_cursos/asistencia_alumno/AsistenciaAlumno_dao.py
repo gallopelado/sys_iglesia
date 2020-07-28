@@ -9,7 +9,7 @@ class AsistenciaAlumno_dao(Conexion):
         res = {}
         lista = []
         querySQL = '''SELECT malla_id, cur_id, asi_id, num_id, per_id, cur_des, asi_des, num_des, dia, fecha::VARCHAR, fecha_formatolargo(fecha)fecha_larga 
-        FROM cursos.lista_cursos_fecha(%s, %s, %s)'''
+        FROM cursos.lista_cursos_fecha(%s, %s, %s) ORDER BY fecha ASC'''
         try:
             conn = self.getConexion()
             cur = conn.cursor()

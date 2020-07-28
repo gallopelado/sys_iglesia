@@ -12,11 +12,13 @@ var app = new Vue({
         , turno: null
         , descripcion: null
         , det_alumnos: null
+        , fecha_clase: null
     }
     , mounted() {
-        this.materia =  this.asistencia_data.asi_des
+        this.materia =  `${this.asistencia_data.asi_des} ${this.asistencia_data.num_des}`;
         this.curso =  this.asistencia_data.cur_des
         this.turno =  this.asistencia_data.turno
+        this.fecha_clase = this.asistencia_data.fecha_larga
     }
     , delimiters: ['[[', ']]']
 });
