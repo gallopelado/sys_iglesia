@@ -18,7 +18,7 @@
 
 {% block content %}
 <!-- MAIN CONTENT-->
-<div class="main-content">
+<div class="main-content" id="app">
 
     <!-- Contenido principal -->
     <div class="section__content section__content--p30">
@@ -44,10 +44,19 @@
                                             <th>Curso</th>
                                             <th>Asignatura</th>
                                             <th>Fecha</th>                                                                                       
-                                            <th class="text-right">Acciones</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tb">                                                                      
+                                    <tbody id="tb">
+                                        <tr v-for="item in lista_asistencias">
+                                            <td v-text="item.cur_des"></td>
+                                            <td v-text="item.asi_des"></td>
+                                            <td v-text="item.fecha_larga"></td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm" @click="">Ver</button> 
+                                                <button type="button" class="btn btn-danger btn-sm" @click="">Cargar</button>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             
@@ -77,6 +86,7 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 <!-- JS de Moment -->
 <script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
 <!-- Vue Js -->
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- Controlador -->

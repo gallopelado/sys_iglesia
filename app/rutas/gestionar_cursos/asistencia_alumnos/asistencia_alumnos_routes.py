@@ -7,8 +7,8 @@ def index():
     return render_template('asistencia_alumnos/index.html', titulo="Registrar asistencia de alumnos")
 
 # AJAX
-@asial.route('/lista_profesor_cursos_asignatura/<string:turno>/<int:idprofesor>')
-def getListaProfesorCursosAsignatura(turno, idprofesor):
+@asial.route('/lista_profesor_cursos_asignatura/<int:idmalla>/<string:turno>/<int:idprofesor>')
+def getListaProfesorCursosAsignatura(idmalla, turno, idprofesor):
     asi = AsistenciaAlumnoServices()
-    data = asi.getListaProfesorCursosAsignatura(turno, idprofesor)
+    data = asi.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor)
     return jsonify(data)
