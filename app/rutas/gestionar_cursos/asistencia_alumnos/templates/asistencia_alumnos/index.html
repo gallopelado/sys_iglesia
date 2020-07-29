@@ -34,6 +34,33 @@
                     <div class="card">
 
                         <div class="card-header">
+                            <div class="row">
+                                <label for="cbo_turno" class="col-sm-12 col-md-1 col-form-label">Turno</label>
+                                <div class="col-sm-10 col-md-2">
+                                    <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm"
+                                        @change="listarClasesMaestro()">
+                                        <option value="">...</option>
+                                        <option v-for="item in lista_turnos" :value="item" v-text="item"></option>
+                                    </select>
+                                </div>
+                                <label for="cbo_curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                <div class="col-sm-10 col-md-3">
+                                    <select name="cbo_curso" id="cbo_curso" v-model="cbo_curso" class="form-control form-control-sm"
+                                        @change="listarAsignaturasPorCurso()">
+                                        <option value="" selected>...</option>
+                                        <option v-for="item in lista_cursos" :value="item" v-text="item.cur_des"></option>
+                                    </select>
+                                </div>
+                                <label for="cbo_asignatura" class="col-sm-12 col-md-2 col-form-label">Asignatura</label>
+                                <div class="col-sm-10 col-md-3">
+                                    <select name="cbo_asignatura" id="cbo_asignatura" v-model="cbo_asignatura" class="form-control form-control-sm"
+                                        @change="">
+                                        <option value="">...</option>
+                                        <option v-for="item in lista_asignaturas" :value="item" v-text="`${item.asi_des} ${item.num_des}`"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            
                             
                         </div>
                         <div class="card-body">

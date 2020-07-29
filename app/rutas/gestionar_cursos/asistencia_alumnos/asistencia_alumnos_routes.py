@@ -17,6 +17,18 @@ def getListaProfesorCursosAsignatura(idmalla, turno, idprofesor):
     data = asi.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor)
     return jsonify(data)
 
+@asial.route('/lista_cursos_maestro/<int:idmalla>/<int:idprofesor>')
+def getCursosMaestro(idmalla, idprofesor):
+    asi = AsistenciaAlumnoServices()
+    data = asi.getCursosMaestro(idmalla, idprofesor)
+    return jsonify(data)
+
+@asial.route('/lista_asignatura_maestro/<int:idmalla>/<int:idprofesor>/<int:idcurso>')
+def getAsignaturaMaestro(idmalla, idprofesor, idcurso):
+    asi = AsistenciaAlumnoServices()
+    data = asi.getAsignaturaMaestro(idmalla, idprofesor, idcurso)
+    return jsonify(data)
+
 @asial.route('/lista_alumnos_curso/<int:idmalla>/<int:cur_id>/<int:asi_id>/<int:num_id>/<string:turno>')
 def getListaAlumnosCurso(idmalla, cur_id, asi_id, num_id, turno):
     asi = AsistenciaAlumnoServices()
