@@ -5,3 +5,6 @@ class AsistenciaAlumnoServices:
 
     def getListaProfesorCursosAsignatura(self, idmalla, turno, idprofesor):
         return self.__inscr.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor)
+
+    def getListaAlumnosAsignatura(self, idmalla, cur_id, asi_id, num_id, turno):
+        return self.__inscr.getListaAlumnosAsignatura(idmalla, cur_id, asi_id, num_id, turno)

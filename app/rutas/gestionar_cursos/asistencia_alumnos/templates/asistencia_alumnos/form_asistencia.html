@@ -90,14 +90,30 @@
                             <table id="tabla_alumnos_registrados" class="table table-borderless table-data3">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center;">Alumno</th>                                       
-                                        <th class="text-right">Acciones</th>
+                                        <th style="text-align: center;">Alumno</th>
+                                        <th style="text-align: center;">Asistió</th>
+                                        <th style="text-align: center;">Puntual</th>                                       
+                                        <th class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
                                     <tr v-for="item in det_alumnos">
                                         <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>                                        
-                                        <td>
+                                        <td style="text-align: center;">
+                                            <label class="switch switch-3d switch-primary mr-3">
+                                                <input type="checkbox" class="switch-input">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <label class="switch switch-3d switch-primary mr-3">
+                                                <input type="checkbox" class="switch-input">
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                        <td style="text-align: center;">
                                             <button type="button" class="btn btn-primary btn-sm" @click="editarAsignaturas(item)">Asignaturas</button> 
                                             <button type="button" class="btn btn-danger btn-sm" @click="actualizarEstadoInscripcionAlumno(item.per_id)">Anular</button>
                                         </td>
