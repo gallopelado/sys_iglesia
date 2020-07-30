@@ -1,4 +1,6 @@
-create or replace function cursos.obtener_dias_activos_segun_fecha(idmalla integer, vturno turno, idprofesor integer)
+create or replace function cursos.obtener_dias_activos_segun_fecha(
+	idmalla integer, vturno turno, idprofesor integer, idcurso integer, idasignatura integer, idnumeroasignatura integer
+)
 returns table(v_malla_id integer, v_cur_id integer, v_asi_id integer, v_num_id integer, v_per_id integer, v_cur_des text, v_asi_des text, v_num_des text, v_fecha_inicio date, v_fecha_fin date, v_dias json) as
 $$
 /**
@@ -9,7 +11,7 @@ $$
  * Descripción: Segun consulta se obtienen los dias activos por asignatura.
  * El formato para los dias es en formato JSON, se muestra ejemplo:
  * '{"DOMINGO":false, "LUNES":false, "MARTES":false, "MIERCOLES":false, "JUEVES":false, "VIERNES":false, "SABADO":false}'
- * 
+ * version: 0.3
  */
 declare
 	dias json := '{"DOMINGO":false, "LUNES":false, "MARTES":false, "MIERCOLES":false, "JUEVES":false, "VIERNES":false, "SABADO":false}';
@@ -37,7 +39,9 @@ begin
 		LEFT JOIN referenciales.personas p ON p.per_id = m.per_id 
 		LEFT JOIN cursos.malla_curricular mc ON mc.malla_id = dp.malla_id 
 		INNER JOIN cursos.frecuencia_materia fm ON fm.malla_id = dp.malla_id AND fm.asi_id = dp.asi_id AND fm.num_id = dp.num_id AND fm.turno = dp.turno AND fm.cur_id = dp.cur_id 
-		WHERE mc.estado IS TRUE AND dp.malla_id = idmalla  AND dp.turno = vturno AND dp.per_id = idprofesor
+		WHERE 
+			mc.estado IS TRUE AND dp.malla_id = idmalla  AND dp.turno = vturno AND dp.per_id = idprofesor 
+			AND dp.cur_id = idcurso AND dp.asi_id = idasignatura AND dp.num_id = idnumeroasignatura
 		group by dp.malla_id, dp.cur_id, dp.asi_id, na.num_id, dp.per_id, c.cur_des, a.asi_des, na.num_des, dp.fechainicio, dp.fechafin;
 		
 		if acumu is null then

@@ -20,8 +20,11 @@ var app = new Vue({
     }
     , methods: {
         listarClasesMaestro() {
-            const cbo_turno = !this.cbo_turno ? 'NOCHE': this.cbo_turno 
-            axios.get(`/cursos/asistencia_alumnos/lista_profesor_cursos_asignatura/${this.idmalla}/${cbo_turno}/${this.idmaestro}`)
+            const cbo_turno = !this.cbo_turno ? 'NOCHE': this.cbo_turno;
+            const cbo_curso = !this.cbo_curso ? '1' : this.cbo_curso.cur_id;
+            const cbo_asignatura = !this.cbo_asignatura ? '1' : this.cbo_asignatura;
+            const num_id = !this.cbo_asignatura ? '1' : this.cbo_asignatura.num_id;
+            axios.get(`/cursos/asistencia_alumnos/lista_profesor_cursos_asignatura/${this.idmalla}/${cbo_turno}/${this.idmaestro}/${cbo_curso}/${cbo_asignatura.asi_id}/${num_id}`)
             .then(res => {
                 if(res.data.codigo) {
                     this.lista_asistencias = [];

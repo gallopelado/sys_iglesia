@@ -11,10 +11,10 @@ def formAsistencia():
     return render_template('asistencia_alumnos/form_asistencia.html', titulo="Formulario asistencia")
 
 # AJAX
-@asial.route('/lista_profesor_cursos_asignatura/<int:idmalla>/<string:turno>/<int:idprofesor>')
-def getListaProfesorCursosAsignatura(idmalla, turno, idprofesor):
+@asial.route('/lista_profesor_cursos_asignatura/<int:idmalla>/<string:turno>/<int:idprofesor>/<int:idcurso>/<int:idasignatura>/<int:idnumeroasignatura>')
+def getListaProfesorCursosAsignatura(idmalla, turno, idprofesor, idcurso, idasignatura, idnumeroasignatura):
     asi = AsistenciaAlumnoServices()
-    data = asi.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor)
+    data = asi.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor, idcurso, idasignatura, idnumeroasignatura)
     return jsonify(data)
 
 @asial.route('/lista_cursos_maestro/<int:idmalla>/<int:idprofesor>')

@@ -3,8 +3,8 @@ class AsistenciaAlumnoServices:
     def __init__(self):
         self.__inscr = AsistenciaAlumno_dao()
 
-    def getListaProfesorCursosAsignatura(self, idmalla, turno, idprofesor):
-        return self.__inscr.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor)
+    def getListaProfesorCursosAsignatura(self, idmalla, turno, idprofesor, idcurso, idasignatura, idnumeroasignatura):
+        return self.__inscr.getListaProfesorCursosAsignatura(idmalla, turno, idprofesor, idcurso, idasignatura, idnumeroasignatura)
 
     def getCursosMaestro(self, idmalla, idprofesor):
         return self.__inscr.getCursosMaestro(idmalla, idprofesor)

@@ -1,6 +1,16 @@
-create or replace function cursos.lista_cursos_fecha(idmalla integer, turno turno, idprofesor integer)
+create or replace function cursos.lista_cursos_fecha(
+	idmalla integer, turno turno, idprofesor integer, idcurso integer, idasignatura integer, idnumeroasignatura integer
+)
 returns table(malla_id integer, cur_id integer, asi_id integer, num_id integer, per_id integer, cur_des text, asi_des text, num_des text, dia text, fecha date) as
 $$
+/**
+ * Procedimiento: lista_cursos_fecha
+ * Autor: Juan José González Ramírez
+ * Fecha creación: 2020-07-21
+ * Parametros: idmalla integer, turno turno, idprofesor integer, idcurso integer, idasignatura integer, idnumeroasignatura integer
+ * Descripción: Segun parametros, se obtienen los dias de una asignatura, segun curso y turno, docente.
+ * version: 0.3
+ */
 declare
 	malla_id integer;
 	cur_id integer;
@@ -18,7 +28,7 @@ begin
 	--cargar fila 
 	select v_malla_id, v_cur_id, v_asi_id, v_num_id, v_per_id, v_cur_des, v_asi_des, v_num_des, v_fecha_inicio, v_fecha_fin, v_dias 
 	into   malla_id,   cur_id,   asi_id,   num_id,   per_id,   cur_des,   asi_des,   num_des,   fecha_inicio,   fecha_fin,   dias
-	from cursos.obtener_dias_activos_segun_fecha(idmalla, turno, idprofesor);
+	from cursos.obtener_dias_activos_segun_fecha(idmalla, turno, idprofesor, idcurso, idasignatura, idnumeroasignatura);
 	
 	drop table if exists temporal_data;
 	create temp table temporal_data(v_malla_id integer, v_cur_id integer, v_asi_id integer, v_num_id integer, v_per_id integer
@@ -33,6 +43,6 @@ begin
 end
 $$ language plpgsql;
 
-select * from cursos.lista_cursos_fecha(2, 'NOCHE', 2)
+select * from cursos.lista_cursos_fecha(2, 'NOCHE', 2, 1, 1, 3);
 
 select * from cursos.obtener_dias_activos_segun_fecha(2, 'NOCHE', 2)
