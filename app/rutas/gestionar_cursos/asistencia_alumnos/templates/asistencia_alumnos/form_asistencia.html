@@ -100,14 +100,14 @@
                                         <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>                                        
                                         <td style="text-align: center;">
                                             <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="checkbox" class="switch-input">
+                                                <input type="checkbox" class="switch-input" ref="chk_asistio" :id="item.idalumno" @click="agregaAsistencia(item)">
                                                 <span class="switch-label"></span>
                                                 <span class="switch-handle"></span>
                                             </label>
                                         </td>
                                         <td style="text-align: center;">
                                             <label class="switch switch-3d switch-primary mr-3">
-                                                <input type="checkbox" class="switch-input">
+                                                <input type="checkbox" class="switch-input" ref="chk_puntual" :id="item.idalumno" @click="agregaPuntualidad(item)" disabled>
                                                 <span class="switch-label"></span>
                                                 <span class="switch-handle"></span>
                                             </label>
@@ -117,6 +117,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
+                            <button type="button" id="btn_registrar_curso" class="btn btn-success" @click="guardar()">Guardar</button>
                             {{ pintar_alerta(messages) }}
                         </div>
                     </div>

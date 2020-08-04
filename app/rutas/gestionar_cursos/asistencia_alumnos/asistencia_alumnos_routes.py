@@ -34,3 +34,8 @@ def getListaAlumnosCurso(idmalla, cur_id, asi_id, num_id, turno):
     asi = AsistenciaAlumnoServices()
     data = asi.getListaAlumnosAsignatura(idmalla, cur_id, asi_id, num_id, turno)
     return jsonify(data)
+
+@asial.route('/guardar_asistencia', methods=['POST'])
+def guardarAsistencia():
+    data = request.json
+    return jsonify({'Guardado': True})
