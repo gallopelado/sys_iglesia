@@ -138,3 +138,7 @@ class AsistenciaAlumno_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista
+
+    def registrar(self, cabecera, detalle):
+        print(cabecera)
+        print(detalle)

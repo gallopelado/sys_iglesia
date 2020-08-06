@@ -37,5 +37,6 @@ def getListaAlumnosCurso(idmalla, cur_id, asi_id, num_id, turno):
 
 @asial.route('/guardar_asistencia', methods=['POST'])
 def guardarAsistencia():
-    data = request.json
+    asi = AsistenciaAlumnoServices()
+    asi.registrarAsistencias(request)
     return jsonify({'Guardado': True})
