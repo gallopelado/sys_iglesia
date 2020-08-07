@@ -140,5 +140,38 @@ class AsistenciaAlumno_dao(Conexion):
         return lista
 
     def registrar(self, cabecera, detalle):
-        print(cabecera)
-        print(detalle)
+        res = {}
+        #Insertar cabecera
+        insert_cabecera_SQL = '''INSERT INTO cursos.asistenciacurso_cab
+        (malla_id, asi_id, num_id, per_id, turno, cur_id, asiscurso_descripcion, creacion_fecha, creacion_usuario, asiscurso_estado)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, now(), %s, TRUE)RETURNING asiscurso_id'''
+        #Insertar detalle
+        insert_detalle_SQL = '''INSERT INTO cursos.asistenciacurso_det
+        (asiscurso_id, per_id, asiscursodet_asistio, asiscursodet_puntual, asiscursodet_estado)
+        VALUES(%s, %s, %s, %s, %s)'''
+        update_puntual_SQL = '''UPDATE cursos.asistenciacurso_det SET asiscursodet_puntual=TRUE WHERE asiscurso_id=%s AND per_id=%s'''
+        try:
+            conexion = Conexion()
+            conn = conexion.getConexion()
+            conexion.autocommit = False
+            cur = conn.cursor()
+            cur.execute(insert_cabecera_SQL, (cabecera.malla_id, cabecera.asi_id, cabecera.num_id, cabecera.per_id, cabecera.turno, cabecera.cur_id, cabecera.asiscurso_descripcion, cabecera.creacion_usuario,))
+            #Obtener id insertado de cabecera
+            cabecera_id = cur.fetchone()[0]
+            #Insertar detalle
+            for item in detalle['asistieron']:
+                cur.execute(insert_detalle_SQL, (cabecera_id, int(item['idalumno']), True, False, True))
+            if len(detalle['puntuales']) > 0:
+                for item in detalle['puntuales']:
+                    cur.execute(update_puntual_SQL, (cabecera_id, str(item['idalumno']),))
+            #Confirmar todos los cambios
+            conn.commit()
+        except conn.Error as e:
+            conn.rollback()
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
