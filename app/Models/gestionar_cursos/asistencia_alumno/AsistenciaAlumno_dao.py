@@ -166,6 +166,7 @@ class AsistenciaAlumno_dao(Conexion):
                     cur.execute(update_puntual_SQL, (cabecera_id, str(item['idalumno']),))
             #Confirmar todos los cambios
             conn.commit()
+            return {'cabecera_id': cabecera_id}
         except conn.Error as e:
             conn.rollback()
             res['codigo'] = e.pgcode
@@ -175,3 +176,37 @@ class AsistenciaAlumno_dao(Conexion):
             if conn is not None:
                 cur.close()
                 conn.close()
+
+    def getFormularioAsistencia(self, malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase):
+        res={}
+        lista=[]
+        consultaSQL = '''SELECT cab.asiscurso_id, cab.asiscurso_descripcion
+        , ad.per_id idalumno, p.per_nombres, p.per_apellidos, ad.asiscursodet_asistio, ad.asiscursodet_puntual 
+        FROM cursos.asistenciacurso_cab cab
+        LEFT JOIN cursos.asistenciacurso_det ad ON ad.asiscurso_id = cab.asiscurso_id
+        LEFT JOIN referenciales.personas p ON p.per_id = ad.per_id 
+        WHERE cab.malla_id=%s AND cab.asi_id=%s AND cab.num_id=%s AND cab.per_id=%s AND cab.turno=%s AND cab.cur_id=%s AND TO_CHAR(cab.creacion_fecha,'YYYY/MM/DD')::DATE = %s'''
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(consultaSQL, (malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase,))
+            data = cur.fetchall()
+            for i in data:
+                ob = {}
+                ob['asiscurso_id'] = i[0]
+                ob['descripcion'] = i[1]
+                ob['idalumno'] = i[2]
+                ob['alumno'] = f'{i[3]} {i[4]}'
+                ob['asistio'] = i[5]
+                ob['puntual'] = i[6]
+                lista.append(ob)
+        except conn.Error as e:
+            conn.rollback()
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista

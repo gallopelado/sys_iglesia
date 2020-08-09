@@ -33,5 +33,7 @@ class AsistenciaAlumnoServices:
             'asistieron':req.json['asistieron'] if 'asistieron' in req.json else None
             , 'puntuales': req.json['puntuales'] if 'puntuales' in req.json else None
         }
-        self.__inscr.registrar(cabecera, lista_detalle)
+        return self.__inscr.registrar(cabecera, lista_detalle)
         
+    def getFormularioAsistencia(self, malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase):
+        return self.__inscr.getFormularioAsistencia(malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase)

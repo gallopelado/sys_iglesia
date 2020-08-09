@@ -16,14 +16,35 @@ var app = new Vue({
         , asistio: null
         , puntual: null
         , lista_asistio: [], lista_puntual: []
+        , formulario_data: []
+        , guardado: false
     }
     , methods: {
-        getListaAlumnos() {
-            //idmalla, cur_id, asi_id, num_id, turno
+        cargarFormulario() {
+            if(this.formulario_data.length == 0) {
+                $.dialog({
+                    title: 'Atención!',
+                    content: 'Todavia no se ha registrado asistencia!',
+                });
+            }
+        }
+        , getListaAlumnos() {
             const { malla_id, cur_id, asi_id, num_id, turno } = this.asistencia_data;
             axios.get(`/cursos/asistencia_alumnos/lista_alumnos_curso/${malla_id}/${cur_id}/${asi_id}/${num_id}/${turno}`)
             .then(res => {
                 this.det_alumnos = res.data;
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        }
+        , getDatosFormulario() {
+            //malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase
+            const {malla_id, asi_id, num_id, per_id, turno, cur_id, fecha} = this.asistencia_data;
+            axios.get(`/cursos/asistencia_alumnos/get_formulario_asistencia/${malla_id}/${asi_id}/${num_id}/${per_id}/${turno}/${cur_id}/${fecha}`)
+            .then(res => {
+                this.formulario_data = res.data;
+                this.cargarFormulario();
             })
             .catch(error => {
                 console.error(error);
@@ -76,10 +97,11 @@ var app = new Vue({
                                 , cur_id: inst.asistencia_data.cur_id, descripcion: inst.descripcion
                                 , asistieron: inst.lista_asistio, puntuales: inst.lista_puntual
                             }
-                            console.log(form);
                             axios.post(`/cursos/asistencia_alumnos/guardar_asistencia`, form)
                             .then(res => {
-                                console.log(res);
+                                if(res.data.cabecera_id) {
+                                    inst.guardado = true;
+                                }
                             })
                             .catch(error => {
                                 console.error(error);
@@ -102,6 +124,7 @@ var app = new Vue({
         this.curso =  this.asistencia_data.cur_des;
         this.turno =  this.asistencia_data.turno;
         this.fecha_clase = this.asistencia_data.fecha_larga;
+        this.getDatosFormulario();
         this.getListaAlumnos();
     }
     , delimiters: ['[[', ']]']

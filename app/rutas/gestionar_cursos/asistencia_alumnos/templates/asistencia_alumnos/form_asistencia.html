@@ -95,7 +95,7 @@
                                         <th style="text-align: center;">Puntual</th>                                       
                                     </tr>
                                 </thead>
-                                <tbody id="tb">
+                                <tbody id="tb" v-if="formulario_data.length === 0">
                                     <tr v-for="item in det_alumnos">
                                         <th v-text="`${item.per_nombres} ${item.per_apellidos}`" style="text-align: center;"></th>                                        
                                         <td style="text-align: center;">
@@ -114,11 +114,30 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tbody id="tb" v-else>
+                                    <tr v-for="item in formulario_data">
+                                        <th v-text="item.alumno" style="text-align: center;"></th>                                        
+                                        <td style="text-align: center;">
+                                            <label class="switch switch-3d switch-primary mr-3">
+                                                <input type="checkbox" class="switch-input" ref="chk_asistio" :checked="item.asistio"  disabled>
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <label class="switch switch-3d switch-primary mr-3">
+                                                <input type="checkbox" class="switch-input" ref="chk_puntual" :checked="item.puntual" disabled>
+                                                <span class="switch-label"></span>
+                                                <span class="switch-handle"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="card-footer">
-                            <button type="button" id="btn_registrar_curso" class="btn btn-success" @click="guardar()">Guardar</button>
-                            {{ pintar_alerta(messages) }}
+                            <button type="button" id="btn_registrar_curso" class="btn btn-success" @click="guardar()" v-if="formulario_data.length === 0" :style="{ display: guardado?'none':''  }">Guardar</button>
+                            <label for="" v-else>Este formulario ya esta registrado, no puede editarse</label>
                         </div>
                     </div>
                     <!--Fin card tabla-->
