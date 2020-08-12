@@ -96,11 +96,28 @@ var app = new Vue({
                                 , turno: inst.asistencia_data.turno
                                 , cur_id: inst.asistencia_data.cur_id, descripcion: inst.descripcion
                                 , asistieron: inst.lista_asistio, puntuales: inst.lista_puntual
+                                , fecha: inst.asistencia_data.fecha
                             }
                             axios.post(`/cursos/asistencia_alumnos/guardar_asistencia`, form)
                             .then(res => {
                                 if(res.data.cabecera_id) {
-                                    inst.guardado = true;
+                                    $.dialog({
+                                        title: 'Correcto',
+                                        content: 'Se registro exitosamente',
+                                        onOpen: function () {
+                                            inst.guardado = true;
+                                        }
+                                    });
+                                } else if(res.data.cod === '001') {
+                                    $.dialog({
+                                        title: 'Fecha no valida',
+                                        content: res.data.mensaje,
+                                    });
+                                } else if(res.data.cod === '002') {
+                                    $.dialog({
+                                        title: 'Fecha no valida',
+                                        content: res.data.mensaje,
+                                    });
                                 }
                             })
                             .catch(error => {

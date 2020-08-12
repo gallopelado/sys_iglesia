@@ -18,6 +18,16 @@ class AsistenciaAlumnoServices:
     def getListaAlumnosAsignatura(self, idmalla, cur_id, asi_id, num_id, turno):
         return self.__inscr.getListaAlumnosAsignatura(idmalla, cur_id, asi_id, num_id, turno)
 
+    def validarFecha(self, fecha):
+        date_objeto = datetime.strptime(fecha, '%Y-%m-%d')#convertir fecha
+        fecha_actual = datetime.strptime(datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d')
+        if date_objeto == fecha_actual:
+            return True
+        elif date_objeto > fecha_actual:
+            return {'cod':'001', 'mensaje':'La fecha es mayor al actual'}
+        elif date_objeto < fecha_actual:
+            return {'cod':'002', 'mensaje':'La fecha es menor al actual'}
+
     def registrarAsistencias(self, req):
         cabecera = AsistenciaCursoCab_model()
         cabecera.malla_id = req.json['malla_id']
@@ -28,12 +38,15 @@ class AsistenciaAlumnoServices:
         cabecera.turno = req.json['turno']
         cabecera.asiscurso_descripcion = req.json['descripcion']
         cabecera.asiscurso_estado = True
-        cabecera.creacion_fecha = datetime.now()
+        cabecera.creacion_fecha = req.json['fecha']
         lista_detalle = {
             'asistieron':req.json['asistieron'] if 'asistieron' in req.json else None
             , 'puntuales': req.json['puntuales'] if 'puntuales' in req.json else None
         }
-        return self.__inscr.registrar(cabecera, lista_detalle)
+        vfecha = self.validarFecha(cabecera.creacion_fecha)
+        if vfecha == True:
+            return self.__inscr.registrar(cabecera, lista_detalle)
+        return vfecha
         
     def getFormularioAsistencia(self, malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase):
         return self.__inscr.getFormularioAsistencia(malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase)

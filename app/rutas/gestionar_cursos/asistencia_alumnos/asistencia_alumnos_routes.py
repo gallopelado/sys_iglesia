@@ -38,8 +38,8 @@ def getListaAlumnosCurso(idmalla, cur_id, asi_id, num_id, turno):
 @asial.route('/guardar_asistencia', methods=['POST'])
 def guardarAsistencia():
     asi = AsistenciaAlumnoServices()
-    cabecera_id = asi.registrarAsistencias(request)
-    return jsonify(cabecera_id)
+    res = asi.registrarAsistencias(request)
+    return jsonify(res)
 
 @asial.route('/get_formulario_asistencia/<int:malla_id>/<int:asi_id>/<int:num_id>/<int:per_id>/<string:turno>/<int:cur_id>/<string:fechaclase>', methods=['GET'])
 def getFormularioAsistencia(malla_id, asi_id, num_id, per_id, turno, cur_id, fechaclase):
