@@ -49,20 +49,17 @@ class DesercionAlumno_dao(Conexion):
         SELECT
             dp.malla_id,
             dp.cur_id, c.cur_des curso,
+	        dp.asi_id, dp.num_id, CONCAT(asi.asi_des, ' ',na.num_des)asignatura,
             dp.turno,
             dp.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos) maestro,
             dp.fechainicio::VARCHAR
-        FROM
-            cursos.detalle_planificacion dp
-        LEFT JOIN referenciales.cursos c 
-            ON c.cur_id = dp.cur_id 
-        LEFT JOIN referenciales.maestros m 
-            ON m.per_id =  dp.per_id 
-        LEFT JOIN referenciales.personas p 
-            ON p.per_id = m.per_id 
-        WHERE 
-            dp.per_id = %s AND dp.turno = %s
-        '''
+        FROM cursos.detalle_planificacion dp
+        LEFT JOIN referenciales.cursos c ON c.cur_id = dp.cur_id 
+        LEFT JOIN referenciales.maestros m ON m.per_id =  dp.per_id 
+        LEFT JOIN referenciales.personas p ON p.per_id = m.per_id
+        LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = dp.asi_id
+        LEFT JOIN referenciales.numero_asignatura na ON na.num_id = dp.num_id 
+        WHERE dp.per_id = %s AND dp.turno = %s'''
         try:
             conn = self.getConexion()
             cur = conn.cursor()
@@ -74,9 +71,13 @@ class DesercionAlumno_dao(Conexion):
                     obj['malla_id'] = rs[0]
                     obj['cur_id'] = rs[1]
                     obj['curso'] = rs[2]
-                    obj['turno'] = rs[3]
-                    obj['maestro'] = rs[4]
-                    obj['fechainicio'] = rs[5]
+                    obj['asi_id'] = rs[3]
+                    obj['num_id'] = rs[4]
+                    obj['asignatura'] = rs[5]
+                    obj['turno'] = rs[6]
+                    obj['per_id'] = rs[7]
+                    obj['maestro'] = rs[8]
+                    obj['fechainicio'] = rs[9]
                     lista.append(obj)
 
         except conn.Error as e:

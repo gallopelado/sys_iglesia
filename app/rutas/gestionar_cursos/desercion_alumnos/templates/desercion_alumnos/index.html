@@ -21,7 +21,7 @@
 <div class="main-content">
 
     <!-- Contenido principal -->
-    <div class="section__content section__content--p30">
+    <div id="app" class="section__content section__content--p30">
 
         <div class="container-fluid">
             <div class="row">
@@ -37,16 +37,16 @@
                             <div class="row">
                                 <label for="cbo_maestro" class="col-sm-12 col-md-1 col-form-label">Maestro</label>
                                 <div class="col-sm-10 col-md-2">
-                                    <select name="cbo_maestro" id="cbo_maestro" v-model="cbo_maestro" class="form-control form-control-sm"
-                                        @change="">
+                                    <select name="cbo_maestro" id="cbo_maestro" v-model="cbo_maestro" class="form-control form-control-sm" @change="getCursoMaestro()">
                                         <option value="">...</option>
+                                        <option v-for="item in lista_maestros" :value="item" v-text="item.maestro"></option>
                                     </select>
                                 </div>
                                 <label for="cbo_turno" class="col-sm-12 col-md-1 col-form-label">Turno</label>
                                 <div class="col-sm-10 col-md-2">
-                                    <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm"
-                                        @change="">
+                                    <select name="cbo_turno" id="cbo_turno" v-model="cbo_turno" class="form-control form-control-sm" @change="getCursoMaestro()">
                                         <option value="">...</option>
+                                        <option v-for="item in lista_turnos" :value="item" v-text="item"></option>
                                     </select>
                                 </div>
                             </div>
@@ -57,11 +57,27 @@
                                     <thead>
                                         <tr>
                                             <th>Curso</th>
+                                            <th>Asignatura</th>
+                                            <th>Maestro</th>
+                                            <th>turno</th>
                                             <th>Fecha</th>                                                                                       
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tb">                                                                      
+                                    <tbody id="tb" v-if="lista_cursos">
+                                        <tr v-for="item in lista_cursos">
+                                            <td v-text="item.curso"></td>
+                                            <td v-text="item.asignatura"></td>
+                                            <td v-text="item.maestro"></td>
+                                            <td v-text="item.turno"></td>
+                                            <td v-text="item.fechainicio"></td>
+                                            <td><button type="button" name="btncargar" class="btn btn-primary btn-sm">Cargar</button></td>
+                                        </tr>                                                                   
+                                    </tbody>
+                                    <tbody id="tb" v-else>
+                                       <tr>
+                                           <td>No existen coincidencias</td>
+                                       </tr>
                                     </tbody>
                                 </table>
                             
@@ -91,10 +107,12 @@
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 <!-- JS de Moment -->
 <script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- Controlador -->
-<!-- <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/inscripcion_alumnos/index.js') }}"></script> -->
+<script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/desercion_alumnos/index.js') }}"></script>
 
 
 {% endblock %}
