@@ -32,32 +32,41 @@
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
-                        <div class="card-header"></div>
+
+                        <div class="card-header">
+                            <div class="row">
+                                <label for="curso" class="col-sm-12 col-md-1 col-form-label">Curso</label>
+                                <div class="col-sm-10 col-md-2">
+                                    <input type="text" v-model="curso" class="form-control form-control-sm" readonly>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
-                                <table id="tabla_curso" class="table table-borderless table-data3">
+                            
+                                <table id="tabla_alumno" class="table table-borderless table-data3">
                                     <thead>
                                         <tr>
-                                            <th>Curso</th>
+                                            <th>Alumno</th>
+                                            <th>Cedula</th>
                                             <th class="text-right">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tb" v-if="lista_cursos">
-                                        <tr v-for="item in lista_cursos">
-                                            <td v-text="item.curso"></td>
-                                            <td><button type="button" name="btncargar" class="btn btn-primary btn-sm" @click="cargarDesercion(item)">Cargar</button></td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody id="tb" v-else>
-                                       <tr>
-                                           <td>No existen cursos con alumnos</td>
-                                       </tr>
-                                    </tbody>
+                                    <tbody id="tb">
+                                        <tr v-for="item in lista_alumnos">
+                                            <td v-text="item.alumno"></td>
+                                            <td v-text="item.cedula"></td>
+                                            <td><button type="button" name="btndesertar" class="btn btn-danger btn-sm" @click="escogerAlumno(item)">Desertar</button></td>
+                                        </tr>                                                                   
+                                    </tbody>                    
                                 </table>
+                            
                         </div>
                         <div class="card-footer">
                             {{ pintar_alerta(messages) }}
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -82,7 +91,7 @@
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 <!-- Controlador -->
 <script type='module'
-    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/desercion_alumnos/index.js') }}"></script>
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/desercion_alumnos/lista_alumnos.js') }}"></script>
 
 
 {% endblock %}

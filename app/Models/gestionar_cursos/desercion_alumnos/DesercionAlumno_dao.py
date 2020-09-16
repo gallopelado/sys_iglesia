@@ -5,21 +5,14 @@ class DesercionAlumno_dao(Conexion):
     def __init__(self):
         Conexion.__init__(self)
 
-    def getMaestros(self):
+    def getCursosInscriptos(self):
         res = {}
         lista = []
         querySQL = '''
-        SELECT
-            DISTINCT(dp.per_id), CONCAT(p.per_nombres, ' ', p.per_apellidos) maestro
-        FROM
-            cursos.detalle_planificacion dp
-        LEFT JOIN referenciales.maestros m 
-            ON m.per_id =  dp.per_id 
-        LEFT JOIN referenciales.personas p 
-            ON p.per_id = m.per_id 
-        WHERE 
-            dp.estado IS TRUE
-        '''
+        SELECT DISTINCT(ic.malla_id)malla_id, ic.cur_id, c.cur_des curso
+        FROM cursos.inscripcion_curso ic
+        LEFT JOIN referenciales.cursos c ON c.cur_id = ic.cur_id 
+        WHERE EXTRACT(YEAR FROM ic.creacion_fecha) = EXTRACT(YEAR FROM CURRENT_DATE)'''
         try:
             conn = self.getConexion()
             cur = conn.cursor()
@@ -28,8 +21,9 @@ class DesercionAlumno_dao(Conexion):
             if len(data) > 0:
                 for rs in data:
                     obj = {}
-                    obj['per_id'] = rs[0]
-                    obj['maestro'] = rs[1]
+                    obj['malla_id'] = rs[0]
+                    obj['cur_id'] = rs[1]
+                    obj['curso'] = rs[2]
                     lista.append(obj)
 
         except conn.Error as e:
@@ -42,42 +36,28 @@ class DesercionAlumno_dao(Conexion):
                 conn.close()
         return lista
 
-    def getCursoMaestro(self, perid, turno):
+    def getListaAlumnos(self, cur_id):
         res = {}
         lista = []
         querySQL = '''
-        SELECT
-            dp.malla_id,
-            dp.cur_id, c.cur_des curso,
-	        dp.asi_id, dp.num_id, CONCAT(asi.asi_des, ' ',na.num_des)asignatura,
-            dp.turno,
-            dp.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos) maestro,
-            dp.fechainicio::VARCHAR
-        FROM cursos.detalle_planificacion dp
-        LEFT JOIN referenciales.cursos c ON c.cur_id = dp.cur_id 
-        LEFT JOIN referenciales.maestros m ON m.per_id =  dp.per_id 
-        LEFT JOIN referenciales.personas p ON p.per_id = m.per_id
-        LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = dp.asi_id
-        LEFT JOIN referenciales.numero_asignatura na ON na.num_id = dp.num_id 
-        WHERE dp.per_id = %s AND dp.turno = %s'''
+        SELECT ic.malla_id, ic.cur_id, ic.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos)alumno, p.per_ci cedula
+        FROM cursos.inscripcion_curso ic
+        LEFT JOIN referenciales.cursos c ON c.cur_id = ic.cur_id 
+        LEFT JOIN referenciales.personas p ON p.per_id = ic.per_id 
+        WHERE EXTRACT(YEAR FROM ic.creacion_fecha) = EXTRACT(YEAR FROM CURRENT_DATE) AND ic.cur_id=%s'''
         try:
             conn = self.getConexion()
             cur = conn.cursor()
-            cur.execute(querySQL, (perid, turno,))
+            cur.execute(querySQL, (cur_id,))
             data = cur.fetchall()
             if len(data) > 0:
                 for rs in data:
                     obj = {}
                     obj['malla_id'] = rs[0]
                     obj['cur_id'] = rs[1]
-                    obj['curso'] = rs[2]
-                    obj['asi_id'] = rs[3]
-                    obj['num_id'] = rs[4]
-                    obj['asignatura'] = rs[5]
-                    obj['turno'] = rs[6]
-                    obj['per_id'] = rs[7]
-                    obj['maestro'] = rs[8]
-                    obj['fechainicio'] = rs[9]
+                    obj['per_id'] = rs[2]
+                    obj['alumno'] = rs[3]
+                    obj['cedula'] = rs[4]
                     lista.append(obj)
 
         except conn.Error as e:

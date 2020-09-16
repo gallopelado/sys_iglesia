@@ -8,41 +8,25 @@ var app = new Vue({
     el:'#app',
     delimiters: ['[[', ']]'],
     data: {
-        lista_cursos: null,
-        lista_maestros: [],
-        lista_turnos: ['MAÑANA', 'TARDE', 'NOCHE'],
-        cbo_maestro: null,
-        cbo_turno: null
+        lista_cursos: []
     },
     methods: {
-        getMaestros() {
-            axios.get(`/cursos/desercion_alumnos/get_maestros`).then(({ data }) => this.lista_maestros=data)
-        },
         
-        getCursoMaestro() {
-            const inst = this
+        getCursosInscriptos() {
             const maestro = this.cbo_maestro ? this.cbo_maestro.per_id : null;
             const turno = this.cbo_turno;
-           if(maestro && turno) {
-                axios.get(`/cursos/desercion_alumnos/get_curso_maestro/${maestro}/${turno}`).then(({data}) => {
-                    inst.lista_cursos = data;
-                    console.log(data);
-               })
-           } else {
-            $.alert({
-                title: 'Cuidado!',
-                content: 'Debe seleccionar ambas opciones!',
-                onClose: function () {
-                    // before the modal is hidden.
-                   $('#cbo_turno').click()
-                }
-            });
-           }
+            axios.get(`/cursos/desercion_alumnos/get_cursos_inscriptos`).then(({data}) => this.lista_cursos = data)
+        },
+
+        cargarDesercion(item) {
+            if(item) {
+                sessionStorage.setItem('desercion_data', JSON.stringify(item));
+                location.href = `/cursos/desercion_alumnos/lista_alumnos`;
+            }
         }
 
     },
     mounted() {
-        this.getMaestros();
-        //this.getCursoMaestro();
+        this.getCursosInscriptos();
     },
 })

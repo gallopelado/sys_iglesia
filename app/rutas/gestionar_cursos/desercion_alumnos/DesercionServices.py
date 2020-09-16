@@ -5,11 +5,11 @@ class DesercionServices:
     def __init__(self):
         self.__dese = DesercionAlumno_dao()
 
-    def getMaestros(self):
-        return self.__dese.getMaestros()
+    def getCursosInscriptos(self):
+        return self.__dese.getCursosInscriptos()
 
-    def getCursoMaestro(self, perid, turno):
-        return self.__dese.getCursoMaestro(perid, turno)
+    def getListaAlumnos(self, cur_id):
+        return self.__dese.getListaAlumnos(cur_id)
 
     def registrarDesercion(self, obj):
         return self.__dese.registrarDesercion(obj)

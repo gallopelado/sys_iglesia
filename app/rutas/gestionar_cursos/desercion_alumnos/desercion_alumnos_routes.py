@@ -6,20 +6,24 @@ deser = Blueprint('desercion_alumnos', __name__, template_folder='templates')
 def index():
     return render_template('desercion_alumnos/index.html', titulo='Registrar Deserción de alumnos')
 
+@deser.route('/lista_alumnos')
+def listaAlumnos():
+    return render_template('desercion_alumnos/lista_alumnos.html', titulo='Lista de alumnos')
+
 #AJAX
-##Obtener maestros
-@deser.route('/get_maestros')
-def getMaestros():
+##Obtener lista de cursos
+@deser.route('/get_cursos_inscriptos')
+def getCursosInscriptos():
     ds = DesercionServices()
-    data = ds.getMaestros()
+    data = ds.getCursosInscriptos()
     return jsonify(data)
 
-##Obtener lista de cursos segun maestro y turno
-@deser.route('/get_curso_maestro/<int:perid>/<string:turno>')
-def getCursoMaestro(perid, turno):
+##Obtener lista de alumnos segun curso
+@deser.route('/get_cursos_inscriptos/<int:cur_id>')
+def getListaAlumnoCurso(cur_id):
     ds = DesercionServices()
-    data = ds.getCursoMaestro(perid, turno)
-    return jsonify(data)
+    data = ds.getListaAlumnos(cur_id)
+    return jsonify(data if data else {'estado':False, 'mensaje':'No hay cursos con alumnos'})
 
 @deser.route('/get_curso_maestro', methods=['POST'])
 def registrarDesercion():
