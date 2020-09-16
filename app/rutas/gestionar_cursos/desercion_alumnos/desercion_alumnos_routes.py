@@ -29,6 +29,13 @@ def getListaAlumnoCurso(cur_id):
     data = ds.getListaAlumnos(cur_id)
     return jsonify(data if data else {'estado':False, 'mensaje':'No hay cursos con alumnos'})
 
+##Obtener lista de motivo desercion
+@deser.route('/get_motivo_desercion')
+def getMotivoDesercion():
+    ds = DesercionServices()
+    data = ds.getMotivoDesercion()
+    return jsonify(data)
+
 @deser.route('/get_curso_maestro', methods=['POST'])
 def registrarDesercion():
     obj = {

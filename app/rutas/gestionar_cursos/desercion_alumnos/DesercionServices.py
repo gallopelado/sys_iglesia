@@ -10,6 +10,9 @@ class DesercionServices:
 
     def getListaAlumnos(self, cur_id):
         return self.__dese.getListaAlumnos(cur_id)
+    
+    def getMotivoDesercion(self):
+        return self.__dese.getMotivoDesercion()
 
     def registrarDesercion(self, obj):
         return self.__dese.registrarDesercion(obj)

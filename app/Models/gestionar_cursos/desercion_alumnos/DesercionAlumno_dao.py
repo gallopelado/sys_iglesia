@@ -40,7 +40,7 @@ class DesercionAlumno_dao(Conexion):
         res = {}
         lista = []
         querySQL = '''
-        SELECT ic.malla_id, ic.cur_id, ic.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos)alumno, p.per_ci cedula
+        SELECT ic.malla_id, ic.cur_id, c.cur_des, ic.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos)alumno, p.per_ci cedula
         FROM cursos.inscripcion_curso ic
         LEFT JOIN referenciales.cursos c ON c.cur_id = ic.cur_id 
         LEFT JOIN referenciales.personas p ON p.per_id = ic.per_id 
@@ -55,9 +55,36 @@ class DesercionAlumno_dao(Conexion):
                     obj = {}
                     obj['malla_id'] = rs[0]
                     obj['cur_id'] = rs[1]
-                    obj['per_id'] = rs[2]
-                    obj['alumno'] = rs[3]
-                    obj['cedula'] = rs[4]
+                    obj['curso'] = rs[2]
+                    obj['per_id'] = rs[3]
+                    obj['alumno'] = rs[4]
+                    obj['cedula'] = rs[5]
+                    lista.append(obj)
+
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror            
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista
+
+    def getMotivoDesercion(self):
+        res = {}
+        lista = []
+        querySQL = 'SELECT md_id id, md_des descripcion FROM referenciales.motivo_desercion'
+        try:
+            conn = self.getConexion()
+            cur = conn.cursor()
+            cur.execute(querySQL)
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['id'] = rs[0]
+                    obj['descripcion'] = rs[1]
                     lista.append(obj)
 
         except conn.Error as e:
