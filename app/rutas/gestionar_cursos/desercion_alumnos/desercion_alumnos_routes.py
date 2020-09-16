@@ -10,6 +10,10 @@ def index():
 def listaAlumnos():
     return render_template('desercion_alumnos/lista_alumnos.html', titulo='Lista de alumnos')
 
+@deser.route('/formulario_desercion')
+def formularioDesercion():
+    return render_template('desercion_alumnos/formulario_desercion.html', titulo='Formulario deserción')
+
 #AJAX
 ##Obtener lista de cursos
 @deser.route('/get_cursos_inscriptos')

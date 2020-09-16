@@ -44,7 +44,7 @@ class DesercionAlumno_dao(Conexion):
         FROM cursos.inscripcion_curso ic
         LEFT JOIN referenciales.cursos c ON c.cur_id = ic.cur_id 
         LEFT JOIN referenciales.personas p ON p.per_id = ic.per_id 
-        WHERE EXTRACT(YEAR FROM ic.creacion_fecha) = EXTRACT(YEAR FROM CURRENT_DATE) AND ic.cur_id=%s'''
+        WHERE EXTRACT(YEAR FROM ic.creacion_fecha) = EXTRACT(YEAR FROM CURRENT_DATE) AND ic.cur_id=%s AND ic.estado IS TRUE'''
         try:
             conn = self.getConexion()
             cur = conn.cursor()
