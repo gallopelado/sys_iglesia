@@ -37,7 +37,17 @@ new Vue({
                 const enviar = {
                     malla_id: this.malla_id, cur_id: this.cur_id, per_id: this.per_id, motivo_desercion: this.motivo_desercion.id, descripcion: this.descripcion
                 }
-                axios.post(`/cursos/desercion_alumnos/registrar_desercion`, enviar).then(({data}) => data.exitoso && history.back());
+                axios.post(`/cursos/desercion_alumnos/registrar_desercion`, enviar).then(({data}) => {
+                    if(data.exitoso) {
+                        $.alert({
+                            title: 'Guardado!',
+                            content: 'Se procesó exitosamente!',
+                            onClose: function() {
+                                location.replace(`/cursos/desercion_alumnos`);
+                            }
+                        });
+                    } 
+                });
                 return;
             }
             $.alert({
