@@ -29,6 +29,21 @@ new Vue({
 
         getMotivoDesercion() {
             axios.get(`/cursos/desercion_alumnos/get_motivo_desercion`).then(({data}) => this.lista_motivo_desercion= data)
+        },
+
+        registrarDesercion() {
+            const descripcion = this.descripcion && this.descripcion;
+            if(this.motivo_desercion && this.descripcion.trim()) {
+                const enviar = {
+                    malla_id: this.malla_id, cur_id: this.cur_id, per_id: this.per_id, motivo_desercion: this.motivo_desercion.id, descripcion: this.descripcion
+                }
+                axios.post(`/cursos/desercion_alumnos/registrar_desercion`, enviar).then(({data}) => data.exitoso && history.back());
+                return;
+            }
+            $.alert({
+                title: 'Completar!',
+                content: 'Favor complete el formulario antes de guardar!'
+            });
         }
     },
     mounted() {

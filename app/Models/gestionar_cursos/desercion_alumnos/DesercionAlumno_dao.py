@@ -105,7 +105,8 @@ class DesercionAlumno_dao(Conexion):
             cur = conn.cursor()
             cur.callproc(procedimiento, (obj['mallaid'], obj['curid'], obj['perid'], obj['mdid'], obj['alddescripcion'],
             obj['aldestado'], None, None))
-            return {'exitoso':cur.fetchone()}
+            conn.commit()
+            return {'exitoso':cur.fetchone()[0]}
         except conn.Error as e:
             res['codigo'] = e.pgcode
             res['mensaje'] = e.pgerror            

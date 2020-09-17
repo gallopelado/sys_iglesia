@@ -36,11 +36,12 @@ def getMotivoDesercion():
     data = ds.getMotivoDesercion()
     return jsonify(data)
 
-@deser.route('/get_curso_maestro', methods=['POST'])
+@deser.route('/registrar_desercion', methods=['POST'])
 def registrarDesercion():
+    ##malla_id: this.malla_id, cur_id: this.cur_id, per_id: this.per_id, motivo_desercion: this.motivo_desercion.id, descripcion: this.descripcion
     obj = {
-        'mallaid': request.json['mallaid'], 'curid': request.json['curid'], 'perid': request.json['perid'],
-        'mdid': request.json['mdid'], 'alddescripcion': request.json['alddescripcion'], 'aldestado': True,
+        'mallaid': request.json['malla_id'], 'curid': request.json['cur_id'], 'perid': request.json['per_id'],
+        'mdid': request.json['motivo_desercion'], 'alddescripcion': request.json['descripcion'], 'aldestado': True,
         'creacionfecha': None, 'creacionusuario': None
     }
     ds = DesercionServices()
