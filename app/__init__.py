@@ -75,6 +75,7 @@ from app.rutas.gestionar_cursos.planificacion_cursos.planificacion_cursos_routes
 from app.rutas.gestionar_cursos.inscripcion_alumnos.inscripcion_alumnos_routes import insa
 from app.rutas.gestionar_cursos.asistencia_alumnos.asistencia_alumnos_routes import asial
 from app.rutas.gestionar_cursos.desercion_alumnos.desercion_alumnos_routes import deser
+from app.rutas.gestionar_cursos.justificativo_alumnos.justificativo_alumnos_routes import jusa
 
 # modulos de informes
 # Instancia de informes para Mantenimiento y Seguridad
@@ -127,6 +128,7 @@ app.register_blueprint(pcr, url_prefix=f'{modulo3}/planificacion_cursos')
 app.register_blueprint(insa, url_prefix=f'{modulo3}/inscripcion_alumnos')
 app.register_blueprint(asial, url_prefix=f'{modulo3}/asistencia_alumnos')
 app.register_blueprint(deser, url_prefix=f'{modulo3}/desercion_alumnos')
+app.register_blueprint(jusa, url_prefix=f'{modulo3}/justificativo_alumnos')
 
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
