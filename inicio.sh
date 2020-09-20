@@ -4,7 +4,7 @@
 # ...
 
 # then
-source venv/bin/activate
+source ev/bin/activate
 #python run.py 
 # python -B para no generar binarios.
 

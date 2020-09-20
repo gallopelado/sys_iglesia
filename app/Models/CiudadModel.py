@@ -70,7 +70,7 @@ class CiudadModel:
             cursor.execute("""
             UPDATE referenciales.ciudades SET ciu_des = UPPER(%s) 
             WHERE ciu_id = %s;
-            """, (descripcion, idciudad))  
+            """, (descripcion, idciudad,))  
             con.commit()   
             cursor.close()
             con.close()
@@ -87,7 +87,7 @@ class CiudadModel:
             cursor.execute("""
             SELECT ciu_id id, ciu_des descripcion FROM referenciales.ciudades 
             WHERE ciu_id = %s;
-            """, (idciudad))
+            """, (idciudad,))
             item = cursor.fetchone()
             cursor.close()
             con.close()            
@@ -103,7 +103,7 @@ class CiudadModel:
             cursor = con.cursor()
             cursor.execute("""
             DELETE FROM referenciales.ciudades WHERE ciu_id = %s
-            """, (idciudad))
+            """, (idciudad,))
             con.commit()
             cursor.close()
             con.commit()

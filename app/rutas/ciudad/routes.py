@@ -63,7 +63,7 @@ def guardar_ciudad():
     else:
         return "Error en la peticion"
 
-@mod.route('/modificar/<idciudad>')
+@mod.route('/modificar/<int:idciudad>')
 def modificar_ciudad(idciudad):
 
     cm = CiudadModel()
