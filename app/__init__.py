@@ -37,6 +37,7 @@ app.config['DOCUMENTOS_POSTULACION'] = RUTA_ARCHIVOS_POSTULACION
 from app import rutas
 
 # Se cargan los modulos de las rutas
+from app.rutas.login.login_routes import log
 from app.rutas.inicio.routes import mod
 
 # Modulos de mantenimiento y seguridad
@@ -89,6 +90,7 @@ from app.rutas.gestionar_informes.membresia.membresia_routes import minf
 app.jinja_env.trim_blocks = True
 
 # Se registra las rutas con Blueprints
+app.register_blueprint(log)
 app.register_blueprint(rutas.inicio.routes.mod)
 # Rutas del modulo mantenimiento y seguridad
 app.register_blueprint(refs, url_prefix="/referencial_simple")
