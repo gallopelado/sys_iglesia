@@ -1,4 +1,4 @@
-{% from 'render_elements.html' import pintar_alerta %}
+{% from 'render_elements.html' import pintar_alerta,login_alerta %}
 <!DOCTYPE html>
 <html lang="en" >
 
@@ -139,7 +139,7 @@
 	<div class="inputGroup inputGroup3">
 		<button type="submit" id="login" name="login">Ingresar</button>
     </div>	
-    {{ pintar_alerta(messages) }}
+    {{ login_alerta(messages) }}
 </form>
 <script src="{{ url_for('static', filename='login/TweenMax.min.js') }}"></script>
 <!--<script src='http://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin.min.js?r=182'></script>-->

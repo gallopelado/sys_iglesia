@@ -82,7 +82,7 @@ def login():
                     obj['sdlu_estado'] = 'FAILED'
                     obj['creacion_usuario'] = None
                     lg.registerLogUser(obj)
-                flash('Usuario bloqueado o desactivado', 'danger')
+                flash('Error al loguearse', 'danger')
                 return redirect(url_for('login.login'))
 
         else:
