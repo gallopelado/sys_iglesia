@@ -48,7 +48,7 @@ def login():
                 
                 # Obtener datos del menu
                 menu = lg.getMenuData(usuarios['usu_id'], usuarios['gru_id'])
-                print(menu)
+                
                 # Ciertos datos en la sesion
                 session['usu_id'] = usuarios['usu_id']
                 session['username'] = user.strip()
