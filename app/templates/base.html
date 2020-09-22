@@ -173,11 +173,12 @@
                     <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="Cool Admin" />
                 </a>
             </div>
+            {% if 'menu' in session %}
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
 
-                        <!-- Lista referenciales -->
+                        {#<!-- Lista referenciales -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-chart-bar"></i>Gestionar Mantenimiento y Seguridad
@@ -193,79 +194,83 @@
                                     <a href="{{ url_for('contrato.indexMantenerContrato') }}">Mantener Contratos</a>
                                 </li>
                             </ul>
+                        </li>#}
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Mantenimiento y Seguridad
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'MANTENIMIENTO Y SEGURIDAD' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
                         </li>
 
-                        <!-- Lista módulo membresía -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-table"></i>Gestionar Membresía
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'MEMBRESIA' %}
                                 <li>
-                                    <a href="{{ url_for('registrar_formulario_admision.index_formadmi') }}">Registrar
-                                        Formulario de Admisión</a>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
                                 </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>                        
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Actividades
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'ACTIVIDADES' %}
                                 <li>
-                                    <a href="{{ url_for('registrar_formulario_adicional.index_formadi') }}">Registrar
-                                        Formulario de datos adicionales</a>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
                                 </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_documentos_miembro.index_documentos') }}">Registrar
-                                        Documentos de Ingreso para Miembro</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_requisitos_miembro.index_miembrorequisitos') }}">Registrar
-                                        requisitos para miembros</a>
-                                </li>
-                                <li><a href="{{ url_for('registrar_miembro_oficial.index_mieofi') }}">Registrar
-                                        formulario de Miembro Oficial</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_formulario_perfil.index_perfil') }}">Registrar perfil
-                                        de candidatos</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_postulacion.index_postulacion') }}">Registrar
-                                        Postulación</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_candidatos.index_candidatos') }}">Registrar lista de
-                                        Candidatos por Postulación</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_calificados.index_calificados') }}">Registrar lista
-                                        de Calificados</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_comite.index_comite') }}">Registrar Comités</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_obrero.index_obrero') }}">Registrar Obreros a
-                                        Comité</a>
-                                </li>
+                                {% endif %}
+                            {% endfor %}
                             </ul>
                         </li>
 
-                        <!-- Lista módulo actividades -->
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Cursos
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'CURSOS' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+
+                        {#<!-- Lista módulo actividades -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-table"></i>Gestionar Actividades</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                                 <li>
-                                    <a href="{{ url_for('actividades_anuales.index_acti_anuales') }}">Registrar
-                                        actividades anuales de la organizacion</a>
+                                    <a href="{{ url_for('actividades_anuales.index_acti_anuales') }}">Registrar actividades anuales de la organizacion</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_asistencia.index_asistencia') }}">Registrar
-                                        asistencias del miembros de la iglesia</a>
+                                    <a href="{{ url_for('registrar_asistencia.index_asistencia') }}">Registrar asistencias del miembros de la iglesia</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('registrar_reserva.index_reserva') }}">Registrar
-                                        reserva para eventos</a>
+                                    <a href="{{ url_for('registrar_reserva.index_reserva') }}">Registrar reserva para eventos</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('contrato_reserva.index_contrato') }}">Generar
-                                        contrato por reserva
+                                    <a href="{{ url_for('contrato_reserva.index_contrato') }}">Generar contrato por reserva
                                     </a>
                                 </li>
                                 <li>
@@ -277,45 +282,57 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>#}
 
-                        <!-- Lista módulo cursos -->
+                        {#<!-- Lista módulo cursos -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-table"></i>Gestionar Cursos
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                                 <li>
-                                    <a href="{{ url_for('malla_curricular.index') }}">Registrar
-                                        malla curricular
+                                    <a href="{{ url_for('malla_curricular.index') }}">Registrar malla curricular
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('planificacion_cursos.index') }}">Registrar
-                                        Planificación de cursos
+                                    <a href="{{ url_for('planificacion_cursos.index') }}">Registrar Planificación de cursos
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('inscripcion_alumnos.index') }}">Registrar
-                                        inscripción de alumnos
+                                    <a href="{{ url_for('inscripcion_alumnos.index') }}">Registrar inscripción de alumnos
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('asistencia_alumnos.index') }}">Registrar
-                                        asistencias de alumnos
+                                    <a href="{{ url_for('asistencia_alumnos.index') }}">Registrar asistencias de alumnos
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ url_for('desercion_alumnos.index') }}">Registrar
-                                        deserción de alumnos
+                                    <a href="{{ url_for('desercion_alumnos.index') }}">Registrar deserción de alumnos
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ url_for('justificativo_alumno.index') }}">Registrar justificativos de ausencia</a>
                                 </li>
                             </ul>
+                        </li>#}
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-table"></i>Gestionar Informes
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'INFORMES' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
                         </li>
 
+                        {# if 'menu' in session #}
+                        {# for item in session['menu'] %}
                         <!-- Lista módulo informes -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
@@ -348,9 +365,12 @@
                                 </li>
                             </ul>
                         </li>
+                        {# endfor #}
+                        {# endif #}
                     </ul>
                 </nav>
             </div>
+            {% endif %}
         </aside>
         <!-- END MENU SIDEBAR-->
 

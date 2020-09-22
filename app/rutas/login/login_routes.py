@@ -46,9 +46,14 @@ def login():
                 obj['creacion_usuario'] = usuarios['usu_id']
                 lg.registerLogUser(obj)
                 
+                # Obtener datos del menu
+                menu = lg.getMenuData(usuarios['usu_id'], usuarios['gru_id'])
+                print(menu)
                 # Ciertos datos en la sesion
                 session['usu_id'] = usuarios['usu_id']
                 session['username'] = user.strip()
+                if menu:
+                    session['menu'] = menu
                 return redirect(url_for('inicio.index'))
             else:
                 # Cuando falla
@@ -111,4 +116,5 @@ def logout():
         obj['creacion_usuario'] = session['usu_id']
         lg.registerLogUser(obj)
     session.pop('username', None)
+    session.pop('menu', None)
     return redirect(url_for('login.login'))

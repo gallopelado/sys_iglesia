@@ -5,6 +5,53 @@ class Login_dao(Conexion):
     def __init__(self):
         Conexion.__init__(self)
 
+    def getMenuData(self, id, gru_id):
+        lista = []
+        querySQL = '''SELECT us.usu_id, us.usu_nick, us.fun_id, us.gru_id, gr.gru_des
+            , mo.mod_id, mo.mod_des, pag.pag_id, pag.pag_nombre, pag.pag_direcc
+            , per.leer, per.insertar, per.editar, per.borrar
+        FROM seguridad.usuarios us
+        LEFT JOIN seguridad.grupos gr ON gr.gru_id = us.gru_id
+        INNER JOIN seguridad.permisos per ON per.gru_id = gr.gru_id
+        LEFT JOIN seguridad.paginas pag ON pag.pag_id = per.pag_id
+        LEFT JOIN seguridad.modulos mo ON mo.mod_id = pag.mod_id 
+        WHERE us.usu_id=%s AND us.gru_id=%s
+        '''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(querySQL, (id, gru_id,))
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['usu_id'] = rs[0]
+                    obj['usu_nick'] = rs[1]
+                    obj['fun_id'] = rs[2]
+                    obj['gru_id'] = rs[3]
+                    obj['gru_des'] = rs[4]
+                    obj['mod_id'] = rs[5]
+                    obj['mod_des'] = rs[6]
+                    obj['pag_id'] = rs[7]
+                    obj['pag_nombre'] = rs[8]
+                    obj['pag_direcc'] = rs[9]
+                    obj['leer'] = rs[10]
+                    obj['insertar'] = rs[11]
+                    obj['editar'] = rs[12]
+                    obj['borrar'] = rs[13]
+                    lista.append(obj)
+        except conn.Error as e:
+            print(e)
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror            
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista
+
     def getSessionData(self, id):
         obj = {}
         querySQL = '''SELECT ses_id, ses_des, ses_nro_intentos, ses_duracion, ses_estado, ses_duracion_bloqueo
@@ -37,9 +84,10 @@ class Login_dao(Conexion):
         querySQL = '''
         SELECT usu_id, TRIM(usu_nick), usu_clave, usu_nro_intentos, usu_vaca_fechainicio, usu_vaca_fechafin, usu_isonline, usu_nro_login_exitoso, fun_id, gru_id, usu_estado
         FROM seguridad.usuarios WHERE usu_nick=%s AND usu_estado IS true'''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
         try:
-            conn = self.getConexion()
-            cur = conn.cursor()
             cur.execute(querySQL, (user,))
             data = cur.fetchall()
             if len(data) > 0:
@@ -78,7 +126,6 @@ class Login_dao(Conexion):
             conn.commit()
             return {'exitoso':cur.fetchone()[0]}
         except conn.Error as e:
-            print(e)
             res['codigo'] = e.pgcode
             res['mensaje'] = e.pgerror            
             return res
