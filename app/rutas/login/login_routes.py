@@ -52,6 +52,7 @@ def login():
                 # Ciertos datos en la sesion
                 session['usu_id'] = usuarios['usu_id']
                 session['username'] = user.strip()
+                session['fechahoy'] = usuarios['fechahoy']
                 if menu:
                     session['menu'] = menu
                 return redirect(url_for('inicio.index'))

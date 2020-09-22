@@ -8,7 +8,24 @@ Inicio
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
-        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                        <strong class="card-title">Bienvenido - {{ session['username'].capitalize() }}
+                        <small>
+                        <span class="badge badge-success float-right mt-1">Logueo Exitoso</span>
+                        </small>
+                        </strong>
+                        </div>
+                        <div class="card-body">
+                        <p class="card-text">{{ session['fechahoy'] }}</p>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- END MAIN CONTENT-->
