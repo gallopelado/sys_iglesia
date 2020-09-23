@@ -21,7 +21,7 @@ def index():
 def eliminar(id):
     md = MotivoDesercion_dao()
     res = md.eliminar(id)
-    if res:
+    if 'codigo' not in res:
         flash('Se ha borrado exitosamente el registro', 'success')
     else:
         flash('El registro esta siendo utilizado en alguna otra parte.', 'danger')
