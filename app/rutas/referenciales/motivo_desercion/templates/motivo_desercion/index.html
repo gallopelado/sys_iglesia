@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta %}
+
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title-3 m-b-30">{{ titulo }}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <a href="{{ url_for('motivo_desercion.formulario') }}"
+                                        class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                        <i class="zmdi zmdi-plus"></i>Agregar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table--no-card m-b-30">
+                                <table id="tabla" class="table table-borderless table-striped table-earning">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripción</th>
+                                            <th class="text-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for item in items %}
+                                        <tr>
+                                            <td>{{ item['descripcion'] }}</td>
+                                            <td>
+                                                <div class="table-data-feature">
+
+                                                    <button onclick="modificar('{{ url_for('motivo_desercion.editar', id=item['id']) }}')" class="item btn btn-warning modificar"
+                                                        data-toggle="tooltip" data-placement="top" title="Modificar">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </button>
+                                                    <button onclick="eliminar('{{ url_for('motivo_desercion.eliminar', id=item['id']) }}')" class="item btn btn-danger"
+                                                        data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                        <i class="zmdi zmdi-delete"></i>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor%}
+
+                                    </tbody>
+                                </table>
+                                {{ pintar_alerta(messages) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/referenciales/motivo_desercion.js') }}"></script>
+{% endblock %}
