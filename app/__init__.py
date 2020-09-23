@@ -49,6 +49,7 @@ from app.rutas.profesion.profesion_routes import profesion
 from app.rutas.requisito.requisito_routes import reqi
 from app.rutas.contrato.contrato_routes import contr
 from app.rutas.referenciales.motivo_desercion.motivo_desercion_routes import mds
+from app.rutas.referenciales.cursos.cursos_routes import cur
 
 # modulos de membresia
 from app.rutas.registrar_formulario_admision.formulario_admision_routes import formadmi
@@ -103,6 +104,7 @@ app.register_blueprint(rutas.profesion.profesion_routes.profesion, url_prefix="/
 app.register_blueprint(rutas.requisito.requisito_routes.reqi, url_prefix='/requisito')
 app.register_blueprint(contr, url_prefix='/contrato')
 app.register_blueprint(mds, url_prefix=f'{modulo0}/motivo_desercion')
+app.register_blueprint(cur, url_prefix=f'{modulo0}/cursos')
 
 # Rutas del modulo membresia
 app.register_blueprint(rutas.registrar_formulario_admision.formulario_admision_routes.formadmi, url_prefix="/formulario_admision")
