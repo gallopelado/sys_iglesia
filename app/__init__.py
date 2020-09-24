@@ -53,6 +53,7 @@ from app.rutas.referenciales.cursos.cursos_routes import cur
 from app.rutas.referenciales.asignaturas.asignaturas_routes import asig
 from app.rutas.referenciales.areas.areas_routes import area
 from app.rutas.referenciales.clasificacion_social.clasi_social_routes import cls
+from app.rutas.referenciales.eventos_ref.eventos_routes import eve
 
 # modulos de membresia
 from app.rutas.registrar_formulario_admision.formulario_admision_routes import formadmi
@@ -111,6 +112,7 @@ app.register_blueprint(cur, url_prefix=f'{modulo0}/cursos')
 app.register_blueprint(asig, url_prefix=f'{modulo0}/asignaturas')
 app.register_blueprint(area, url_prefix=f'{modulo0}/areas')
 app.register_blueprint(cls, url_prefix=f'{modulo0}/clasificacion_social')
+app.register_blueprint(eve, url_prefix=f'{modulo0}/eventos_ref')
 
 # Rutas del modulo membresia
 app.register_blueprint(rutas.registrar_formulario_admision.formulario_admision_routes.formadmi, url_prefix="/formulario_admision")

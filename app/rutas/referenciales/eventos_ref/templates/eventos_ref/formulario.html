@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_input,pintar_button  %}
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                                <a href="{{ url_for('eventos_ref.index') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">{{ titulo }}</h3>
+                            </div>
+                            <hr>
+                            <form action="{{ url_for('eventos_ref.formulario') }}" method="post" >
+                                {{ form.csrf_token }}
+                                {{ form.usu_id }}
+                                {{ form.id }}
+                                <div class="form-group has-success">
+                                    {{ form.descripcion.label(class="control-label mb-1") }}
+                                    {{ form.descripcion(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true") }}
+                                    {% for error in form.descripcion.errors %}
+                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ form.guardar(class="btn btn-lg btn-info btn-block") }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button id="btncancelar" type="reset" class="btn btn-lg btn-info btn-block">
+                                            <i class="fa fa-cancel fa-lg"></i>&nbsp;
+                                            <span id="payment-button-amount">Cancelar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
