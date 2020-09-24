@@ -28,7 +28,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-12 mb-2">
-                                    <a href="{{ url_for('cursos.formulario') }}"
+                                    <a href="{{ url_for('asignaturas.formulario') }}"
                                         class="au-btn au-btn-icon au-btn--green au-btn--small">
                                         <i class="zmdi zmdi-plus"></i>Agregar
                                     </a>
@@ -52,11 +52,11 @@
                                             <td>
                                                 <div class="table-data-feature">
 
-                                                    <button onclick="modificar('{{ url_for('cursos.editar', id=item['id']) }}')" class="item btn btn-warning modificar"
+                                                    <button onclick="modificar('{{ url_for('asignaturas.editar', id=item['id']) }}')" class="item btn btn-warning modificar"
                                                         data-toggle="tooltip" data-placement="top" title="Modificar">
                                                         <i class="zmdi zmdi-edit"></i>
                                                     </button>
-                                                    <button onclick="eliminar('{{ url_for('cursos.eliminar', id=item['id']) }}')" class="item btn btn-danger"
+                                                    <button onclick="eliminar('{{ url_for('asignaturas.eliminar', id=item['id']) }}')" class="item btn btn-danger"
                                                         data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                         <i class="zmdi zmdi-delete"></i>
                                                     </button>
@@ -89,5 +89,5 @@
 <script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
 <script src="{{ url_for('static', filename='js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ url_for('static', filename='jsOperacionales/referenciales/cursos.js') }}"></script>
+<script src="{{ url_for('static', filename='jsOperacionales/referenciales/referencial.js') }}"></script>
 {% endblock %}
