@@ -73,4 +73,6 @@ def formulario():
                 return redirect(url_for('motivo_desercion.index'))
             else:
                 return redirect(url_for('motivo_desercion.editar', id=id, titulo=titulo))
-
+        else:
+            flash('Error en la validación, revise de vuelta', 'warning')
+            return redirect(url_for('motivo_desercion.index'))

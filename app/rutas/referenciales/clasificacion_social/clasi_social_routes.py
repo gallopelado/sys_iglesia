@@ -75,4 +75,6 @@ def formulario():
                 return redirect(url_for('clasi_social.index'))
             else:
                 return redirect(url_for('clasi_social.editar', id=id, titulo=titulo))
-
+        else:
+            flash('Error en la validación, revise de vuelta', 'warning')
+            return redirect(url_for('clasi_social.index'))

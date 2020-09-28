@@ -75,4 +75,6 @@ def formulario():
                 return redirect(url_for('cargos.index'))
             else:
                 return redirect(url_for('cargos.editar', id=id, titulo=titulo))
-
+        else:
+            flash('Error en la validación, revise de vuelta', 'warning')
+            return redirect(url_for('cargos.index'))
