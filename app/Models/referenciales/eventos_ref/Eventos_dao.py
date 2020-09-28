@@ -61,7 +61,7 @@ class Eventos_dao:
         try:
             cur.execute(insertSQL, (descripcion,))
             conn.commit()
-            return cur.fetchone()
+            return cur.rowcount
         except conn.Error as e:
             app.logger.error(e)     
             obj = {}
@@ -83,7 +83,7 @@ class Eventos_dao:
         try:
             cur.execute(updateSQL, (descripcion, id))
             conn.commit()
-            return cur.fetchone()
+            return cur.rowcount
         except conn.Error as e:
             app.logger.error(e)     
             obj = {}
@@ -104,7 +104,7 @@ class Eventos_dao:
         try:
             cur.execute(deleteSQL, (id,))
             conn.commit()
-            return cur.fetchone()
+            return True
         except conn.Error as e:
             app.logger.error(e)     
             obj = {}

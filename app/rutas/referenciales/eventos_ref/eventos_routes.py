@@ -21,7 +21,7 @@ def index():
 def eliminar(id):
     md = Eventos_dao()
     res = md.eliminar(id)
-    if 'codigo' not in res:
+    if res:
         flash('Se ha borrado exitosamente el registro', 'success')
     elif 'codigo' in res and res['codigo'] == '23503':
         flash('El registro esta siendo utilizado en alguna otra parte.', 'danger')
