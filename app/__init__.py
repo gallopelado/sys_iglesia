@@ -56,6 +56,7 @@ from app.rutas.referenciales.clasificacion_social.clasi_social_routes import cls
 from app.rutas.referenciales.eventos_ref.eventos_routes import eve
 from app.rutas.referenciales.cargos.cargos_routes import car
 from app.rutas.referenciales.funcionarios.funcionarios_routes import fun
+from app.rutas.referenciales.modulos.modulos_routes import mo
 
 # modulos de membresia
 from app.rutas.registrar_formulario_admision.formulario_admision_routes import formadmi
@@ -117,6 +118,7 @@ app.register_blueprint(cls, url_prefix=f'{modulo0}/clasificacion_social')
 app.register_blueprint(eve, url_prefix=f'{modulo0}/eventos_ref')
 app.register_blueprint(car, url_prefix=f'{modulo0}/cargos')
 app.register_blueprint(fun, url_prefix=f'{modulo0}/funcionarios')
+app.register_blueprint(mo, url_prefix=f'{modulo0}/modulos')
 
 # Rutas del modulo membresia
 app.register_blueprint(rutas.registrar_formulario_admision.formulario_admision_routes.formadmi, url_prefix="/formulario_admision")
