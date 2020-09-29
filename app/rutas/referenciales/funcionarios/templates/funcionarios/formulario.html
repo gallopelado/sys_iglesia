@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta  %}
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                                <a href="{{ url_for('funcionarios.index') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">{{ titulo }}</h3>
+                            </div>
+                            <hr>
+                            <form action="{{ url_for('funcionarios.formulario') }}" method="post" >
+                                {{ form.csrf_token }}
+                                {{ form.id }}
+                                <div class="row">
+                                    {% if not editar %}
+                                    <div class="col-lg-6">
+                                        {{ form.personas.label(class="control-label mb-1") }}
+                                        {{ form.personas(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true") }}
+                                        {% for error in form.personas.errors %}
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <div class="col-lg-6">
+                                        {{ form.campo_persona.label(class="control-label mb-1") }}
+                                        {{ form.campo_persona(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true", readonly=True) }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="col-lg-6">
+                                        {{ form.cargos.label(class="control-label mb-1") }}
+                                        {{ form.cargos(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true") }}
+                                        {% for error in form.cargos.errors %}
+                                        <span class="help-block" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-lg-6">
+                                        {{ form.guardar(class="btn btn-lg btn-info btn-block") }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button id="btncancelar" type="reset" class="btn btn-lg btn-info btn-block">
+                                            <i class="fa fa-cancel fa-lg"></i>&nbsp;
+                                            <span id="payment-button-amount">Cancelar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ pintar_alerta(messages) }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
