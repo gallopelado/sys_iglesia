@@ -19,5 +19,5 @@ class Formulario(FlaskForm):
     # Constructor
     def __init__(self, *args, **kwargs):
         super(Formulario, self).__init__(*args, **kwargs)
-        self.funcionario.choices = [(item['fun_id'], f'{item["funcionario"]}') for item in self.listaf]
+        self.funcionario.choices = [(item['fun_id'], item["funcionario"]) for item in self.listaf]
         self.grupos.choices = [(item['id'], item['descripcion']) for item in self.listag]
