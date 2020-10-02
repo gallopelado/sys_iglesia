@@ -60,11 +60,11 @@
                                             <td>
                                                 <div class="table-data-feature">
 
-                                                    <button onclick="modificar('{{ url_for('usuarios.editar', id=item['fun_id']) }}')" class="item btn btn-warning modificar"
+                                                    <button onclick="modificar('{{ url_for('usuarios.editar', id=item['usu_id']) }}')" class="item btn btn-warning modificar"
                                                         data-toggle="tooltip" data-placement="top" title="Modificar">
                                                         <i class="zmdi zmdi-edit"></i>
                                                     </button>
-                                                    <button onclick="eliminar('{{ url_for('usuarios.eliminar', id=item['fun_id']) }}')" class="item btn btn-danger"
+                                                    <button onclick="eliminar('{{ url_for('usuarios.eliminar', id=item['usu_id']) }}')" class="item btn btn-danger"
                                                         data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                         <i class="zmdi zmdi-delete"></i>
                                                     </button>

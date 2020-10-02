@@ -98,7 +98,7 @@ class Usuario_dao:
         try:
             cur.execute(querySQL, (id, ))
             rs = cur.fetchone()
-            if len(rs) > 0:
+            if rs:
                 obj['usu_id'] = rs[0]
                 obj['usu_nick'] = rs[1]
                 obj['usu_clave'] = rs[2]
@@ -161,7 +161,7 @@ class Usuario_dao:
 
     def darBaja(self, usu_id, modificacion_usuario):
         obj=[]
-        deleteSQL = '''UPDATE seguridad.usuarios SET usu_estado=false, modificacion_fecha=now(), modificacion_usuario=%s WHERE fun_id=%s'''
+        deleteSQL = '''UPDATE seguridad.usuarios SET usu_estado=false, modificacion_fecha=now(), modificacion_usuario=%s WHERE usu_id=%s'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()

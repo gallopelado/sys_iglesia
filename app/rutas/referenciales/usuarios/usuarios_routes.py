@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session
+from werkzeug.security import generate_password_hash
 from app.rutas.referenciales.usuarios.Form import Formulario
 from app.Models.referenciales.usuarios.Usuario_dao import Usuario_dao
 
@@ -35,10 +36,11 @@ def editar(id):
     obj = Usuario_dao()
     data = obj.getUsuarioId(id)
     if data:
-        form.id.data = data['fun_id']
-        form.campo_persona.data = data['funcionario']
-        form.personas.data = data['fun_id']
-        form.cargos.data = data['car_id']
+        form.id.data = data['usu_id']
+        form.nick.data = data['usu_nick']
+        form.campo_funcionario.data = data['funcionario']
+        form.funcionario.data = data['fun_id']
+        form.grupos.data = data['gru_id']
     else:
         flash('No pudo cargarse datos en el formulario. Contacte con el administrador', 'danger')
     return render_template('usuarios/formulario.html', titulo=title_formulario, form=form, editar=True)
@@ -69,16 +71,17 @@ def formulario():
             id = form.id.data
             
             if not id:
-                fun_id = form.personas.data
-                if not fun_id or fun_id == 000:
-                    flash('Debe escoger un funcionario', 'danger')
-                    return redirect(url_for('usuarios.index'))
-                car_id = form.cargos.data
-                #res = obj.guardar(fun_id, car_id, usu_id)
+                fun_id = form.funcionario.data
+                grupo_id = form.grupos.data
+                nick = form.nick.data
+                clave = generate_password_hash(form.clave.data, method='sha256')
+                res = obj.guardar(nick, clave, fun_id, grupo_id, usu_id)
                 mensaje = ['Se guardo correctamente', 'success']
             else:
-                car_id = form.cargos.data
-                #res = obj.modificar(id, car_id, usu_id)
+                grupo_id = form.grupos.data
+                nick = form.nick.data
+                clave = generate_password_hash(form.clave.data, method='sha256')
+                res = obj.modificar(nick, clave, grupo_id, usu_id, id)
                 mensaje = ['Se modifico correctamente', 'success']
 
             if res:
