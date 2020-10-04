@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta  %}
+
+{% block title %}
+{{ titulo }}
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                                <a href="{{ url_for('paginas.index') }}"
+                                class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Volver
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">{{ titulo }}</h3>
+                            </div>
+                            <hr>
+                            <form action="{{ url_for('paginas.formulario') }}" method="post" >
+                                {{ form.csrf_token }}
+                                {{ form.id }}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ form.campo_pagina.label(class="control-label mb-1") }}
+                                        {{ form.campo_pagina(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true", placeholder="Registrar...") }}
+                                        {% for error in form.campo_pagina.errors %}
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ form.campo_uri.label(class="control-label mb-1") }}
+                                        {{ form.campo_uri(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true", placeholder="modulo.funcion") }}
+                                        {% for error in form.campo_uri.errors %}
+                                        <span class="help-block" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ form.modulos.label(class="control-label mb-1") }}
+                                        {{ form.modulos(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true") }}
+                                        {% for error in form.modulos.errors %}
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="row mt-5">
+                                    <div class="col-lg-6">
+                                        {{ form.guardar(class="btn btn-lg btn-info btn-block") }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button id="btncancelar" type="reset" class="btn btn-lg btn-info btn-block">
+                                            <i class="fa fa-cancel fa-lg"></i>&nbsp;
+                                            <span id="payment-button-amount">Cancelar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                {{ pintar_alerta(messages) }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
