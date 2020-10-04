@@ -59,6 +59,7 @@ from app.rutas.referenciales.funcionarios.funcionarios_routes import fun
 from app.rutas.referenciales.modulos.modulos_routes import mo
 from app.rutas.referenciales.usuarios.usuarios_routes import usu
 from app.rutas.referenciales.paginas.pagina_routes import pag
+from app.rutas.referenciales.permisos.permisos_routes import perm
 
 # modulos de membresia
 from app.rutas.registrar_formulario_admision.formulario_admision_routes import formadmi
@@ -123,6 +124,7 @@ app.register_blueprint(fun, url_prefix=f'{modulo0}/funcionarios')
 app.register_blueprint(mo, url_prefix=f'{modulo0}/modulos')
 app.register_blueprint(usu, url_prefix=f'{modulo0}/usuarios')
 app.register_blueprint(pag, url_prefix=f'{modulo0}/paginas')
+app.register_blueprint(perm, url_prefix=f'{modulo0}/permisos')
 
 # Rutas del modulo membresia
 app.register_blueprint(rutas.registrar_formulario_admision.formulario_admision_routes.formadmi, url_prefix="/formulario_admision")
