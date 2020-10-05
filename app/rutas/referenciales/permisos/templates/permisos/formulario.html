@@ -50,7 +50,7 @@
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <label class="control-label mb-1 mt-5" for="paginas">Escoger pagina</label>
-                                        <select autocomplete="off" autofocus="true" class="input-sm form-control-sm form-control" id="paginas" name="paginas" v-model="paginas">
+                                        <select autocomplete="off" autofocus="true" class="input-sm form-control-sm form-control" id="paginas" name="paginas" v-model="paginas" :disabled="!modulos">
                                             <option value="">..</option>
                                             <option v-for="item in lista_paginas" v-text="item.descripcion"></option>
                                         </select>
@@ -81,7 +81,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3 mt-3">
-                                        <button type="button" class="btn btn-lg btn-success mt-5">
+                                        <button type="button" class="btn btn-lg btn-success mt-5" :disabled="!paginas">
                                             <i class="fas fa-plus"></i> Agregar
                                         </button>
                                     </div>
@@ -115,11 +115,11 @@
                                         <td><span class="role {{ 'admin' if item['borrar']!='SI' else 'member' }}">{{ item['borrar'] }}</span></td>
                                         <td>
                                             <div class="table-data-feature">
-                                                <a href="{{ url_for('permisos.gestionar', id=item['id']) }}" class="btn btn-primary btn-sm mr-3">
+                                                <a href="{{ url_for('permisos.editarPermiso', id_grupo=item['gru_id'], id_pagina=item['pag_id']) }}" class="btn btn-primary btn-sm mr-3">
                                                     <i class="fas fa-pencil-alt"></i> Editar
                                                 </a>
-                                                <a href="{{ url_for('permisos.gestionar', id=item['id']) }}" class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-pencil-alt"></i> Eliminar
+                                                <a href="{{ url_for('permisos.gestionar', id=item['pag_id']) }}" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i> Eliminar
                                                 </a>
                                             </div>
                                         </td>

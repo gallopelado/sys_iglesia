@@ -120,22 +120,24 @@ class Permiso_dao:
                 conn.close()
         return lista
 
-    def getPaginaId(self, id):
+    def getPermisoById(self, id_pagina, id_grupo):
         obj = {}
-        querySQL = '''SELECT pag_id, mod_id, mod_des, pag_nombre, pag_direcc, pag_estado FROM seguridad.paginas left join seguridad.modulos using(mod_id) WHERE pag_id=%s'''
+        querySQL = '''SELECT pag_id, pag_nombre, gru_id, gru_des , leer , insertar , editar , borrar FROM seguridad.permisos left join seguridad.grupos using(gru_id) left join seguridad.paginas using(pag_id) where gru_id = %s and pag_id = %s'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
         try:
-            cur.execute(querySQL, (id, ))
+            cur.execute(querySQL, (id_grupo, id_pagina,))
             rs = cur.fetchone()
             if len(rs) > 0:                
                     obj['pag_id'] = rs[0]
                     obj['mod_id'] = rs[1]
                     obj['mod_des'] = rs[2]
                     obj['pag_nombre'] = rs[3]
-                    obj['pag_direcc'] = rs[4]
-                    obj['pag_estado'] = rs[4]
+                    obj['leer'] = rs[4]
+                    obj['insertar'] = rs[5]
+                    obj['editar'] = rs[6]
+                    obj['borrar'] = rs[7]
         except conn.Error as e:
             app.logger.error(e)     
             obj = {}

@@ -42,6 +42,23 @@ def gestionar(id):
         form.nombre_grupo.data = data[0]['gru_des']
     return render_template('permisos/formulario.html', titulo="Asignar paginas y permisos", form=form, items=data)
 
+@perm.route('/formulario/editar_permiso/<int:id_grupo>/<int:id_pagina>')
+def editarPermiso(id_grupo, id_pagina):
+    form = Formulario()
+    form.gru_id.data = id_grupo
+    form.pag_id.data = id_pagina
+    obj = Permiso_dao()
+    data = obj.getPermisoById(id_pagina, id_grupo)
+    if not data:
+        flash('No pudo cargarse datos en el formulario. Contacte con el administrador', 'danger')
+    elif data['pag_id']:
+        form.nombre_pagina.data = data['pag_nombre']
+        form.leer.data = data['leer']
+        form.insertar.data = data['insertar']
+        form.editar.data = data['editar']
+        form.borrar.data = data['borrar']
+    return render_template('permisos/editar_permiso.html', titulo="Editar Permiso", form=form, id=id_grupo)
+
 @perm.route('/formulario', methods=['GET', 'POST'])
 def formulario():
     # Obtener antes dats de permisos para llenar el formulario

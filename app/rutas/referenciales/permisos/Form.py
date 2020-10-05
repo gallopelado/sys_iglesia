@@ -8,7 +8,9 @@ class Formulario(FlaskForm):
     lista = obj.getModulos()
 
     gru_id = HiddenField()
+    pag_id = HiddenField()
     nombre_grupo = StringField('Grupo Seleccionado')
+    nombre_pagina = StringField('Nombre de Pagina')
     modulos = SelectField('Elegir Modulo', validators=[], choices=[(item['id'], item["descripcion"]) for item in lista], coerce=int)
     paginas = SelectField('Escoger pagina', choices=[('..', '..')])
     leer = BooleanField('Leer')
