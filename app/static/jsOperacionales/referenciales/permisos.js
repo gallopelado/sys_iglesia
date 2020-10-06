@@ -10,7 +10,7 @@ new Vue({
     methods: {
         getPagina() {
             if(this.modulos) {
-                axios.get(`/mantenimiento_seguridad/permisos/get_pagina/${this.modulos}`). then(({data}) => this.lista_paginas = data)
+                axios.get(`/mantenimiento_seguridad/permisos/get_pagina/${this.modulos}/${$("#gru_id").val()}`). then(({data}) => this.lista_paginas = data)
             } else {
                 this.paginas = [];
             }

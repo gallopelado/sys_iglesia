@@ -12,7 +12,7 @@ class Formulario(FlaskForm):
     nombre_grupo = StringField('Grupo Seleccionado')
     nombre_pagina = StringField('Nombre de Pagina')
     modulos = SelectField('Elegir Modulo', validators=[], choices=[(item['id'], item["descripcion"]) for item in lista], coerce=int)
-    paginas = SelectField('Escoger pagina', choices=[('..', '..')])
+    paginas = SelectField('Escoger pagina', choices=[('..', '..')], coerce=int)
     leer = BooleanField('Leer')
     insertar = BooleanField('Insertar')
     editar = BooleanField('Editar')

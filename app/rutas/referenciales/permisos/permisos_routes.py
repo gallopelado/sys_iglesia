@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session
 from flask.json import jsonify
+from wtforms.form import Form
 from app.rutas.referenciales.permisos.Form import Formulario
 from app.Models.referenciales.permisos.Permiso_dao import Permiso_dao
 
@@ -18,17 +19,17 @@ def index():
     lista = md.getGrupos()
     return render_template('permisos/index.html', titulo=titulo, items=lista)
 
-@perm.route('/eliminar/<id>')
-def eliminar(id):
+@perm.route('/eliminar/<int:id_grupo>/<int:id_pagina>')
+def eliminar(id_grupo, id_pagina):
     md = Permiso_dao()
-    res = md.eliminar(id)
-    if 'codigo' not in res:
+    res = md.eliminar(id_grupo, id_pagina)
+    if res:
         flash('Se ha cambiado el estado exitosamente', 'success')
     elif 'codigo' in res and res['codigo'] == '23503':
         flash('El registro esta siendo utilizado en alguna otra parte.', 'danger')
     else:
         flash('Se ha borrado exitosamente el registro', 'success')
-    return redirect(url_for('permisos.index'))
+    return redirect(url_for('permisos.gestionar', id=id_grupo))
 
 @perm.route('/formulario/gestionar/<id>')
 def gestionar(id):
@@ -37,7 +38,8 @@ def gestionar(id):
     obj = Permiso_dao()
     data = obj.getPaginasByGrupo(int(id))
     if not data:
-        flash('No pudo cargarse datos en el formulario. Contacte con el administrador', 'danger')
+        form.nombre_grupo.data = obj.getGruposId(id)['descripcion']
+        flash('No existen registros para el formulario.', 'warning')
     elif data[0]['gru_des']:
         form.nombre_grupo.data = data[0]['gru_des']
     return render_template('permisos/formulario.html', titulo="Asignar paginas y permisos", form=form, items=data)
@@ -61,10 +63,8 @@ def editarPermiso(id_grupo, id_pagina):
 
 @perm.route('/formulario', methods=['GET', 'POST'])
 def formulario():
-    # Obtener antes dats de permisos para llenar el formulario
+    # Obtener antes datos de permisos para llenar el formulario
     form = Formulario()
-    #if form.id.data:
-    #    del form.personas
     obj = Permiso_dao()
     res = None
     mensaje = ''
@@ -72,35 +72,31 @@ def formulario():
     if request.method == 'GET':
         return render_template('permisos/formulario.html', titulo=titulo, form=form)
     else:
-        isValid = form.validate_on_submit()
+        isValid = True if (form.modulos.data and form.paginas.data) or (form.gru_id.data and form.pag_id.data) else False
         if isValid:
 
             next = request.args.get('next', None)
             if next:
                 return redirect(next)
 
-            id = form.id.data
-            
-            if not id:
-                #campo_pagina = form.campo_pagina.data
-                #campo_uri = form.campo_uri.data
-                #mod_id = form.modulos.data
-                # res = obj.guardar(mod_id, campo_pagina.capitalize(), campo_uri)
-                mensaje = ['Se guardo correctamente', 'success']
-            else:
-                #campo_pagina = form.campo_pagina.data
-                #campo_uri = form.campo_uri.data
-                #mod_id = form.modulos.data
-                # res = obj.modificar(campo_pagina.capitalize(), mod_id, campo_uri, id)
-                mensaje = ['Se modifico correctamente', 'success']
+            gru_id = form.gru_id.data
+            pag_id = form.paginas.data if form.paginas.data else form.pag_id.data
+            leer = form.leer.data
+            insertar = form.insertar.data
+            editar = form.editar.data
+            borrar = form.borrar.data
 
-            if res:
+            res = obj.guardar(pag_id, gru_id, leer, insertar, editar, borrar)
+            mensaje = ['Se ha procesado correctamente', 'success']
+
+            if res == True:
                 flash(mensaje[0], mensaje[1])
-                return redirect(url_for('permisos.index'))
+                return redirect(url_for('permisos.gestionar', id=gru_id))
             else:
-                return redirect(url_for('permisos.gestionar', id=id))
+                flash('Error al procesar. Consulte al administrador. Y si sos el administrador, hule!', 'danger')
+                return redirect(url_for('permisos.gestionar', id=gru_id))
         else:
-            id = form.id.data
+            id = form.gru_id.data
             if id:
                 flash('Error en la validación, revise de vuelta', 'warning')
                 return redirect(url_for('permisos.gestionar', id=id))
@@ -108,8 +104,8 @@ def formulario():
             return redirect(url_for('permisos.formulario'))
 
 ## metodos con ajax
-@perm.route('/get_pagina/<id>')
-def getPagina(id):
+@perm.route('/get_pagina/<id>/<gru_id>')
+def getPagina(id, gru_id):
     per = Permiso_dao()
-    lista = per.getPaginaByModulo(id)
+    lista = per.getPaginaByModulo(id, gru_id)
     return jsonify(lista)
