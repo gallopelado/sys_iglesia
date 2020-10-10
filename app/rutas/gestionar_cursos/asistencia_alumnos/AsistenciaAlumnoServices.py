@@ -42,6 +42,7 @@ class AsistenciaAlumnoServices:
         lista_detalle = {
             'asistieron':req.json['asistieron'] if 'asistieron' in req.json else None
             , 'puntuales': req.json['puntuales'] if 'puntuales' in req.json else None
+            , 'ausentes': req.json['ausentes'] if 'ausentes' in req.json else None
         }
         vfecha = self.validarFecha(cabecera.creacion_fecha)
         if vfecha == True:

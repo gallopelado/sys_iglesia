@@ -15,7 +15,7 @@ var app = new Vue({
         , fecha_clase: null
         , asistio: null
         , puntual: null
-        , lista_asistio: [], lista_puntual: []
+        , lista_asistio: [], lista_puntual: [], lista_ausente:[]
         , formulario_data: []
         , guardado: false
     }
@@ -52,6 +52,7 @@ var app = new Vue({
         }
         , agregaAsistencia(data) {
             this.lista_asistio = [];
+            this.lista_ausente = [];
             let item = this.$refs.chk_asistio;
             for (let i = 0; i < item.length; i++) {
                 if (item[i].checked) {
@@ -60,6 +61,9 @@ var app = new Vue({
                         idalumno: item[i].id
                     });
                 } else {
+                    this.lista_ausente.push({
+                        idalumno: item[i].id
+                    });
                     this.lista_puntual = [];
                     this.$refs.chk_puntual[i].checked = false;
                     this.$refs.chk_puntual[i].disabled = true;
@@ -95,7 +99,7 @@ var app = new Vue({
                                 , per_id: inst.asistencia_data.per_id
                                 , turno: inst.asistencia_data.turno
                                 , cur_id: inst.asistencia_data.cur_id, descripcion: inst.descripcion
-                                , asistieron: inst.lista_asistio, puntuales: inst.lista_puntual
+                                , asistieron: inst.lista_asistio, puntuales: inst.lista_puntual, ausentes: inst.lista_ausente
                                 , fecha: inst.asistencia_data.fecha
                             }
                             axios.post(`/cursos/asistencia_alumnos/guardar_asistencia`, form)

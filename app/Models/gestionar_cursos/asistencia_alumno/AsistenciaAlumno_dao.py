@@ -1,4 +1,5 @@
 from app.Conexion.Conexion import Conexion
+from flask import current_app as app
 
 class AsistenciaAlumno_dao(Conexion):
 
@@ -161,6 +162,8 @@ class AsistenciaAlumno_dao(Conexion):
             #Insertar detalle
             for item in detalle['asistieron']:
                 cur.execute(insert_detalle_SQL, (cabecera_id, int(item['idalumno']), True, False, True))
+            for item in detalle['ausentes']:
+                cur.execute(insert_detalle_SQL, (cabecera_id, int(item['idalumno']), False, False, True))
             if len(detalle['puntuales']) > 0:
                 for item in detalle['puntuales']:
                     cur.execute(update_puntual_SQL, (cabecera_id, str(item['idalumno']),))
@@ -169,6 +172,7 @@ class AsistenciaAlumno_dao(Conexion):
             return {'cabecera_id': cabecera_id}
         except conn.Error as e:
             conn.rollback()
+            app.logger.error(e) 
             res['codigo'] = e.pgcode
             res['mensaje'] = e.pgerror
             return res
