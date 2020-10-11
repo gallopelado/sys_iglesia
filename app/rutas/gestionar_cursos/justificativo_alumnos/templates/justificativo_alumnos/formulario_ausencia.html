@@ -1,11 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h3>formulario ausencia</h3>
-</body>
-</html>
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <form action="{{ url_for('permisos.formulario') }}" method="post" >
+                        {{ form.csrf_token }}
+                        {{ form.malla_id }}
+                        {{ form.alu_id }}
+                        {{ form.cur_id }}
+                        {{ form.asi_id }}
+                        {{ form.turno }}
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col col-md-3">
+                                        <a href="{{ url_for('justificativo_alumno.index') }}"
+                                        class="btn btn-secondary bt-sm">
+                                        <i class="fa fa-angle-left"></i> Volver
+                                        </a>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <div class="card-title">
+                                            <h3 class="text-center title-2">{{ titulo }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            {{ form.alumno.label(class="control-label mb-1") }}
+                                            {{ form.alumno(class="input-sm form-control-sm form-control", disabled=True) }}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {{ form.curso.label(class="control-label mb-1") }}
+                                            {{ form.curso(class="input-sm form-control-sm form-control", disabled=True) }}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {{ form.asignatura.label(class="control-label mb-1") }}
+                                            {{ form.asignatura(class="input-sm form-control-sm form-control", disabled=True) }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form.descripcion.label(class="control-label mb-1") }}
+                                            {{ form.descripcion(class="input-sm form-control", autocomplete="off") }}
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="col-md-3">
+                                    {{ form.guardar(class="btn btn-md btn-success") }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/asistencia_alumno/form_asistencia.js') }}"></script> -->
+
+
+{% endblock %}
