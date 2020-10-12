@@ -27,18 +27,20 @@
 
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
-                    <form action="{{ url_for('permisos.formulario') }}" method="post" >
+                    <form action="{{ url_for('justificativo_alumno.guardar') }}" method="post" >
                         {{ form.csrf_token }}
                         {{ form.malla_id }}
                         {{ form.alu_id }}
                         {{ form.cur_id }}
                         {{ form.asi_id }}
+                        {{ form.num_id }}
                         {{ form.turno }}
+                        {{ form.idmaestro }}
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col col-md-3">
-                                        <a href="{{ url_for('justificativo_alumno.index') }}"
+                                        <a href="{{ url_for('justificativo_alumno.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data) }}"
                                         class="btn btn-secondary bt-sm">
                                         <i class="fa fa-angle-left"></i> Volver
                                         </a>
@@ -74,8 +76,10 @@
                                     </div>
                             </div>
                             <div class="card-footer">
-                                <div class="col-md-3">
-                                    {{ form.guardar(class="btn btn-md btn-success") }}
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {{ form.guardar(class="btn btn-md btn-success") }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

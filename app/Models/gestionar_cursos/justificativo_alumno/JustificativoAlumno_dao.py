@@ -75,3 +75,24 @@ class JustificativoAlumno_dao:
                 cur.close()
                 conn.close()
         return lista
+
+    def guardar(self, alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario):
+        obj=[]
+        insertSQL = '''INSERT INTO cursos.alumno_justificativo (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, alj_estado, creacion_fecha, creacion_usuario) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, true, now(), %s)RETURNING alj_id'''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(insertSQL, (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario,))
+            conn.commit()
+            return cur.fetchone()[0]
+        except conn.Error as e:
+            app.logger.error(e)     
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror
+            return obj            
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()

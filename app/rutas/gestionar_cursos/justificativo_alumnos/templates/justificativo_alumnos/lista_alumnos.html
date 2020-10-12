@@ -63,12 +63,13 @@
                                         <td style="text-align: center;">{{ item['estudiante'] }}</td>
                                         <td style="text-align: center;">
                                             <button onclick="" class="item btn btn-primary">Ver</button>
-                                            <a href="{{ url_for('justificativo_alumno.formularioAusencia') }}" class="item btn btn-success">Justificar</a>
+                                            <a href="{{ url_for('justificativo_alumno.formularioAusencia', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data, per_id=item['per_id']) }}" class="item btn btn-success">Justificar</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {{ pintar_alerta(messages) }}
                         </div>
                     </div>
                 </div>
