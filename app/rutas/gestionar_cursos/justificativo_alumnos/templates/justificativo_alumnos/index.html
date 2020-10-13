@@ -51,7 +51,6 @@
                                             <td>{{ item['docente'] }}</td>
                                             <td>{{ item['turno'] }}</td>
                                             <td>
-                                                <button onclick="" class="item btn btn-primary">Ver</button>
                                                 <a href="{{ url_for('justificativo_alumno.listaAlumnos', malla_id=item['malla_id'], cur_id=item['cur_id'], asi_id=item['asi_id'], num_id=item['num_id'], turno=item['turno']) }}" class="item btn btn-success">Cargar</a>
                                             </td>
                                         </tr>

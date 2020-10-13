@@ -63,6 +63,12 @@ def guardar():
             flash('Hubo un problema al intentar guardar', 'warning')
         return redirect(url_for('justificativo_alumno.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data))
 
-@jusa.route('/lista_justificativos_alumnos')
-def listaJustificativoAlumno():
-    return render_template('justificativo_alumnos/lista_justificativos_alumnos.html', titulo='Lista de Justificativos por alumno')
+@jusa.route('/lista_justificativos_alumnos/<int:alumno_id>')
+def listaJustificativosAlumno(alumno_id):
+    #{{ url_for('justificativo_alumno.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data) }}
+    jusa_dao = JustificativoAlumno_dao()
+    data = jusa_dao.getListaJustificativosByAlumno(alumno_id)
+    if not data:
+        flash('No existen justificativos para este alumno', 'warning')
+        return redirect(url_for('justificativo_alumno.index'))
+    return render_template('justificativo_alumnos/lista_justificativos_alumnos.html', titulo='Lista de Justificativos por alumno', items=data)

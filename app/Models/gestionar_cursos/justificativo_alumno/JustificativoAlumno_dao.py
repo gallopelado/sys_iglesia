@@ -76,6 +76,41 @@ class JustificativoAlumno_dao:
                 conn.close()
         return lista
 
+    def getListaJustificativosByAlumno(self, alumno_id):
+        lista=[]
+        querySQL = '''select aj.alj_id, aj.alumno_id, aj.malla_id, aj.cur_id, aj.asi_id, asi.asi_des, aj.num_id, na.num_des, aj.alj_descripcion, fecha_formatolargo(aj.creacion_fecha::DATE)fechacreacion, aj.turno from cursos.alumno_justificativo aj left join referenciales.personas p on p.per_id = aj.per_id left join referenciales.asignaturas asi on asi.asi_id = aj.asi_id left join referenciales.numero_asignatura na on na.num_id = aj.num_id where aj.alumno_id = %s'''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(querySQL, (alumno_id,))
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['alj_id'] = rs[0]
+                    obj['alumno_id'] = rs[1]
+                    obj['malla_id'] = rs[2]
+                    obj['cur_id'] = rs[3]
+                    obj['asi_id'] = rs[4]
+                    obj['asi_des'] = rs[5]
+                    obj['num_id'] = rs[6]
+                    obj['num_des'] = rs[7]
+                    obj['alj_descripcion'] = rs[8]
+                    obj['fechacreacion'] = rs[9]
+                    obj['turno'] = rs[10]
+                    lista.append(obj)
+        except conn.Error as e:
+            app.logger.error(e)     
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror            
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista
+
     def guardar(self, alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario):
         obj=[]
         insertSQL = '''INSERT INTO cursos.alumno_justificativo (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, alj_estado, creacion_fecha, creacion_usuario) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, true, now(), %s)RETURNING alj_id'''
