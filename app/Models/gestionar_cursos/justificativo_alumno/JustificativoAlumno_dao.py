@@ -42,7 +42,7 @@ class JustificativoAlumno_dao:
 
     def getListaAlumnos(self, malla_id, cur_id, asi_id, num_id, turno):
         lista=[]
-        querySQL = '''SELECT adt.asiscurso_id, adt.per_id, CONCAT(p.per_nombres,' ', p.per_apellidos)estudiante , ac.malla_id, ac.cur_id, c.cur_des, ac.asi_id, ac.num_id, CONCAT(asi.asi_des,' ', na.num_des)asignatura, ac.turno , ac.per_id idmaestro, CONCAT(p2.per_nombres,' ', p2.per_apellidos)maestro FROM cursos.asistenciacurso_det adt LEFT JOIN referenciales.personas p ON p.per_id = adt.per_id LEFT JOIN cursos.asistenciacurso_cab ac ON ac.asiscurso_id = adt.asiscurso_id LEFT JOIN referenciales.cursos c ON c.cur_id = ac.cur_id LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = ac.asi_id LEFT JOIN referenciales.numero_asignatura na ON na.num_id = ac.num_id LEFT JOIN referenciales.personas p2 ON p2.per_id = ac.per_id WHERE adt.asiscursodet_asistio IS FALSE AND ac.malla_id = %s AND ac.cur_id = %s AND ac.asi_id = %s AND ac.num_id = %s AND ac.turno = %s'''
+        querySQL = '''SELECT adt.asiscurso_id, adt.per_id, CONCAT(p.per_nombres,' ', p.per_apellidos)estudiante , ac.malla_id, ac.cur_id, c.cur_des, ac.asi_id, ac.num_id, CONCAT(asi.asi_des,' ', na.num_des)asignatura, ac.turno , ac.per_id idmaestro, CONCAT(p2.per_nombres,' ', p2.per_apellidos)maestro, (ac.creacion_fecha::DATE)::VARCHAR fechacreacion, case (select COUNT(alj_fechaclase_perdida) from cursos.alumno_justificativo aj where aj.malla_id = ac.malla_id and aj.cur_id = ac.cur_id and aj.asi_id = ac.asi_id and aj.num_id = ac.num_id and aj.turno = ac.turno and aj.alumno_id = adt.per_id and aj.alj_fechaclase_perdida = ac.creacion_fecha::DATE) when 1 then 'JUSTIFICADO' else 'NO-JUSTIFICADO' end is_justificado FROM cursos.asistenciacurso_det adt LEFT JOIN referenciales.personas p ON p.per_id = adt.per_id LEFT JOIN cursos.asistenciacurso_cab ac ON ac.asiscurso_id = adt.asiscurso_id LEFT JOIN referenciales.cursos c ON c.cur_id = ac.cur_id LEFT JOIN referenciales.asignaturas asi ON asi.asi_id = ac.asi_id LEFT JOIN referenciales.numero_asignatura na ON na.num_id = ac.num_id LEFT JOIN referenciales.personas p2 ON p2.per_id = ac.per_id WHERE adt.asiscursodet_asistio IS FALSE AND ac.malla_id = %s AND ac.cur_id = %s AND ac.asi_id = %s AND ac.num_id = %s AND ac.turno = %s'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
@@ -64,6 +64,8 @@ class JustificativoAlumno_dao:
                     obj['turno'] = rs[9]
                     obj['idmaestro'] = rs[10]
                     obj['maestro'] = rs[11]
+                    obj['fechacreacion'] = rs[12]
+                    obj['is_justificado'] = rs[13]
                     lista.append(obj)
         except conn.Error as e:
             app.logger.error(e)     
@@ -111,14 +113,14 @@ class JustificativoAlumno_dao:
                 conn.close()
         return lista
 
-    def guardar(self, alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario):
+    def guardar(self, alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, fecha_clase, creacion_usuario):
         obj=[]
-        insertSQL = '''INSERT INTO cursos.alumno_justificativo (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, alj_estado, creacion_fecha, creacion_usuario) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, true, now(), %s)RETURNING alj_id'''
+        insertSQL = '''INSERT INTO cursos.alumno_justificativo (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, alj_estado, creacion_fecha, creacion_usuario, alj_fechaclase_perdida) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, true, now(), %s, %s)RETURNING alj_id'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
         try:
-            cur.execute(insertSQL, (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario,))
+            cur.execute(insertSQL, (alumno_id, malla_id, cur_id, asi_id, num_id, per_id, turno, alj_descripcion, creacion_usuario, fecha_clase, ))
             conn.commit()
             return cur.fetchone()[0]
         except conn.Error as e:

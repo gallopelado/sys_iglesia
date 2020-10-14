@@ -51,7 +51,9 @@
                                         <th style="text-align: center;">Asignatura</th>
                                         <th style="text-align: center;">Turno</th>
                                         <th style="text-align: center;">Alumno</th>
+                                        <th style="text-align: center;">Fecha de clase</th>
                                         <th style="text-align: center;">Acciones</th>
+                                        <th style="text-align: center;">Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tb">
@@ -61,9 +63,20 @@
                                         <td style="text-align: center;">{{ item['asignatura'] }}</td>
                                         <td style="text-align: center;">{{ item['turno'] }}</td>
                                         <td style="text-align: center;">{{ item['estudiante'] }}</td>
+                                        <td style="text-align: center;">{{ item['fechacreacion'] }}</td>
                                         <td style="text-align: center;">
+                                            {% if item['is_justificado']=='JUSTIFICADO' %}
                                             <a href="{{ url_for('justificativo_alumno.listaJustificativosAlumno', alumno_id=item['per_id']) }}" class="item btn btn-primary">Ver</a>
-                                            <a href="{{ url_for('justificativo_alumno.formularioAusencia', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data, per_id=item['per_id']) }}" class="item btn btn-success">Justificar</a>
+                                            {% else %}
+                                            <a href="{{ url_for('justificativo_alumno.formularioAusencia', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data, per_id=item['per_id'], fecha_clase=item['fechacreacion']) }}" class="item btn btn-success">Justificar</a>
+                                            {% endif %}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {% if item['is_justificado']=='JUSTIFICADO' %}
+                                            <span class="badge badge-info">{{ item['is_justificado'] }}</span>
+                                            {% else %}
+                                            <span class="badge badge-warning">{{ item['is_justificado'] }}</span>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% endfor %}

@@ -7,6 +7,7 @@ class Formulario(FlaskForm):
     malla_id = HiddenField()
     alu_id = HiddenField()
     idmaestro = HiddenField()
+    fecha_clase = HiddenField()
     alumno = StringField('Alumno:')
     cur_id = HiddenField()
     curso = StringField('Curso:')
