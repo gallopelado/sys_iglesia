@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col col-md-3">
+                                    <a href="{{ url_for('justificativo_alumno.index') }}"
+                                    class="btn btn-secondary bt-sm">
+                                    <i class="fa fa-angle-left"></i> Volver
+                                    </a>
+                                </div>
+                                <div class="col col-md-6">
+                                    <div class="card-title">
+                                        <h3 class="text-center title-2">{{ titulo }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="tabla_alumnos" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Curso</th>
+                                        <th style="text-align: center;">Asignatura</th>
+                                        <th style="text-align: center;">Turno</th>
+                                        <th style="text-align: center;">Alumno</th>
+                                        <th style="text-align: center;">Fecha de clase</th>
+                                        <th style="text-align: center;">Acciones</th>
+                                        <th style="text-align: center;">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb">
+                                    {% for item in items %}
+                                    <tr>
+                                        <td style="text-align: center;">{{ item['cur_des'] }}</td>
+                                        <td style="text-align: center;">{{ item['asignatura'] }}</td>
+                                        <td style="text-align: center;">{{ item['turno'] }}</td>
+                                        <td style="text-align: center;">{{ item['estudiante'] }}</td>
+                                        <td style="text-align: center;">{{ item['fechacreacion'] }}</td>
+                                        <td style="text-align: center;">
+                                            {% if item['is_justificado']=='JUSTIFICADO' %}
+                                            <a href="{{ url_for('justificativo_alumno.listaJustificativosAlumno', alumno_id=item['per_id']) }}" class="item btn btn-primary">Ver</a>
+                                            {% else %}
+                                            <a href="{{ url_for('justificativo_alumno.formularioAusencia', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data, per_id=item['per_id'], fecha_clase=item['fechacreacion']) }}" class="item btn btn-success">Justificar</a>
+                                            {% endif %}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            {% if item['is_justificado']=='JUSTIFICADO' %}
+                                            <span class="badge badge-info">{{ item['is_justificado'] }}</span>
+                                            {% else %}
+                                            <span class="badge badge-warning">{{ item['is_justificado'] }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<!-- <script type='module'
+    src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/asistencia_alumno/form_asistencia.js') }}"></script> -->
+
+
+{% endblock %}
