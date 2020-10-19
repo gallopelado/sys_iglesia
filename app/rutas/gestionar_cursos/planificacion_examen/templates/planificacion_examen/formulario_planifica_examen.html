@@ -118,13 +118,14 @@
                                                 <td>{{ item['hora'] }}</td>
                                                 <td>{{ item['exa_nombre'] }}</td>
                                                 <td class="text-right">
-                                                    <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i> Anular</a>
+                                                    <a href="{{ url_for('planificacion_examen.anularPlanificacionExamen', planex_id=item['planex_id'] , malla_id=item['malla_id'], cur_id=item['cur_id'], asi_id=item['asi_id'], num_id=item['num_id'], turno=item['turno'], per_id=item['per_id']) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i> Anular</a>
                                                 </td>
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
+                                    {{ pintar_alerta(messages) }}
                                 </div>
-                                {% endfor %}
                                 {% else %}
                                 <div class="alert alert-warning" role="alert">
                                     <h4 class="alert-heading"><i class="fa fa-frown-o" aria-hidden="true"></i>

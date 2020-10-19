@@ -143,12 +143,34 @@ class PlanificacionExamen_dao:
 
     def guardar(self, malla_id, cur_id, asi_id, num_id, turno, per_id, exa_id, planex_fecha, planex_hora, creacion_usuario):
         obj=[]
-        insertSQL = '''INSERT INTO cursos.planificacion_examen (malla_id, cur_id, asi_id, num_id, turno, per_id, exa_id, planex_fecha, planex_hora, planex_estado, creacion_fecha, creacion_usuario) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, true, now(), %s)RETURNING planex_id'''
+        procedimiento = 'SELECT cursos.guardar_planificacion_examen(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+        parametros = (malla_id, asi_id, num_id,  per_id, exa_id, planex_fecha, planex_hora, turno, cur_id, creacion_usuario,)
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
         try:
-            cur.execute(insertSQL, (malla_id, cur_id, asi_id, num_id, turno, per_id, exa_id, planex_fecha, planex_hora, creacion_usuario,))
+            cur.execute(procedimiento, parametros)
+            conn.commit()
+            return cur.fetchone()[0]
+        except conn.Error as e:
+            app.logger.error(e)
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror
+            return obj
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def anularExamen(self, planex_id, modificacion_usuario):
+        obj=[]
+        updateSQL = '''UPDATE cursos.planificacion_examen SET planex_estado=false, modificacion_fecha=now(), modificacion_usuario=%s WHERE planex_id=%s'''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(updateSQL, (modificacion_usuario, planex_id,))
             conn.commit()
             return cur.fetchone()[0]
         except conn.Error as e:

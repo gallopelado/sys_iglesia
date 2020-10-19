@@ -15,21 +15,6 @@ def index():
     data = jusa_dao.getLista()
     return render_template('planificacion_examen/index.html', titulo='Registrar Planificación de exámenes', items = data)
 
-@ple.route('/lista_alumnos/<int:malla_id>/<int:cur_id>/<int:asi_id>/<int:num_id>/<turno>')
-def listaAlumnos(malla_id, cur_id, asi_id, num_id, turno):
-    jusa_dao = PlanificacionExamen_dao()
-    data = jusa_dao.getListaAlumnos(malla_id, cur_id, asi_id, num_id, turno)
-    if not data:
-        flash('No posee lista de alumnos', 'warning')
-        return redirect(url_for('planificacion_examen.index'))
-    form = Formulario()
-    form.malla_id.data = malla_id
-    form.cur_id.data = cur_id
-    form.asi_id.data = asi_id
-    form.num_id.data = num_id
-    form.turno.data = turno
-    return render_template('planificacion_examen/lista_alumnos.html', titulo='Lista de Alumnos con ausencias', items=data, form=form)
-
 @ple.route('/formulario_planifica_examen/<int:malla_id>/<int:cur_id>/<int:asi_id>/<int:num_id>/<turno>/<int:per_id>')
 def formularioPlanificaExamen(malla_id, cur_id, asi_id, num_id, turno, per_id):
     form = Formulario()
@@ -38,6 +23,7 @@ def formularioPlanificaExamen(malla_id, cur_id, asi_id, num_id, turno, per_id):
     form.asi_id.data = asi_id
     form.num_id.data = num_id
     form.turno.data = turno
+    form.turno_h.data = turno
     form.idmaestro.data = per_id
     jusa_dao = PlanificacionExamen_dao()
     data = jusa_dao.getLista()
@@ -59,22 +45,20 @@ def formularioPlanificaExamen(malla_id, cur_id, asi_id, num_id, turno, per_id):
 @ple.route('/guardar', methods=['POST'])
 def guardar():
     form = Formulario()
-    if form.validate_on_submit():
-        jusa_dao = PlanificacionExamen_dao()
-        # malla_id, cur_id, asi_id, num_id, turno, per_id, exa_id, planex_fecha, planex_hora, creacion_usuario
-        res = jusa_dao.guardar(form.malla_id.data, form.cur_id.data, form.asi_id.data, form.num_id.data, form.turno.data, form.idmaestro.data, form.examenes.data, form.fecha.data, form.hora.data, int(session['usu_id']))
-        if res > 0:
-            flash('Se guardó correctemente', 'success')
-        else:
-            flash('Hubo un problema al intentar guardar', 'warning')
-        return redirect(url_for('planificacion_examen.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data))
-
-@ple.route('/lista_justificativos_alumnos/<int:alumno_id>')
-def listaJustificativosAlumno(alumno_id):
-    #{{ url_for('planificacion_examen.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data) }}
     jusa_dao = PlanificacionExamen_dao()
-    data = jusa_dao.getListaJustificativosByAlumno(alumno_id)
-    if not data:
-        flash('No existen justificativos para este alumno', 'warning')
-        return redirect(url_for('planificacion_examen.index'))
-    return render_template('planificacion_examen/lista_justificativos_alumnos.html', titulo='Lista de Justificativos por alumno', items=data)
+    res = jusa_dao.guardar(form.malla_id.data, form.cur_id.data, form.asi_id.data, form.num_id.data, form.turno_h.data, form.idmaestro.data, form.examenes.data, form.fecha.data, form.hora.data, int(session['usu_id']))
+    if res==True:
+        flash('Se guardó correctemente', 'success')
+    else:
+        flash(res['mensaje'], 'warning')
+    return redirect(url_for('planificacion_examen.formularioPlanificaExamen', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno_h.data, per_id=form.idmaestro.data))
+
+@ple.route('/anular_planificacion_examen/<int:planex_id>/<int:malla_id>/<int:cur_id>/<int:asi_id>/<int:num_id>/<turno>/<int:per_id>')
+def anularPlanificacionExamen(planex_id, malla_id, cur_id, asi_id, num_id, turno, per_id):
+    jusa_dao = PlanificacionExamen_dao()
+    res = jusa_dao.anularExamen(planex_id, session['usu_id'])
+    if res:
+        flash('Se anulo un examen correctemente', 'success')
+    else:
+        flash('Hubo problemas al procesar', 'warning')
+    return redirect(url_for('planificacion_examen.formularioPlanificaExamen', malla_id=malla_id, cur_id=cur_id, asi_id=asi_id, num_id=num_id, turno=turno, per_id=per_id))

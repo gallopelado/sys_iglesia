@@ -16,11 +16,7 @@ class Formulario(FlaskForm):
     turno = StringField('Turno:')
     turno_h = HiddenField()
     asignatura = StringField('Asignatura:')
-    fecha = DateField('Fecha:', format='%Y-%m-%d', default=date.today)
-    hora = TimeField('Horarios de visita', validators=[DataRequired()])
+    fecha = DateField('Fecha:', validators=[DataRequired()], format='%Y-%m-%d', default=date.today)
+    hora = TimeField('Hora:', validators=[DataRequired()])
     examenes = SelectField('Escoger Examen:')
     agregar = SubmitField('Agregar')
-
-    # Constructor
-    def __init__(self, *args, **kwargs):
-        super(Formulario, self).__init__(*args, **kwargs)
