@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_alerta, pintar_textarea %}
+
+
+{% block title %}
+{{titulo}}
+{% endblock %}
+
+{% block mi_css%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-confirm.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.bootstrap4.min.css') }}">
+<!-- CSS de tempusdominus -->
+<link rel="stylesheet"
+    href="{{ url_for('static', filename='vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content" id="app">
+
+    <!-- Contenido principal -->
+    <div class="section__content section__content--p30">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col col-md-3">
+                                    <a href="{{ url_for('calificacion_alumno.index') }}"
+                                    class="btn btn-secondary bt-sm">
+                                    <i class="fa fa-angle-left"></i> Volver
+                                    </a>
+                                </div>
+                                <div class="col col-md-6">
+                                    <div class="card-title">
+                                        <h3 class="text-center title-2">{{ titulo }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 offset-md-3 text-center">
+                                    <label for="cbo_examen" class="form-control-label">Escoger Examen a puntuar:</label>
+                                    <select name="cbo_examen" id="cbo_examen" class="form-control mb-3" v-model="cbo_examen">
+                                        {% if lista_examenes %}
+                                        {% for examen in lista_examenes %}
+                                        <option value="{{ examen['planex_id'] }}">{{ examen['exa_nombre'] }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <table id="tabla_alumnos" class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Curso</th>
+                                        <th style="text-align: center;">Asignatura</th>
+                                        <th style="text-align: center;">Turno</th>
+                                        <th style="text-align: center;">Estado</th>
+                                        <th style="text-align: center;">Alumno</th>
+                                        <th style="text-align: center;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb">
+                                    {% for item in items %}
+                                    <tr>
+                                        <td style="text-align: center;">{{ item['cur_des'] }}</td>
+                                        <td style="text-align: center;">{{ item['asignatura'] }}</td>
+                                        <td style="text-align: center;">{{ item['turno'] }}</td>
+                                        <td style="text-align: center;">
+                                            {% if item['isCalificado']=='CALIFICADO' %}
+                                            <span class="badge badge-success">{{ item['isCalificado'] }}</span>
+                                            {% elif item['isCalificado']=='SIN-CALIFICAR' %}
+                                            <span class="badge badge-secondary">{{ item['isCalificado'] }}</span>
+                                            {% else %}
+                                            <span class="badge badge-info">{{ item['isCalificado'] }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td style="text-align: center;">{{ item['alumno'] }}</td>
+                                        <td style="text-align: center;">
+                                            {% if item['isCalificado']=='SIN-CALIFICAR' %}
+                                            <button type='button' class="item btn btn-success btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Agregar</button>
+                                            {% else %}
+                                            <button type='button' class="item btn btn-primary btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Editar</button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {{ pintar_alerta(messages) }}
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-danger btn-sm">Anular resultados</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_calificacion" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <form action="" method="post" class="">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="smallmodalLabel">Cargar puntaje</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="txt_puntos" class=" form-control-label">Puntos alcanzados</label>
+                            <input type="number" id="txt_puntos" name="nf-email" class="form-control" min="0" max="100" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="justify-content: center;">
+                        <button type="button" class="btn btn-primary" id="btn_cargarpuntaje">Cargar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!---->
+</div>
+
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
+
+{% block mi_script %}
+<script src="{{ url_for('static', filename='js/jquery-confirm.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.buttons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/buttons.bootstrap4.js') }}"></script>
+<!-- JS de Moment -->
+<script src="{{ url_for('static', filename='vendor/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!-- Vue Js -->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+
+<!-- Controlador -->
+<script
+src="{{ url_for('static', filename='jsOperacionales/gestionar_cursos/calificacion_alumno/calificacion_alumno.js') }}"></script>
+
+
+{% endblock %}
