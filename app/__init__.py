@@ -98,6 +98,7 @@ from app.rutas.gestionar_informes.mantenimiento_seguridad.mantenimiento_segurida
 # Instancia de informes para Membresía
 from app.rutas.gestionar_informes.membresia.membresia_routes import minf
 # Instancia de informes para Actividades
+from app.rutas.gestionar_informes.actividades.reportes_actividades_routes import r_act
 # Instancia de informes para Cursos
 
 # Ordena el espaciado en la plantilla HTML
@@ -164,6 +165,7 @@ app.register_blueprint(calif_al, url_prefix=f'{modulo3}/calificacion_examen')
 # Rutas de informes
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
 app.register_blueprint(minf, url_prefix='/informes/membresia')
+app.register_blueprint(r_act, url_prefix='/informes/reportes_actividad')
 
 # Codigo secreto para generar la cookie.
 #app.secret_key = "12345"
