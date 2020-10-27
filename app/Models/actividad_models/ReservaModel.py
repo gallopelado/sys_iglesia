@@ -1,5 +1,5 @@
 from app.Conexion.Conexion import Conexion
-
+from flask import current_app as app
 
 class ReservaModel:
 
@@ -119,3 +119,70 @@ class ReservaModel:
             if con is not None:
                 cur.close()
                 con.close()
+
+    def getReservasByParameters(self, estado, fechadesde, fechahasta):
+        lista=[]
+        estados = ('CONFIRMADO', 'NO-CONFIRMADO', 'CANCELADO', 'DESACTIVADO')
+        parametros = None
+        querySQL = '''select
+            r.res_id,
+            r.anho_id,
+            r.eve_id, e.eve_des, 
+            r.lug_id, l.lug_des,
+            r.per_id, concat(p.per_nombres, ' ', p.per_apellidos) persona,
+            fecha_formatolargo(r.res_fechainicio) fechainicio,
+            r.res_horainicio,
+            fecha_formatolargo(r.res_fechafin) fechafin,
+            r.res_horafin,
+            r.res_obs,
+            r.res_estado
+        from
+            actividades.reservas r
+        left join referenciales.eventos e on e.eve_id = r.eve_id 
+        left join referenciales.lugares l on l.lug_id = r.lug_id 
+        left join referenciales.personas p on p.per_id = r.per_id'''
+        if estado=='CUALQUIER' and not fechadesde and not fechahasta:#Only estado
+            querySQL += ''
+        elif estado != 'CUALQUIER' and estado in estados and not fechadesde and not fechahasta:#Only estado distinct anybody
+            querySQL += ' WHERE r.res_estado = %s'
+            parametros = (estado,)
+        elif estado != 'CUALQUIER' and estado in estados and fechadesde and fechahasta:#ideal case
+            querySQL += ' WHERE r.res_estado = %s AND r.res_fechainicio BETWEEN %s AND %s'
+            parametros = (estado, fechadesde, fechahasta,)
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            if parametros:
+                cur.execute(querySQL, parametros)
+            else:
+                cur.execute(querySQL)
+            data = cur.fetchall()
+            if len(data) > 0:
+                for rs in data:
+                    obj = {}
+                    obj['res_id'] = rs[0]
+                    obj['anho_id'] = rs[1]
+                    obj['eve_id'] = rs[2]
+                    obj['eve_des'] = rs[3]
+                    obj['lug_id'] = rs[4]
+                    obj['lug_des'] = rs[5]
+                    obj['per_id'] = rs[6]
+                    obj['persona'] = rs[7]
+                    obj['fechainicio'] = rs[8]
+                    obj['res_horainicio'] = rs[9]
+                    obj['fechafin'] = rs[10]
+                    obj['res_horafin'] = rs[11]
+                    obj['res_obs'] = rs[12]
+                    obj['res_estado'] = rs[13]
+                    lista.append(obj)
+        except conn.Error as e:
+            app.logger.error(e)
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+        return lista

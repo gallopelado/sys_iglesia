@@ -29,6 +29,31 @@ def mostrarFormularioActividadAnual():
     lista_actividades = an.getListaActividadesAnhoActivo(None, None, None, None)
     return render_template('actividades/informe_listar_actividades_anuales.html', titulo=titulo, lista=lista_actividades, form=form)
 
+@r_act.route('/form_lista_reservas')
+def mostrarFormularioReservas():
+    from app.Models.actividad_models.ReservaModel import ReservaModel
+    from app.rutas.gestionar_informes.actividades.FormListaReserva import FormListaReserva
+    titulo = 'Reporte:Listar Reservas'
+    form = FormListaReserva()
+    rm = ReservaModel()
+    lista_reservas = rm.getReservasByParameters(None, None, None)
+    return render_template('actividades/informe_listar_reservas.html', titulo=titulo, lista=lista_reservas, form=form)
+
+@r_act.route('/listar_reservas_pdf', methods=['POST'])
+def listarReservasPdf():
+    from app.Models.actividad_models.ReservaModel import ReservaModel
+    from app.rutas.gestionar_informes.actividades.FormListaReserva import FormListaReserva
+    titulo = 'Reporte:Listar Reservas'
+    form = FormListaReserva()
+    estado = form.estado.data
+    fechadesde = form.fechadesde.data
+    fechahasta = form.fechahasta.data
+    form = FormListaReserva()
+    rm = ReservaModel()
+    lista_reservas = rm.getReservasByParameters(estado, fechadesde, fechahasta)
+    html = render_template('actividades/plantillas/listar_reservas.html', items=lista_reservas, titulo=titulo, fecha_actual=fechaActual())
+    return render_pdf(HTML(string=html))
+
 @r_act.route('/listar_actividades_anuales_pdf', methods=['POST'])
 def listarActividadesAnualesPdf():
     from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
