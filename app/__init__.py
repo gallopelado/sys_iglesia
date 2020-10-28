@@ -100,6 +100,7 @@ from app.rutas.gestionar_informes.membresia.membresia_routes import minf
 # Instancia de informes para Actividades
 from app.rutas.gestionar_informes.actividades.reportes_actividades_routes import r_act
 # Instancia de informes para Cursos
+from app.rutas.gestionar_informes.cursos.reporte_cursos_routes import r_cur
 
 # Ordena el espaciado en la plantilla HTML
 app.jinja_env.trim_blocks = True
@@ -166,6 +167,7 @@ app.register_blueprint(calif_al, url_prefix=f'{modulo3}/calificacion_examen')
 app.register_blueprint(ms, url_prefix='/informes/mantenimiento_seguridad')
 app.register_blueprint(minf, url_prefix='/informes/membresia')
 app.register_blueprint(r_act, url_prefix='/informes/reportes_actividad')
+app.register_blueprint(r_cur, url_prefix='/informes/reportes_cursos')
 
 # Codigo secreto para generar la cookie.
 #app.secret_key = "12345"

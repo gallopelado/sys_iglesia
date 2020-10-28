@@ -229,10 +229,10 @@ class MallaCurricular_dao(Conexion):
         LEFT JOIN referenciales.cursos USING(cur_id)
         LEFT join referenciales.area_cursos USING(cur_id)
         LEFT join referenciales.areas using(are_id) WHERE malla_id = %s and ma.estado IS TRUE'''
-
+        conexion = Conexion()
+        con = conexion.getConexion()
+        cur = con.cursor()
         try:
-            con = self.getConexion()
-            cur = con.cursor()
             cur.execute(querySQL, (malla_id,))
             data = cur.fetchall()
             for rs in data:
