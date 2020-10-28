@@ -32,6 +32,27 @@ def mostrarFormularioMalla():
     lista_cursos = md.obtenerCursosRegistrados(malla_id)
     return render_template('cursos/informe_listar_malla.html', titulo=titulo, lista=lista_cursos, form=form)
 
+@r_cur.route('/reporte_alumno_curso')
+def mostrarFormularioListaAlumnoCurso():
+    from app.Models.gestionar_cursos.inscripcion_alumnos.InscripcionAlumno_dao import InscripcionAlumno_dao
+    from app.Models.gestionar_cursos.malla_curricular.MallaCurricular_dao import MallaCurricular_dao
+    from app.rutas.gestionar_informes.cursos.FormListaAlumno import FormListaAlumno
+    titulo = 'Reporte:Listar Alumnos por Curso'
+    form = FormListaAlumno()
+    md = MallaCurricular_dao()
+    ins = InscripcionAlumno_dao()
+    lista_malla = md.obtenerMallaCurricular()
+    form.malla.choices = [ (item['idmalla'], item['anho_des']) for item in lista_malla ]
+    
+    malla_id = None
+    for item in lista_malla:
+        if item['estado'] == 'ACTIVO':
+            malla_id = item['idmalla']
+
+    lista_cursos = ins.getCursosPlanificados()
+    form.curso.choices = [ (item['cur_id'], item['curso']) for item in lista_cursos ]
+    return render_template('cursos/informe_listar_curso_alumnos.html', titulo=titulo, form=form)
+
 @r_cur.route('/listar_malla_pdf', methods=['POST'])
 def listarMallaPdf():
     from app.Models.gestionar_cursos.malla_curricular.MallaCurricular_dao import MallaCurricular_dao
@@ -42,4 +63,20 @@ def listarMallaPdf():
     md = MallaCurricular_dao()
     lista_malla = md.obtenerCursosRegistrados(malla_id)
     html = render_template('cursos/plantillas/listar_malla.html', items=lista_malla, titulo=titulo, fecha_actual=fechaActual())
+    return render_pdf(HTML(string=html))
+
+@r_cur.route('/listar_curso_alumnos_pdf', methods=['POST'])
+def listarCursoAlumnosPdf():
+    from app.Models.gestionar_cursos.malla_curricular.MallaCurricular_dao import MallaCurricular_dao
+    from app.Models.gestionar_cursos.inscripcion_alumnos.InscripcionAlumno_dao import InscripcionAlumno_dao
+    from app.rutas.gestionar_informes.cursos.FormListaAlumno import FormListaAlumno
+    titulo = 'Reporte:Listar Alumnos por Curso'
+    form = FormListaAlumno()
+    md = MallaCurricular_dao()
+    ins = InscripcionAlumno_dao()
+    malla_id = form.malla.data
+    curso_id = form.curso.data
+    lista_alumnos = ins.getListaAlumnosRegistradosInscripcion(malla_id, curso_id)
+    #lista_malla = md.obtenerCursosRegistrados(malla_id)
+    html = render_template('cursos/plantillas/listar_curso_alumnos.html', items=lista_alumnos, titulo=titulo, fecha_actual=fechaActual())
     return render_pdf(HTML(string=html))
