@@ -1,4 +1,4 @@
-import os
+import os, datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, render_template
 from app.Models.PostulacionModel import PostulacionModel
@@ -21,6 +21,8 @@ sched.start()
 
 # Se inicia una instancia de Flask
 app = Flask(__name__)
+#Duracion de la session
+app.permanent_session_lifetime = datetime.timedelta(minutes=5)
 # En caso de error 404
 # En caso de que el usuario quiere manipular url no valida
 @app.errorhandler(404)
@@ -171,5 +173,5 @@ app.register_blueprint(r_cur, url_prefix='/informes/reportes_cursos')
 
 # Codigo secreto para generar la cookie.
 #app.secret_key = "12345"
-app.secret_key = os.urandom(16)
+app.secret_key = os.urandom(5)
 

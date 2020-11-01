@@ -6,4 +6,4 @@ mod = Blueprint('inicio', __name__, template_folder='templates')
 def index():
     if 'username' not in session:
         return redirect(url_for('login.login'))
-    return render_template('index.html')
+    return render_template('inicio/index.html')
