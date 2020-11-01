@@ -54,10 +54,12 @@
                                     <h3 class="text-center title-2"><i class="fa fa-edit"></i> {{ titulo }}
                                     </h3>
                                 </div>
-                                <hr>                                
+                                <hr>
                                     <script type="application/javascript">
                                         var idlista = "{{ solicitud['idlista'] if solicitud }}";
+                                        var lvo_id = "{{ lvo_id }}";
                                         localStorage.setItem('idlista', idlista);
+                                        localStorage.setItem('lvo_id', lvo_id);
                                     </script>
                                 <div class="row form-group">
                                     <div class="col col-sm-12 col-md-3">
@@ -66,7 +68,7 @@
                                     </div>
                                     <div class="col col-sm-12 col-md-8">
                                         {% if not bloqueado %}
-                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes">
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" {{ 'disabled' if editar else '' }}>
                                             <option value="">...</option>
                                             {% if solicitudes %}
                                             {% for soli in solicitudes %}
@@ -75,7 +77,7 @@
                                             {% endif %}
                                         </select>
                                         {% else %}
-                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" :disabled="true">
+                                        <select class='custom-select custom-select-sm' id="solicitudes" v-model="solicitudes" v-select="solicitudes" {{ 'disabled' if editar else '' }}>
                                             <option value="">...</option>
                                             {% if solicitudes %}
                                             {% for soli in solicitudes %}

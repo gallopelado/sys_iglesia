@@ -1,6 +1,6 @@
 from datetime import date, datetime
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 # Importar modelos
 from app.Models.actividad_models.SolicitudHospitalModel import SolicitudHospitalModel
 # Clase del formulario
@@ -11,6 +11,12 @@ soh = Blueprint('solicitud_hospital', __name__, template_folder='templates')
 titulo = 'Registrar solicitud para visita a Hospital'
 # Instancias
 soli = SolicitudHospitalModel()
+
+@soh.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
+
 @soh.route('/')
 def index():    
     return render_template('solicitud_hospital/index.html', titulo=titulo)
@@ -177,18 +183,18 @@ def formVoluntarios():
     solicitudes = soli.obtenerSolicitudesVoluntario()    
     comites = soli.obtenerComitesActivos()    
     return render_template('solicitud_hospital/form_voluntarios.html', 
-    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, solicitud=None, voluntarios=None, editar=None)
+    titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, solicitud=None, voluntarios=None, editar=False)
 
-@soh.route('/modificar_voluntarios/<int:id>', methods=["GET"])
-def modificarFormVoluntarioVoluntario(id):    
+@soh.route('/modificar_voluntarios/<int:lvo_id>', methods=["GET"])
+def modificarFormVoluntarioVoluntario(lvo_id):    
     solicitudes = soli.obtenerSolicitudesVoluntario()
-    solicitud = soli.obtenerListaVoluntarioId(id)    
+    solicitud = soli.obtenerListaVoluntarioId(lvo_id)    
     comites = soli.obtenerComitesActivos() 
     voluntarios = soli.obtenerIntegrantesComite(solicitud['idcomite']) 
-    voluntariosRegistrados = soli.obtenerVoluntariosRegistrados(id)
+    voluntariosRegistrados = soli.obtenerVoluntariosRegistrados(lvo_id)
     return render_template('solicitud_hospital/form_voluntarios.html', 
     titulo='Formulario encargar voluntarios', bloqueado=False, solicitudes=solicitudes, comites=comites, 
-    solicitud=solicitud, voluntarios=voluntarios, editar=True, voluntariosRegistrados=voluntariosRegistrados)
+    solicitud=solicitud, voluntarios=voluntarios, editar=True, voluntariosRegistrados=voluntariosRegistrados, lvo_id=lvo_id)
 
 @soh.route('/ver_voluntarios/<int:id>', methods=["GET"])
 def verFormVoluntarioVoluntario(id):    
@@ -213,7 +219,7 @@ def registraVoluntarios():
     
     try:
         res = soli.registrarListaSolicitudVoluntarios(idsolicitud, fechavisita, horavisita, idcomite, 
-        obs, None, voluntarios)
+        obs.upper(), None, voluntarios)
         if res:
             flash('Se ha procesado con exito', 'success')
             return jsonify({'estado':res, 'mensaje':'Insercion exitosa'})
@@ -255,11 +261,12 @@ def agregarVoluntario(idlista, idvoluntario):
 
 @soh.route('/actualizar_lista_voluntario', methods=['PUT'])
 def actualizarListaVoluntario():
+    lvo_id = request.json['lvo_id']
     idsolicitud = request.json['idsolicitud']
     fechavisita = request.json['fechavisita']
     horavisita = request.json['horavisita']
     obs = request.json['obs']
-    res = soli.actualizarListaVoluntario(idsolicitud, fechavisita, horavisita, obs, None)
+    res = soli.actualizarListaVoluntario(lvo_id, idsolicitud, fechavisita, horavisita, obs.upper(), session['usu_id'])
     if res==True:
         flash('Se ha procesado con exito', 'success')  
         return jsonify({'estado':res, 'mensaje':'Se ha procesado con exito'})

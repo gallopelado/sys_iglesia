@@ -130,6 +130,8 @@ var app = new Vue({
                     console.log(res);
                     if(res.data.estado==true){
                         location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${idlista}`;
+                    } else {
+                        location.href = `/actividades/solicitud_hospital/modificar_voluntarios/${idlista}`;
                     }
                 } catch (error) {
                     console.log(error);
@@ -205,6 +207,8 @@ var app = new Vue({
                 console.log(data);
                 if (data.estado == true) {
                     location.href = '/actividades/solicitud_hospital/voluntarios';
+                } else if(data.estado === false) {
+                    alert(data.mensaje);
                 }
             } catch (error) {
                 console.error(error);
@@ -228,7 +232,8 @@ var app = new Vue({
             }
             alert('Formulario correcto, enviando datos');
             const datos = {
-                idsolicitud: this.solicitudes
+                lvo_id: localStorage.getItem('lvo_id')
+                , idsolicitud: this.solicitudes
                 , fechavisita: this.fechavisita
                 , horavisita: this.horavisita
                 , obs: this.obs

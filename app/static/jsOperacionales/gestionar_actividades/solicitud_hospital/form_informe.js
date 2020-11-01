@@ -75,6 +75,8 @@ var app = new Vue({
                 const res  = await axios.post('/actividades/solicitud_hospital/nuevo_informe', this.dataEnvio);                                
                 if(res.data.estado==true) {
                     location.href = '/actividades/solicitud_hospital/informevisitas';
+                } else {
+                    location.href = '/actividades/solicitud_hospital/informevisitas';
                 }
             } catch (error) {
                 console.error(error);
@@ -104,6 +106,8 @@ var app = new Vue({
             try {
                 const res  = await axios.put('/actividades/solicitud_hospital/modificar_informe', this.dataEnvio);                                
                 if(res.data.estado==true) {
+                    location.href = '/actividades/solicitud_hospital/informevisitas';
+                } else {
                     location.href = '/actividades/solicitud_hospital/informevisitas';
                 }
             } catch (error) {

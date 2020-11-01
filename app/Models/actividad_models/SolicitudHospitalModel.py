@@ -94,19 +94,14 @@ class SolicitudHospitalModel:
     def obtenerIntegrantesComite(self, id):
         querySQL = '''
         select array_to_json(array_agg(row_to_json(datos))) from (
-        select
-            min_id idcomite ,
-            min_des comite,
-            per_id idpersona,
-            per_nombres nombres,
-            per_apellidos apellidos
-        from
-            membresia.comites c
-        inner join membresia.comite_obreros using(min_id)
-        left join referenciales.ministerios using(min_id)
-        left join referenciales.personas using(per_id)
-        where
-            com_estado is true and min_id = %s)datos
+        SELECT 
+            slv.lvo_id, lv.min_id idcomite, m.min_des comite
+            , slv.per_id idpersona, p.per_nombres nombres, p.per_apellidos apellidos
+        FROM actividades.solicitud_lista_voluntario slv
+        left join referenciales.personas p ON p.per_id = slv.per_id
+        left join actividades.lista_voluntario lv ON lv.lvo_id = slv.lvo_id
+        left join referenciales.ministerios m ON m.min_id = lv.min_id
+        WHERE slv.estado is true AND slv.lvo_id= %s)datos
         '''
         try:
             conexion = Conexion()
@@ -463,17 +458,17 @@ class SolicitudHospitalModel:
                 cur.close()
                 con.close()
 
-    def actualizarListaVoluntario(self, vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario):
+    def actualizarListaVoluntario(self, lvo_id, vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario):
         updateSQL = ''' 
         UPDATE actividades.lista_voluntario SET vh_id = %s,
         lvo_fechavisita = %s, lvo_horavisita = %s,
         lvo_obs = %s, modificado_por_usuario = %s,
-        modif_fecha = NOW()
+        modif_fecha = NOW() WHERE lvo_id=%s
         '''
         updateSQL_visihospi = '''
         UPDATE actividades.visi_hospi SET vh_estado = 'ATENDIDO', modificado_por_usuario = null, modif_fecha = NOW() WHERE vh_id = %s
         '''
-        parametros = (vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario,)
+        parametros = (vhid, lvofechavisita, lvohoravisita, lvoobs, modificadoporusuario, lvo_id,)
         try:
             conexion = Conexion()
             con = conexion.getConexion()
