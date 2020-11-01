@@ -1,9 +1,14 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 from app.Models.CiudadModel import CiudadModel
 from app.helps.helps import limpiar_campo
 
 # Se modularizan las vistas de ciudades.
 mod = Blueprint("ciudad", __name__, template_folder="templates")
+
+@mod.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @mod.route("/")
 def index_ciudad():

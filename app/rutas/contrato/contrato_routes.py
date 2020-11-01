@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Importar modelos
 from app.Models.ContratoModel import Contrato
 from app.Models.ReferencialModel import ReferencialModel
@@ -7,6 +7,11 @@ contr = Blueprint("contrato", __name__, template_folder="templates")
 titulo = 'Mantener Contratos'
 conm = Contrato()
 refm = ReferencialModel()
+
+@contr.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @contr.route('/')
 def indexMantenerContrato():    

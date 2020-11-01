@@ -1,6 +1,6 @@
 from datetime import date, datetime
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Importar modelos
 from app.Models.actividad_models.ReservaModel import ReservaModel
 # Clase del formulario
@@ -11,6 +11,12 @@ res = Blueprint('registrar_reserva', __name__, template_folder='templates')
 titulo = 'Registrar reserva para eventos'
 # Instancias
 resm = ReservaModel()
+
+@res.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
+
 @res.route('/')
 def index_reserva():    
     return render_template('registrar_reserva/index.html', titulo=titulo)

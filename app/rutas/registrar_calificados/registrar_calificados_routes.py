@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 
 # Se importa el modelo.
 from app.Models.ListaCalificadosModel import ListaCalificadosModel
@@ -13,6 +13,11 @@ calim = ListaCalificadosModel()
 candim = ListaCandidatoModel()
 
 titulo = 'Registrar Lista de Calificados'
+
+@cali.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @cali.route('/')
 def index_calificados():

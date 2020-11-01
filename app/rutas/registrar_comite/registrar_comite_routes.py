@@ -1,5 +1,5 @@
 # Se importan las librerías básicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 
 # Importar clase del formulario
 from app.rutas.registrar_comite.formularioComite import FormularioComite
@@ -15,6 +15,11 @@ tituloForm = 'Formulario Comité'
 
 # Generar instancia
 cm = ComiteModel()
+
+@comi.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 # Rutas
 @comi.route('/')

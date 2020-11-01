@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 
 # importar modelo Requisitos.
 from app.Models.RequisitoModel import RequisitoModel
@@ -11,6 +11,11 @@ from app.Models.PersonaModel import PersonaModel
 miereq = Blueprint('registrar_requisitos_miembro', __name__, template_folder='templates')
 
 # Rutas
+@miereq.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
+
 @miereq.route('/')
 def index_miembrorequisitos():
     req = RequisitoModel()

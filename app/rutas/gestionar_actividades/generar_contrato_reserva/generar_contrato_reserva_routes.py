@@ -1,6 +1,6 @@
 # Se importan las librerias basicas
 from datetime import date
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Importar modelos
 from app.Models.actividad_models.ContratoReservaModel import ContratoReservaModel
 from app.Models.actividad_models.ReservaModel import ReservaModel
@@ -10,6 +10,11 @@ gcr = Blueprint('contrato_reserva', __name__, template_folder='templates')
 titulo = 'Generar contrato por reserva'
 crm = ContratoReservaModel()
 rsm = ReservaModel()
+
+@gcr.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @gcr.route('/')
 def index_contrato():

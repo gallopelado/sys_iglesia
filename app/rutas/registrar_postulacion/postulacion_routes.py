@@ -1,6 +1,6 @@
 # Se importan las librerias basicas
 import os
-from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 from werkzeug.utils import secure_filename
 
 # Importar funciones genericas
@@ -11,6 +11,11 @@ from app.Models.PostulacionModel import PostulacionModel
 from app.Models.ReferencialModel import ReferencialModel
 
 postu = Blueprint('registrar_postulacion', __name__, template_folder='templates')
+
+@postu.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @postu.route('/')
 def index_postulacion():

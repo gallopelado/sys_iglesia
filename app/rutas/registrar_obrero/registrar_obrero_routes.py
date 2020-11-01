@@ -1,5 +1,5 @@
 # Se importan las librerías básicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 
 # Importar modelo
 from app.Models.ComiteModel import ComiteModel
@@ -16,6 +16,12 @@ cm = ComiteModel()
 obm = ObreroModel()
 
 # Rutas
+@ob.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
+
+
 @ob.route('/')
 def index_obrero():    
     lista = cm.traerTodos()       

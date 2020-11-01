@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Se importa el modelo FormularioAdmisionModel
 from app.Models.FormAdmisionModel import FormAdmisionModel
 # Se importa el modelo Persona
@@ -22,6 +22,10 @@ formadmi = Blueprint('registrar_formulario_admision',
 
 # Elaborar las rutas
 
+@formadmi.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @formadmi.route('/')
 def index_formadmi():

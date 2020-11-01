@@ -1,9 +1,14 @@
 # Librerias basicas
 import datetime
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json,session
 
 from app.rutas.gestionar_cursos.planificacion_cursos.PlanificacionCursoServices import PlanificacionCursoServices
 pcr = Blueprint('planificacion_cursos', __name__, template_folder='templates')
+
+@pcr.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @pcr.route('/')
 def index():

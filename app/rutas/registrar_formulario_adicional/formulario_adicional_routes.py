@@ -1,7 +1,7 @@
 # Se importa la biblioteca del sistema operativo 
 import os
 # Se importan las librerias basicas
-from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 
 # Importar el modelo principal.
 from app.Models.FormAdicionalModel import FormAdicionalModel
@@ -13,6 +13,11 @@ from app.rutas.registrar_formulario_adicional.combos import *
 formadi = Blueprint('registrar_formulario_adicional', __name__, template_folder='templates')
 
 # Rutas
+
+@formadi.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @formadi.route('/')
 def index_formadi():

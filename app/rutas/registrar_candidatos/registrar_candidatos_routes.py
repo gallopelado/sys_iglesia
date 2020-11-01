@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 
 # Se importa el modelo.
 from app.Models.ListaCandidatoModel import ListaCandidatoModel
@@ -10,6 +10,11 @@ candi = Blueprint('registrar_candidatos', __name__, template_folder='templates')
 
 # Generar una instancia del modelo
 candim = ListaCandidatoModel()
+
+@candi.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @candi.route('/')
 def index_candidatos():

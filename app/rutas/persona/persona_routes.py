@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 # Se importa el modelo Persona
 from app.Models.PersonaModel import PersonaModel
 # Se importa el modelo TipoPersona
@@ -9,6 +9,10 @@ from app.Models.TipoPersonaModel import TipoPersonaModel
 # Significa persona modulo, permod.
 permod = Blueprint('persona', __name__, template_folder='templates')
 
+@permod.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @permod.route('/')
 def index_persona():

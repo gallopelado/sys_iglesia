@@ -1,11 +1,16 @@
 #import json
 # Librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json,session
 from werkzeug.wrappers import Response
 
 from app.rutas.gestionar_cursos.malla_curricular.MallaCurricularServices import MallaCurricularServices
 
 mc = Blueprint('malla_curricular', __name__, template_folder='templates')
+
+@mc.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @mc.route('/')
 def index():

@@ -1,11 +1,16 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 
 # Importar modelos
 from app.Models.MiembroPerfilModel import MiembroPerfilModel
 from app.Models.ReferencialModel import ReferencialModel
 
 perfil = Blueprint('registrar_formulario_perfil', __name__, template_folder='templates')
+
+@perfil.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @perfil.route('/')
 def index_perfil():

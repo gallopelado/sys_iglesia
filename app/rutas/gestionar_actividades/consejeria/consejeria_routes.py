@@ -1,6 +1,6 @@
 from datetime import date, datetime
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Importar modelos
 from app.Models.actividad_models.ConsejeriaModel import ConsejeriaModel
 # Clase del formulario
@@ -11,6 +11,11 @@ cmi = Blueprint('consejeria', __name__, template_folder='templates')
 titulo = 'Registrar solicitud de consejeria para miembros'
 # Instancias
 cm = ConsejeriaModel()
+
+@cmi.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 @cmi.route('/')
 def index():

@@ -1,6 +1,6 @@
 #from datetime import date
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Importar modelos
 from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
 from app.Models.ReferencialModel import ReferencialModel
@@ -13,6 +13,12 @@ acan = Blueprint('actividades_anuales', __name__, template_folder='templates')
 titulo = 'Registrar actividades anuales de la organización'
 # Instancias
 actim = ActividadAnualModel()
+
+@acan.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
+
 @acan.route('/')
 def index_acti_anuales():
     lista = actim.obtenerAnho()

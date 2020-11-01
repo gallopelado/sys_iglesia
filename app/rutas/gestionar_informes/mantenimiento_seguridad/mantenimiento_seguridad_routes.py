@@ -1,6 +1,6 @@
 # Se importan las librerias basicas
 import time
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
 # Librerias para generar pdf
 from flask_weasyprint import HTML, render_pdf
 
@@ -12,6 +12,11 @@ ms = Blueprint('mantenimiento_seguridad', __name__, template_folder='templates')
 # fecha actual
 localtime = time.localtime(time.time())
 fecha_actual = f'{localtime.tm_mday}-{localtime.tm_mon}-{localtime.tm_year}'
+
+@ms.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 # Referenciales
 @ms.route('/')

@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import current_app as app, current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 
 # Importar referenciales varios y helpers
 from app.rutas.registrar_documentos_miembro.referenciales import *
@@ -11,6 +11,11 @@ from app.Models.FormDocumentosModel import FormDocumentosModel
 # Registrar la ruta en Blueprint
 docm = Blueprint('registrar_documentos_miembro',
                  __name__, template_folder='templates')
+
+@docm.before_request
+def before_request():
+    if 'username' not in session:
+        return redirect(url_for('login.login'))
 
 # Definir rutas
 @docm.route('/')
