@@ -54,7 +54,7 @@ async function iniciarModal(idpersona) {
 async function obtenerDatosPersona(idpersona) {
     
     try {
-        const res = await fetch('http://localhost:5000/persona/get_persona/' + idpersona);
+        const res = await fetch('/persona/get_persona/' + idpersona);
         const data = await res.json();
         let persona = new Persona(idpersona, data[1], data[4], data[2], data[3], data[5]);                
         return persona;
@@ -166,7 +166,7 @@ function mensaje(titulo, contenido, url, id) {
  * @param {*} id 
  */
 function modificar(id) {
-    mensaje('Mensaje de Confirmacion!', 'Desea Modificar?', 'http://localhost:5000/persona/modificar/', id);    
+    mensaje('Mensaje de Confirmacion!', 'Desea Modificar?', '/persona/modificar/', id);    
 }
 /**
  * Funcion eliminar()
@@ -177,7 +177,7 @@ function modificar(id) {
  * @param {*} id 
  */
 function eliminar(id) {
-    mensaje('Mensaje de Confirmacion!', 'Desea Eliminar?', 'http://localhost:5000/persona/eliminar/', id);    
+    mensaje('Mensaje de Confirmacion!', 'Desea Eliminar?', '/persona/eliminar/', id);    
 }
 
 

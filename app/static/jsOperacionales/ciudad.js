@@ -60,7 +60,7 @@ function mensaje(titulo, contenido, url, id) {
  * @param {*} id 
  */
 function modificar(id) {
-    mensaje('Mensaje de Confirmacion!', 'Desea Modificar?', 'http://localhost:5000/ciudad/modificar/', id);    
+    mensaje('Mensaje de Confirmacion!', 'Desea Modificar?', '/ciudad/modificar/', id);    
 }
 /**
  * Funcion eliminar()
@@ -71,7 +71,7 @@ function modificar(id) {
  * @param {*} id 
  */
 function eliminar(id) {
-    mensaje('Mensaje de Confirmacion!', 'Desea Eliminar?', 'http://localhost:5000/ciudad/eliminar/', id);    
+    mensaje('Mensaje de Confirmacion!', 'Desea Eliminar?', '/ciudad/eliminar/', id);    
 }
 
 

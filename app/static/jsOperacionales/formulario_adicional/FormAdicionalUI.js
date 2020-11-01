@@ -173,7 +173,7 @@ export default class FormAdicionalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_adicional/eliminar_historial', {
+            const res = await fetch('/formulario_adicional/eliminar_historial', {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -198,7 +198,7 @@ export default class FormAdicionalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/profesion/listar_profesiones');
+            const res = await fetch('/profesion/listar_profesiones');
             const data = await res.json();
 
             return data;
@@ -256,7 +256,7 @@ export default class FormAdicionalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_adicional/obtener_frmdatos_id', {
+            const res = await fetch('/formulario_adicional/obtener_frmdatos_id', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -286,7 +286,7 @@ export default class FormAdicionalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_adicional/obtener_historial_profesiones', {
+            const res = await fetch('/formulario_adicional/obtener_historial_profesiones', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -441,7 +441,7 @@ export default class FormAdicionalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_adicional/image_upload', {
+            const res = await fetch('/formulario_adicional/image_upload', {
                 method: 'POST',
                 body: objeto
             });
@@ -515,7 +515,7 @@ export default class FormAdicionalUI {
         // Enviamos al servidor.
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_adicional/guardar_formulario', {
+            const res = await fetch('/formulario_adicional/guardar_formulario', {
 
                 method: 'POST',
                 headers: {

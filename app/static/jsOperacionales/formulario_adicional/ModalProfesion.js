@@ -60,7 +60,7 @@ export default class ModalProfesion {
 
             if (datos) {
 
-                const res = await fetch('http://localhost:5000/profesion/guardar', {
+                const res = await fetch('/profesion/guardar', {
                     method: 'POST',
                     body: datos
                 });

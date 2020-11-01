@@ -36,7 +36,7 @@ export default class FormularioDocumentos {
 
         try {
 
-            const res = await fetch('http://localhost:5000/documentos_miembro/lista_tipodocumentos');
+            const res = await fetch('/documentos_miembro/lista_tipodocumentos');
             const data = await res.json();
 
             return data
@@ -51,7 +51,7 @@ export default class FormularioDocumentos {
 
         try {
 
-            const res = await fetch('http://localhost:5000/documentos_miembro/lista_personas_json');
+            const res = await fetch('/documentos_miembro/lista_personas_json');
             const data = await res.json();
 
             return data;
@@ -262,7 +262,7 @@ export default class FormularioDocumentos {
 
             try {
 
-                const res = await fetch('http://localhost:5000/documentos_miembro/guardar_formulario', {
+                const res = await fetch('/documentos_miembro/guardar_formulario', {
 
                     method: 'POST',
                     body: datosForm
@@ -272,7 +272,7 @@ export default class FormularioDocumentos {
 
                 if (data.guardado === true) {
 
-                    window.location.href = 'http://localhost:5000/documentos_miembro/';
+                    window.location.href = '/documentos_miembro/';
 
                 } else {
                     //console.error(data);
@@ -302,7 +302,7 @@ export default class FormularioDocumentos {
 
             try {
 
-                const res = await fetch('http://localhost:5000/documentos_miembro/modificar_formulario', {
+                const res = await fetch('/documentos_miembro/modificar_formulario', {
 
                     method: 'POST',
                     body: datosForm
@@ -312,7 +312,7 @@ export default class FormularioDocumentos {
 
                 if (data.guardado === true) {
 
-                    window.location.href = 'http://localhost:5000/documentos_miembro/';
+                    window.location.href = '/documentos_miembro/';
 
                 } else {
                     //console.error(data);

@@ -34,7 +34,7 @@ export default class ModalBaja {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/obtener_datos_modal', {
+            const res = await fetch('/formulario_admision/obtener_datos_modal', {
                 method: 'POST',
                 headers: {
                     'Accept': 'applications/json',
@@ -67,7 +67,7 @@ export default class ModalBaja {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/dar_de_baja', {
+            const res = await fetch('/formulario_admision/dar_de_baja', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

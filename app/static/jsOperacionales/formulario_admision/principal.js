@@ -116,7 +116,7 @@ class ModalBaja {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/obtener_datos_modal', {
+            const res = await fetch('/formulario_admision/obtener_datos_modal', {
                 method: 'POST',
                 headers: {
                     'Accept': 'applications/json',
@@ -149,7 +149,7 @@ class ModalBaja {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/dar_de_baja', {
+            const res = await fetch('/formulario_admision/dar_de_baja', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -263,7 +263,7 @@ class AdmisionPrincipalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/lista_admision');
+            const res = await fetch('/formulario_admision/lista_admision');
             const data = await res.json()
 
             return data;
@@ -374,7 +374,7 @@ class AdmisionPrincipalUI {
     }
 
     redireccionarFormulario(id) {
-        window.location.href = `http://localhost:5000/formulario_admision/frm_modificar/${id}`
+        window.location.href = `/formulario_admision/frm_modificar/${id}`
     }
 
 }

@@ -101,7 +101,7 @@ export default class ModalVer {
         this.txt_alergia.innerHTML = d.alergias;
         this.txt_sangre.value = d.sangre;
         this.txt_capacidades.innerHTML = d.capacidades;
-        this.foto.src = `http://localhost:5000/static/multimedia/membresia/02_adicionales/imagenes/${d.foto}`;
+        this.foto.src = `/static/multimedia/membresia/02_adicionales/imagenes/${d.foto}`;
 
         this.tbody_tabla.innerHTML = "";
 

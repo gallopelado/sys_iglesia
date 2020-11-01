@@ -293,7 +293,7 @@ class AdmisionUI {
     async obtenerDatalistPersonas() {
         try {
 
-            const res = await fetch('http://localhost:5000/persona/get_personas');
+            const res = await fetch('/persona/get_personas');
             const data = await res.text();
 
             return document.getElementById('lista_personas').innerHTML = data;
@@ -482,7 +482,7 @@ class AdmisionUI {
 
                 objeto = { palabra: campo };
 
-            const res = await fetch('http://localhost:5000/formulario_admision/buscar_padre_ajax', {
+            const res = await fetch('/formulario_admision/buscar_padre_ajax', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -741,7 +741,7 @@ class AdmisionUI {
 
             try {
 
-                const res = await fetch('http://localhost:5000/formulario_admision/modificar', {
+                const res = await fetch('/formulario_admision/modificar', {
 
                     method: 'POST',
                     headers: {
@@ -757,7 +757,7 @@ class AdmisionUI {
                 if (data.guardado === true) {
                     this.limpiaForm();
                     document.getElementById('btnLimpiar').click();
-                    window.location.href = 'http://localhost:5000/formulario_admision/';
+                    window.location.href = '/formulario_admision/';
                 }
 
             } catch (error) {
@@ -790,7 +790,7 @@ class AdmisionUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/obtener_formulario_id', {
+            const res = await fetch('/formulario_admision/obtener_formulario_id', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -862,7 +862,7 @@ class AdmisionUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/obtener_telefonos_id', {
+            const res = await fetch('/formulario_admision/obtener_telefonos_id', {
 
                 method: 'POST',
                 headers: {
@@ -919,7 +919,7 @@ class AdmisionUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/formulario_admision/obtener_padres_id', {
+            const res = await fetch('/formulario_admision/obtener_padres_id', {
 
                 method: 'POST',
                 headers: {

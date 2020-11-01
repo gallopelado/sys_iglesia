@@ -10,7 +10,7 @@ export default class PrincipalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/documentos_miembro/lista_miembros_documento');
+            const res = await fetch('/documentos_miembro/lista_miembros_documento');
             const data = await res.json();
             let matrizResultados = [];
             const longitud_data = data.length;
@@ -82,7 +82,7 @@ export default class PrincipalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/documentos_miembro/obtener_miembro_documento', {
+            const res = await fetch('/documentos_miembro/obtener_miembro_documento', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -190,7 +190,7 @@ export default class PrincipalUI {
 
         try {
 
-            const res = await fetch('http://localhost:5000/documentos_miembro/eliminar_formulario', {
+            const res = await fetch('/documentos_miembro/eliminar_formulario', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
