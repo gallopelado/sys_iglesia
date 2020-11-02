@@ -55,9 +55,9 @@ def formulario():
     mensaje = ''
     
     if request.method == 'GET':
-        #listap = [ (item['per_id'], item['persona']) for item in obj.getPersonas(2) ]
-        #listap.insert(0, (000,'...'))
-        #form.personas.choices = listap
+        listaf = obj.getFuncionarios()
+        #Debe volver a recargarse el combo por si existan nuevos registros
+        form.funcionario.choices = [(item['fun_id'], item["funcionario"]) for item in listaf]
         return render_template('usuarios/formulario.html', titulo=titulo, form=form)
     else:
         isValid = form.validate_on_submit()
