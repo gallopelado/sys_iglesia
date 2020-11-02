@@ -54,8 +54,8 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.html">
-                            <img src="images/icon/ori.png" alt="CoolAdmin" />
+                        <a href="{{ url_for('inicio.index') }}">
+                            <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="Sys Iglesia" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -70,149 +70,20 @@
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                <i class="fas fa-gear"></i>Gestionar Mantenimiento y Seguridad</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="index.html">Dashboard 1</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="index3.html">Dashboard 3</a>
-                                </li>
-                                <li>
-                                    <a href="index4.html">Dashboard 4</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts</a>
-                        </li>
-                        <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables</a>
-                        </li>
-                        <li>
-                            <a href="form.html">
-                                <i class="far fa-check-square"></i>Forms</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-calendar-alt"></i>Calendar</a>
-                        </li>
-                        <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Pages</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="login.html">Login</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">Register</a>
-                                </li>
-                                <li>
-                                    <a href="forget-pass.html">Forget Password</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-desktop"></i>UI Elements</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="button.html">Button</a>
-                                </li>
-                                <li>
-                                    <a href="badge.html">Badges</a>
-                                </li>
-                                <li>
-                                    <a href="tab.html">Tabs</a>
-                                </li>
-                                <li>
-                                    <a href="card.html">Cards</a>
-                                </li>
-                                <li>
-                                    <a href="alert.html">Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="progress-bar.html">Progress Bars</a>
-                                </li>
-                                <li>
-                                    <a href="modal.html">Modals</a>
-                                </li>
-                                <li>
-                                    <a href="switch.html">Switchs</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grids</a>
-                                </li>
-                                <li>
-                                    <a href="fontawesome.html">Fontawesome Icon</a>
-                                </li>
-                                <li>
-                                    <a href="typo.html">Typography</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- END HEADER MOBILE-->
-
-        <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a href="{{ url_for('inicio.index') }}">
-                    <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="Cool Admin" />
-                </a>
-            </div>
-            {% if 'menu' in session %}
-            <div class="menu-sidebar__content js-scrollbar1">
-                <nav class="navbar-sidebar">
-                    <ul class="list-unstyled navbar__list">
-
-                        {#<!-- Lista referenciales -->
-                        <li class="has-sub">
-                            <a href="#" class="js-arrow">
-                                <i class="fas fa-chart-bar"></i>Gestionar Mantenimiento y Seguridad
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
-                                <li>
-                                    <a href="{{ url_for('ciudad.index_ciudad') }}">Mantener Ciudades</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('persona.index_persona') }}">Mantener Personas</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('contrato.indexMantenerContrato') }}">Mantener Contratos</a>
-                                </li>
-                            </ul>
-                        </li>#}
-                        <li class="has-sub">
-                            <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Mantenimiento y Seguridad
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
-                            {% for item in session['menu'] %}
+                                {% for item in session['menu'] %}
                                 {% if item['mod_des'] == 'MANTENIMIENTO Y SEGURIDAD' %}
                                 <li>
                                     <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
                                 </li>
                                 {% endif %}
-                            {% endfor %}
+                                {% endfor %}
                             </ul>
                         </li>
-
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Membresía
+                                <i class="fas fa-users"></i>Gestionar Membresía
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                             {% for item in session['menu'] %}
@@ -223,11 +94,10 @@
                                 {% endif %}
                             {% endfor %}
                             </ul>
-                        </li>                        
-
+                        </li>
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Actividades
+                                <i class="fas fa-calendar-alt"></i>Gestionar Actividades
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                             {% for item in session['menu'] %}
@@ -242,7 +112,98 @@
 
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Cursos
+                                <i class="fas fa-laptop"></i>Gestionar Cursos
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'CURSOS' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fa fa-file-text"></i>Gestionar Informes
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'INFORMES' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                <a href="{{ url_for('inicio.index') }}">
+                    <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="Sys Iglesia" />
+                </a>
+            </div>
+            {% if 'menu' in session %}
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-gear"></i>Gestionar Mantenimiento y Seguridad
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'MANTENIMIENTO Y SEGURIDAD' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-users"></i>Gestionar Membresía
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'MEMBRESIA' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>                        
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-calendar-alt"></i>Gestionar Actividades
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            {% for item in session['menu'] %}
+                                {% if item['mod_des'] == 'ACTIVIDADES' %}
+                                <li>
+                                    <a href="{{ url_for(item['pag_direcc']) }}">{{ item['pag_nombre'] }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li class="has-sub">
+                            <a href="#" class="js-arrow">
+                                <i class="fas fa-laptop"></i>Gestionar Cursos
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                             {% for item in session['menu'] %}
@@ -255,70 +216,9 @@
                             </ul>
                         </li>
 
-                        {#<!-- Lista módulo actividades -->
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Actividades</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
-                                <li>
-                                    <a href="{{ url_for('actividades_anuales.index_acti_anuales') }}">Registrar actividades anuales de la organizacion</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_asistencia.index_asistencia') }}">Registrar asistencias del miembros de la iglesia</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('registrar_reserva.index_reserva') }}">Registrar reserva para eventos</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('contrato_reserva.index_contrato') }}">Generar contrato por reserva
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('solicitud_hospital.index') }}">Registrar Solicitud para visita a hospital
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('consejeria.index') }}">Registrar Solicitud de consejería para miembros
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>#}
-
-                        {#<!-- Lista módulo cursos -->
-                        <li class="has-sub">
-                            <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Cursos
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
-                                <li>
-                                    <a href="{{ url_for('malla_curricular.index') }}">Registrar malla curricular
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('planificacion_cursos.index') }}">Registrar Planificación de cursos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('inscripcion_alumnos.index') }}">Registrar inscripción de alumnos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('asistencia_alumnos.index') }}">Registrar asistencias de alumnos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('desercion_alumnos.index') }}">Registrar deserción de alumnos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url_for('justificativo_alumno.index') }}">Registrar justificativos de ausencia</a>
-                                </li>
-                            </ul>
-                        </li>#}
-
-                        <li class="has-sub">
-                            <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Informes
+                                <i class="fa fa-file-text"></i>Gestionar Informes
                             </a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                             {% for item in session['menu'] %}
@@ -330,43 +230,6 @@
                             {% endfor %}
                             </ul>
                         </li>
-
-                        {# if 'menu' in session #}
-                        {# for item in session['menu'] %}
-                        <!-- Lista módulo informes -->
-                        <li class="has-sub">
-                            <a href="#" class="js-arrow">
-                                <i class="fas fa-table"></i>Gestionar Informes
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
-                                <li class="has-sub">
-                                    <a href="#" class="js-arrow">Gestionar informes de Mantenimiento y Seguridad</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
-                                        <li>
-                                            <a href="{{ url_for('mantenimiento_seguridad.listarTodasPersonas') }}">Listar
-                                                todas las personas</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#" class="js-arrow">Gestionar informes de Membresía</a>
-                                    <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
-                                        <li>
-                                            <a href="{{ url_for('membresia.listarMiembrosActivos') }}">Listar miembros
-                                                oficiales</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Gestionar informes de Actividades</a>
-                                </li>
-                                <li>
-                                    <a href="#">Gestionar informes de Cursos</a>
-                                </li>
-                            </ul>
-                        </li>
-                        {# endfor #}
-                        {# endif #}
                     </ul>
                 </nav>
             </div>
@@ -397,7 +260,7 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="images/icon/avatar-01.jpg" alt="{{ session['username'] }}" />
+                                            <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="{{ session['username'] }}" />
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{ session['username'] }}</a>

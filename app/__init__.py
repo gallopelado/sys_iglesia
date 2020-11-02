@@ -172,6 +172,6 @@ app.register_blueprint(r_act, url_prefix='/informes/reportes_actividad')
 app.register_blueprint(r_cur, url_prefix='/informes/reportes_cursos')
 
 # Codigo secreto para generar la cookie.
-#app.secret_key = "12345"
-app.secret_key = os.urandom(5)
+app.secret_key = "12345"
+#app.secret_key = os.urandom(5)
 
