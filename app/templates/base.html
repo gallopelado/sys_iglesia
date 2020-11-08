@@ -259,9 +259,15 @@
                                 </div>
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
+                                        {% if session['usu_imagen'] %}
+                                        <div class="image">
+                                            <img src="{{url_for('static', filename='multimedia/usuarios/'+session['usu_imagen'])}}" alt="{{ session['username'] }}" />
+                                        </div>
+                                        {% else %}
                                         <div class="image">
                                             <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="{{ session['username'] }}" />
                                         </div>
+                                        {% endif %}
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">{{ session['username'] }}</a>
                                         </div>
@@ -269,28 +275,32 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="images/icon/avatar-01.jpg" alt="{{ session['username'] }}" />
+                                                        {% if session['usu_imagen'] %}
+                                                        <div class="image">
+                                                            <img src="{{url_for('static', filename='multimedia/usuarios/'+session['usu_imagen'])}}" alt="{{ session['username'] }}" />
+                                                        </div>
+                                                        {% else %}
+                                                        <div class="image">
+                                                            <img src="{{url_for('static', filename='images/icon/ori.png')}}" alt="{{ session['username'] }}" />
+                                                        </div>
+                                                        {% endif %}
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
                                                         <a href="#">{{ session['username'] }}</a>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    {% if session['grupo']=='ADMIN' %}
+                                                        <span class="email"><i class="fas fa-key"></i> {{ session['grupo'] }}</span>
+                                                    {% else %}
+                                                        <span class="email"><i class="fas fa-user"></i> {{ session['grupo'] }}</span>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-settings"></i>Setting</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-money-box"></i>Billing</a>
+                                                    <a href="{{ url_for('usuarios.editar', id=session['usu_id']) }}">
+                                                        <i class="zmdi zmdi-account"></i>Cuenta</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">

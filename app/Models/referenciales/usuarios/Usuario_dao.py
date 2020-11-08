@@ -117,9 +117,9 @@ class Usuario_dao:
                 conn.close()
         return obj
 
-    def guardar(self, usu_nick, usu_clave, fun_id, gru_id, creacion_usuario):
+    def guardar(self, usu_nick, usu_clave, fun_id, gru_id, creacion_usuario, foto):
         obj=[]
-        insertSQL = '''INSERT INTO seguridad.usuarios(usu_nick, usu_clave, fun_id, gru_id, usu_estado, creacion_fecha, creacion_usuario)VALUES(%s, %s, %s, %s, TRUE, now(), %s)'''
+        insertSQL = '''INSERT INTO seguridad.usuarios(usu_nick, usu_clave, fun_id, gru_id, usu_estado, creacion_fecha, creacion_usuario, usu_imagen)VALUES(%s, %s, %s, %s, TRUE, now(), %s, %s)'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
@@ -138,14 +138,14 @@ class Usuario_dao:
                 cur.close()
                 conn.close()
 
-    def modificar(self, usu_nick, usu_clave, gru_id, modificacion_usuario, usu_id):
+    def modificar(self, usu_nick, usu_clave, gru_id, modificacion_usuario, usu_id, foto):
         obj=[]
-        updateSQL = '''UPDATE seguridad.usuarios SET usu_nick=%s, usu_clave=%s, gru_id=%s, modificacion_fecha=now(), modificacion_usuario=%s WHERE usu_id=%s'''
+        updateSQL = '''UPDATE seguridad.usuarios SET usu_nick=%s, usu_clave=%s, gru_id=%s, modificacion_fecha=now(), modificacion_usuario=%s, usu_imagen=%s WHERE usu_id=%s'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
         try:
-            cur.execute(updateSQL, (usu_nick, usu_clave, gru_id, modificacion_usuario, usu_id,))
+            cur.execute(updateSQL, (usu_nick, usu_clave, gru_id, modificacion_usuario, foto, usu_id,))
             conn.commit()
             return cur.fetchone()
         except conn.Error as e:

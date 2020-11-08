@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, app, url_for, request, flash, session
+from flask import Blueprint, render_template, redirect, app, url_for, request, flash, session, current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from app.rutas.login.FormLogin import FormLogin
@@ -53,6 +53,9 @@ def login():
                 session['usu_id'] = usuarios['usu_id']
                 session['username'] = user.strip()
                 session['fechahoy'] = usuarios['fechahoy']
+                session['usu_imagen'] = f"{usuarios['usu_imagen']}"
+                session['nombre_persona'] = f"{usuarios['nombre_persona']}"
+                session['grupo'] = f"{usuarios['grupo']}"
                 if menu:
                     session['menu'] = menu
                 return redirect(url_for('inicio.index'))

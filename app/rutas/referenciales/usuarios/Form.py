@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, HiddenField, SelectField, StringField, PasswordField
 from wtforms.validators import DataRequired, length
+from flask_wtf.file import FileField, FileRequired
+from werkzeug.utils import secure_filename
 from app.Models.referenciales.usuarios.Usuario_dao import Usuario_dao
 
 class Formulario(FlaskForm):
@@ -14,6 +16,7 @@ class Formulario(FlaskForm):
     clave = PasswordField('Escriba su nueva clave', validators=[DataRequired(), length(max=6)])
     funcionario = SelectField('Elegir Funcionario', validators=[DataRequired()],choices=[(item['fun_id'], f'{item["funcionario"]}') for item in listaf], coerce=int)
     grupos = SelectField('Elegir Grupo', choices=[(item['id'], item['descripcion']) for item in listag], coerce=int)
+    foto = FileField('Foto')
     guardar = SubmitField('Guardar')
 
     # Constructor

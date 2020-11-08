@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session
 from werkzeug.security import generate_password_hash
 from app.rutas.referenciales.usuarios.Form import Formulario
@@ -69,19 +70,34 @@ def formulario():
 
             usu_id = session['usu_id']
             id = form.id.data
-            
+            nombre_foto = None
+            foto = None
+
+            if 'foto' in request.files:
+                if request.files['foto'].filename.split('.')[1] == 'jpg':
+                    nick = form.nick.data.strip()
+                    nombre_foto = request.files['foto'].filename = f"{nick}.{request.files['foto'].filename.split('.')[1]}"
+                    foto = request.files['foto']
+                else:
+                    flash('Solo se permite fotos en formato jpg', 'danger')
+                    return redirect(url_for('usuarios.index'))
+
             if not id:
                 fun_id = form.funcionario.data
                 grupo_id = form.grupos.data
                 nick = form.nick.data
                 clave = generate_password_hash(form.clave.data, method='sha256')
-                res = obj.guardar(nick, clave, fun_id, grupo_id, usu_id)
+                if foto:
+                    foto.save(os.path.join(app.config['UPLOADED_PHOTOS_DEST'], nombre_foto))
+                res = obj.guardar(nick, clave, fun_id, grupo_id, usu_id, nombre_foto)
                 mensaje = ['Se guardo correctamente', 'success']
             else:
                 grupo_id = form.grupos.data
                 nick = form.nick.data
                 clave = generate_password_hash(form.clave.data, method='sha256')
-                res = obj.modificar(nick, clave, grupo_id, usu_id, id)
+                if foto:
+                    foto.save(os.path.join(app.config['UPLOADED_PHOTOS_DEST'], nombre_foto))
+                res = obj.modificar(nick, clave, grupo_id, usu_id, id, nombre_foto)
                 mensaje = ['Se modifico correctamente', 'success']
 
             if res:

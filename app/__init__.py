@@ -1,6 +1,7 @@
 import os, datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, render_template
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 from app.Models.PostulacionModel import PostulacionModel
 
 # Se importan las rutas de recursos.
@@ -34,6 +35,12 @@ def handle_bad_request(e):
 app.config['FORM_ADICIONAL_IMAGENES'] = RUTA_IMAGENES_FORM_ADICIONALES
 app.config['FORM_DOCUMENTOS_ARCHIVOS'] = RUTA_ARCHIVOS_FORM_DOCUMENTOS
 app.config['DOCUMENTOS_POSTULACION'] = RUTA_ARCHIVOS_POSTULACION
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(os.path.abspath(os.getcwd()), 'app/static/multimedia/usuarios/')
+
+# Definir tipo de FILE para subir fotos
+#photos = UploadSet('photos', IMAGES)
+# Definir configuracion
+#configure_uploads(app, photos)
 
 # Suponiendo que el error sea el no haber añadido este paquete.
 from app import rutas

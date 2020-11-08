@@ -82,9 +82,13 @@ class Login_dao(Conexion):
     def searchByUser(self, user):
         obj = {}
         querySQL = '''
-        SELECT usu_id, TRIM(usu_nick), usu_clave, usu_nro_intentos, usu_vaca_fechainicio, usu_vaca_fechafin, usu_isonline, usu_nro_login_exitoso
-            , fun_id, gru_id, usu_estado, fecha_formatolargo(CURRENT_DATE)fechahoy
-        FROM seguridad.usuarios WHERE usu_nick=%s AND usu_estado IS true'''
+        SELECT u.usu_id, TRIM(u.usu_nick), u.usu_clave, u.usu_nro_intentos, u.usu_vaca_fechainicio, u.usu_vaca_fechafin, u.usu_isonline, u.usu_nro_login_exitoso
+        , u.fun_id, u.gru_id, u.usu_estado, fecha_formatolargo(CURRENT_DATE)fechahoy, u.usu_imagen
+        , CONCAT(p.per_nombres, ' ', p.per_apellidos)nombre_persona, g.gru_des grupo
+        FROM seguridad.usuarios u
+        left join referenciales.personas p on p.per_id = u.fun_id 
+        left join seguridad.grupos g ON g.gru_id = u.gru_id
+        WHERE u.usu_nick=%s AND u.usu_estado IS true'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
@@ -105,6 +109,9 @@ class Login_dao(Conexion):
                     obj['gru_id'] = rs[9]
                     obj['usu_estado'] = rs[10]
                     obj['fechahoy'] = rs[11]
+                    obj['usu_imagen'] = rs[12]
+                    obj['nombre_persona'] = rs[13]
+                    obj['grupo'] = rs[14]
         except conn.Error as e:
             obj['codigo'] = e.pgcode
             obj['mensaje'] = e.pgerror            
