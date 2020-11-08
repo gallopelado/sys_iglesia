@@ -63,7 +63,7 @@ var app = new Vue({
             this.lista_voluntarios = [];         
             try {
                 if (this.idcomite != '') {
-                    const res = await fetch(`/actividades/solicitud_hospital/get_integrantes_comite/${this.idcomite}`);
+                    const res = await fetch(`/actividades/solicitud_hospital/get_integrantes_comite_sin_lista/${this.idcomite}`);
                     const data = await res.json();            
                     const datos = data;           
                     if (datos != null || datos != undefined) {

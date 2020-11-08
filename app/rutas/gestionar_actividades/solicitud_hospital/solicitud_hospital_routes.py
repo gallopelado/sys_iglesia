@@ -171,7 +171,11 @@ def getSolicitudesIdJSON(id):
 def getIntegrantesComiteJSON(id):    
     res = soli.obtenerIntegrantesComite(id)
     return jsonify(res)
-    
+
+@soh.route('/get_integrantes_comite_sin_lista/<int:id>')
+def getIntegrantesComiteJSONSinLista(id):
+    res = soli.obtenerIntegrantesComiteSinLista(id)
+    return jsonify(res)
 
 ## Rutas para formulario de voluntarios
 @soh.route('/voluntarios')

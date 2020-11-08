@@ -22,7 +22,7 @@ sched.start()
 # Se inicia una instancia de Flask
 app = Flask(__name__)
 #Duracion de la session
-app.permanent_session_lifetime = datetime.timedelta(minutes=5)
+app.permanent_session_lifetime = datetime.timedelta(minutes=30)
 # En caso de error 404
 # En caso de que el usuario quiere manipular url no valida
 @app.errorhandler(404)

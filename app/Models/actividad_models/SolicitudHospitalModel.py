@@ -92,6 +92,7 @@ class SolicitudHospitalModel:
                 con.close()           
 
     def obtenerIntegrantesComite(self, id):
+        """Obtiene los integrantes de comite que esten en la lista de la solicitud"""
         querySQL = '''
         select array_to_json(array_agg(row_to_json(datos))) from (
         SELECT 
@@ -103,10 +104,34 @@ class SolicitudHospitalModel:
         left join referenciales.ministerios m ON m.min_id = lv.min_id
         WHERE slv.estado is true AND slv.lvo_id= %s)datos
         '''
+        conexion = Conexion()
+        con = conexion.getConexion()
+        cur = con.cursor()
         try:
-            conexion = Conexion()
-            con = conexion.getConexion()
-            cur = con.cursor()
+            cur.execute(querySQL, (id, ))
+            return cur.fetchone()[0]
+        except con.Error as e:
+            print(e.pgerror)
+        finally:
+            if con is not None:
+                cur.close()
+                con.close()
+
+    def obtenerIntegrantesComiteSinLista(self, id):
+        """Obtiene los integrantes de comite que esten en la lista de la solicitud"""
+        querySQL = '''
+        select array_to_json(array_agg(row_to_json(datos))) from (
+                SELECT co.min_id idcomite, mi.min_des comite,
+            co.per_id idpersona, p.per_nombres nombres, p.per_apellidos apellidos
+        FROM membresia.comite_obreros co
+        left join referenciales.ministerios mi on mi.min_id = co.min_id
+        left join referenciales.personas p on p.per_id = co.per_id
+        where mi.min_id = %s and co.estado is true)datos
+        '''
+        conexion = Conexion()
+        con = conexion.getConexion()
+        cur = con.cursor()
+        try:
             cur.execute(querySQL, (id, ))
             return cur.fetchone()[0]
         except con.Error as e:
