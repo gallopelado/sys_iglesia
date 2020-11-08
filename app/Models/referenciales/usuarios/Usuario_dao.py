@@ -124,7 +124,7 @@ class Usuario_dao:
         conn = conexion.getConexion()
         cur = conn.cursor()
         try:
-            cur.execute(insertSQL, (usu_nick, usu_clave, fun_id, gru_id, creacion_usuario,))
+            cur.execute(insertSQL, (usu_nick, usu_clave, fun_id, gru_id, creacion_usuario, foto,))
             conn.commit()
             return cur.fetchone()
         except conn.Error as e:
