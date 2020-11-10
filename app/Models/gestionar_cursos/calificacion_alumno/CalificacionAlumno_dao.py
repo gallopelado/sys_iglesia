@@ -42,7 +42,73 @@ class CalificacionAlumno_dao:
 
     def getListaAlumnos(self, malla_id, cur_id, asi_id, num_id, turno):
         lista=[]
-        querySQL = '''select di.malla_id, di.cur_id, c.cur_des, di.asi_id, di.num_id, concat(a.asi_des,' ', na.num_des)asignatura, di.turno, di.per_id, CONCAT(p.per_nombres, ' ', p.per_apellidos, ' - ', p.per_ci)alumno, di.estado, CASE ( SELECT count(*) FROM cursos.calificacion_alumno ca left join cursos.planificacion_examen pe on pe.planex_id = ca.planex_id left join referenciales.personas p on p.per_id = ca.alumno_id WHERE pe.malla_id=di.malla_id AND pe.cur_id=di.cur_id AND pe.asi_id=di.asi_id AND pe.num_id=di.num_id AND pe.turno=di.turno AND ca.alumno_id = di.per_id ) WHEN 1 THEN 'CALIFICADO' WHEN 0 THEN 'SIN-CALIFICAR'  ELSE 'MAS DE UN EXAMEN CALIF.' END "isCalificado" from cursos.detalle_inscripcion di left join referenciales.personas p on p.per_id = di.per_id left join referenciales.cursos c on c.cur_id = di.cur_id left join referenciales.asignaturas a on a.asi_id = di.asi_id left join referenciales.numero_asignatura na on na.num_id = di.num_id where di.estado = 'INSCRIPTO' and di.malla_id = %s and di.cur_id = %s and di.asi_id = %s and di.num_id = %s and turno = %s'''
+        querySQL = '''select
+            di.malla_id,
+            di.cur_id,
+            c.cur_des,
+            di.asi_id,
+            di.num_id,
+            concat(a.asi_des, ' ', na.num_des)asignatura,
+            di.turno,
+            di.per_id,
+            CONCAT(p.per_nombres, ' ', p.per_apellidos, ' - ', p.per_ci)alumno,
+            di.estado,
+            case (
+            select
+                count(*)
+            from
+                cursos.calificacion_alumno ca
+            left join cursos.planificacion_examen pe on
+                pe.planex_id = ca.planex_id
+            left join referenciales.personas p on
+                p.per_id = ca.alumno_id
+            where
+                pe.malla_id = di.malla_id
+                and pe.cur_id = di.cur_id
+                and pe.asi_id = di.asi_id
+                and pe.num_id = di.num_id
+                and pe.turno = di.turno
+                and ca.alumno_id = di.per_id )
+            when 1 then 'CALIFICADO'
+            when 0 then 'SIN-CALIFICAR'
+            else 'MAS DE UN EXAMEN CALIF.'
+        end "isCalificado",
+        case (
+            select
+                count(*)
+            from
+                cursos.calificacion_alumno ca
+            left join cursos.planificacion_examen pe on
+                pe.planex_id = ca.planex_id
+            left join referenciales.personas p on
+                p.per_id = ca.alumno_id
+            where
+                pe.malla_id = di.malla_id
+                and pe.cur_id = di.cur_id
+                and pe.asi_id = di.asi_id
+                and pe.num_id = di.num_id
+                and pe.turno = di.turno
+                and ca.alumno_id = di.per_id and ca.cal_anulado is true)
+            when 1 then 'ANULADO'
+            when 0 then 'NO-ANULADO'
+        end "isAnulado"	
+        from
+        cursos.detalle_inscripcion di
+        left join referenciales.personas p on
+        p.per_id = di.per_id
+        left join referenciales.cursos c on
+        c.cur_id = di.cur_id
+        left join referenciales.asignaturas a on
+        a.asi_id = di.asi_id
+        left join referenciales.numero_asignatura na on
+        na.num_id = di.num_id
+        where
+        di.estado = 'INSCRIPTO'
+        and di.malla_id = %s
+        and di.cur_id = %s
+        and di.asi_id = %s
+        and di.num_id = %s
+        and turno = %s'''
         conexion = Conexion()
         conn = conexion.getConexion()
         cur = conn.cursor()
@@ -63,6 +129,7 @@ class CalificacionAlumno_dao:
                     obj['alumno'] = rs[8]
                     obj['estado'] = rs[9]
                     obj['isCalificado'] = rs[10]
+                    obj['isAnulado'] = rs[11]
                     lista.append(obj)
         except conn.Error as e:
             app.logger.error(e)     
@@ -127,6 +194,34 @@ class CalificacionAlumno_dao:
             obj['codigo'] = e.pgcode
             obj['mensaje'] = e.pgerror
             return obj            
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def anularExamen(self, planex_id, modificacion_usuario):
+        obj=[]
+        updateSQL = '''UPDATE
+            cursos.calificacion_alumno
+        SET
+            cal_anulado = true,
+            modificacion_fecha = NOW(),
+            modificacion_usuario = %s
+        WHERE
+            planex_id =%s'''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(updateSQL, (modificacion_usuario, planex_id,))
+            conn.commit()
+            return True
+        except conn.Error as e:
+            app.logger.error(e)
+            obj = {}
+            obj['codigo'] = e.pgcode
+            obj['mensaje'] = e.pgerror
+            return obj
         finally:
             if conn is not None:
                 cur.close()

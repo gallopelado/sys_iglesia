@@ -29,6 +29,7 @@ def listaAlumnos(malla_id, cur_id, asi_id, num_id, turno, per_id):
     form.asi_id.data = asi_id
     form.num_id.data = num_id
     form.turno.data = turno
+    form.alu_id.data = per_id
     # traer examenes segun parametros
     pe_dao = PlanificacionExamen_dao()
     lista_examenes = pe_dao.getListaExamenesPlanificados(malla_id, cur_id, asi_id, num_id, turno, per_id)
@@ -36,27 +37,30 @@ def listaAlumnos(malla_id, cur_id, asi_id, num_id, turno, per_id):
     #form.examenes.choices = [ (str(item['exa_id']), item['exa_nombre']) for item in lista_examenes ]
     return render_template('calificacion_alumno/lista_alumnos.html', titulo='Formulario Calificaciones', items=data, lista_examenes=lista_examenes, form=form)
 
-@calif_al.route('/formulario_ausencia/<int:malla_id>/<int:cur_id>/<int:asi_id>/<int:num_id>/<turno>/<int:per_id>/<fecha_clase>')
-def formularioAusencia(malla_id, cur_id, asi_id, num_id, turno, per_id, fecha_clase):
-    form = Formulario()
-    form.malla_id.data = malla_id
-    form.cur_id.data = cur_id
-    form.asi_id.data = asi_id
-    form.num_id.data = num_id
-    form.turno.data = turno
-    form.alu_id.data = per_id
-    form.fecha_clase.data = fecha_clase
-    calif_dao = CalificacionAlumno_dao()
-    data = calif_dao.getListaAlumnos(malla_id, cur_id, asi_id, num_id, turno)
+@calif_al.route('/anular_examen', methods=['POST'])
+def anularExamen():
+    malla_id = request.form['malla_id']
+    cur_id = request.form['cur_id']
+    asi_id = request.form['asi_id']
+    num_id = request.form['num_id']
+    turno = request.form['turno']
+    per_id = request.form['alu_id']
+    cbo_examen = request.form['cbo_examen']
 
-    for item in data:
-        if item['per_id'] == per_id:
-            form.alumno.data = item['estudiante']
-            form.curso.data = item['cur_des']
-            form.asignatura.data = item['asignatura']
-            form.idmaestro.data = item['idmaestro']
+    if not cbo_examen:
+        flash('Debe escoger un examen para anular', 'warning')
+        return redirect(url_for('calificacion_alumno.listaAlumnos', malla_id=malla_id, cur_id=cur_id, asi_id=asi_id, num_id=num_id, turno=turno, per_id=per_id ))
 
-    return render_template('calificacion_alumno/formulario_ausencia.html', titulo='Formulario calificaciones', form=form)
+    if per_id and turno and num_id and asi_id and cur_id and malla_id:
+        calif_dao = CalificacionAlumno_dao()
+        save = calif_dao.anularExamen(cbo_examen, session['usu_id'])
+        if save==True:
+            flash('Procesado exitoso', 'success')
+        else:
+            flash('Hubo un problema al intentar anular. Favor contacte al Administrador', 'danger')
+        return redirect(url_for('calificacion_alumno.listaAlumnos', malla_id=malla_id, cur_id=cur_id, asi_id=asi_id, num_id=num_id, turno=turno, per_id=per_id ))
+    flash('Hubo un problema al validar anular. Favor contacte al Administrador', 'danger')
+    return redirect(url_for('calificacion_alumno.listaAlumnos', malla_id=malla_id, cur_id=cur_id, asi_id=asi_id, num_id=num_id, turno=turno, per_id=per_id ))
 
 # Guardar via REST
 @calif_al.route('/guardar', methods=['POST'])
@@ -87,13 +91,3 @@ def guardar():
         flash('No Se proceso correctamente', 'danger')
         res = { 'estado': 'error', 'mensaje': 'No se ha enviado correctamente la data'}
     return jsonify(res)
-
-@calif_al.route('/lista_justificativos_alumnos/<int:alumno_id>')
-def listaJustificativosAlumno(alumno_id):
-    #{{ url_for('calificacion_alumno.listaAlumnos', malla_id=form.malla_id.data, cur_id=form.cur_id.data, asi_id=form.asi_id.data, num_id=form.num_id.data, turno=form.turno.data) }}
-    calif_dao = CalificacionAlumno_dao()
-    data = calif_dao.getListaJustificativosByAlumno(alumno_id)
-    if not data:
-        flash('No existen justificativos para este alumno', 'warning')
-        return redirect(url_for('calificacion_alumno.index'))
-    return render_template('calificacion_alumno/lista_justificativos_alumnos.html', titulo='Lista de Justificativos por alumno', items=data)

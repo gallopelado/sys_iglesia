@@ -27,79 +27,100 @@
 
             <div class="row">
                 <div class="col col-sm-12 col-md-12 col-xl-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col col-md-3">
-                                    <a href="{{ url_for('calificacion_alumno.index') }}"
-                                    class="btn btn-secondary bt-sm">
-                                    <i class="fa fa-angle-left"></i> Volver
-                                    </a>
-                                </div>
-                                <div class="col col-md-6">
-                                    <div class="card-title">
-                                        <h3 class="text-center title-2">{{ titulo }}</h3>
+                    <form action="{{ url_for('calificacion_alumno.anularExamen') }}" method="post" id="formulario">
+                        {{ form.csrf_token }}
+                        {{ form.malla_id }}
+                        {{ form.cur_id }}
+                        {{ form.asi_id }}
+                        {{ form.num_id }}
+                        {{ form.turno }}
+                        {{ form.alu_id }}
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col col-md-3">
+                                        <a href="{{ url_for('calificacion_alumno.index') }}"
+                                        class="btn btn-secondary bt-sm">
+                                        <i class="fa fa-angle-left"></i> Volver
+                                        </a>
+                                    </div>
+                                    <div class="col col-md-6">
+                                        <div class="card-title">
+                                            <h3 class="text-center title-2">{{ titulo }}</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 offset-md-3 text-center">
-                                    <label for="cbo_examen" class="form-control-label">Escoger Examen a puntuar:</label>
-                                    <select name="cbo_examen" id="cbo_examen" class="form-control mb-3" v-model="cbo_examen">
-                                        {% if lista_examenes %}
-                                        {% for examen in lista_examenes %}
-                                        <option value="{{ examen['planex_id'] }}">{{ examen['exa_nombre'] }}</option>
-                                        {% endfor %}
-                                        {% endif %}
-                                    </select>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 offset-md-3 text-center">
+                                        <label for="cbo_examen" class="form-control-label">Escoger Examen a puntuar:</label>
+                                        <select name="cbo_examen" id="cbo_examen" class="form-control mb-3" v-model="cbo_examen">
+                                            {% if lista_examenes %}
+                                            {% for examen in lista_examenes %}
+                                            <option value="{{ examen['planex_id'] }}">{{ examen['exa_nombre'] }}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
                                 </div>
+                                <table id="tabla_alumnos" class="table table-borderless table-data3">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Curso</th>
+                                            <th style="text-align: center;">Asignatura</th>
+                                            <th style="text-align: center;">Turno</th>
+                                            <th style="text-align: center;">Estado</th>
+                                            {% if items[0]['isAnulado']=='ANULADO' %}
+                                            <th style="text-align: center;">Esta anulado?</th>
+                                            {% endif %}
+                                            <th style="text-align: center;">Alumno</th>
+                                            <th style="text-align: center;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb">
+                                        {% for item in items %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ item['cur_des'] }}</td>
+                                            <td style="text-align: center;">{{ item['asignatura'] }}</td>
+                                            <td style="text-align: center;">{{ item['turno'] }}</td>
+                                            <td style="text-align: center;">
+                                                {% if item['isCalificado']=='CALIFICADO' %}
+                                                <span class="badge badge-success">{{ item['isCalificado'] }}</span>
+                                                {% elif item['isCalificado']=='SIN-CALIFICAR' %}
+                                                <span class="badge badge-secondary">{{ item['isCalificado'] }}</span>
+                                                {% else %}
+                                                <span class="badge badge-info">{{ item['isCalificado'] }}</span>
+                                                {% endif %}
+                                            </td>
+                                            {% if item['isAnulado']=='ANULADO' %}
+                                            <td style="text-align: center;">
+                                                {% if item['isAnulado']=='ANULADO' %}
+                                                <span class="badge badge-danger">{{ item['isAnulado'] }}</span>
+                                                {% elif item['isAnulado']=='NO-ANULADO' %}
+                                                <span class="badge badge-secondary">{{ item['isAnulado'] }}</span>
+                                                {% endif %}
+                                            </td>
+                                            {% endif %}
+                                            <td style="text-align: center;">{{ item['alumno'] }}</td>
+                                            <td style="text-align: center;">
+                                                {% if item['isCalificado']=='SIN-CALIFICAR' %}
+                                                <button type='button' class="item btn btn-success btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Agregar</button>
+                                                {% else %}
+                                                <button type='button' class="item btn btn-primary btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Editar</button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {{ pintar_alerta(messages) }}
                             </div>
-                            <table id="tabla_alumnos" class="table table-borderless table-data3">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;">Curso</th>
-                                        <th style="text-align: center;">Asignatura</th>
-                                        <th style="text-align: center;">Turno</th>
-                                        <th style="text-align: center;">Estado</th>
-                                        <th style="text-align: center;">Alumno</th>
-                                        <th style="text-align: center;">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tb">
-                                    {% for item in items %}
-                                    <tr>
-                                        <td style="text-align: center;">{{ item['cur_des'] }}</td>
-                                        <td style="text-align: center;">{{ item['asignatura'] }}</td>
-                                        <td style="text-align: center;">{{ item['turno'] }}</td>
-                                        <td style="text-align: center;">
-                                            {% if item['isCalificado']=='CALIFICADO' %}
-                                            <span class="badge badge-success">{{ item['isCalificado'] }}</span>
-                                            {% elif item['isCalificado']=='SIN-CALIFICAR' %}
-                                            <span class="badge badge-secondary">{{ item['isCalificado'] }}</span>
-                                            {% else %}
-                                            <span class="badge badge-info">{{ item['isCalificado'] }}</span>
-                                            {% endif %}
-                                        </td>
-                                        <td style="text-align: center;">{{ item['alumno'] }}</td>
-                                        <td style="text-align: center;">
-                                            {% if item['isCalificado']=='SIN-CALIFICAR' %}
-                                            <button type='button' class="item btn btn-success btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Agregar</button>
-                                            {% else %}
-                                            <button type='button' class="item btn btn-primary btn-sm" data-toggle="modal" data-target="#smallmodal" onclick="modalPuntaje(`{{ item['per_id'] }}`)">Editar</button>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            {{ pintar_alerta(messages) }}
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-danger btn-sm" id="btanular"><i class="fa fa-times"></i> Anular resultados</button>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-danger btn-sm">Anular resultados</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
