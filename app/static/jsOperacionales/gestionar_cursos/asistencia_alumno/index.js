@@ -10,8 +10,8 @@ var app = new Vue({
         lista_asistencias: []
         , lista_cursos: null
         , lista_asignaturas: null
-        , idmalla: 2
-        , idmaestro: 2
+        , idmalla: $('#malla_id').val()
+        , idmaestro: $('#fun_id').val()
         , turno: 'NOCHE'
         , lista_turnos: ['MAÑANA', 'TARDE', 'NOCHE']
         , cbo_turno: null

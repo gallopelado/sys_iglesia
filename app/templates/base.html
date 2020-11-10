@@ -68,6 +68,7 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
+                        {% if session['grupo'] in ('ADMIN')  %}
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-gear"></i>Gestionar Mantenimiento y Seguridad</a>
@@ -81,6 +82,9 @@
                                 {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
+
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA', 'LIDER', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-users"></i>Gestionar Membresía
@@ -95,6 +99,8 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA', 'SERVIDOR', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-calendar-alt"></i>Gestionar Actividades
@@ -109,7 +115,9 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
 
+                        {% if session['grupo'] in ('MAESTRO', 'PASTOR', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-laptop"></i>Gestionar Cursos
@@ -124,6 +132,9 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
+
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA','ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fa fa-file-text"></i>Gestionar Informes
@@ -138,6 +149,7 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
@@ -156,6 +168,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
 
+                        {% if session['grupo'] in ('ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-gear"></i>Gestionar Mantenimiento y Seguridad
@@ -170,7 +183,9 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
 
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA', 'LIDER', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-users"></i>Gestionar Membresía
@@ -184,8 +199,10 @@
                                 {% endif %}
                             {% endfor %}
                             </ul>
-                        </li>                        
+                        </li>
+                        {% endif %}
 
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA', 'SERVIDOR', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-calendar-alt"></i>Gestionar Actividades
@@ -200,7 +217,9 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
 
+                        {% if session['grupo'] in ('MAESTRO', 'PASTOR', 'ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fas fa-laptop"></i>Gestionar Cursos
@@ -215,7 +234,9 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
 
+                        {% if session['grupo'] in ('PASTOR', 'SECRETARIA','ADMIN')  %}
                         <li class="has-sub">
                             <a href="#" class="js-arrow">
                                 <i class="fa fa-file-text"></i>Gestionar Informes
@@ -230,6 +251,7 @@
                             {% endfor %}
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -259,7 +281,7 @@
                                 </div>
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
-                                        {% if session['usu_imagen'] %}
+                                        {% if session['usu_imagen'] != 'None' %}
                                         <div class="image">
                                             <img src="{{url_for('static', filename='multimedia/usuarios/'+session['usu_imagen'])}}" alt="{{ session['username'] }}" />
                                         </div>
@@ -275,7 +297,7 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        {% if session['usu_imagen'] %}
+                                                        {% if session['usu_imagen'] != 'None' %}
                                                         <div class="image">
                                                             <img src="{{url_for('static', filename='multimedia/usuarios/'+session['usu_imagen'])}}" alt="{{ session['username'] }}" />
                                                         </div>

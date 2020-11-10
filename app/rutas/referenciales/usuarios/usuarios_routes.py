@@ -73,7 +73,7 @@ def formulario():
             nombre_foto = None
             foto = None
 
-            if 'foto' in request.files:
+            if 'foto' in request.files and request.files['foto']:
                 if request.files['foto'].filename.split('.')[1] == 'jpg':
                     nick = form.nick.data.strip()
                     nombre_foto = request.files['foto'].filename = f"{nick}.{request.files['foto'].filename.split('.')[1]}"

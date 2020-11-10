@@ -44,7 +44,7 @@
                                     {% endif %}
                                     <div class="col-lg-3">
                                         {{ form.nick.label(class="control-label mb-1") }}
-                                        {{ form.nick(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true") }}
+                                        {{ form.nick(class="input-sm form-control-sm form-control", autocomplete="off", autofocus="true", maxlength="6", minlength="2") }}
                                         {% for error in form.nick.errors %}
                                         <span class="help-block" data-valmsg-for="cc-name" data-valmsg-replace="true">Revisar!</span>
                                         {% endfor %}

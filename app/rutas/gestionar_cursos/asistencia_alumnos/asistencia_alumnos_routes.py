@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from app.rutas.gestionar_cursos.asistencia_alumnos.AsistenciaAlumnoServices import AsistenciaAlumnoServices
+from app.Models.gestionar_cursos.asistencia_alumno.AsistenciaAlumno_dao import AsistenciaAlumno_dao
 asial = Blueprint('asistencia_alumnos', __name__, template_folder='templates')
 
 @asial.before_request
@@ -9,7 +10,11 @@ def before_request():
 
 @asial.route('/')
 def index():
-    return render_template('asistencia_alumnos/index.html', titulo="Registrar asistencia de alumnos")
+    asd = AsistenciaAlumno_dao()
+    data = {
+        'malla_id': asd.getMallaActual(), 'fun_id': asd.getMaestroByUser(session['usu_id'])
+    }
+    return render_template('asistencia_alumnos/index.html', titulo="Registrar asistencia de alumnos", data=data)
 
 @asial.route('/form_asistencia')
 def formAsistencia():

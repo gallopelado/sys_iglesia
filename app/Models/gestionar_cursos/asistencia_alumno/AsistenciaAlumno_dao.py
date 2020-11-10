@@ -214,3 +214,46 @@ class AsistenciaAlumno_dao(Conexion):
                 cur.close()
                 conn.close()
         return lista
+
+    def getMallaActual(self):
+        res = {}
+        querySQL = '''SELECT malla_id FROM cursos.malla_curricular WHERE anho_id = (
+            SELECT anho_id
+            FROM referenciales.anho_habil
+            WHERE is_active is true AND adelantar IS false) AND estado is true
+        '''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(querySQL)
+            return cur.fetchone()[0]
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
+
+    def getMaestroByUser(self, usu_id):
+        res = {}
+        querySQL = '''SELECT u.fun_id FROM seguridad.usuarios u
+        LEFT JOIN referenciales.personas p ON p.per_id = u.fun_id
+        WHERE u.usu_id = %s
+        '''
+        conexion = Conexion()
+        conn = conexion.getConexion()
+        cur = conn.cursor()
+        try:
+            cur.execute(querySQL, (usu_id,))
+            return cur.fetchone()[0]
+        except conn.Error as e:
+            res['codigo'] = e.pgcode
+            res['mensaje'] = e.pgerror
+            return res
+        finally:
+            if conn is not None:
+                cur.close()
+                conn.close()
