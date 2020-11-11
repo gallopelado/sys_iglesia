@@ -31,6 +31,10 @@ def handle_bad_request(e):
     #return 'Epa!..bad request!. No existe esta ruta churro.', 400
     return render_template('errores/error404/templates/error404/index.html'), 404
 
+@app.errorhandler(403)
+def handle_forbidden_request(e):
+    return render_template('errores/error403/index.html'), 403
+
 # Definimos rutas estaticas.
 app.config['FORM_ADICIONAL_IMAGENES'] = RUTA_IMAGENES_FORM_ADICIONALES
 app.config['FORM_DOCUMENTOS_ARCHIVOS'] = RUTA_ARCHIVOS_FORM_DOCUMENTOS

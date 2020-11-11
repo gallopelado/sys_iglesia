@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify, session,abort
 
 # Importar referenciales varios y helpers
 from app.rutas.registrar_documentos_miembro.referenciales import *
@@ -16,6 +16,10 @@ docm = Blueprint('registrar_documentos_miembro',
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'SECRETARIA'):
+        abort(403, description="Acceso prohibido")
 
 # Definir rutas
 @docm.route('/')

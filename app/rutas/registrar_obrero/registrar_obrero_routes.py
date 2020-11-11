@@ -1,5 +1,5 @@
 # Se importan las librerías básicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 
 # Importar modelo
 from app.Models.ComiteModel import ComiteModel
@@ -20,7 +20,10 @@ obm = ObreroModel()
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
-
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'LIDER'):
+        abort(403, description="Acceso prohibido")
 
 @ob.route('/')
 def index_obrero():    

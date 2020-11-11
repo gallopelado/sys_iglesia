@@ -1,7 +1,7 @@
 # Se importa la biblioteca del sistema operativo 
 import os
 # Se importan las librerias basicas
-from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 
 # Importar el modelo principal.
 from app.Models.FormAdicionalModel import FormAdicionalModel
@@ -18,6 +18,10 @@ formadi = Blueprint('registrar_formulario_adicional', __name__, template_folder=
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'SECRETARIA'):
+        abort(403, description="Acceso prohibido")
 
 @formadi.route('/')
 def index_formadi():

@@ -1,6 +1,6 @@
 # Se importan las librerias basicas
 import os
-from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import current_app as app, Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 from werkzeug.utils import secure_filename
 
 # Importar funciones genericas
@@ -16,6 +16,10 @@ postu = Blueprint('registrar_postulacion', __name__, template_folder='templates'
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'PASTOR'):
+        abort(403, description="Acceso prohibido")
 
 @postu.route('/')
 def index_postulacion():

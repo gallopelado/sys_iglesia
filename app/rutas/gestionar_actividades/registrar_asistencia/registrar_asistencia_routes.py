@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 # Importar modelos
 from app.Models.actividad_models.AsistenciaModel import AsistenciaModel
 from app.Models.PersonaModel import PersonaModel
@@ -17,6 +17,10 @@ titulo = 'Registrar asistencias de miembros de la iglesia'
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'SERVIDOR', 'SECRETARIA'):
+        abort(403, description="Acceso prohibido")
 
 @asis.route('/')
 def index_asistencia():

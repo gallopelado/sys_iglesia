@@ -1,6 +1,6 @@
 # Librerias basicas
 import datetime
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json,session,abort
 
 from app.rutas.gestionar_cursos.planificacion_cursos.PlanificacionCursoServices import PlanificacionCursoServices
 pcr = Blueprint('planificacion_cursos', __name__, template_folder='templates')
@@ -9,6 +9,10 @@ pcr = Blueprint('planificacion_cursos', __name__, template_folder='templates')
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'PASTOR'):
+        abort(403, description="Acceso prohibido")
 
 @pcr.route('/')
 def index():

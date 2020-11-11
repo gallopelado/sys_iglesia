@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session
+from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session, abort
 from app.rutas.referenciales.funcionarios.Form import Formulario
 from app.Models.referenciales.funcionarios.Funcionario_dao import Funcionario_dao
 
@@ -10,6 +10,10 @@ title_formulario = 'Formulario Funcionario'
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo']!='ADMIN':
+        abort(403, description="Acceso prohibido")
 
 @fun.route('/')
 def index():

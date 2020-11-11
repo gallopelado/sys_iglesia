@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session,abort
 from app.rutas.gestionar_cursos.asistencia_alumnos.AsistenciaAlumnoServices import AsistenciaAlumnoServices
 from app.Models.gestionar_cursos.asistencia_alumno.AsistenciaAlumno_dao import AsistenciaAlumno_dao
 asial = Blueprint('asistencia_alumnos', __name__, template_folder='templates')
@@ -7,6 +7,10 @@ asial = Blueprint('asistencia_alumnos', __name__, template_folder='templates')
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'MAESTRO'):
+        abort(403, description="Acceso prohibido")
 
 @asial.route('/')
 def index():

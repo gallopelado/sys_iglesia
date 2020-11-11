@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 
 # importar modelo Requisitos.
 from app.Models.RequisitoModel import RequisitoModel
@@ -15,6 +15,10 @@ miereq = Blueprint('registrar_requisitos_miembro', __name__, template_folder='te
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'PASTOR'):
+        abort(403, description="Acceso prohibido")
 
 @miereq.route('/')
 def index_miembrorequisitos():

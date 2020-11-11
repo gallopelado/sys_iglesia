@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session
+from flask import Blueprint, render_template, redirect, url_for, request, flash, current_app as app, session,abort
 from flask.json import jsonify
 from wtforms.form import Form
 from app.rutas.referenciales.permisos.Form import Formulario
@@ -12,6 +12,10 @@ title_formulario = 'Formulario Permisos'
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo']!='ADMIN':
+        abort(403, description="Acceso prohibido")
 
 @perm.route('/')
 def index():

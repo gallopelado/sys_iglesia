@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 from app.Models.CiudadModel import CiudadModel
 from app.helps.helps import limpiar_campo
 
@@ -9,6 +9,10 @@ mod = Blueprint("ciudad", __name__, template_folder="templates")
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN'):
+        abort(403, description="Acceso prohibido")
 
 @mod.route("/")
 def index_ciudad():

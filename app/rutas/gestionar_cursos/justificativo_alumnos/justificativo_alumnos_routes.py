@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, json, session,abort
 from app.Models.gestionar_cursos.justificativo_alumno.JustificativoAlumno_dao import JustificativoAlumno_dao
 from app.rutas.gestionar_cursos.justificativo_alumnos.Formulario import Formulario
 
@@ -8,6 +8,10 @@ jusa = Blueprint('justificativo_alumno', __name__, template_folder='templates')
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'SECRETARIA'):
+        abort(403, description="Acceso prohibido")
 
 @jusa.route('/')
 def index():

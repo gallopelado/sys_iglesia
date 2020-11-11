@@ -1,6 +1,6 @@
 # Se importan las librerias basicas
 from datetime import date
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,session,abort
 # Importar modelos
 from app.Models.actividad_models.ContratoReservaModel import ContratoReservaModel
 from app.Models.actividad_models.ReservaModel import ReservaModel
@@ -15,6 +15,10 @@ rsm = ReservaModel()
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'SECRETARIA'):
+        abort(403, description="Acceso prohibido")
 
 @gcr.route('/')
 def index_contrato():

@@ -1,5 +1,5 @@
 # Se importan las librerías básicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session,abort
 
 # Importar clase del formulario
 from app.rutas.registrar_comite.formularioComite import FormularioComite
@@ -20,6 +20,10 @@ cm = ComiteModel()
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'PASTOR'):
+        abort(403, description="Acceso prohibido")
 
 # Rutas
 @comi.route('/')

@@ -1,5 +1,5 @@
 # Se importan las librerias basicas
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session,abort
 # Librerias para generar pdf
 from flask_weasyprint import HTML, render_pdf
 # Otras utilidades
@@ -13,6 +13,10 @@ r_cur = Blueprint('r_cursos', __name__, template_folder='templates')
 def before_request():
     if 'username' not in session:
         return redirect(url_for('login.login'))
+    elif 'grupo' not in session:
+        return redirect(url_for('login.login'))
+    elif 'username' in session and 'grupo' in session and session['grupo'] not in ('ADMIN', 'PASTOR'):
+        abort(403, description="Acceso prohibido")
 
 @r_cur.route('/')
 def mostrarFormularioMalla():
