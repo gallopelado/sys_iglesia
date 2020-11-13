@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% from 'render_elements.html' import pintar_input,pintar_button, pintar_combo, pintar_textarea  %}
+
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title mb-3">{{ titulo }}</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="mx-auto d-block">
+                                {% if session['usu_imagen'] != 'None' %}
+                                <div class="image">
+                                    <img class="rounded-circle mx-auto d-block" src="{{ url_for('static', filename='multimedia/usuarios/'+session['usu_imagen']) }}" alt="{{ session['username'] }}" />
+                                </div>
+                                {% else %}
+                                <div class="image">
+                                    <img class="rounded-circle mx-auto d-block" src="{{url_for('static', filename='images/icon/ori.png')}}" alt="{{ session['username'] }}" />
+                                </div>
+                                {% endif %}
+                                <h5 class="text-sm-center mt-2 mb-1">{{ data['nombres'] }}</h5>
+                                <div class="location text-sm-center"></div>
+                            </div>
+                            <hr>
+                            <div class="card-text text-sm-center">
+                                <a href="#">
+                                    <i class="fa fa-facebook pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-twitter pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-linkedin pr-1"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-pinterest pr-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-xs-12 col-sm-12 col-lg-12 col-lg-8 col-xl-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <a href="/" class="btn btn-secondary bt-sm">
+                                <i class="fa fa-angle-left"></i> Inicio</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">Mas info</h3>
+                            </div>
+                            <hr>
+                            <form action="" method="post" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Nick</label>
+                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control"
+                                        aria-required="true" aria-invalid="false" value="{{ data['usu_nick'] }}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Grupo</label>
+                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control"
+                                        aria-required="true" aria-invalid="false" value="{{ data['grupo'] }}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Cargo</label>
+                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control"
+                                        aria-required="true" aria-invalid="false" value="{{ data['cargo'] }}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Estado</label>
+                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control"
+                                        aria-required="true" aria-invalid="false" value="{{ data['estado'] }}" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cc-payment" class="control-label mb-1">Última vez que has entrado</label>
+                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control"
+                                        aria-required="true" aria-invalid="false" value="{{ data['ultima_vez'] }}" disabled>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+{% endblock %}
