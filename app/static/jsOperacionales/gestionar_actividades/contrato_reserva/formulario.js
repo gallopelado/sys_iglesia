@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         plantilla = plantilla.replace(/{COMODATARIO}/g, `${datosE.nombres} ${datosE.apellidos}`);
         plantilla = plantilla.replace(/{CEDULA_CIO}/g, `${datosE.cedula}`);
         plantilla = plantilla.replace(/{NROCASA_CIO}/g, `${datosE.nrocasa}`);
-        plantilla = plantilla.replace(/{DIRECCION_CIO}/g, `${datosE.nrocasa}`);
+        plantilla = plantilla.replace(/{DIRECCION_CIO}/g, `${datosE.direccion}`);
         return plantilla;
     }
 
@@ -118,5 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }        
     }
 
+    //Enviar contrato a PDF
+    $('#btnImprimir').click(function(){
+        if(confirm('Desea imprimir en PDF?')) {
+            const texto = document.getElementById('txt_contrato').innerHTML;
+            $('#contenedorContrato').val(texto);
+            $('#formularioPDF').submit();
+        }
+    })
     
+
 });

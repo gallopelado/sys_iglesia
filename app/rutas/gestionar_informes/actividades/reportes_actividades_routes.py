@@ -71,3 +71,13 @@ def listarActividadesAnualesPdf():
     lista_actividades = an.getListaActividadesAnhoActivo(organizador, lugar, fechadesde, fechahasta)
     html = render_template('actividades/plantillas/listar_actividades_anuales.html', items=lista_actividades, titulo=titulo, fecha_actual=fechaActual())
     return render_pdf(HTML(string=html))
+
+@r_act.route('/generar_contrato_pdf', methods=['POST'])
+def generarContratoPdf():
+    from app.Models.actividad_models.ActividadAnualModel import ActividadAnualModel
+    titulo = 'Generacion:Contrato'
+    res = request.form['contenedorContrato']
+    if not res:
+        return redirect(url_for('contrato_reserva.index'))
+    html = render_template('actividades/plantillas/plantilla_pdf.html', contrato=res, titulo=titulo, fecha_actual=fechaActual())
+    return render_pdf(HTML(string=html))

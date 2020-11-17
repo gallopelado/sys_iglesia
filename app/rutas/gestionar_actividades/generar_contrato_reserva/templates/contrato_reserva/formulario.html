@@ -144,8 +144,11 @@
                                 <!-- Campo -->
                                 <div class="col col-12">
                                     <div class="form-group">
+                                        <form action="{{ url_for('r_actividades.generarContratoPdf') }}" method="POST" id="formularioPDF">
                                         <label for="txt_contrato" class="form-control-label form-control-sm">Vista del
+                                            <input type="hidden" id="contenedorContrato" name="contenedorContrato">
                                             Contrato: <button type="button" id="btnImprimir" class="btn btn-primary btn-sm" style="display: none;">Imprimir</button></label>
+                                        </form>
                                         <hr>
                                         <div id="txt_contrato" style="background-color: azure;">
                                             {{ datos[9] | safe if datos }}
