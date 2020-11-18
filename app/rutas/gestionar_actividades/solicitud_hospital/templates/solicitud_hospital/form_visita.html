@@ -167,6 +167,14 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3">
+                                        {{ form.fechavisita.label(class='form-control-label form-control-sm') }}
+                                    </div>
+                                    <div class="col col-md-5">
+                                        {{ form.fechavisita(class='form-control form-control-sm', disabled=bloqueado) }}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
                                         {{ form.horariovisita.label(class='form-control-label form-control-sm') }}
                                     </div>
                                     <div class="col col-md-5">

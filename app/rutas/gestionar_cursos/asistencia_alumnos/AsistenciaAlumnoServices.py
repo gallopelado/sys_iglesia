@@ -1,4 +1,7 @@
-from datetime import datetime
+#import datetime
+from datetime import datetime, timedelta
+
+from werkzeug import datastructures
 from app.Models.gestionar_cursos.asistencia_alumno.AsistenciaAlumno_dao import AsistenciaAlumno_dao
 from app.Models.gestionar_cursos.asistencia_alumno.AsistenciaCursoCab_model import AsistenciaCursoCab_model
 from app.Models.gestionar_cursos.asistencia_alumno.AsistenciaCursoDet_model import AsistenciaCursoDet_model
@@ -25,8 +28,11 @@ class AsistenciaAlumnoServices:
             return True
         elif date_objeto > fecha_actual:
             return {'cod':'001', 'mensaje':'La fecha es mayor al actual'}
+        #(fecha_actual+timedelta(days=5)
         elif date_objeto < fecha_actual:
-            return {'cod':'002', 'mensaje':'La fecha es menor al actual'}
+            if (date_objeto+timedelta(days=5)) < fecha_actual:
+                return {'cod':'002', 'mensaje':'Han transcurrido 5 dias de plazo de carga'}
+            return True
 
     def registrarAsistencias(self, req):
         cabecera = AsistenciaCursoCab_model()

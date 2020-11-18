@@ -1,3 +1,4 @@
+import calendar
 from datetime import date, datetime
 # Se importan las librerias basicas
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session,abort
@@ -57,7 +58,8 @@ def editarFormulario(id):
         form.jueves.data = lista[18]
         form.viernes.data = lista[19]
         form.sabado.data = lista[20]
-        form.domingo.data = lista[21]    
+        form.domingo.data = lista[21]
+        form.fechavisita.data = lista[22]
     return render_template('solicitud_hospital/form_visita.html', titulo='Editar visita a hospital', form=form, idsolicitud=idsolicitud, bloqueado=False)
 
 
@@ -86,7 +88,8 @@ def verFormulario(id):
         form.jueves.data = lista[18]
         form.viernes.data = lista[19]
         form.sabado.data = lista[20]
-        form.domingo.data = lista[21]    
+        form.domingo.data = lista[21]
+        form.fechavisita.data = lista[22]
     return render_template('solicitud_hospital/form_visita.html', titulo='Ver visita a hospital', form=form, idsolicitud=idsolicitud, bloqueado=True)
 
 
@@ -118,24 +121,54 @@ def registrar():
     vhsabado = form.sabado.data
     vhdomingo = form.domingo.data
     vhestado = 'NO-ATENDIDO'
+    vhfechavisi = form.fechavisita.data
     if res:
         next = request.args.get('next', None)
         if next:
             return redirect(next)                
+
+        if datetime.isoweekday(vhfechavisi)==1 and not vhlunes:
+            flash('Debes marcar el dia lunes', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==2 and not vhmartes:
+            flash('Debes marcar el dia martes', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==3 and not vhmiercoles:
+            flash('Debes marcar el dia miercoles', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==4 and not vhjueves:
+            flash('Debes marcar el dia jueves', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==5 and not vhviernes:
+            flash('Debes marcar el dia viernes', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==6 and not vhsabado:
+            flash('Debes marcar el dia sabado', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
+        if datetime.isoweekday(vhfechavisi)==7 and not vhdomingo:
+            flash('Debes marcar el dia domingo', 'warning')
+            return redirect(url_for('solicitud_hospital.index'))
+
 
         if idsolicitud is None or idsolicitud == '':
             ##REGISTRAR
             soli.insertSolicitudHospital(solicitanteid, vhdes.upper(), pacienteid, vhesmiembro, vhestaenterado, 
             idioma, vhnombrehospi.upper(), vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico.upper(), 
             vhdirehospi.upper(), vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-            vhsabado, vhdomingo, None, vhestado)
+            vhsabado, vhdomingo, None, vhestado, vhfechavisi)
         else:
             ##MODIFICAR
             soli.updateSolicitudHospital(solicitanteid, pacienteid, idioma, vhdes.upper(), vhesmiembro, 
             vhestaenterado, vhnombrehospi.upper(), vhnrocuarto, vhnrotelcuarto, 
             vhfechaadmi, vhdiagnostico.upper(), vhdirehospi.upper(), vhhoravisi, vhlunes, 
             vhmartes, vhmiercoles, vhjueves, vhviernes, vhsabado, 
-            vhdomingo, None, idsolicitud)
+            vhdomingo, None, vhfechavisi, idsolicitud)
 
         if res == True:
             flash('Se ha realizado la operacion con exito', 'success')

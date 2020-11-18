@@ -197,6 +197,7 @@ class SolicitudHospitalModel:
             , vh.vh_viernes viernes
             , vh.vh_sabado sabado
             , vh.vh_domingo domingo
+            , vh.vh_fechavisi
         from actividades.visi_hospi vh 
         left join membresia.admision_persona ap on vh.solicitante_id = ap.adp_id
         left join referenciales.personas p on ap.adp_id = p.per_id 
@@ -241,6 +242,7 @@ class SolicitudHospitalModel:
             , vh.vh_viernes viernes
             , vh.vh_sabado sabado
             , vh.vh_domingo domingo
+            , vh.vh_fechavisi
         from actividades.visi_hospi vh 
         left join membresia.admision_persona ap on vh.solicitante_id = ap.adp_id
         left join referenciales.personas p on ap.adp_id = p.per_id 
@@ -262,22 +264,22 @@ class SolicitudHospitalModel:
     def insertSolicitudHospital(self, solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-        vhsabado, vhdomingo, creadoporusuario, vhestado):
+        vhsabado, vhdomingo, creadoporusuario, vhestado, vh_fechavisi):
         insertSQL = '''
         INSERT INTO actividades.visi_hospi
         (solicitante_id, vh_des, paciente_id, vh_esmiembro, vh_estaenterado, 
         idi_id, vh_nombrehospi, vh_nrocuarto, vh_nrotelcuarto, vh_fechaadmi, vh_diagnostico, 
         vh_direhospi, vh_horavisi, vh_lunes, vh_martes, vh_miercoles, vh_jueves, vh_viernes, 
-        vh_sabado, vh_domingo, creado_por_usuario, creacion_fecha, vh_estado)
+        vh_sabado, vh_domingo, creado_por_usuario, creacion_fecha, vh_estado, vh_fechavisi)
         VALUES(%s, %s, %s, %s, %s, 
         %s, %s, %s, %s, %s, %s, 
         %s, %s, %s, %s, %s, %s, %s, 
-        %s, %s, %s, now(), %s);
+        %s, %s, %s, now(), %s, %s);
         '''
         parametros = (solicitanteid, vhdes, pacienteid, vhesmiembro, vhestaenterado, 
         ididi, vhnombrehospi, vhnrocuarto, vhnrotelcuarto, vhfechaadmi, vhdiagnostico, 
         vhdirehospi, vhhoravisi, vhlunes, vhmartes, vhmiercoles, vhjueves, vhviernes, 
-        vhsabado, vhdomingo, creadoporusuario, vhestado,)
+        vhsabado, vhdomingo, creadoporusuario, vhestado, vh_fechavisi)
         try:
             conexion = Conexion()
             con = conexion.getConexion()
@@ -296,21 +298,21 @@ class SolicitudHospitalModel:
         estaenterado, nombrehospi, nrocuarto, nrotelcuarto, 
         fechaadmi, diagnostico, direhospi, horavisi, lunes, 
         martes, miercoles, jueves, viernes, sabado, 
-        domingo, modificadoporusuario, idsolicitud):
+        domingo, modificadoporusuario, vh_fechavisi, idsolicitud):
         updateSQL = '''
         UPDATE actividades.visi_hospi
         SET solicitante_id=%s, paciente_id=%s, idi_id=%s, vh_des=%s, vh_esmiembro=%s, 
         vh_estaenterado=%s, vh_nombrehospi=%s, vh_nrocuarto=%s, vh_nrotelcuarto=%s, 
         vh_fechaadmi=%s, vh_diagnostico=%s, vh_direhospi=%s, vh_horavisi=%s, vh_lunes=%s, 
         vh_martes=%s, vh_miercoles=%s, vh_jueves=%s, vh_viernes=%s, vh_sabado=%s, 
-        vh_domingo=%s, modificado_por_usuario=%s, modif_fecha=now()
+        vh_domingo=%s, modificado_por_usuario=%s, modif_fecha=now(), vh_fechavisi=%s
         WHERE vh_id = %s;
         '''
         parametros = (solicitanteid, pacienteid, idiid, des, esmiembro, 
         estaenterado, nombrehospi, nrocuarto, nrotelcuarto, 
         fechaadmi, diagnostico, direhospi, horavisi, lunes, 
         martes, miercoles, jueves, viernes, sabado, 
-        domingo, modificadoporusuario, idsolicitud,)
+        domingo, modificadoporusuario, vh_fechavisi, idsolicitud,)
         try:
             conexion = Conexion()
             con = conexion.getConexion()

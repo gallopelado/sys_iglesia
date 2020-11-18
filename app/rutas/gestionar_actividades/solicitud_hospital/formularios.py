@@ -23,6 +23,7 @@ class FormularioVisita(FlaskForm):
     nrocuarto = StringField('N. de cuarto', validators=[DataRequired()])
     telefcuarto = StringField('N. telefono en el cuarto')
     fechaadmision = DateField('Fecha de admisión', format='%Y-%m-%d', default=date.today)
+    fechavisita = DateField('Fecha para visitar', validators=[DataRequired()], format='%Y-%m-%d', default=date.today)
     diagnostico = TextAreaField('Diagnóstico')
     direccionhospi = StringField('Dirección del hospital',validators=[DataRequired()])
     horariovisita = TimeField('Horarios de visita', validators=[DataRequired()])
